@@ -1,0 +1,13 @@
+{
+  "name": "lily-ui",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.3"
+  }
+}

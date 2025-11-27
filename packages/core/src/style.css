@@ -1,0 +1,41 @@
+@layer lily-ui {
+  /* Scoped Reset */
+  [class^="lily-"],
+  [class^="lily-"] * {
+    box-sizing: border-box;
+    line-height: 1.5;
+  }
+
+  /* Base Variables */
+  :root {
+    --lily-primary: #007bff;
+    --lily-secondary: #6c757d;
+    --lily-border-radius: 4px;
+  }
+
+  /* Button Component */
+  .lily-btn {
+    appearance: none;
+    padding: 8px 16px;
+    background: var(--lily-primary);
+    border-radius: var(--lily-border-radius);
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .lily-btn:hover {
+    opacity: 0.9;
+  }
+
+  .lily-btn:active {
+    opacity: 0.8;
+  }
+
+  .lily-btn--secondary {
+    background: var(--lily-secondary);
+  }
+}
