@@ -1,22 +1,23 @@
 import fs from "fs";
 import path from "path";
+import type { Config } from "tailwindcss";
 
 const scaling = 1;
 const radiusFactor = 1;
 const radixTokenRoot = path.join(process.cwd(), "node_modules", "@radix-ui", "themes", "tokens");
 
-function parseVarsFromCss(content) {
+function parseVarsFromCss(content: string) {
   const section = content.split("@supports")[0];
-  const vars = {};
+  const vars: Record<string, string> = {};
   const regex = /--([\w-]+):\s*([^;]+);/g;
-  let match;
+  let match: RegExpExecArray | null;
   while ((match = regex.exec(section)) !== null) {
     vars[match[1]] = match[2].trim();
   }
   return vars;
 }
 
-function resolveCalc(value) {
+function resolveCalc(value: string) {
   return value
     .replace(/var\(--scaling\)/g, scaling.toString())
     .replace(/var\(--radius-factor\)/g, radiusFactor.toString());
@@ -26,16 +27,16 @@ function loadBaseTokens() {
   const baseCss = fs.readFileSync(path.join(radixTokenRoot, "base.css"), "utf8");
   const vars = parseVarsFromCss(baseCss);
 
-  const spacing = {};
+  const spacing: Record<string, string> = {};
   Object.entries(vars)
     .filter(([key]) => key.startsWith("space-"))
     .forEach(([key, value]) => {
       spacing[key.replace("space-", "")] = resolveCalc(value);
     });
 
-  const fontSize = {};
-  const lineHeights = {};
-  const letterSpacing = {};
+  const fontSize: Record<string, string> = {};
+  const lineHeights: Record<string, string> = {};
+  const letterSpacing: Record<string, string> = {};
 
   Object.entries(vars)
     .filter(([key]) => key.startsWith("font-size-"))
@@ -58,7 +59,7 @@ function loadBaseTokens() {
       letterSpacing[k] = value;
     });
 
-  const borderRadius = {};
+  const borderRadius: Record<string, string> = {};
   Object.entries(vars)
     .filter(([key]) => key.startsWith("radius-"))
     .forEach(([key, value]) => {
@@ -66,7 +67,7 @@ function loadBaseTokens() {
       borderRadius[k] = resolveCalc(value);
     });
 
-  const boxShadow = {};
+  const boxShadow: Record<string, string> = {};
   Object.entries(vars)
     .filter(([key]) => key.startsWith("shadow-"))
     .forEach(([key, value]) => {
@@ -74,12 +75,20 @@ function loadBaseTokens() {
       boxShadow[k] = value;
     });
 
-  return { spacing, fontSize, lineHeights, letterSpacing, borderRadius, boxShadow };
+  const cursor: Record<string, string> = {};
+  Object.entries(vars)
+    .filter(([key]) => key.startsWith("cursor-"))
+    .forEach(([key, value]) => {
+      const k = key.replace("cursor-", "");
+      cursor[k] = value;
+    });
+
+  return { spacing, fontSize, lineHeights, letterSpacing, borderRadius, boxShadow, cursor };
 }
 
 function loadRadixColors() {
   const colorsDir = path.join(radixTokenRoot, "colors");
-  const colors = {};
+  const colors: Record<string, Record<string, string> | string> = {};
 
   fs.readdirSync(colorsDir).forEach((file) => {
     if (!file.endsWith(".css")) return;
@@ -92,7 +101,7 @@ function loadRadixColors() {
       if (!match) return;
       const [, colorName, step] = match;
       if (!colors[colorName]) colors[colorName] = {};
-      colors[colorName][step] = value;
+      (colors[colorName] as Record<string, string>)[step] = value;
     });
   });
 
@@ -122,5 +131,6 @@ export default {
     letterSpacing: baseTokens.letterSpacing,
     borderRadius: baseTokens.borderRadius,
     boxShadow: baseTokens.boxShadow,
+    cursor: baseTokens.cursor,
   },
-};
+} satisfies Config;
