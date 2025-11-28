@@ -2,12 +2,12 @@
   "name": "lily-ui",
   "type": "module",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ],
+  "scripts": {
+    "dev": "tailwindcss -i src/input.css -o dist/output.css --watch",
+    "build": "tailwindcss -i src/input.css -o dist/output.css --minify"
+  },
   "devDependencies": {
-    "@types/bun": "latest",
-    "typescript": "^5.9.3"
+    "@tailwindcss/cli": "4.1.17",
+    "tailwindcss": "4.1.17"
   }
 }
