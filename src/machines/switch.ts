@@ -39,7 +39,7 @@ export default function createSwitch(config: SwitchConfig = {}) {
       return {
         role: "switch",
         "aria-checked": isChecked.toString(),
-        "aria-disabled": isDisabled ? "true" : "false",
+        "aria-disabled": isDisabled ? "true" : undefined,
         tabindex: isDisabled ? "-1" : "0",
         "data-state": isChecked ? "checked" : "unchecked",
         "data-disabled": isDisabled ? "" : undefined,
@@ -67,7 +67,7 @@ export default function createSwitch(config: SwitchConfig = {}) {
         "aria-hidden": "true",
         tabindex: -1,
         checked: isChecked,
-        disabled: this.disabled,
+        disabled: this.disabled || undefined,
         "@change.prevent.stop": () => this.toggle(),
       };
     },

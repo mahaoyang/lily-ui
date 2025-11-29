@@ -34,7 +34,7 @@ function createDropzone(config = {}) {
       return {
         type: "file",
         multiple: true,
-        disabled: this.disabled,
+        disabled: this.disabled || undefined,
         "@change": (e) => {
           this.handleFiles(e.target.files);
         }

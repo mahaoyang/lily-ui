@@ -23,7 +23,7 @@ function createRadioGroup(config = {}) {
         role: "radio",
         name: config.name,
         "aria-checked": isChecked.toString(),
-        "aria-disabled": isDisabled ? "true" : "false",
+        "aria-disabled": isDisabled ? "true" : undefined,
         tabindex: isChecked ? "0" : "-1",
         "data-state": isChecked ? "checked" : "unchecked",
         "data-disabled": isDisabled ? "" : undefined,
@@ -38,7 +38,7 @@ function createRadioGroup(config = {}) {
         name: config.name,
         value: id,
         checked: this.isChecked(id),
-        disabled: this.disabled,
+        disabled: this.disabled || undefined,
         "aria-hidden": "true",
         tabindex: -1,
         "@change.prevent.stop": () => this.select(id)

@@ -25,7 +25,7 @@ function createSwitch(config = {}) {
       return {
         role: "switch",
         "aria-checked": isChecked.toString(),
-        "aria-disabled": isDisabled ? "true" : "false",
+        "aria-disabled": isDisabled ? "true" : undefined,
         tabindex: isDisabled ? "-1" : "0",
         "data-state": isChecked ? "checked" : "unchecked",
         "data-disabled": isDisabled ? "" : undefined,
@@ -51,7 +51,7 @@ function createSwitch(config = {}) {
         "aria-hidden": "true",
         tabindex: -1,
         checked: isChecked,
-        disabled: this.disabled,
+        disabled: this.disabled || undefined,
         "@change.prevent.stop": () => this.toggle()
       };
     }

@@ -39,7 +39,7 @@ export default function createDropzone(config: DropzoneConfig = {}) {
       return {
         type: "file",
         multiple: true,
-        disabled: this.disabled,
+        disabled: this.disabled || undefined,
         "@change": (e: Event) => {
           this.handleFiles((e.target as HTMLInputElement).files);
         },
