@@ -2495,4 +2495,221 @@
     padding: var(--space-6);
     border-radius: var(--radius-5);
   }
+
+  /* ========================================
+   * Hover Card Component
+   * ======================================== */
+  .hover-card-content {
+    position: absolute;
+    z-index: 50;
+    background-color: var(--color-panel-solid, #fff);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-4,
+      0 10px 38px -10px rgba(22, 23, 24, 0.35),
+      0 10px 20px -15px rgba(22, 23, 24, 0.2));
+    overflow: auto;
+    box-sizing: border-box;
+  }
+
+  .dark .hover-card-content {
+    background-color: var(--sand-2);
+  }
+
+  /* Hover Card sizes */
+  .hover-card-size-1 {
+    padding: var(--space-3);
+    border-radius: var(--radius-4);
+  }
+
+  .hover-card-size-2 {
+    padding: var(--space-4);
+    border-radius: var(--radius-4);
+  }
+
+  .hover-card-size-3 {
+    padding: var(--space-5);
+    border-radius: var(--radius-5);
+  }
+
+  /* Hover Card animations */
+  @keyframes hover-card-slide-from-top {
+    from {
+      transform: translateY(-8px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes hover-card-slide-from-bottom {
+    from {
+      transform: translateY(8px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hover-card-content[data-state="open"][data-side="top"] {
+      animation: hover-card-slide-from-top 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hover-card-content[data-state="open"][data-side="bottom"] {
+      animation: hover-card-slide-from-bottom 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+
+  /* ========================================
+   * Context Menu Component
+   * ======================================== */
+  .context-menu-content {
+    position: fixed;
+    z-index: 50;
+    background-color: var(--color-panel-solid, #fff);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-5,
+      0 10px 38px -10px rgba(22, 23, 24, 0.35),
+      0 10px 20px -15px rgba(22, 23, 24, 0.2));
+    overflow: hidden;
+    min-width: 220px;
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dark .context-menu-content {
+    background-color: var(--sand-2);
+  }
+
+  .context-menu-viewport {
+    flex: 1;
+    overflow: auto;
+    padding: 0.25rem;
+  }
+
+  .context-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    padding: 0.375rem 0.5rem 0.375rem 1.5rem;
+    border-radius: 0.25rem;
+    user-select: none;
+    outline: none;
+    cursor: pointer;
+    color: var(--sand-12);
+    transition: background-color 100ms;
+  }
+
+  .context-menu-item[data-disabled] {
+    color: var(--sand-8);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .context-menu-item:hover,
+  .context-menu-item:focus {
+    background-color: var(--accent-9);
+    color: white;
+  }
+
+  .context-menu-item-indicator {
+    position: absolute;
+    left: 0.375rem;
+    width: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .context-menu-item-indicator svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .context-menu-shortcut {
+    margin-left: auto;
+    padding-left: 1rem;
+    font-size: 0.75rem;
+    color: var(--gray-a11);
+  }
+
+  .context-menu-item:hover .context-menu-shortcut,
+  .context-menu-item:focus .context-menu-shortcut {
+    color: inherit;
+  }
+
+  .context-menu-label {
+    padding: 0.375rem 0.5rem 0.375rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--sand-11);
+    user-select: none;
+  }
+
+  .context-menu-separator {
+    height: 1px;
+    margin: 0.25rem 0.5rem;
+    background-color: var(--sand-6);
+  }
+
+  /* Context Menu sizes */
+  .context-menu-size-1 .context-menu-item,
+  .context-menu-size-1 .context-menu-label {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .context-menu-size-2 .context-menu-item,
+  .context-menu-size-2 .context-menu-label {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    font-size: 0.875rem;
+  }
+
+  /* Context Menu variant: soft */
+  .context-menu-variant-soft .context-menu-item:hover,
+  .context-menu-variant-soft .context-menu-item:focus {
+    background-color: var(--accent-a4);
+    color: var(--sand-12);
+  }
+
+  /* Context Menu animations */
+  @keyframes context-menu-fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes context-menu-fade-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .context-menu-content[data-state="open"] {
+      animation: context-menu-fade-in 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .context-menu-content[data-state="closed"] {
+      animation: context-menu-fade-out 100ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
 }
