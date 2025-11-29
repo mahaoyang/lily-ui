@@ -20,8 +20,8 @@ function createSlider(config = {}) {
         min: this.min,
         max: this.max,
         step: this.step,
-        value: this.value,
         disabled: this.disabled || undefined,
+        "x-model.number": "value",
         "@input": (e) => {
           const v = Number(e.target.value);
           this.setValue(v);

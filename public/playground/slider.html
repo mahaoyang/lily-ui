@@ -58,7 +58,7 @@
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
       <h2 class="text-3 font-medium">Slider</h2>
       <div x-data="sliderMachine({ defaultValue: 40, min: 0, max: 100, step: 5 })" class="space-y-2">
-        <input x-bind="inputProps()" x-model.number="value" class="w-full accent-accent-9" />
+        <input x-bind="inputProps()" class="w-full accent-accent-9" />
         <div class="flex justify-between text-xs text-sand-11">
           <span x-text="min"></span>
           <span class="text-sand-12 font-medium" x-text="value"></span>
