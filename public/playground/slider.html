@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/dist/output.css">
   <script type="module">
     import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import createSlider from "/public/machines/slider.js?v=2";
+    import createSlider from "/public/machines/slider.js?v=3";
     import createStepper from "/public/machines/stepper.js?v=2";
 
     window.Alpine = Alpine;
@@ -61,19 +61,27 @@
       <!-- Surface variant (default) -->
       <div class="space-y-3">
         <div class="text-sm font-medium text-sand-11">Surface (Default)</div>
-        <div x-data="sliderMachine({ defaultValue: 40, min: 0, max: 100, step: 5, variant: 'surface', size: '2' })">
-          <div x-bind="rootProps()" class="relative">
-            <div x-bind="trackProps()">
-              <div x-bind="rangeProps()"></div>
+        <div x-data="sliderMachine({ defaultValue: 40, min: 0, max: 100, step: 1 })">
+          <div class="relative h-5 flex items-center select-none touch-none" x-ref="track"
+               @mousedown.prevent="handlePointer($event, true)"
+               @touchstart.passive="handlePointer($event, true)"
+               @mousemove.window="dragging && handlePointer($event)"
+               @touchmove.window.passive="dragging && handlePointer($event)"
+               @mouseup.window="endDrag()"
+               @touchend.window="endDrag()">
+            <!-- Track -->
+            <div class="relative h-2 w-full rounded-full bg-sand-5">
+              <!-- Range (filled part) -->
+              <div class="absolute inset-y-0 left-0 rounded-full bg-accent-9" :style="`width: ${percentage}%`"></div>
             </div>
-            <div x-bind="thumbProps()"
-                 @mousedown="dragging = true"
-                 @mouseup="dragging = false; onCommit()"
+            <!-- Thumb -->
+            <div class="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.1)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
+                 :style="`left: ${percentage}%`"
+                 tabindex="0"
                  @keydown.left.prevent="setValue(value - step)"
                  @keydown.right.prevent="setValue(value + step)"
                  @keydown.down.prevent="setValue(value - step)"
                  @keydown.up.prevent="setValue(value + step)"></div>
-            <input x-bind="inputProps()" x-model.number="value" />
           </div>
           <div class="flex justify-between text-xs text-sand-11 mt-2">
             <span x-text="min"></span>
@@ -86,19 +94,24 @@
       <!-- Classic variant -->
       <div class="space-y-3">
         <div class="text-sm font-medium text-sand-11">Classic</div>
-        <div x-data="sliderMachine({ defaultValue: 60, min: 0, max: 100, step: 1, variant: 'classic', size: '2' })">
-          <div x-bind="rootProps()" class="relative">
-            <div x-bind="trackProps()">
-              <div x-bind="rangeProps()"></div>
+        <div x-data="sliderMachine({ defaultValue: 60, min: 0, max: 100, step: 1 })">
+          <div class="relative h-5 flex items-center select-none touch-none" x-ref="track"
+               @mousedown.prevent="handlePointer($event, true)"
+               @touchstart.passive="handlePointer($event, true)"
+               @mousemove.window="dragging && handlePointer($event)"
+               @touchmove.window.passive="dragging && handlePointer($event)"
+               @mouseup.window="endDrag()"
+               @touchend.window="endDrag()">
+            <div class="relative h-2 w-full rounded-full bg-sand-5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]">
+              <div class="absolute inset-y-0 left-0 rounded-full bg-accent-9 shadow-[inset_0_1px_1px_rgba(0,0,0,0.1)]" :style="`width: ${percentage}%`"></div>
             </div>
-            <div x-bind="thumbProps()"
-                 @mousedown="dragging = true"
-                 @mouseup="dragging = false; onCommit()"
+            <div class="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.1)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
+                 :style="`left: ${percentage}%`"
+                 tabindex="0"
                  @keydown.left.prevent="setValue(value - step)"
                  @keydown.right.prevent="setValue(value + step)"
                  @keydown.down.prevent="setValue(value - step)"
                  @keydown.up.prevent="setValue(value + step)"></div>
-            <input x-bind="inputProps()" x-model.number="value" />
           </div>
           <div class="flex justify-between text-xs text-sand-11 mt-2">
             <span x-text="min"></span>
@@ -111,19 +124,24 @@
       <!-- Soft variant -->
       <div class="space-y-3">
         <div class="text-sm font-medium text-sand-11">Soft</div>
-        <div x-data="sliderMachine({ defaultValue: 30, min: 0, max: 100, step: 1, variant: 'soft', size: '2' })">
-          <div x-bind="rootProps()" class="relative">
-            <div x-bind="trackProps()">
-              <div x-bind="rangeProps()"></div>
+        <div x-data="sliderMachine({ defaultValue: 30, min: 0, max: 100, step: 1 })">
+          <div class="relative h-5 flex items-center select-none touch-none" x-ref="track"
+               @mousedown.prevent="handlePointer($event, true)"
+               @touchstart.passive="handlePointer($event, true)"
+               @mousemove.window="dragging && handlePointer($event)"
+               @touchmove.window.passive="dragging && handlePointer($event)"
+               @mouseup.window="endDrag()"
+               @touchend.window="endDrag()">
+            <div class="relative h-2 w-full rounded-full bg-sand-a4">
+              <div class="absolute inset-y-0 left-0 rounded-full bg-accent-6" :style="`width: ${percentage}%`"></div>
             </div>
-            <div x-bind="thumbProps()"
-                 @mousedown="dragging = true"
-                 @mouseup="dragging = false; onCommit()"
+            <div class="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.08)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
+                 :style="`left: ${percentage}%`"
+                 tabindex="0"
                  @keydown.left.prevent="setValue(value - step)"
                  @keydown.right.prevent="setValue(value + step)"
                  @keydown.down.prevent="setValue(value - step)"
                  @keydown.up.prevent="setValue(value + step)"></div>
-            <input x-bind="inputProps()" x-model.number="value" />
           </div>
           <div class="flex justify-between text-xs text-sand-11 mt-2">
             <span x-text="min"></span>
@@ -136,19 +154,24 @@
       <!-- High contrast -->
       <div class="space-y-3">
         <div class="text-sm font-medium text-sand-11">High Contrast</div>
-        <div x-data="sliderMachine({ defaultValue: 75, min: 0, max: 100, step: 5, variant: 'surface', size: '2', highContrast: true })">
-          <div x-bind="rootProps()" class="relative">
-            <div x-bind="trackProps()">
-              <div x-bind="rangeProps()"></div>
+        <div x-data="sliderMachine({ defaultValue: 75, min: 0, max: 100, step: 1 })">
+          <div class="relative h-5 flex items-center select-none touch-none" x-ref="track"
+               @mousedown.prevent="handlePointer($event, true)"
+               @touchstart.passive="handlePointer($event, true)"
+               @mousemove.window="dragging && handlePointer($event)"
+               @touchmove.window.passive="dragging && handlePointer($event)"
+               @mouseup.window="endDrag()"
+               @touchend.window="endDrag()">
+            <div class="relative h-2 w-full rounded-full bg-sand-5">
+              <div class="absolute inset-y-0 left-0 rounded-full bg-accent-12" :style="`width: ${percentage}%`"></div>
             </div>
-            <div x-bind="thumbProps()"
-                 @mousedown="dragging = true"
-                 @mouseup="dragging = false; onCommit()"
+            <div class="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.15),0_2px_4px_rgba(0,0,0,0.15)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
+                 :style="`left: ${percentage}%`"
+                 tabindex="0"
                  @keydown.left.prevent="setValue(value - step)"
                  @keydown.right.prevent="setValue(value + step)"
                  @keydown.down.prevent="setValue(value - step)"
                  @keydown.up.prevent="setValue(value + step)"></div>
-            <input x-bind="inputProps()" x-model.number="value" />
           </div>
           <div class="flex justify-between text-xs text-sand-11 mt-2">
             <span x-text="min"></span>
@@ -162,46 +185,61 @@
       <div class="space-y-3">
         <div class="text-sm font-medium text-sand-11">Sizes</div>
         <div class="space-y-4">
-          <div x-data="sliderMachine({ defaultValue: 25, min: 0, max: 100, step: 1, size: '1' })">
+          <div x-data="sliderMachine({ defaultValue: 25, min: 0, max: 100, step: 1 })">
             <div class="text-xs text-sand-11 mb-1">Size 1 (Small)</div>
-            <div x-bind="rootProps()" class="relative">
-              <div x-bind="trackProps()">
-                <div x-bind="rangeProps()"></div>
+            <div class="relative h-4 flex items-center select-none touch-none" x-ref="track"
+                 @mousedown.prevent="handlePointer($event, true)"
+                 @touchstart.passive="handlePointer($event, true)"
+                 @mousemove.window="dragging && handlePointer($event)"
+                 @touchmove.window.passive="dragging && handlePointer($event)"
+                 @mouseup.window="endDrag()"
+                 @touchend.window="endDrag()">
+              <div class="relative h-1.5 w-full rounded-full bg-sand-5">
+                <div class="absolute inset-y-0 left-0 rounded-full bg-accent-9" :style="`width: ${percentage}%`"></div>
               </div>
-              <div x-bind="thumbProps()"
-                   @mousedown="dragging = true"
-                   @mouseup="dragging = false; onCommit()"
+              <div class="absolute w-3 h-3 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.1),0_1px_3px_rgba(0,0,0,0.1)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8"
+                   :style="`left: ${percentage}%`"
+                   tabindex="0"
                    @keydown.left.prevent="setValue(value - step)"
                    @keydown.right.prevent="setValue(value + step)"></div>
-              <input x-bind="inputProps()" x-model.number="value" />
             </div>
           </div>
-          <div x-data="sliderMachine({ defaultValue: 50, min: 0, max: 100, step: 1, size: '2' })">
+          <div x-data="sliderMachine({ defaultValue: 50, min: 0, max: 100, step: 1 })">
             <div class="text-xs text-sand-11 mb-1">Size 2 (Medium)</div>
-            <div x-bind="rootProps()" class="relative">
-              <div x-bind="trackProps()">
-                <div x-bind="rangeProps()"></div>
+            <div class="relative h-5 flex items-center select-none touch-none" x-ref="track"
+                 @mousedown.prevent="handlePointer($event, true)"
+                 @touchstart.passive="handlePointer($event, true)"
+                 @mousemove.window="dragging && handlePointer($event)"
+                 @touchmove.window.passive="dragging && handlePointer($event)"
+                 @mouseup.window="endDrag()"
+                 @touchend.window="endDrag()">
+              <div class="relative h-2 w-full rounded-full bg-sand-5">
+                <div class="absolute inset-y-0 left-0 rounded-full bg-accent-9" :style="`width: ${percentage}%`"></div>
               </div>
-              <div x-bind="thumbProps()"
-                   @mousedown="dragging = true"
-                   @mouseup="dragging = false; onCommit()"
+              <div class="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.1)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
+                   :style="`left: ${percentage}%`"
+                   tabindex="0"
                    @keydown.left.prevent="setValue(value - step)"
                    @keydown.right.prevent="setValue(value + step)"></div>
-              <input x-bind="inputProps()" x-model.number="value" />
             </div>
           </div>
-          <div x-data="sliderMachine({ defaultValue: 75, min: 0, max: 100, step: 1, size: '3' })">
+          <div x-data="sliderMachine({ defaultValue: 75, min: 0, max: 100, step: 1 })">
             <div class="text-xs text-sand-11 mb-1">Size 3 (Large)</div>
-            <div x-bind="rootProps()" class="relative">
-              <div x-bind="trackProps()">
-                <div x-bind="rangeProps()"></div>
+            <div class="relative h-6 flex items-center select-none touch-none" x-ref="track"
+                 @mousedown.prevent="handlePointer($event, true)"
+                 @touchstart.passive="handlePointer($event, true)"
+                 @mousemove.window="dragging && handlePointer($event)"
+                 @touchmove.window.passive="dragging && handlePointer($event)"
+                 @mouseup.window="endDrag()"
+                 @touchend.window="endDrag()">
+              <div class="relative h-2.5 w-full rounded-full bg-sand-5">
+                <div class="absolute inset-y-0 left-0 rounded-full bg-accent-9" :style="`width: ${percentage}%`"></div>
               </div>
-              <div x-bind="thumbProps()"
-                   @mousedown="dragging = true"
-                   @mouseup="dragging = false; onCommit()"
+              <div class="absolute w-5 h-5 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.1)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
+                   :style="`left: ${percentage}%`"
+                   tabindex="0"
                    @keydown.left.prevent="setValue(value - step)"
                    @keydown.right.prevent="setValue(value + step)"></div>
-              <input x-bind="inputProps()" x-model.number="value" />
             </div>
           </div>
         </div>
@@ -211,23 +249,110 @@
       <div class="space-y-3">
         <div class="text-sm font-medium text-sand-11">Disabled</div>
         <div x-data="sliderMachine({ defaultValue: 50, min: 0, max: 100, step: 1, disabled: true })">
-          <div x-bind="rootProps()" class="relative">
-            <div x-bind="trackProps()">
-              <div x-bind="rangeProps()"></div>
+          <div class="relative h-5 flex items-center select-none touch-none opacity-50 cursor-not-allowed" x-ref="track">
+            <div class="relative h-2 w-full rounded-full bg-sand-5">
+              <div class="absolute inset-y-0 left-0 rounded-full bg-sand-8" :style="`width: ${percentage}%`"></div>
             </div>
-            <div x-bind="thumbProps()"></div>
-            <input x-bind="inputProps()" x-model.number="value" />
+            <div class="absolute w-4 h-4 bg-sand-3 rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.08)] cursor-not-allowed -translate-x-1/2"
+                 :style="`left: ${percentage}%`"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
       <h2 class="text-3 font-medium">Stepper</h2>
-      <div x-data="stepperMachine({ defaultValue: 1, min: 0, max: 10, step: 1 })" class="inline-flex items-center gap-2 rounded-md border border-sand-6 bg-sand-3 px-3 py-2">
-        <button @click="dec()" class="px-2 py-1 rounded-md border border-sand-6">-</button>
-        <input x-bind="inputProps()" class="w-16 text-center bg-transparent outline-none" />
-        <button @click="inc()" class="px-2 py-1 rounded-md border border-sand-6">+</button>
+
+      <div class="space-y-8">
+        <!-- 主推样式：输入框风格 -->
+        <div class="space-y-3">
+          <div class="text-sm font-medium text-sand-11">Default</div>
+          <div class="flex flex-wrap gap-6">
+            <div x-data="stepperMachine({ defaultValue: 1, min: 0, max: 99, step: 1 })">
+              <div class="inline-flex items-center h-9 rounded-md border border-accent-7 bg-sand-1 overflow-hidden transition-shadow focus-within:border-transparent focus-within:shadow-[0_0_0_1px_var(--accent-8),0_2px_6px_color-mix(in_srgb,var(--accent-8)_25%,transparent)]">
+                <button @click="dec()" :disabled="value <= 0"
+                        class="flex items-center justify-center w-9 h-full text-accent-11 hover:bg-accent-3 active:bg-accent-4 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
+                </button>
+                <input x-model.number="value" type="text"
+                       class="w-12 h-full text-center bg-transparent text-sand-12 font-medium outline-none border-x border-accent-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                <button @click="inc()" :disabled="value >= 99"
+                        class="flex items-center justify-center w-9 h-full text-accent-11 hover:bg-accent-3 active:bg-accent-4 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Size small -->
+            <div x-data="stepperMachine({ defaultValue: 5, min: 0, max: 99, step: 1 })">
+              <div class="inline-flex items-center h-7 rounded border border-accent-7 bg-sand-1 overflow-hidden text-2 transition-shadow focus-within:border-transparent focus-within:shadow-[0_0_0_1px_var(--accent-8),0_2px_6px_color-mix(in_srgb,var(--accent-8)_25%,transparent)]">
+                <button @click="dec()" :disabled="value <= 0"
+                        class="flex items-center justify-center w-7 h-full text-accent-11 hover:bg-accent-3 active:bg-accent-4 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
+                </button>
+                <input x-model.number="value" type="text"
+                       class="w-8 h-full text-center bg-transparent text-sand-12 font-medium outline-none border-x border-accent-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                <button @click="inc()" :disabled="value >= 99"
+                        class="flex items-center justify-center w-7 h-full text-accent-11 hover:bg-accent-3 active:bg-accent-4 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ghost 风格 -->
+        <div class="space-y-3">
+          <div class="text-sm font-medium text-sand-11">Ghost</div>
+          <div x-data="stepperMachine({ defaultValue: 3, min: 0, max: 99, step: 1 })">
+            <div class="inline-flex items-center gap-2">
+              <button @click="dec()" :disabled="value <= 0"
+                      class="flex items-center justify-center w-7 h-7 rounded text-sand-11 hover:text-sand-12 hover:bg-sand-4 active:bg-sand-5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
+              </button>
+              <span class="w-8 text-center text-sand-12 font-semibold tabular-nums" x-text="value"></span>
+              <button @click="inc()" :disabled="value >= 99"
+                      class="flex items-center justify-center w-7 h-7 rounded text-sand-11 hover:text-sand-12 hover:bg-sand-4 active:bg-sand-5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 带标签 -->
+        <div class="space-y-3">
+          <div class="text-sm font-medium text-sand-11">With Label</div>
+          <div x-data="stepperMachine({ defaultValue: 2, min: 1, max: 10, step: 1 })" class="inline-flex items-center gap-4">
+            <label class="text-sand-11">Quantity</label>
+            <div class="inline-flex items-center h-8 rounded-md border border-sand-6 bg-sand-2 overflow-hidden">
+              <button @click="dec()" :disabled="value <= 1"
+                      class="flex items-center justify-center w-8 h-full text-sand-11 hover:text-sand-12 hover:bg-sand-4 active:bg-sand-5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
+              </button>
+              <span class="w-10 text-center text-sand-12 font-medium tabular-nums border-x border-sand-6" x-text="value"></span>
+              <button @click="inc()" :disabled="value >= 10"
+                      class="flex items-center justify-center w-8 h-full text-sand-11 hover:text-sand-12 hover:bg-sand-4 active:bg-sand-5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Disabled -->
+        <div class="space-y-3">
+          <div class="text-sm font-medium text-sand-11">Disabled</div>
+          <div x-data="stepperMachine({ defaultValue: 5, min: 0, max: 99, step: 1, disabled: true })">
+            <div class="inline-flex items-center h-9 rounded-md border border-sand-6 bg-sand-3 overflow-hidden opacity-50">
+              <button disabled class="flex items-center justify-center w-9 h-full text-sand-9 cursor-not-allowed">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
+              </button>
+              <span class="w-12 h-full flex items-center justify-center text-sand-9 font-medium border-x border-sand-6" x-text="value"></span>
+              <button disabled class="flex items-center justify-center w-9 h-full text-sand-9 cursor-not-allowed">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>

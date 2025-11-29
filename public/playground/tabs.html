@@ -69,78 +69,178 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">标签页示例</h2>
+      <h2 class="text-3 font-medium">Tabs</h2>
 
-      <div class="w-full max-w-md mx-auto">
-        <div x-data="tabsMachine({ defaultValue: 'account' })"
-          class="flex flex-col w-full shadow-[0_2px_10px] shadow-black/5 rounded-md border border-sand-6 bg-white overflow-hidden">
-          <div class="shrink-0 flex border-b border-sand-6 bg-sand-2" role="tablist" aria-label="Manage your account">
-            <button x-bind="triggerProps('account')" type="button"
-              class="bg-transparent px-5 h-[45px] flex-1 flex items-center justify-center text-[15px] leading-none text-sand-11 select-none first:rounded-tl-md hover:text-accent-11 data-[state=active]:text-accent-11 data-[state=active]:bg-white data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0] data-[state=active]:shadow-current focus-visible:relative focus-visible:shadow-[0_0_0_2px] focus-visible:shadow-accent-8 outline-none cursor-default transition-colors">
+      <!-- Default size -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Default</div>
+        <div x-data="tabsMachine({ defaultValue: 'account' })" class="w-full max-w-lg">
+          <!-- Tab List -->
+          <div class="tabs-list" role="tablist">
+            <button x-bind="triggerProps('account')"
+                    @click="select('account')"
+                    :data-state="isActive('account') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('account').toString()"
+                    :tabindex="isActive('account') ? 0 : -1"
+                    type="button" class="tabs-trigger">
               Account
             </button>
-            <button x-bind="triggerProps('password')" type="button"
-              class="bg-transparent px-5 h-[45px] flex-1 flex items-center justify-center text-[15px] leading-none text-sand-11 select-none last:rounded-tr-md hover:text-accent-11 data-[state=active]:text-accent-11 data-[state=active]:bg-white data-[state=active]:shadow-[inset_0_-1px_0_0,0_1px_0_0] data-[state=active]:shadow-current focus-visible:relative focus-visible:shadow-[0_0_0_2px] focus-visible:shadow-accent-8 outline-none cursor-default transition-colors">
+            <button x-bind="triggerProps('password')"
+                    @click="select('password')"
+                    :data-state="isActive('password') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('password').toString()"
+                    :tabindex="isActive('password') ? 0 : -1"
+                    type="button" class="tabs-trigger">
               Password
+            </button>
+            <button x-bind="triggerProps('settings')"
+                    @click="select('settings')"
+                    :data-state="isActive('settings') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('settings').toString()"
+                    :tabindex="isActive('settings') ? 0 : -1"
+                    type="button" class="tabs-trigger">
+              Settings
             </button>
           </div>
 
-          <div x-bind="contentProps('account')"
-            class="p-5 bg-white outline-none focus-visible:ring-2 focus-visible:ring-accent-8 focus-visible:ring-offset-2">
-            <p class="mb-5 text-sand-11 text-[15px] leading-normal">
-              Make changes to your account here. Click save when you're done.
-            </p>
-            <fieldset class="mb-[15px] w-full flex flex-col justify-start">
-              <label class="text-[13px] leading-none mb-2.5 text-accent-12 block" for="name">
-                Name
-              </label>
-              <input
-                class="grow shrink-0 rounded px-2.5 text-[15px] leading-none text-accent-11 shadow-[0_0_0_1px] shadow-sand-7 h-[35px] focus:shadow-[0_0_0_2px] focus:shadow-accent-8 outline-none"
-                id="name" value="Pedro Duarte">
-            </fieldset>
-            <fieldset class="mb-[15px] w-full flex flex-col justify-start">
-              <label class="text-[13px] leading-none mb-2.5 text-accent-12 block" for="username">
-                Username
-              </label>
-              <input
-                class="grow shrink-0 rounded px-2.5 text-[15px] leading-none text-accent-11 shadow-[0_0_0_1px] shadow-sand-7 h-[35px] focus:shadow-[0_0_0_2px] focus:shadow-accent-8 outline-none"
-                id="username" value="@peduarte">
-            </fieldset>
-            <div class="flex justify-end mt-5">
-              <button
-                class="inline-flex items-center justify-center rounded px-[15px] text-[15px] leading-none font-medium h-[35px] bg-accent-4 text-accent-11 hover:bg-accent-5 focus:shadow-[0_0_0_2px] focus:shadow-accent-7 outline-none cursor-default">
-                Save changes
-              </button>
+          <!-- Tab Panels -->
+          <div x-bind="contentProps('account')" x-show="isActive('account')" class="tabs-content">
+            <p class="text-sand-11">Make changes to your account here. Click save when you're done.</p>
+            <div class="mt-4 space-y-3">
+              <div class="space-y-1">
+                <label class="text-2 text-sand-12">Name</label>
+                <input type="text" value="Pedro Duarte" class="input-shell w-full px-3 py-2 text-sand-12 bg-sand-1" />
+              </div>
+              <div class="space-y-1">
+                <label class="text-2 text-sand-12">Username</label>
+                <input type="text" value="@peduarte" class="input-shell w-full px-3 py-2 text-sand-12 bg-sand-1" />
+              </div>
             </div>
           </div>
 
-          <div x-bind="contentProps('password')"
-            class="p-5 bg-white outline-none focus-visible:ring-2 focus-visible:ring-accent-8 focus-visible:ring-offset-2">
-            <p class="mb-5 text-sand-11 text-[15px] leading-normal">
-              Change your password here. After saving, you'll be logged out.
-            </p>
-            <fieldset class="mb-[15px] w-full flex flex-col justify-start">
-              <label class="text-[13px] leading-none mb-2.5 text-accent-12 block" for="current">
-                Current password
-              </label>
-              <input
-                class="grow shrink-0 rounded px-2.5 text-[15px] leading-none text-accent-11 shadow-[0_0_0_1px] shadow-sand-7 h-[35px] focus:shadow-[0_0_0_2px] focus:shadow-accent-8 outline-none"
-                id="current" type="password">
-            </fieldset>
-            <fieldset class="mb-[15px] w-full flex flex-col justify-start">
-              <label class="text-[13px] leading-none mb-2.5 text-accent-12 block" for="new">
-                New password
-              </label>
-              <input
-                class="grow shrink-0 rounded px-2.5 text-[15px] leading-none text-accent-11 shadow-[0_0_0_1px] shadow-sand-7 h-[35px] focus:shadow-[0_0_0_2px] focus:shadow-accent-8 outline-none"
-                id="new" type="password">
-            </fieldset>
-            <div class="flex justify-end mt-5">
-              <button
-                class="inline-flex items-center justify-center rounded px-[15px] text-[15px] leading-none font-medium h-[35px] bg-accent-4 text-accent-11 hover:bg-accent-5 focus:shadow-[0_0_0_2px] focus:shadow-accent-7 outline-none cursor-default">
-                Change password
-              </button>
+          <div x-bind="contentProps('password')" x-show="isActive('password')" class="tabs-content">
+            <p class="text-sand-11">Change your password here. After saving, you'll be logged out.</p>
+            <div class="mt-4 space-y-3">
+              <div class="space-y-1">
+                <label class="text-2 text-sand-12">Current password</label>
+                <input type="password" class="input-shell w-full px-3 py-2 text-sand-12 bg-sand-1" />
+              </div>
+              <div class="space-y-1">
+                <label class="text-2 text-sand-12">New password</label>
+                <input type="password" class="input-shell w-full px-3 py-2 text-sand-12 bg-sand-1" />
+              </div>
             </div>
+          </div>
+
+          <div x-bind="contentProps('settings')" x-show="isActive('settings')" class="tabs-content">
+            <p class="text-sand-11">Manage your account settings and preferences.</p>
+            <div class="mt-4 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-2 text-sand-12">Email notifications</span>
+                <span class="text-2 text-sand-11">Enabled</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-2 text-sand-12">Two-factor auth</span>
+                <span class="text-2 text-sand-11">Disabled</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Small size -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Size Small</div>
+        <div x-data="tabsMachine({ defaultValue: 'overview' })" class="w-full max-w-lg">
+          <div class="tabs-list tabs-list-sm" role="tablist">
+            <button x-bind="triggerProps('overview')"
+                    @click="select('overview')"
+                    :data-state="isActive('overview') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('overview').toString()"
+                    :tabindex="isActive('overview') ? 0 : -1"
+                    type="button" class="tabs-trigger">
+              Overview
+            </button>
+            <button x-bind="triggerProps('analytics')"
+                    @click="select('analytics')"
+                    :data-state="isActive('analytics') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('analytics').toString()"
+                    :tabindex="isActive('analytics') ? 0 : -1"
+                    type="button" class="tabs-trigger">
+              Analytics
+            </button>
+            <button x-bind="triggerProps('reports')"
+                    @click="select('reports')"
+                    :data-state="isActive('reports') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('reports').toString()"
+                    :tabindex="isActive('reports') ? 0 : -1"
+                    type="button" class="tabs-trigger">
+              Reports
+            </button>
+            <button x-bind="triggerProps('notifications')"
+                    @click="select('notifications')"
+                    :data-state="isActive('notifications') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('notifications').toString()"
+                    :tabindex="isActive('notifications') ? 0 : -1"
+                    type="button" class="tabs-trigger">
+              Notifications
+            </button>
+          </div>
+
+          <div x-bind="contentProps('overview')" x-show="isActive('overview')" class="tabs-content">
+            <p class="text-sand-11 text-2">Overview content goes here.</p>
+          </div>
+          <div x-bind="contentProps('analytics')" x-show="isActive('analytics')" class="tabs-content">
+            <p class="text-sand-11 text-2">Analytics content goes here.</p>
+          </div>
+          <div x-bind="contentProps('reports')" x-show="isActive('reports')" class="tabs-content">
+            <p class="text-sand-11 text-2">Reports content goes here.</p>
+          </div>
+          <div x-bind="contentProps('notifications')" x-show="isActive('notifications')" class="tabs-content">
+            <p class="text-sand-11 text-2">Notifications content goes here.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Justified -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Justified</div>
+        <div x-data="tabsMachine({ defaultValue: 'tab1' })" class="w-full max-w-lg">
+          <div class="tabs-list tabs-list-justified" role="tablist">
+            <button x-bind="triggerProps('tab1')"
+                    @click="select('tab1')"
+                    :data-state="isActive('tab1') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('tab1').toString()"
+                    :tabindex="isActive('tab1') ? 0 : -1"
+                    type="button" class="tabs-trigger">
+              First
+            </button>
+            <button x-bind="triggerProps('tab2')"
+                    @click="select('tab2')"
+                    :data-state="isActive('tab2') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('tab2').toString()"
+                    :tabindex="isActive('tab2') ? 0 : -1"
+                    type="button" class="tabs-trigger">
+              Second
+            </button>
+            <button x-bind="triggerProps('tab3')"
+                    @click="select('tab3')"
+                    :data-state="isActive('tab3') ? 'active' : 'inactive'"
+                    :aria-selected="isActive('tab3').toString()"
+                    :tabindex="isActive('tab3') ? 0 : -1"
+                    type="button" class="tabs-trigger">
+              Third
+            </button>
+          </div>
+
+          <div x-bind="contentProps('tab1')" x-show="isActive('tab1')" class="tabs-content">
+            <p class="text-sand-11">First tab content.</p>
+          </div>
+          <div x-bind="contentProps('tab2')" x-show="isActive('tab2')" class="tabs-content">
+            <p class="text-sand-11">Second tab content.</p>
+          </div>
+          <div x-bind="contentProps('tab3')" x-show="isActive('tab3')" class="tabs-content">
+            <p class="text-sand-11">Third tab content.</p>
           </div>
         </div>
       </div>

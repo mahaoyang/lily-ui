@@ -6,10 +6,7 @@ function createSlider(config = {}) {
     max = 100,
     step = 1,
     disabled = false,
-    orientation = "horizontal",
-    variant = "surface",
-    size = "2",
-    highContrast = false
+    orientation = "horizontal"
   } = config;
   const clamp = (v) => Math.min(max, Math.max(min, v));
   return {
@@ -19,9 +16,6 @@ function createSlider(config = {}) {
     step,
     disabled,
     orientation,
-    variant,
-    size,
-    highContrast,
     dragging: false,
     setValue(next) {
       if (this.disabled)
@@ -60,67 +54,6 @@ function createSlider(config = {}) {
     },
     get percentage() {
       return (this.value - this.min) / (this.max - this.min) * 100;
-    },
-    rootProps() {
-      return {
-        class: [
-          "slider-root",
-          `slider-variant-${this.variant}`,
-          `slider-size-${this.size}`
-        ].join(" "),
-        "data-orientation": this.orientation,
-        "data-disabled": this.disabled || undefined,
-        role: "group"
-      };
-    },
-    trackProps() {
-      return {
-        class: "slider-track",
-        "data-orientation": this.orientation,
-        "data-disabled": this.disabled || undefined,
-        "x-ref": "track",
-        "@mousedown.prevent": (e) => this.handlePointer(e, true),
-        "@touchstart.passive": (e) => this.handlePointer(e, true),
-        "@mousemove.window": (e) => this.dragging && this.handlePointer(e),
-        "@touchmove.window.passive": (e) => this.dragging && this.handlePointer(e),
-        "@mouseup.window": () => this.endDrag(),
-        "@touchend.window": () => this.endDrag()
-      };
-    },
-    rangeProps() {
-      const style = this.orientation === "horizontal" ? { width: `${this.percentage}%`, left: "0", top: "0" } : { height: `${this.percentage}%`, top: `${100 - this.percentage}%`, left: "0" };
-      return {
-        class: ["slider-range", this.highContrast && "slider-high-contrast"].filter(Boolean).join(" "),
-        "data-orientation": this.orientation,
-        style
-      };
-    },
-    thumbProps() {
-      const style = this.orientation === "horizontal" ? { left: `${this.percentage}%`, top: "50%" } : { top: `${100 - this.percentage}%`, left: "50%" };
-      return {
-        class: "slider-thumb",
-        "data-disabled": this.disabled || undefined,
-        tabindex: this.disabled ? -1 : 0,
-        role: "slider",
-        "aria-valuemin": this.min,
-        "aria-valuemax": this.max,
-        "aria-valuenow": this.value,
-        "aria-orientation": this.orientation,
-        "aria-disabled": this.disabled || undefined,
-        style
-      };
-    },
-    inputProps() {
-      return {
-        type: "range",
-        min: this.min,
-        max: this.max,
-        step: this.step,
-        disabled: this.disabled || undefined,
-        "aria-hidden": "true",
-        tabindex: -1,
-        class: "sr-only"
-      };
     }
   };
 }

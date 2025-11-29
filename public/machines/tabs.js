@@ -7,28 +7,21 @@ function createTabs(config = {}) {
       this.activeId = id;
       config.onChange?.(id);
     },
+    isActive(id) {
+      return this.activeId === id;
+    },
     triggerProps(id) {
-      const isSelected = this.activeId === id;
       return {
         role: "tab",
-        "aria-selected": isSelected.toString(),
         "aria-controls": `${id}-panel`,
-        tabindex: isSelected ? "0" : "-1",
-        "data-state": isSelected ? "active" : "inactive",
-        "@click": () => this.select(id),
-        "@keydown.enter.prevent": () => this.select(id),
-        "@keydown.space.prevent": () => this.select(id)
+        id: `${id}-trigger`
       };
     },
     contentProps(id) {
-      const isSelected = this.activeId === id;
       return {
         id: `${id}-panel`,
         role: "tabpanel",
-        "aria-labelledby": id,
-        "x-show": isSelected,
-        "data-state": isSelected ? "active" : "inactive",
-        class: isSelected ? "block" : "hidden"
+        "aria-labelledby": `${id}-trigger`
       };
     }
   };

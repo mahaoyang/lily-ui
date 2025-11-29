@@ -14,29 +14,24 @@ export default function createTabs(config: TabConfig = {}) {
       config.onChange?.(id);
     },
 
+    isActive(id: string) {
+      return this.activeId === id;
+    },
+
+    // 返回静态属性，动态属性由 HTML 层绑定
     triggerProps(id: string) {
-      const isSelected = this.activeId === id;
       return {
         role: "tab",
-        "aria-selected": isSelected.toString(),
         "aria-controls": `${id}-panel`,
-        tabindex: isSelected ? "0" : "-1",
-        "data-state": isSelected ? "active" : "inactive",
-        "@click": () => this.select(id),
-        "@keydown.enter.prevent": () => this.select(id),
-        "@keydown.space.prevent": () => this.select(id),
+        id: `${id}-trigger`,
       };
     },
 
     contentProps(id: string) {
-      const isSelected = this.activeId === id;
       return {
         id: `${id}-panel`,
         role: "tabpanel",
-        "aria-labelledby": id,
-        "x-show": isSelected,
-        "data-state": isSelected ? "active" : "inactive",
-        class: isSelected ? "block" : "hidden",
+        "aria-labelledby": `${id}-trigger`,
       };
     },
   };
