@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Spinner</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="space-y-3 flex items-center justify-between">
+      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+        style="background: var(--sand-surface);">
+        <span
+          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">SP</span>
+        <div>
+          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Spinner Playground</h1>
+          <p class="text-2 text-sand-11">纯 CSS 动画加载指示器</p>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">
+              Light
+            </button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">
+              Dark
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
+        <code>data-accent-color</code> 切换；组件可在自身容器覆写。
+      </p>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">基本示例</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Size 1 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1</h3>
+          <div class="flex items-center gap-4">
+            <span class="spinner spinner-size-1 text-accent-9">
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+            </span>
+            <span class="text-sm text-sand-11">Loading...</span>
+          </div>
+        </div>
+
+        <!-- Size 2 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Default)</h3>
+          <div class="flex items-center gap-4">
+            <span class="spinner spinner-size-2 text-accent-9">
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+            </span>
+            <span class="text-sm text-sand-11">Processing...</span>
+          </div>
+        </div>
+
+        <!-- Size 3 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3</h3>
+          <div class="flex items-center gap-4">
+            <span class="spinner spinner-size-3 text-accent-9">
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+            </span>
+            <span class="text-sm text-sand-11">Uploading...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">颜色变体</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
+          <div class="space-y-3" :data-accent-color="color">
+            <h3 class="text-sm font-medium capitalize" :style="`color: var(--${color}-11)`" x-text="color"></h3>
+            <span class="spinner spinner-size-2" :style="`color: var(--${color}-9)`">
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+            </span>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">使用场景</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- In button -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">按钮中使用</h3>
+          <button type="button"
+            class="inline-flex items-center gap-3 rounded-lg bg-accent-9 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-accent-10 transition-colors">
+            <span class="spinner spinner-size-1 text-white">
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+            </span>
+            Loading...
+          </button>
+        </div>
+
+        <!-- Centered in card -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">卡片中居中</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-12 flex items-center justify-center">
+            <span class="spinner spinner-size-3 text-accent-9">
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+            </span>
+          </div>
+        </div>
+
+        <!-- With overlay -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">带遮罩层</h3>
+          <div class="relative rounded-lg border border-sand-6 bg-white p-8">
+            <p class="text-sand-11 mb-2">Some content here...</p>
+            <p class="text-sand-11">More content...</p>
+            <div class="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+              <span class="spinner spinner-size-2 text-accent-9">
+                <span class="spinner-leaf"></span>
+                <span class="spinner-leaf"></span>
+                <span class="spinner-leaf"></span>
+                <span class="spinner-leaf"></span>
+                <span class="spinner-leaf"></span>
+                <span class="spinner-leaf"></span>
+                <span class="spinner-leaf"></span>
+                <span class="spinner-leaf"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- With text -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">带文字说明</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-8 flex flex-col items-center justify-center gap-4">
+            <span class="spinner spinner-size-3 text-accent-9">
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span>
+            </span>
+            <p class="text-sm font-medium text-sand-11">正在加载数据...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法 --&gt;
+&lt;span class="spinner spinner-size-2 text-accent-9"&gt;
+  &lt;span class="spinner-leaf"&gt;&lt;/span&gt;
+  &lt;span class="spinner-leaf"&gt;&lt;/span&gt;
+  &lt;span class="spinner-leaf"&gt;&lt;/span&gt;
+  &lt;span class="spinner-leaf"&gt;&lt;/span&gt;
+  &lt;span class="spinner-leaf"&gt;&lt;/span&gt;
+  &lt;span class="spinner-leaf"&gt;&lt;/span&gt;
+  &lt;span class="spinner-leaf"&gt;&lt;/span&gt;
+  &lt;span class="spinner-leaf"&gt;&lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- 不同尺寸 --&gt;
+&lt;span class="spinner spinner-size-1 text-accent-9"&gt;...&lt;/span&gt;
+&lt;span class="spinner spinner-size-2 text-accent-9"&gt;...&lt;/span&gt;
+&lt;span class="spinner spinner-size-3 text-accent-9"&gt;...&lt;/span&gt;
+
+&lt;!-- 不同颜色 --&gt;
+&lt;span class="spinner spinner-size-2 text-blue-9"&gt;...&lt;/span&gt;
+&lt;span class="spinner spinner-size-2 text-red-9"&gt;...&lt;/span&gt;
+&lt;span class="spinner spinner-size-2 text-jade-9"&gt;...&lt;/span&gt;</code></pre>
+    </section>
+  </main>
+</body>
+
+</html>

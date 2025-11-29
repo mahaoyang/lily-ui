@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Separator</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="space-y-3 flex items-center justify-between">
+      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+        style="background: var(--sand-surface);">
+        <span
+          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">SE</span>
+        <div>
+          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Separator Playground</h1>
+          <p class="text-2 text-sand-11">分隔线组件</p>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">
+              Light
+            </button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">
+              Dark
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
+        <code>data-accent-color</code> 切换；组件可在自身容器覆写。
+      </p>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">水平分隔线</h2>
+
+      <div class="space-y-8">
+        <!-- Size 1 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Short)</h3>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-sand-11">Before</span>
+            <span class="separator separator-horizontal separator-size-1"></span>
+            <span class="text-sm text-sand-11">After</span>
+          </div>
+        </div>
+
+        <!-- Size 2 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Medium)</h3>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-sand-11">Before</span>
+            <span class="separator separator-horizontal separator-size-2"></span>
+            <span class="text-sm text-sand-11">After</span>
+          </div>
+        </div>
+
+        <!-- Size 3 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Long)</h3>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-sand-11">Before</span>
+            <span class="separator separator-horizontal separator-size-3"></span>
+            <span class="text-sm text-sand-11">After</span>
+          </div>
+        </div>
+
+        <!-- Size 4 (Full width) -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 4 (Full Width)</h3>
+          <div class="space-y-3">
+            <p class="text-sm text-sand-11">Content above separator</p>
+            <span class="separator separator-horizontal separator-size-4"></span>
+            <p class="text-sm text-sand-11">Content below separator</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">垂直分隔线</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Size 1 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Short)</h3>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-sand-11">Left</span>
+            <span class="separator separator-vertical separator-size-1"></span>
+            <span class="text-sm text-sand-11">Right</span>
+          </div>
+        </div>
+
+        <!-- Size 2 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Medium)</h3>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-sand-11">Left</span>
+            <span class="separator separator-vertical separator-size-2"></span>
+            <span class="text-sm text-sand-11">Right</span>
+          </div>
+        </div>
+
+        <!-- Size 3 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Long)</h3>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-sand-11">Left</span>
+            <span class="separator separator-vertical separator-size-3"></span>
+            <span class="text-sm text-sand-11">Right</span>
+          </div>
+        </div>
+
+        <!-- Size 4 (Full height) -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 4 (Full Height)</h3>
+          <div class="flex gap-4 h-32">
+            <div class="flex-1 flex items-center justify-center bg-sand-3 rounded">Left</div>
+            <span class="separator separator-vertical separator-size-4"></span>
+            <div class="flex-1 flex items-center justify-center bg-sand-3 rounded">Right</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">颜色变体</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
+          <div class="space-y-3" :data-accent-color="color">
+            <h3 class="text-sm font-medium capitalize" :style="`color: var(--${color}-11)`" x-text="color"></h3>
+            <span class="separator separator-horizontal separator-size-2"></span>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">使用场景</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- In navigation -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">导航菜单</h3>
+          <div class="flex items-center gap-3 text-sm">
+            <a href="#" class="text-sand-11 hover:text-sand-12">Home</a>
+            <span class="separator separator-vertical separator-size-1"></span>
+            <a href="#" class="text-sand-11 hover:text-sand-12">About</a>
+            <span class="separator separator-vertical separator-size-1"></span>
+            <a href="#" class="text-sand-11 hover:text-sand-12">Contact</a>
+          </div>
+        </div>
+
+        <!-- In breadcrumb -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">面包屑导航</h3>
+          <div class="flex items-center gap-2 text-sm">
+            <a href="#" class="text-accent-11 hover:text-accent-12">Home</a>
+            <span class="separator separator-vertical separator-size-1"></span>
+            <a href="#" class="text-accent-11 hover:text-accent-12">Products</a>
+            <span class="separator separator-vertical separator-size-1"></span>
+            <span class="text-sand-11">Details</span>
+          </div>
+        </div>
+
+        <!-- In card -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">卡片分隔</h3>
+          <div class="rounded-lg border border-sand-6 bg-white overflow-hidden">
+            <div class="p-4">
+              <h4 class="font-medium text-sand-12">Card Header</h4>
+              <p class="text-sm text-sand-11 mt-1">Some description text here.</p>
+            </div>
+            <span class="separator separator-horizontal separator-size-4"></span>
+            <div class="p-4">
+              <p class="text-sm text-sand-11">Card content goes here.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- In toolbar -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">工具栏</h3>
+          <div class="flex items-center gap-2 p-2 rounded-lg border border-sand-6 bg-white">
+            <button class="px-3 py-1 rounded hover:bg-sand-3 text-sm">Bold</button>
+            <button class="px-3 py-1 rounded hover:bg-sand-3 text-sm">Italic</button>
+            <span class="separator separator-vertical separator-size-2"></span>
+            <button class="px-3 py-1 rounded hover:bg-sand-3 text-sm">Link</button>
+            <button class="px-3 py-1 rounded hover:bg-sand-3 text-sm">Image</button>
+            <span class="separator separator-vertical separator-size-2"></span>
+            <button class="px-3 py-1 rounded hover:bg-sand-3 text-sm">Undo</button>
+          </div>
+        </div>
+
+        <!-- In list -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">列表分隔</h3>
+          <div class="rounded-lg border border-sand-6 bg-white overflow-hidden">
+            <div class="p-4">
+              <p class="text-sm font-medium text-sand-12">List Item 1</p>
+              <p class="text-xs text-sand-11 mt-1">Description for item 1</p>
+            </div>
+            <span class="separator separator-horizontal separator-size-4"></span>
+            <div class="p-4">
+              <p class="text-sm font-medium text-sand-12">List Item 2</p>
+              <p class="text-xs text-sand-11 mt-1">Description for item 2</p>
+            </div>
+            <span class="separator separator-horizontal separator-size-4"></span>
+            <div class="p-4">
+              <p class="text-sm font-medium text-sand-12">List Item 3</p>
+              <p class="text-xs text-sand-11 mt-1">Description for item 3</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- In sidebar -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">侧边栏布局</h3>
+          <div class="flex gap-4 h-48 rounded-lg border border-sand-6 bg-white overflow-hidden">
+            <div class="w-48 p-4 bg-sand-2">
+              <p class="text-sm font-medium text-sand-12 mb-2">Sidebar</p>
+              <p class="text-xs text-sand-11">Navigation items</p>
+            </div>
+            <span class="separator separator-vertical separator-size-4"></span>
+            <div class="flex-1 p-4">
+              <p class="text-sm font-medium text-sand-12 mb-2">Main Content</p>
+              <p class="text-xs text-sand-11">Content area</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 水平分隔线 --&gt;
+&lt;span class="separator separator-horizontal separator-size-4"&gt;&lt;/span&gt;
+
+&lt;!-- 垂直分隔线 --&gt;
+&lt;span class="separator separator-vertical separator-size-2"&gt;&lt;/span&gt;
+
+&lt;!-- 不同尺寸 --&gt;
+&lt;span class="separator separator-horizontal separator-size-1"&gt;&lt;/span&gt; &lt;!-- Short --&gt;
+&lt;span class="separator separator-horizontal separator-size-2"&gt;&lt;/span&gt; &lt;!-- Medium --&gt;
+&lt;span class="separator separator-horizontal separator-size-3"&gt;&lt;/span&gt; &lt;!-- Long --&gt;
+&lt;span class="separator separator-horizontal separator-size-4"&gt;&lt;/span&gt; &lt;!-- Full --&gt;
+
+&lt;!-- 自定义颜色 (使用 data-accent-color) --&gt;
+&lt;div data-accent-color="blue"&gt;
+  &lt;span class="separator separator-horizontal separator-size-4"&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- 导航菜单示例 --&gt;
+&lt;div class="flex items-center gap-3"&gt;
+  &lt;a href="#"&gt;Home&lt;/a&gt;
+  &lt;span class="separator separator-vertical separator-size-1"&gt;&lt;/span&gt;
+  &lt;a href="#"&gt;About&lt;/a&gt;
+  &lt;span class="separator separator-vertical separator-size-1"&gt;&lt;/span&gt;
+  &lt;a href="#"&gt;Contact&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- 卡片分隔示例 --&gt;
+&lt;div class="rounded-lg border overflow-hidden"&gt;
+  &lt;div class="p-4"&gt;Header&lt;/div&gt;
+  &lt;span class="separator separator-horizontal separator-size-4"&gt;&lt;/span&gt;
+  &lt;div class="p-4"&gt;Content&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+  </main>
+</body>
+
+</html>

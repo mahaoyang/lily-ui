@@ -573,6 +573,166 @@
   .slider-root[data-disabled] .slider-thumb::after {
     cursor: not-allowed;
   }
+
+  /* ========================================
+   * Spinner Component
+   * ======================================== */
+  .spinner {
+    display: block;
+    position: relative;
+    opacity: 0.65;
+  }
+
+  .spinner-leaf {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 12.5% / 2);
+    width: 12.5%;
+    height: 100%;
+    animation: spinner-leaf-fade 800ms linear infinite;
+  }
+
+  .spinner-leaf::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 30%;
+    border-radius: var(--radius-1);
+    background-color: currentColor;
+  }
+
+  .spinner-leaf:nth-child(1) {
+    transform: rotate(0deg);
+    animation-delay: -800ms;
+  }
+  .spinner-leaf:nth-child(2) {
+    transform: rotate(45deg);
+    animation-delay: -700ms;
+  }
+  .spinner-leaf:nth-child(3) {
+    transform: rotate(90deg);
+    animation-delay: -600ms;
+  }
+  .spinner-leaf:nth-child(4) {
+    transform: rotate(135deg);
+    animation-delay: -500ms;
+  }
+  .spinner-leaf:nth-child(5) {
+    transform: rotate(180deg);
+    animation-delay: -400ms;
+  }
+  .spinner-leaf:nth-child(6) {
+    transform: rotate(225deg);
+    animation-delay: -300ms;
+  }
+  .spinner-leaf:nth-child(7) {
+    transform: rotate(270deg);
+    animation-delay: -200ms;
+  }
+  .spinner-leaf:nth-child(8) {
+    transform: rotate(315deg);
+    animation-delay: -100ms;
+  }
+
+  @keyframes spinner-leaf-fade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.25;
+    }
+  }
+
+  /* Spinner sizes */
+  .spinner-size-1 {
+    width: var(--space-3);
+    height: var(--space-3);
+  }
+  .spinner-size-2 {
+    width: var(--space-4);
+    height: var(--space-4);
+  }
+  .spinner-size-3 {
+    width: calc(1.25 * var(--space-4));
+    height: calc(1.25 * var(--space-4));
+  }
+
+  /* ========================================
+   * Skeleton Component
+   * ======================================== */
+  .skeleton {
+    border-radius: var(--radius-1);
+    animation: skeleton-pulse 1000ms infinite alternate-reverse !important;
+    background-image: none !important;
+    background-clip: border-box !important;
+    border: none !important;
+    box-shadow: none !important;
+    box-decoration-break: clone !important;
+    color: transparent !important;
+    outline: none !important;
+    pointer-events: none !important;
+    user-select: none !important;
+    cursor: default !important;
+  }
+
+  /* Take font differences out of equation for inline Skeletons */
+  .skeleton[data-inline] {
+    line-height: 0;
+    font-family: Arial, sans-serif !important;
+  }
+
+  .skeleton:empty {
+    display: block;
+    height: var(--space-3);
+  }
+
+  .skeleton > *,
+  .skeleton::after,
+  .skeleton::before {
+    visibility: hidden !important;
+  }
+
+  @keyframes skeleton-pulse {
+    from {
+      background-color: var(--gray-a3);
+    }
+    to {
+      background-color: var(--gray-a4);
+    }
+  }
+
+  /* ========================================
+   * Separator Component
+   * ======================================== */
+  .separator {
+    display: block;
+    background-color: var(--accent-a6);
+  }
+
+  /* Separator orientation */
+  .separator-horizontal {
+    width: var(--separator-size, 100%);
+    height: 1px;
+  }
+
+  .separator-vertical {
+    width: 1px;
+    height: var(--separator-size, 100%);
+  }
+
+  /* Separator sizes */
+  .separator-size-1 {
+    --separator-size: var(--space-4);
+  }
+  .separator-size-2 {
+    --separator-size: var(--space-6);
+  }
+  .separator-size-3 {
+    --separator-size: var(--space-9);
+  }
+  .separator-size-4 {
+    --separator-size: 100%;
+  }
 }
 @layer utilities {
   /* Scroll Area Component */
