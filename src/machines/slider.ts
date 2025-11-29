@@ -81,8 +81,8 @@ export default function createSlider(config: SliderConfig = {}) {
     rangeProps() {
       const style =
         this.orientation === "horizontal"
-          ? { width: `${this.percentage}%` }
-          : { height: `${this.percentage}%` };
+          ? { width: `${this.percentage}%`, left: "0", top: "0" }
+          : { height: `${this.percentage}%`, top: `${100 - this.percentage}%`, left: "0" };
 
       return {
         class: ["slider-range", this.highContrast && "slider-high-contrast"]
@@ -97,8 +97,8 @@ export default function createSlider(config: SliderConfig = {}) {
     thumbProps() {
       const style =
         this.orientation === "horizontal"
-          ? { left: `${this.percentage}%` }
-          : { bottom: `${this.percentage}%` };
+          ? { left: `${this.percentage}%`, top: "50%" }
+          : { top: `${100 - this.percentage}%`, left: "50%" };
 
       return {
         class: "slider-thumb",

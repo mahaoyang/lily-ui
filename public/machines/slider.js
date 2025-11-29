@@ -55,7 +55,7 @@ function createSlider(config = {}) {
       };
     },
     rangeProps() {
-      const style = this.orientation === "horizontal" ? { width: `${this.percentage}%` } : { height: `${this.percentage}%` };
+      const style = this.orientation === "horizontal" ? { width: `${this.percentage}%`, left: "0", top: "0" } : { height: `${this.percentage}%`, top: `${100 - this.percentage}%`, left: "0" };
       return {
         class: ["slider-range", this.highContrast && "slider-high-contrast"].filter(Boolean).join(" "),
         "data-orientation": this.orientation,
@@ -63,7 +63,7 @@ function createSlider(config = {}) {
       };
     },
     thumbProps() {
-      const style = this.orientation === "horizontal" ? { left: `${this.percentage}%` } : { bottom: `${this.percentage}%` };
+      const style = this.orientation === "horizontal" ? { left: `${this.percentage}%`, top: "50%" } : { top: `${100 - this.percentage}%`, left: "50%" };
       return {
         class: "slider-thumb",
         "data-disabled": this.disabled || undefined,
