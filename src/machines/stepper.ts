@@ -39,8 +39,12 @@ export default function createStepper(config: StepperConfig = {}) {
         min,
         max,
         step,
-        disabled: this.disabled,
+        disabled: this.disabled || undefined,
         "@input": (e: Event) => {
+          const v = Number((e.target as HTMLInputElement).value);
+          this.setValue(v);
+        },
+        "@change": (e: Event) => {
           const v = Number((e.target as HTMLInputElement).value);
           this.setValue(v);
         },

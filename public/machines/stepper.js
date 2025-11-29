@@ -30,8 +30,12 @@ function createStepper(config = {}) {
         min,
         max,
         step,
-        disabled: this.disabled,
+        disabled: this.disabled || undefined,
         "@input": (e) => {
+          const v = Number(e.target.value);
+          this.setValue(v);
+        },
+        "@change": (e) => {
           const v = Number(e.target.value);
           this.setValue(v);
         }
