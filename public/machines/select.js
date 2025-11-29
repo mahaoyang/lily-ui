@@ -1,94 +1,178 @@
 // src/machines/select.ts
+function isGrouped(items) {
+  return items.length > 0 && "options" in items[0];
+}
+function flattenOptions(items) {
+  if (isGrouped(items)) {
+    return items.flatMap((g) => g.options);
+  }
+  return items;
+}
 function createSelect(config) {
-  const { options, defaultValue, onChange, disabled = false } = config;
-  const enabledOptions = options.filter((o) => !o.disabled);
-  const initialValue = defaultValue ?? enabledOptions[0]?.id ?? "";
+  const {
+    items,
+    defaultValue = "",
+    placeholder = "Select...",
+    disabled = false,
+    onChange
+  } = config;
+  const allOptions = flattenOptions(items);
+  const enabledOptions = allOptions.filter((o) => !o.disabled);
   return {
     open: false,
-    value: initialValue,
-    highlightId: initialValue,
+    value: defaultValue,
+    highlightedValue: defaultValue || enabledOptions[0]?.value || "",
     disabled,
-    currentLabel() {
-      const found = options.find((o) => o.id === this.value);
-      return found?.label ?? "";
+    placeholder,
+    items,
+    get selectedOption() {
+      return allOptions.find((o) => o.value === this.value);
     },
-    toggle() {
-      if (this.disabled)
-        return;
-      this.open = !this.open;
+    get displayValue() {
+      return this.selectedOption?.label || "";
+    },
+    get hasValue() {
+      return this.value !== "";
     },
     openMenu() {
       if (this.disabled)
         return;
       this.open = true;
+      this.highlightedValue = this.value || enabledOptions[0]?.value || "";
     },
     closeMenu() {
       this.open = false;
     },
-    select(id) {
-      const opt = options.find((o) => o.id === id);
-      if (!opt || opt.disabled)
+    toggle() {
+      if (this.open) {
+        this.closeMenu();
+      } else {
+        this.openMenu();
+      }
+    },
+    select(value) {
+      const option = allOptions.find((o) => o.value === value);
+      if (!option || option.disabled)
         return;
-      this.value = id;
-      this.highlightId = id;
-      onChange?.(id);
+      this.value = value;
+      this.highlightedValue = value;
+      onChange?.(value);
       this.closeMenu();
     },
-    moveHighlight(step) {
-      const enabled = options.filter((o) => !o.disabled);
-      if (!enabled.length)
-        return;
-      const currentIndex = enabled.findIndex((o) => o.id === this.highlightId);
-      const nextIndex = currentIndex === -1 ? 0 : (currentIndex + step + enabled.length) % enabled.length;
-      this.highlightId = enabled[nextIndex].id;
+    highlightOption(value) {
+      const option = allOptions.find((o) => o.value === value);
+      if (option && !option.disabled) {
+        this.highlightedValue = value;
+      }
+    },
+    highlightNext() {
+      const currentIndex = enabledOptions.findIndex((o) => o.value === this.highlightedValue);
+      const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % enabledOptions.length;
+      this.highlightedValue = enabledOptions[nextIndex]?.value || "";
+    },
+    highlightPrev() {
+      const currentIndex = enabledOptions.findIndex((o) => o.value === this.highlightedValue);
+      const prevIndex = currentIndex <= 0 ? enabledOptions.length - 1 : currentIndex - 1;
+      this.highlightedValue = enabledOptions[prevIndex]?.value || "";
+    },
+    highlightFirst() {
+      this.highlightedValue = enabledOptions[0]?.value || "";
+    },
+    highlightLast() {
+      this.highlightedValue = enabledOptions[enabledOptions.length - 1]?.value || "";
+    },
+    selectHighlighted() {
+      if (this.highlightedValue) {
+        this.select(this.highlightedValue);
+      }
+    },
+    onTriggerKeydown(event) {
+      switch (event.key) {
+        case "Enter":
+        case " ":
+        case "ArrowDown":
+        case "ArrowUp":
+          event.preventDefault();
+          this.openMenu();
+          break;
+      }
+    },
+    onContentKeydown(event) {
+      switch (event.key) {
+        case "ArrowDown":
+          event.preventDefault();
+          this.highlightNext();
+          break;
+        case "ArrowUp":
+          event.preventDefault();
+          this.highlightPrev();
+          break;
+        case "Home":
+          event.preventDefault();
+          this.highlightFirst();
+          break;
+        case "End":
+          event.preventDefault();
+          this.highlightLast();
+          break;
+        case "Enter":
+        case " ":
+          event.preventDefault();
+          this.selectHighlighted();
+          break;
+        case "Escape":
+          event.preventDefault();
+          this.closeMenu();
+          break;
+        case "Tab":
+          this.closeMenu();
+          break;
+      }
     },
     triggerProps() {
       return {
         role: "combobox",
-        "aria-expanded": this.open.toString(),
-        "aria-controls": "select-listbox",
-        "aria-disabled": this.disabled ? "true" : "false",
-        tabindex: this.disabled ? "-1" : "0",
-        "@click": () => this.toggle(),
-        "@keydown.enter.prevent": () => this.toggle(),
-        "@keydown.space.prevent": () => this.toggle(),
-        "@keydown.arrow-down.prevent": () => {
-          this.openMenu();
-          this.moveHighlight(1);
-        },
-        "@keydown.arrow-up.prevent": () => {
-          this.openMenu();
-          this.moveHighlight(-1);
-        },
-        "@keydown.escape.prevent.stop": () => this.closeMenu()
+        "aria-haspopup": "listbox"
       };
     },
-    listboxProps() {
+    contentProps() {
       return {
-        id: "select-listbox",
         role: "listbox",
-        "x-show": this.open,
-        "@click.outside": () => this.closeMenu()
+        tabindex: -1
       };
     },
-    optionProps(id) {
-      const opt = options.find((o) => o.id === id);
-      const isSelected = this.value === id;
-      const isDisabled = opt?.disabled ?? false;
-      const isHighlighted = this.highlightId === id;
+    itemProps(value) {
+      const option = allOptions.find((o) => o.value === value);
+      const isDisabled = option?.disabled || false;
       return {
         role: "option",
-        "aria-selected": isSelected.toString(),
-        "aria-disabled": isDisabled ? "true" : "false",
-        "data-highlighted": isHighlighted ? "" : undefined,
-        "data-disabled": isDisabled ? "" : undefined,
-        tabindex: isHighlighted ? "0" : "-1",
-        "@mouseenter": () => {
-          if (!isDisabled)
-            this.highlightId = id;
-        },
-        "@click.prevent": () => this.select(id)
+        "aria-disabled": isDisabled
       };
+    },
+    isSelected(value) {
+      return this.value === value;
+    },
+    isHighlighted(value) {
+      return this.highlightedValue === value;
+    },
+    isItemDisabled(value) {
+      const option = allOptions.find((o) => o.value === value);
+      return option?.disabled || false;
+    },
+    isGroupedItems() {
+      return isGrouped(items);
+    },
+    getGroups() {
+      if (isGrouped(items)) {
+        return items;
+      }
+      return [];
+    },
+    getOptions() {
+      if (isGrouped(items)) {
+        return [];
+      }
+      return items;
     }
   };
 }

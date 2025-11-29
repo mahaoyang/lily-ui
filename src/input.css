@@ -674,3 +674,281 @@
     height: 12px;
   }
 }
+
+@layer utilities {
+  /* Select Component */
+  .select-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    user-select: none;
+    vertical-align: top;
+    box-sizing: border-box;
+    font-weight: 400;
+    text-align: start;
+    cursor: pointer;
+  }
+  .select-trigger:focus-visible {
+    outline: 2px solid var(--accent-8);
+    outline-offset: -1px;
+  }
+  .select-trigger[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .select-trigger-inner {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+
+  .select-icon {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    color: var(--sand-11);
+    transition: transform 150ms;
+  }
+  .select-trigger[aria-expanded="true"] .select-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Trigger sizes */
+  .select-trigger-size-1 {
+    height: 1.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 0.25rem;
+  }
+  .select-trigger-size-2 {
+    height: 2rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 0.375rem;
+  }
+  .select-trigger-size-3 {
+    height: 2.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  /* Trigger variants */
+  .select-trigger-surface {
+    color: var(--sand-12);
+    background-color: var(--sand-surface, var(--sand-1));
+    box-shadow: inset 0 0 0 1px var(--sand-7);
+  }
+  .select-trigger-surface:hover:not([aria-disabled="true"]) {
+    box-shadow: inset 0 0 0 1px var(--sand-8);
+  }
+  .select-trigger-surface[aria-expanded="true"] {
+    box-shadow: inset 0 0 0 1px var(--sand-8);
+  }
+  .select-trigger-surface[data-placeholder] .select-trigger-inner {
+    color: var(--sand-10);
+  }
+
+  .select-trigger-soft {
+    color: var(--accent-12);
+    background-color: var(--accent-a3);
+  }
+  .select-trigger-soft:hover:not([aria-disabled="true"]) {
+    background-color: var(--accent-a4);
+  }
+  .select-trigger-soft[aria-expanded="true"] {
+    background-color: var(--accent-a4);
+  }
+  .select-trigger-soft:focus-visible {
+    outline-color: var(--accent-8);
+  }
+  .select-trigger-soft[data-placeholder] .select-trigger-inner {
+    color: var(--accent-11);
+  }
+
+  .select-trigger-ghost {
+    color: var(--accent-12);
+    background-color: transparent;
+  }
+  .select-trigger-ghost:hover:not([aria-disabled="true"]) {
+    background-color: var(--accent-a3);
+  }
+  .select-trigger-ghost[aria-expanded="true"] {
+    background-color: var(--accent-a3);
+  }
+  .select-trigger-ghost[data-placeholder] .select-trigger-inner {
+    color: var(--accent-11);
+  }
+
+  /* Content */
+  .select-content {
+    overflow: hidden;
+    background-color: var(--color-panel-solid, #fff);
+    border-radius: 0.5rem;
+    box-shadow:
+      0 10px 38px -10px rgba(22, 23, 24, 0.35),
+      0 10px 20px -15px rgba(22, 23, 24, 0.2);
+    z-index: 50;
+  }
+  .dark .select-content {
+    background-color: var(--sand-2);
+  }
+
+  .select-viewport {
+    padding: 0.25rem;
+  }
+
+  /* Item */
+  .select-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0.375rem 0.5rem 0.375rem 1.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    user-select: none;
+    outline: none;
+    cursor: pointer;
+    color: var(--sand-12);
+  }
+  .select-item[data-disabled] {
+    color: var(--sand-8);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .select-item[data-highlighted] {
+    background-color: var(--accent-9);
+    color: white;
+  }
+  .select-item-indicator {
+    position: absolute;
+    left: 0.375rem;
+    width: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .select-item-indicator svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  /* Soft variant for content */
+  .select-content-soft .select-item[data-highlighted] {
+    background-color: var(--accent-a4);
+    color: var(--sand-12);
+  }
+
+  /* Group & Label */
+  .select-group {
+    padding: 0.25rem 0;
+  }
+  .select-label {
+    padding: 0.375rem 0.5rem 0.375rem 1.5rem;
+    font-size: 0.75rem;
+    color: var(--sand-10);
+    user-select: none;
+  }
+
+  /* Separator */
+  .select-separator {
+    height: 1px;
+    margin: 0.25rem 0.5rem;
+    background-color: var(--sand-6);
+  }
+
+  /* Content sizes */
+  .select-content-size-1 .select-item {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    font-size: 0.75rem;
+  }
+  .select-content-size-2 .select-item {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    font-size: 0.875rem;
+  }
+  .select-content-size-3 .select-item {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  /* Radio Component */
+  .radio-root {
+    --radio-size: 16px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+    flex-shrink: 0;
+    width: var(--radio-size);
+    height: var(--radio-size);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+
+  .radio-root::before {
+    content: '';
+    display: block;
+    height: var(--radio-size);
+    width: var(--radio-size);
+    border-radius: 100%;
+    background-color: var(--sand-surface, #fff);
+    box-shadow: inset 0 0 0 1px var(--sand-8);
+    transition: box-shadow 120ms, background-color 120ms;
+  }
+
+  .radio-root::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    height: var(--radio-size);
+    width: var(--radio-size);
+    border-radius: 100%;
+    background-color: var(--accent-9);
+    transform: scale(0);
+    transition: transform 120ms;
+  }
+
+  .radio-root[data-state="checked"]::before {
+    box-shadow: inset 0 0 0 1px var(--accent-9);
+  }
+
+  .radio-root[data-state="checked"]::after {
+    transform: scale(0.5);
+  }
+
+  .radio-root:focus-visible::before {
+    outline: 2px solid var(--accent-8);
+    outline-offset: 2px;
+  }
+
+  .radio-root:disabled,
+  .radio-root[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Radio sizes */
+  .radio-size-1 {
+    --radio-size: 14px;
+  }
+  .radio-size-2 {
+    --radio-size: 16px;
+  }
+  .radio-size-3 {
+    --radio-size: 20px;
+  }
+}

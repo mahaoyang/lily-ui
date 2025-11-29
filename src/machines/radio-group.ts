@@ -27,17 +27,9 @@ export default function createRadioGroup(config: RadioGroupConfig = {}) {
     },
 
     optionProps(id: string) {
-      const isChecked = this.isChecked(id);
-      const isDisabled = this.disabled;
-
       return {
         role: "radio",
         name: config.name,
-        "aria-checked": isChecked.toString(),
-        "aria-disabled": isDisabled ? "true" : undefined,
-        tabindex: isChecked ? "0" : "-1",
-        "data-state": isChecked ? "checked" : "unchecked",
-        "data-disabled": isDisabled ? "" : undefined,
         "@click": () => this.select(id),
         "@keydown.space.prevent": () => this.select(id),
         "@keydown.enter.prevent": () => this.select(id),
