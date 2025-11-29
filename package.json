@@ -16,6 +16,8 @@
     "tailwindcss": "4.1.17"
   },
   "dependencies": {
-    "alpinejs": "^3.15.2"
+    "alpinejs": "^3.15.2",
+    "radix-vue": "^1.9.17",
+    "vue": "^3.5.25"
   }
 }
