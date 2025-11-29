@@ -49,6 +49,33 @@ export default function createSlider(config: SliderConfig = {}) {
       config.onValueCommit?.(this.value);
     },
 
+    handlePointer(event: MouseEvent | TouchEvent, startDrag = false) {
+      if (this.disabled) return;
+      const trackEl = (this as any).$refs?.track as HTMLElement | undefined;
+      if (!trackEl) return;
+      const rect = trackEl.getBoundingClientRect();
+      const clientX = "touches" in event ? event.touches[0]?.clientX ?? 0 : event.clientX;
+      const clientY = "touches" in event ? event.touches[0]?.clientY ?? 0 : event.clientY;
+
+      let ratio = 0;
+      if (this.orientation === "horizontal") {
+        ratio = (clientX - rect.left) / rect.width;
+      } else {
+        ratio = 1 - (clientY - rect.top) / rect.height;
+      }
+
+      const next = clamp(this.min + ratio * (this.max - this.min));
+      this.setValue(Math.round(next / this.step) * this.step);
+      if (startDrag) this.dragging = true;
+    },
+
+    endDrag() {
+      if (this.dragging) {
+        this.dragging = false;
+        this.onCommit();
+      }
+    },
+
     // 计算百分比位置（用于 Range 和 Thumb）
     get percentage() {
       return ((this.value - this.min) / (this.max - this.min)) * 100;
@@ -74,6 +101,13 @@ export default function createSlider(config: SliderConfig = {}) {
         class: "slider-track",
         "data-orientation": this.orientation,
         "data-disabled": this.disabled || undefined,
+        "x-ref": "track",
+        "@mousedown.prevent": (e: MouseEvent) => this.handlePointer(e, true),
+        "@touchstart.passive": (e: TouchEvent) => this.handlePointer(e, true),
+        "@mousemove.window": (e: MouseEvent) => this.dragging && this.handlePointer(e),
+        "@touchmove.window.passive": (e: TouchEvent) => this.dragging && this.handlePointer(e),
+        "@mouseup.window": () => this.endDrag(),
+        "@touchend.window": () => this.endDrag(),
       };
     },
 
