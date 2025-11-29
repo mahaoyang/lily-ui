@@ -352,12 +352,12 @@
   }
 
   .slider-root[data-orientation="horizontal"] {
-    width: 100%;
+    
     height: var(--slider-thumb-size);
   }
 
   .slider-root[data-orientation="vertical"] {
-    height: 100%;
+    flex: 1; min-height: 0;
     flex-direction: column;
     width: var(--slider-track-size);
   }
@@ -384,13 +384,13 @@
   }
 
   .slider-range[data-orientation="horizontal"] {
-    height: 100%;
+    flex: 1; min-height: 0;
     left: 0;
     top: 0;
   }
 
   .slider-range[data-orientation="vertical"] {
-    width: 100%;
+    
     left: 0;
     bottom: 0;
   }
@@ -572,5 +572,105 @@
   .slider-root[data-disabled] .slider-thumb,
   .slider-root[data-disabled] .slider-thumb::after {
     cursor: not-allowed;
+  }
+}
+@layer utilities {
+  /* Scroll Area Component */
+  .scroll-area-root {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .scroll-area-viewport {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow: auto;
+    scrollbar-width: none;
+  }
+  .scroll-area-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-area-scrollbar {
+    display: flex;
+    position: absolute;
+    user-select: none;
+    touch-action: none;
+    background-color: var(--gray-a3);
+    border-radius: 9999px;
+    opacity: 0;
+    transition: opacity 120ms ease-out;
+  }
+  .scroll-area-scrollbar[data-visible="true"] {
+    opacity: 1;
+  }
+
+  .scroll-area-scrollbar-vertical {
+    flex-direction: column;
+    width: 8px;
+    top: 4px;
+    bottom: 4px;
+    right: 4px;
+  }
+
+  .scroll-area-scrollbar-horizontal {
+    flex-direction: row;
+    height: 8px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+  }
+
+  .scroll-area-scrollbar-vertical.scroll-area-has-horizontal {
+    bottom: 16px;
+  }
+
+  .scroll-area-scrollbar-horizontal.scroll-area-has-vertical {
+    right: 16px;
+  }
+
+  .scroll-area-thumb {
+    position: absolute;
+    background-color: var(--gray-a8);
+    border-radius: inherit;
+    transition: background-color 100ms;
+    cursor: pointer;
+  }
+  .scroll-area-thumb:hover {
+    background-color: var(--gray-a9);
+  }
+
+  .scroll-area-scrollbar-vertical .scroll-area-thumb {
+    width: 100%;
+    min-height: 24px;
+  }
+
+  .scroll-area-scrollbar-horizontal .scroll-area-thumb {
+    height: 100%;
+    min-width: 24px;
+  }
+
+  /* Size variants */
+  .scroll-area-scrollbar-size-1.scroll-area-scrollbar-vertical {
+    width: 4px;
+  }
+  .scroll-area-scrollbar-size-1.scroll-area-scrollbar-horizontal {
+    height: 4px;
+  }
+
+  .scroll-area-scrollbar-size-2.scroll-area-scrollbar-vertical {
+    width: 8px;
+  }
+  .scroll-area-scrollbar-size-2.scroll-area-scrollbar-horizontal {
+    height: 8px;
+  }
+
+  .scroll-area-scrollbar-size-3.scroll-area-scrollbar-vertical {
+    width: 12px;
+  }
+  .scroll-area-scrollbar-size-3.scroll-area-scrollbar-horizontal {
+    height: 12px;
   }
 }

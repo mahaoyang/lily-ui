@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Scroll Area</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import createScrollArea from "/public/machines/scroll-area.js";
+
+    window.Alpine = Alpine;
+    Alpine.data("scrollAreaMachine", createScrollArea);
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span
+            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">SA</span>
+          <div>
+            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Scroll Area Playground</h1>
+            <p class="text-2 text-sand-11">自定义滚动条组件</p>
+          </div>
+        </div>
+        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Scroll Area</h2>
+
+      <!-- Vertical scroll -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Vertical Scroll (hover to show)</div>
+        <div x-data="scrollAreaMachine({ type: 'hover', scrollbars: 'vertical' })"
+             x-init="$nextTick(() => init($refs.viewport))"
+             class="scroll-area-root h-48 max-w-md rounded-lg border border-sand-6"
+             @mouseenter="onMouseEnter()"
+             @mouseleave="onMouseLeave()">
+          <div x-ref="viewport"
+               class="scroll-area-viewport p-4"
+               @scroll="onScroll($el)">
+            <div class="space-y-4">
+              <p class="text-sand-11">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <p class="text-sand-11">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p class="text-sand-11">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+              <p class="text-sand-11">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p class="text-sand-11">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+              <p class="text-sand-11">Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+              <p class="text-sand-11">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+              <p class="text-sand-11">Sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            </div>
+          </div>
+          <!-- Vertical scrollbar -->
+          <div x-ref="verticalTrack"
+               class="scroll-area-scrollbar scroll-area-scrollbar-vertical scroll-area-scrollbar-size-2"
+               :data-visible="showVertical"
+               @mousedown.prevent="clickVerticalTrack($event, $el, $refs.viewport)">
+            <div class="scroll-area-thumb"
+                 :style="verticalThumbStyle"
+                 @mousedown.stop.prevent="startDragVertical($event, $refs.verticalTrack, $refs.viewport)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal scroll -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Horizontal Scroll (hover to show)</div>
+        <div x-data="scrollAreaMachine({ type: 'hover', scrollbars: 'horizontal' })"
+             x-init="$nextTick(() => init($refs.viewport))"
+             class="scroll-area-root h-24 max-w-md rounded-lg border border-sand-6"
+             @mouseenter="onMouseEnter()"
+             @mouseleave="onMouseLeave()">
+          <div x-ref="viewport"
+               class="scroll-area-viewport p-4"
+               @scroll="onScroll($el)">
+            <div class="flex gap-4" style="width: max-content;">
+              <template x-for="i in 20" :key="i">
+                <div class="flex-shrink-0 w-24 h-16 rounded-lg bg-accent-4 flex items-center justify-center text-accent-11 font-medium" x-text="'Item ' + i"></div>
+              </template>
+            </div>
+          </div>
+          <!-- Horizontal scrollbar -->
+          <div x-ref="horizontalTrack"
+               class="scroll-area-scrollbar scroll-area-scrollbar-horizontal scroll-area-scrollbar-size-2"
+               :data-visible="showHorizontal"
+               @mousedown.prevent="clickHorizontalTrack($event, $el, $refs.viewport)">
+            <div class="scroll-area-thumb"
+                 :style="horizontalThumbStyle"
+                 @mousedown.stop.prevent="startDragHorizontal($event, $refs.horizontalTrack, $refs.viewport)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Both scrollbars -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Both Scrollbars</div>
+        <div x-data="scrollAreaMachine({ type: 'hover', scrollbars: 'both' })"
+             x-init="$nextTick(() => init($refs.viewport))"
+             class="scroll-area-root h-64 max-w-lg rounded-lg border border-sand-6"
+             @mouseenter="onMouseEnter()"
+             @mouseleave="onMouseLeave()">
+          <div x-ref="viewport"
+               class="scroll-area-viewport p-4"
+               @scroll="onScroll($el)">
+            <div style="width: 800px;">
+              <div class="space-y-4">
+                <template x-for="i in 15" :key="i">
+                  <p class="text-sand-11" style="white-space: nowrap;">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+                  </p>
+                </template>
+              </div>
+            </div>
+          </div>
+          <!-- Vertical scrollbar -->
+          <div x-ref="verticalTrack"
+               class="scroll-area-scrollbar scroll-area-scrollbar-vertical scroll-area-scrollbar-size-2 scroll-area-has-horizontal"
+               :data-visible="showVertical"
+               @mousedown.prevent="clickVerticalTrack($event, $el, $refs.viewport)">
+            <div class="scroll-area-thumb"
+                 :style="verticalThumbStyle"
+                 @mousedown.stop.prevent="startDragVertical($event, $refs.verticalTrack, $refs.viewport)"></div>
+          </div>
+          <!-- Horizontal scrollbar -->
+          <div x-ref="horizontalTrack"
+               class="scroll-area-scrollbar scroll-area-scrollbar-horizontal scroll-area-scrollbar-size-2 scroll-area-has-vertical"
+               :data-visible="showHorizontal"
+               @mousedown.prevent="clickHorizontalTrack($event, $el, $refs.viewport)">
+            <div class="scroll-area-thumb"
+                 :style="horizontalThumbStyle"
+                 @mousedown.stop.prevent="startDragHorizontal($event, $refs.horizontalTrack, $refs.viewport)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Always visible -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Always Visible</div>
+        <div x-data="scrollAreaMachine({ type: 'always', scrollbars: 'vertical' })"
+             x-init="$nextTick(() => init($refs.viewport))"
+             class="scroll-area-root h-48 max-w-md rounded-lg border border-sand-6">
+          <div x-ref="viewport"
+               class="scroll-area-viewport p-4"
+               @scroll="onScroll($el)">
+            <div class="space-y-4">
+              <h3 class="font-medium text-sand-12">Tags</h3>
+              <div class="flex flex-wrap gap-2">
+                <template x-for="tag in ['JavaScript', 'TypeScript', 'React', 'Vue', 'Alpine.js', 'Tailwind CSS', 'Node.js', 'Bun', 'Deno', 'GraphQL', 'REST API', 'WebSocket']" :key="tag">
+                  <span class="inline-flex items-center rounded-full bg-accent-4 px-3 py-1 text-sm text-accent-11" x-text="tag"></span>
+                </template>
+              </div>
+              <h3 class="font-medium text-sand-12 mt-4">Description</h3>
+              <p class="text-sand-11">This scroll area has the scrollbar always visible. It's useful when you want users to know that there's more content to scroll through.</p>
+              <p class="text-sand-11">The scrollbar provides a visual indicator of content length and current position.</p>
+              <p class="text-sand-11">You can drag the thumb or click on the track to scroll to a specific position.</p>
+            </div>
+          </div>
+          <!-- Vertical scrollbar -->
+          <div x-ref="verticalTrack"
+               class="scroll-area-scrollbar scroll-area-scrollbar-vertical scroll-area-scrollbar-size-2"
+               :data-visible="showVertical"
+               @mousedown.prevent="clickVerticalTrack($event, $el, $refs.viewport)">
+            <div class="scroll-area-thumb"
+                 :style="verticalThumbStyle"
+                 @mousedown.stop.prevent="startDragVertical($event, $refs.verticalTrack, $refs.viewport)"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Size variants -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Size Variants</div>
+        <div class="grid grid-cols-3 gap-4">
+          <!-- Size 1 (small) -->
+          <div class="space-y-2">
+            <div class="text-xs text-sand-10">Size 1 (4px)</div>
+            <div x-data="scrollAreaMachine({ type: 'always', scrollbars: 'vertical' })"
+                 x-init="$nextTick(() => init($refs.viewport))"
+                 class="scroll-area-root h-32 rounded-lg border border-sand-6">
+              <div x-ref="viewport"
+                   class="scroll-area-viewport p-3"
+                   @scroll="onScroll($el)">
+                <div class="space-y-2">
+                  <template x-for="i in 10" :key="i">
+                    <p class="text-sm text-sand-11">Line <span x-text="i"></span> content</p>
+                  </template>
+                </div>
+              </div>
+              <div x-ref="verticalTrack"
+                   class="scroll-area-scrollbar scroll-area-scrollbar-vertical scroll-area-scrollbar-size-1"
+                   :data-visible="showVertical"
+                   @mousedown.prevent="clickVerticalTrack($event, $el, $refs.viewport)">
+                <div class="scroll-area-thumb"
+                     :style="verticalThumbStyle"
+                     @mousedown.stop.prevent="startDragVertical($event, $refs.verticalTrack, $refs.viewport)"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Size 2 (default) -->
+          <div class="space-y-2">
+            <div class="text-xs text-sand-10">Size 2 (8px)</div>
+            <div x-data="scrollAreaMachine({ type: 'always', scrollbars: 'vertical' })"
+                 x-init="$nextTick(() => init($refs.viewport))"
+                 class="scroll-area-root h-32 rounded-lg border border-sand-6">
+              <div x-ref="viewport"
+                   class="scroll-area-viewport p-3"
+                   @scroll="onScroll($el)">
+                <div class="space-y-2">
+                  <template x-for="i in 10" :key="i">
+                    <p class="text-sm text-sand-11">Line <span x-text="i"></span> content</p>
+                  </template>
+                </div>
+              </div>
+              <div x-ref="verticalTrack"
+                   class="scroll-area-scrollbar scroll-area-scrollbar-vertical scroll-area-scrollbar-size-2"
+                   :data-visible="showVertical"
+                   @mousedown.prevent="clickVerticalTrack($event, $el, $refs.viewport)">
+                <div class="scroll-area-thumb"
+                     :style="verticalThumbStyle"
+                     @mousedown.stop.prevent="startDragVertical($event, $refs.verticalTrack, $refs.viewport)"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Size 3 (large) -->
+          <div class="space-y-2">
+            <div class="text-xs text-sand-10">Size 3 (12px)</div>
+            <div x-data="scrollAreaMachine({ type: 'always', scrollbars: 'vertical' })"
+                 x-init="$nextTick(() => init($refs.viewport))"
+                 class="scroll-area-root h-32 rounded-lg border border-sand-6">
+              <div x-ref="viewport"
+                   class="scroll-area-viewport p-3"
+                   @scroll="onScroll($el)">
+                <div class="space-y-2">
+                  <template x-for="i in 10" :key="i">
+                    <p class="text-sm text-sand-11">Line <span x-text="i"></span> content</p>
+                  </template>
+                </div>
+              </div>
+              <div x-ref="verticalTrack"
+                   class="scroll-area-scrollbar scroll-area-scrollbar-vertical scroll-area-scrollbar-size-3"
+                   :data-visible="showVertical"
+                   @mousedown.prevent="clickVerticalTrack($event, $el, $refs.viewport)">
+                <div class="scroll-area-thumb"
+                     :style="verticalThumbStyle"
+                     @mousedown.stop.prevent="startDragVertical($event, $refs.verticalTrack, $refs.viewport)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</body>
+
+</html>
