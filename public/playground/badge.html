@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Badge</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="space-y-3 flex items-center justify-between">
+      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+        style="background: var(--sand-surface);">
+        <span
+          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">BG</span>
+        <div>
+          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Badge Playground</h1>
+          <p class="text-2 text-sand-11">纯 CSS 徽章组件</p>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">
+              Light
+            </button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">
+              Dark
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
+        <code>data-accent-color</code> 切换；组件可在自身容器覆写。
+      </p>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">尺寸变体</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Size 1 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Compact)</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="badge badge-size-1 badge-variant-soft">New</span>
+            <span class="badge badge-size-1 badge-variant-solid">Beta</span>
+            <span class="badge badge-size-1 badge-variant-surface">Draft</span>
+            <span class="badge badge-size-1 badge-variant-outline">Pro</span>
+          </div>
+        </div>
+
+        <!-- Size 2 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Default)</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="badge badge-size-2 badge-variant-soft">New</span>
+            <span class="badge badge-size-2 badge-variant-solid">Beta</span>
+            <span class="badge badge-size-2 badge-variant-surface">Draft</span>
+            <span class="badge badge-size-2 badge-variant-outline">Pro</span>
+          </div>
+        </div>
+
+        <!-- Size 3 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Large)</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="badge badge-size-3 badge-variant-soft">New</span>
+            <span class="badge badge-size-3 badge-variant-solid">Beta</span>
+            <span class="badge badge-size-3 badge-variant-surface">Draft</span>
+            <span class="badge badge-size-3 badge-variant-outline">Pro</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">变体样式</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Solid -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Solid</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="badge badge-size-2 badge-variant-solid">Solid</span>
+            <span class="badge badge-size-2 badge-variant-solid badge-high-contrast">High Contrast</span>
+          </div>
+        </div>
+
+        <!-- Soft -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Soft (Default)</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="badge badge-size-2 badge-variant-soft">Soft</span>
+            <span class="badge badge-size-2 badge-variant-soft badge-high-contrast">High Contrast</span>
+          </div>
+        </div>
+
+        <!-- Surface -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Surface</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="badge badge-size-2 badge-variant-surface">Surface</span>
+            <span class="badge badge-size-2 badge-variant-surface badge-high-contrast">High Contrast</span>
+          </div>
+        </div>
+
+        <!-- Outline -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Outline</h3>
+          <div class="flex flex-wrap gap-3">
+            <span class="badge badge-size-2 badge-variant-outline">Outline</span>
+            <span class="badge badge-size-2 badge-variant-outline badge-high-contrast">High Contrast</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">颜色变体</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
+          <div class="space-y-3" :data-accent-color="color">
+            <h3 class="text-sm font-medium capitalize" :style="`color: var(--${color}-11)`" x-text="color"></h3>
+            <div class="flex flex-col gap-2">
+              <span class="badge badge-size-2 badge-variant-solid">Solid</span>
+              <span class="badge badge-size-2 badge-variant-soft">Soft</span>
+              <span class="badge badge-size-2 badge-variant-surface">Surface</span>
+              <span class="badge badge-size-2 badge-variant-outline">Outline</span>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">圆角半径</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="space-y-3">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">None</h3>
+          <span class="badge badge-size-2 badge-variant-soft" data-radius="none">No Radius</span>
+        </div>
+        <div class="space-y-3">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Small</h3>
+          <span class="badge badge-size-2 badge-variant-soft" data-radius="small">Small Radius</span>
+        </div>
+        <div class="space-y-3">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Medium</h3>
+          <span class="badge badge-size-2 badge-variant-soft" data-radius="medium">Medium Radius</span>
+        </div>
+        <div class="space-y-3">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Large</h3>
+          <span class="badge badge-size-2 badge-variant-soft" data-radius="large">Large Radius</span>
+        </div>
+        <div class="space-y-3">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Full</h3>
+          <span class="badge badge-size-2 badge-variant-soft" data-radius="full">Full Radius</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">使用场景</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Status indicators -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">状态指示</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-sand-11">Published</span>
+              <span class="badge badge-size-1 badge-variant-soft" data-accent-color="jade">Active</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-sand-11">Article Title</span>
+              <span class="badge badge-size-1 badge-variant-soft" data-accent-color="amber">Pending</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-sand-11">Draft Post</span>
+              <span class="badge badge-size-1 badge-variant-outline" data-accent-color="gray">Draft</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature tags -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">功能标签</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge badge-size-2 badge-variant-soft" data-accent-color="iris">TypeScript</span>
+            <span class="badge badge-size-2 badge-variant-soft" data-accent-color="blue">React</span>
+            <span class="badge badge-size-2 badge-variant-soft" data-accent-color="violet">Tailwind</span>
+            <span class="badge badge-size-2 badge-variant-soft" data-accent-color="teal">Alpine.js</span>
+          </div>
+        </div>
+
+        <!-- Notification badge -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">通知徽章</h3>
+          <div class="inline-flex items-center gap-2">
+            <span class="text-sm text-sand-12">Messages</span>
+            <span class="badge badge-size-1 badge-variant-solid" data-accent-color="red">3</span>
+          </div>
+        </div>
+
+        <!-- Product badge -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">产品标记</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-sand-12">Premium Plan</span>
+              <span class="badge badge-size-1 badge-variant-solid badge-high-contrast">Pro</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-sand-12">Feature Flag</span>
+              <span class="badge badge-size-1 badge-variant-soft" data-accent-color="amber">Beta</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法 --&gt;
+&lt;span class="badge badge-size-2 badge-variant-soft"&gt;Badge&lt;/span&gt;
+
+&lt;!-- 不同尺寸 --&gt;
+&lt;span class="badge badge-size-1 badge-variant-soft"&gt;Small&lt;/span&gt;
+&lt;span class="badge badge-size-2 badge-variant-soft"&gt;Default&lt;/span&gt;
+&lt;span class="badge badge-size-3 badge-variant-soft"&gt;Large&lt;/span&gt;
+
+&lt;!-- 不同变体 --&gt;
+&lt;span class="badge badge-size-2 badge-variant-solid"&gt;Solid&lt;/span&gt;
+&lt;span class="badge badge-size-2 badge-variant-soft"&gt;Soft&lt;/span&gt;
+&lt;span class="badge badge-size-2 badge-variant-surface"&gt;Surface&lt;/span&gt;
+&lt;span class="badge badge-size-2 badge-variant-outline"&gt;Outline&lt;/span&gt;
+
+&lt;!-- 高对比度 --&gt;
+&lt;span class="badge badge-size-2 badge-variant-soft badge-high-contrast"&gt;
+  High Contrast
+&lt;/span&gt;
+
+&lt;!-- 自定义颜色 --&gt;
+&lt;div data-accent-color="red"&gt;
+  &lt;span class="badge badge-size-2 badge-variant-solid"&gt;Error&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- 自定义圆角 --&gt;
+&lt;span class="badge badge-size-2 badge-variant-soft" data-radius="full"&gt;
+  Full Radius
+&lt;/span&gt;</code></pre>
+    </section>
+  </main>
+</body>
+
+</html>

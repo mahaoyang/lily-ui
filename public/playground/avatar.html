@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Avatar</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import { createAvatar } from "/src/machines/avatar.ts";
+    window.Alpine = Alpine;
+    window.createAvatar = createAvatar;
+
+    Alpine.data('avatarDemo', () => ({
+      avatars: [
+        { src: 'https://i.pravatar.cc/150?img=1', fallback: 'AB', color: 'iris' },
+        { src: 'https://i.pravatar.cc/150?img=2', fallback: 'CD', color: 'blue' },
+        { src: 'https://i.pravatar.cc/150?img=3', fallback: 'EF', color: 'violet' },
+        { src: '', fallback: 'GH', color: 'teal' }, // This will fail
+        { src: 'https://i.pravatar.cc/150?img=5', fallback: 'IJ', color: 'amber' },
+      ],
+      init() {
+        this.$nextTick(() => {
+          // Initialize all avatars with state machines
+          const avatarElements = this.$el.querySelectorAll('.avatar-root');
+          avatarElements.forEach(el => {
+            createAvatar(el);
+          });
+        });
+      }
+    }));
+
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="space-y-3 flex items-center justify-between">
+      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+        style="background: var(--sand-surface);">
+        <span
+          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">AV</span>
+        <div>
+          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Avatar Playground</h1>
+          <p class="text-2 text-sand-11">带 Fallback 逻辑的头像组件</p>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">
+              Light
+            </button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">
+              Dark
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
+        <code>data-accent-color</code> 切换；组件可在自身容器覆写。
+      </p>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">尺寸变体</h2>
+
+      <div class="grid grid-cols-1 gap-8">
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">所有尺寸 (1-9)</h3>
+          <div class="flex flex-wrap items-end gap-4">
+            <!-- Size 1 -->
+            <div class="flex flex-col items-center gap-2">
+              <span class="avatar-root avatar-size-1 avatar-variant-soft" data-accent-color="iris">
+                <span class="avatar-fallback" data-letters="1">A</span>
+              </span>
+              <span class="text-xs text-sand-11">Size 1</span>
+            </div>
+
+            <!-- Size 2 -->
+            <div class="flex flex-col items-center gap-2">
+              <span class="avatar-root avatar-size-2 avatar-variant-soft" data-accent-color="blue">
+                <span class="avatar-fallback" data-letters="2">AB</span>
+              </span>
+              <span class="text-xs text-sand-11">Size 2</span>
+            </div>
+
+            <!-- Size 3 -->
+            <div class="flex flex-col items-center gap-2">
+              <span class="avatar-root avatar-size-3 avatar-variant-soft" data-accent-color="violet">
+                <span class="avatar-fallback" data-letters="1">C</span>
+              </span>
+              <span class="text-xs text-sand-11">Size 3</span>
+            </div>
+
+            <!-- Size 4 -->
+            <div class="flex flex-col items-center gap-2">
+              <span class="avatar-root avatar-size-4 avatar-variant-soft" data-accent-color="teal">
+                <span class="avatar-fallback" data-letters="2">CD</span>
+              </span>
+              <span class="text-xs text-sand-11">Size 4</span>
+            </div>
+
+            <!-- Size 5 -->
+            <div class="flex flex-col items-center gap-2">
+              <span class="avatar-root avatar-size-5 avatar-variant-soft" data-accent-color="amber">
+                <span class="avatar-fallback" data-letters="1">E</span>
+              </span>
+              <span class="text-xs text-sand-11">Size 5</span>
+            </div>
+
+            <!-- Size 6 -->
+            <div class="flex flex-col items-center gap-2">
+              <span class="avatar-root avatar-size-6 avatar-variant-soft" data-accent-color="red">
+                <span class="avatar-fallback" data-letters="2">EF</span>
+              </span>
+              <span class="text-xs text-sand-11">Size 6</span>
+            </div>
+
+            <!-- Size 7 -->
+            <div class="flex flex-col items-center gap-2">
+              <span class="avatar-root avatar-size-7 avatar-variant-soft" data-accent-color="jade">
+                <span class="avatar-fallback" data-letters="1">G</span>
+              </span>
+              <span class="text-xs text-sand-11">Size 7</span>
+            </div>
+
+            <!-- Size 8 -->
+            <div class="flex flex-col items-center gap-2">
+              <span class="avatar-root avatar-size-8 avatar-variant-soft" data-accent-color="iris">
+                <span class="avatar-fallback" data-letters="2">GH</span>
+              </span>
+              <span class="text-xs text-sand-11">Size 8</span>
+            </div>
+
+            <!-- Size 9 -->
+            <div class="flex flex-col items-center gap-2">
+              <span class="avatar-root avatar-size-9 avatar-variant-soft" data-accent-color="blue">
+                <span class="avatar-fallback" data-letters="1">I</span>
+              </span>
+              <span class="text-xs text-sand-11">Size 9</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">变体样式</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Solid -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Solid</h3>
+          <div class="flex flex-wrap gap-4">
+            <span class="avatar-root avatar-size-5 avatar-variant-solid">
+              <span class="avatar-fallback" data-letters="1">A</span>
+            </span>
+            <span class="avatar-root avatar-size-5 avatar-variant-solid avatar-high-contrast">
+              <span class="avatar-fallback" data-letters="2">AB</span>
+            </span>
+          </div>
+          <p class="text-xs text-sand-11">左：普通，右：高对比度</p>
+        </div>
+
+        <!-- Soft -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Soft (Default)</h3>
+          <div class="flex flex-wrap gap-4">
+            <span class="avatar-root avatar-size-5 avatar-variant-soft">
+              <span class="avatar-fallback" data-letters="1">C</span>
+            </span>
+            <span class="avatar-root avatar-size-5 avatar-variant-soft avatar-high-contrast">
+              <span class="avatar-fallback" data-letters="2">CD</span>
+            </span>
+          </div>
+          <p class="text-xs text-sand-11">左：普通，右：高对比度</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">颜色变体</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
+        <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
+          <div class="space-y-3 flex flex-col items-center" :data-accent-color="color">
+            <h3 class="text-sm font-medium capitalize" :style="`color: var(--${color}-11)`" x-text="color"></h3>
+            <div class="flex flex-col gap-3 items-center">
+              <span class="avatar-root avatar-size-4 avatar-variant-solid">
+                <span class="avatar-fallback" data-letters="1" x-text="color.charAt(0).toUpperCase()"></span>
+              </span>
+              <span class="avatar-root avatar-size-4 avatar-variant-soft">
+                <span class="avatar-fallback" data-letters="2" x-text="color.substring(0,2).toUpperCase()"></span>
+              </span>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">圆角半径</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+        <div class="space-y-3 flex flex-col items-center">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">None</h3>
+          <span class="avatar-root avatar-size-5 avatar-variant-soft" data-radius="none">
+            <span class="avatar-fallback" data-letters="1">A</span>
+          </span>
+        </div>
+        <div class="space-y-3 flex flex-col items-center">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Small</h3>
+          <span class="avatar-root avatar-size-5 avatar-variant-soft" data-radius="small">
+            <span class="avatar-fallback" data-letters="1">B</span>
+          </span>
+        </div>
+        <div class="space-y-3 flex flex-col items-center">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Medium</h3>
+          <span class="avatar-root avatar-size-5 avatar-variant-soft" data-radius="medium">
+            <span class="avatar-fallback" data-letters="1">C</span>
+          </span>
+        </div>
+        <div class="space-y-3 flex flex-col items-center">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Large</h3>
+          <span class="avatar-root avatar-size-5 avatar-variant-soft" data-radius="large">
+            <span class="avatar-fallback" data-letters="1">D</span>
+          </span>
+        </div>
+        <div class="space-y-3 flex flex-col items-center">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Full</h3>
+          <span class="avatar-root avatar-size-5 avatar-variant-soft" data-radius="full">
+            <span class="avatar-fallback" data-letters="1">E</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);"
+      x-data="avatarDemo">
+      <h2 class="text-3 font-medium">带图片的头像 (自动 Fallback)</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">成功加载图片</h3>
+          <div class="flex flex-wrap gap-4">
+            <span class="avatar-root avatar-size-5 avatar-variant-soft" data-accent-color="iris">
+              <img class="avatar-image" src="https://i.pravatar.cc/150?img=1" alt="User">
+              <span class="avatar-fallback" data-avatar-fallback data-letters="1">U</span>
+            </span>
+            <span class="avatar-root avatar-size-5 avatar-variant-soft" data-accent-color="blue">
+              <img class="avatar-image" src="https://i.pravatar.cc/150?img=2" alt="User">
+              <span class="avatar-fallback" data-avatar-fallback data-letters="2">AB</span>
+            </span>
+            <span class="avatar-root avatar-size-5 avatar-variant-soft" data-accent-color="violet">
+              <img class="avatar-image" src="https://i.pravatar.cc/150?img=3" alt="User">
+              <span class="avatar-fallback" data-avatar-fallback data-letters="1">C</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">图片加载失败 (显示 Fallback)</h3>
+          <div class="flex flex-wrap gap-4">
+            <span class="avatar-root avatar-size-5 avatar-variant-soft" data-accent-color="teal">
+              <img class="avatar-image" src="https://invalid-url.example/image.jpg" alt="User">
+              <span class="avatar-fallback" data-avatar-fallback data-letters="1">F</span>
+            </span>
+            <span class="avatar-root avatar-size-5 avatar-variant-soft" data-accent-color="amber">
+              <img class="avatar-image" src="" alt="User">
+              <span class="avatar-fallback" data-avatar-fallback data-letters="2">FB</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">使用场景</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- User profile -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">用户资料</h3>
+          <div class="flex items-center gap-3">
+            <span class="avatar-root avatar-size-4 avatar-variant-soft" data-accent-color="iris">
+              <img class="avatar-image" src="https://i.pravatar.cc/150?img=10" alt="John Doe">
+              <span class="avatar-fallback" data-avatar-fallback data-letters="2">JD</span>
+            </span>
+            <div>
+              <div class="font-medium text-sand-12">John Doe</div>
+              <div class="text-sm text-sand-11">john.doe@example.com</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comment author -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">评论作者</h3>
+          <div class="flex gap-3">
+            <span class="avatar-root avatar-size-3 avatar-variant-soft" data-accent-color="blue">
+              <span class="avatar-fallback" data-letters="2">SA</span>
+            </span>
+            <div class="flex-1">
+              <div class="font-medium text-sand-12 text-sm">Sarah Anderson</div>
+              <p class="text-sm text-sand-11 mt-1">Great article! Very helpful.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group avatars -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">用户组</h3>
+          <div class="flex -space-x-2">
+            <span class="avatar-root avatar-size-3 avatar-variant-solid ring-2 ring-white" data-accent-color="iris">
+              <span class="avatar-fallback" data-letters="1">A</span>
+            </span>
+            <span class="avatar-root avatar-size-3 avatar-variant-solid ring-2 ring-white" data-accent-color="blue">
+              <span class="avatar-fallback" data-letters="1">B</span>
+            </span>
+            <span class="avatar-root avatar-size-3 avatar-variant-solid ring-2 ring-white" data-accent-color="violet">
+              <span class="avatar-fallback" data-letters="1">C</span>
+            </span>
+            <span class="avatar-root avatar-size-3 avatar-variant-solid ring-2 ring-white" data-accent-color="teal">
+              <span class="avatar-fallback" data-letters="1">+5</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- With status indicator -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">在线状态</h3>
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <span class="avatar-root avatar-size-4 avatar-variant-soft" data-accent-color="jade">
+                <img class="avatar-image" src="https://i.pravatar.cc/150?img=11" alt="Online User">
+                <span class="avatar-fallback" data-avatar-fallback data-letters="2">OU</span>
+              </span>
+              <span
+                class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-jade-9 ring-2 ring-white"></span>
+            </div>
+            <div>
+              <div class="font-medium text-sand-12">Online User</div>
+              <div class="text-sm text-jade-11">Active now</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法（仅 Fallback）--&gt;
+&lt;span class="avatar-root avatar-size-3 avatar-variant-soft"&gt;
+  &lt;span class="avatar-fallback" data-letters="1"&gt;A&lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- 带图片（自动 Fallback）--&gt;
+&lt;span class="avatar-root avatar-size-3 avatar-variant-soft"&gt;
+  &lt;img class="avatar-image" src="avatar.jpg" alt="User"&gt;
+  &lt;span class="avatar-fallback" data-avatar-fallback data-letters="2"&gt;AB&lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- JavaScript 初始化 --&gt;
+&lt;script type="module"&gt;
+  import { createAvatar } from "/src/machines/avatar.ts";
+
+  const avatarEl = document.querySelector('.avatar-root');
+  const machine = createAvatar(avatarEl);
+
+  // 获取当前状态
+  console.log(machine.getStatus()); // 'idle' | 'loading' | 'loaded' | 'error'
+
+  // 清理
+  machine.destroy();
+&lt;/script&gt;
+
+&lt;!-- 不同尺寸 --&gt;
+&lt;span class="avatar-root avatar-size-1 avatar-variant-soft"&gt;...&lt;/span&gt;
+&lt;span class="avatar-root avatar-size-5 avatar-variant-soft"&gt;...&lt;/span&gt;
+&lt;span class="avatar-root avatar-size-9 avatar-variant-soft"&gt;...&lt;/span&gt;
+
+&lt;!-- 不同变体 --&gt;
+&lt;span class="avatar-root avatar-size-3 avatar-variant-solid"&gt;...&lt;/span&gt;
+&lt;span class="avatar-root avatar-size-3 avatar-variant-soft"&gt;...&lt;/span&gt;
+
+&lt;!-- 高对比度 --&gt;
+&lt;span class="avatar-root avatar-size-3 avatar-variant-soft avatar-high-contrast"&gt;
+  &lt;span class="avatar-fallback" data-letters="1"&gt;H&lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- 自定义颜色 --&gt;
+&lt;div data-accent-color="red"&gt;
+  &lt;span class="avatar-root avatar-size-3 avatar-variant-solid"&gt;
+    &lt;span class="avatar-fallback" data-letters="1"&gt;R&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- 自定义圆角 --&gt;
+&lt;span class="avatar-root avatar-size-3 avatar-variant-soft" data-radius="full"&gt;
+  &lt;span class="avatar-fallback" data-letters="1"&gt;F&lt;/span&gt;
+&lt;/span&gt;</code></pre>
+    </section>
+  </main>
+</body>
+
+</html>
