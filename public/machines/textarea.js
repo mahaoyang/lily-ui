@@ -1,13 +1,10 @@
 // src/machines/textarea.ts
 function createTextarea(config = {}) {
-  const { defaultValue = "", disabled = false, autoGrow = true } = config;
+  const { defaultValue = "", autoGrow = true } = config;
   return {
     value: defaultValue,
-    disabled,
     autoGrow,
     setValue(next, el) {
-      if (this.disabled)
-        return;
       this.value = next;
       if (this.autoGrow && el) {
         el.style.height = "auto";
@@ -18,7 +15,6 @@ function createTextarea(config = {}) {
     textareaProps() {
       return {
         value: this.value,
-        disabled: this.disabled,
         rows: 3,
         "@input": (e) => {
           const el = e.target;

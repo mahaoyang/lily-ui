@@ -82,13 +82,19 @@
           <!-- Basic Switch -->
           <div class="space-y-4">
             <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Basic</h3>
-            <div x-data="switchMachine({ id: 'sw-notifications', defaultChecked: true })"
-              class="flex items-center gap-3">
-              <button x-bind="switchProps()" type="button"
-                class="group peer inline-flex h-[25px] w-[42px] shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-inner transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-1 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-accent-9 data-[state=unchecked]:bg-sand-6">
-                <span data-state="unchecked" :data-state="checked ? 'checked' : 'unchecked'"
-                  class="pointer-events-none block h-[21px] w-[21px] rounded-full bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)] ring-0 transition-all duration-200 data-[state=checked]:translate-x-[19px] data-[state=unchecked]:translate-x-0 group-active:w-[26px] group-active:data-[state=checked]:translate-x-[14px]"></span>
-              </button>
+          <div x-data="switchMachine({ id: 'sw-notifications', defaultChecked: true })"
+            class="flex items-center gap-3">
+            <button x-bind="switchProps()" type="button"
+              class="group peer inline-flex h-[25px] w-[42px] shrink-0 items-center rounded-full border-2 border-transparent shadow-inner transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-1"
+              :class="[
+                checked ? 'bg-accent-9' : (theme === 'dark' ? 'bg-sand-8' : 'bg-sand-5'),
+                disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+              ]">
+              <span
+                class="pointer-events-none block h-[21px] w-[21px] rounded-full bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)] ring-0 transition-all duration-200 group-active:w-[26px]"
+                :style="`transform: translateX(${checked ? '19px' : '0px'});`"
+              ></span>
+            </button>
               <label x-bind="labelProps()"
                 class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sand-12 cursor-pointer select-none">
                 Airplane Mode
@@ -104,9 +110,12 @@
               <div x-data="switchMachine({ id: 'sw-disabled-checked', disabled: true, defaultChecked: true })"
                 class="flex items-center gap-3">
                 <button x-bind="switchProps()" type="button"
-                  class="group peer inline-flex h-[25px] w-[42px] shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-inner transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[state=checked]:bg-sand-9 data-[state=unchecked]:bg-sand-6">
-                  <span data-state="checked"
-                    class="pointer-events-none block h-[21px] w-[21px] rounded-full bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)] ring-0 transition-all duration-200 data-[state=checked]:translate-x-[19px] data-[state=unchecked]:translate-x-0"></span>
+                  class="group peer inline-flex h-[25px] w-[42px] shrink-0 items-center rounded-full border-2 border-transparent shadow-inner transition-colors opacity-50 cursor-not-allowed"
+                  :class="theme === 'dark' ? 'bg-sand-8' : 'bg-sand-5'">
+                  <span
+                    class="pointer-events-none block h-[21px] w-[21px] rounded-full bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)] ring-0 transition-all duration-200"
+                    style="transform: translateX(19px);"
+                  ></span>
                 </button>
                 <label x-bind="labelProps()"
                   class="text-sm font-medium leading-none peer-data-[disabled]:cursor-not-allowed peer-data-[disabled]:opacity-70 text-sand-11">
@@ -118,9 +127,12 @@
               <div x-data="switchMachine({ id: 'sw-disabled-unchecked', disabled: true })"
                 class="flex items-center gap-3">
                 <button x-bind="switchProps()" type="button"
-                  class="group peer inline-flex h-[25px] w-[42px] shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-inner transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[state=checked]:bg-sand-9 data-[state=unchecked]:bg-sand-6">
-                  <span data-state="unchecked"
-                    class="pointer-events-none block h-[21px] w-[21px] rounded-full bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)] ring-0 transition-all duration-200 data-[state=checked]:translate-x-[19px] data-[state=unchecked]:translate-x-0"></span>
+                  class="group peer inline-flex h-[25px] w-[42px] shrink-0 items-center rounded-full border-2 border-transparent shadow-inner transition-colors opacity-50 cursor-not-allowed"
+                  :class="theme === 'dark' ? 'bg-sand-8' : 'bg-sand-5'">
+                  <span
+                    class="pointer-events-none block h-[21px] w-[21px] rounded-full bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)] ring-0 transition-all duration-200"
+                    style="transform: translateX(0px);"
+                  ></span>
                 </button>
                 <label x-bind="labelProps()"
                   class="text-sm font-medium leading-none peer-data-[disabled]:cursor-not-allowed peer-data-[disabled]:opacity-70 text-sand-11">

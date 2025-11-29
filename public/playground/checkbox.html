@@ -79,18 +79,20 @@
             <button
               x-bind="controlProps()"
               type="button"
-              class="peer h-5 w-5 shrink-0 rounded border text-white shadow-sm transition-all hover:bg-sand-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8"
-              :class="{
-                'bg-accent-9 border-accent-9': checked || indeterminate,
-                'bg-sand-2 border-sand-8': !checked && !indeterminate,
-                'opacity-50 cursor-not-allowed': disabled
-              }"
+              class="peer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
+              :class="[
+                disabled
+                  ? 'opacity-55 cursor-not-allowed bg-sand-1 text-sand-10 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]'
+                  : (checked || indeterminate
+                      ? 'bg-accent-9 text-white shadow-none'
+                      : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]')
+              ]"
             >
-              <span x-show="checked || indeterminate" class="flex items-center justify-center h-full w-full" x-transition.opacity.duration.100ms>
-                <svg x-show="checked && !indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
+              <span x-show="checked || indeterminate" class="flex items-center justify-center h-full w-full" x-transition.opacity.duration.120ms>
+                <svg x-show="checked && !indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <svg x-show="indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
+                <svg x-show="indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
               </span>
@@ -108,18 +110,20 @@
             <button
               x-bind="controlProps()"
               type="button"
-              class="peer h-5 w-5 shrink-0 rounded border text-white shadow-sm transition-all hover:bg-sand-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8"
-              :class="{
-                'bg-accent-9 border-accent-9': checked || indeterminate,
-                'bg-sand-2 border-sand-8': !checked && !indeterminate,
-                'opacity-50 cursor-not-allowed': disabled
-              }"
+              class="peer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
+              :class="[
+                disabled
+                  ? 'opacity-55 cursor-not-allowed bg-sand-1 text-sand-10 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]'
+                  : (checked || indeterminate
+                      ? 'bg-accent-9 text-white shadow-none'
+                      : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]')
+              ]"
             >
-              <span x-show="checked || indeterminate" class="flex items-center justify-center h-full w-full" x-transition.opacity.duration.100ms>
-                <svg x-show="checked && !indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
+              <span x-show="checked || indeterminate" class="flex items-center justify-center h-full w-full" x-transition.opacity.duration.120ms>
+                <svg x-show="checked && !indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <svg x-show="indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
+                <svg x-show="indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
               </span>
@@ -136,17 +140,12 @@
           <div class="flex flex-col gap-3">
             <div class="flex items-center gap-3" x-data="checkboxMachine({ id: 'cb-disabled', disabled: true, defaultChecked: true })">
               <button
+                x-bind="controlProps()"
                 type="button"
-                role="checkbox"
-                aria-checked="true"
-                aria-disabled="true"
-                tabindex="-1"
-                data-state="checked"
-                data-disabled=""
-                class="peer h-5 w-5 shrink-0 rounded border border-sand-8 bg-sand-2 text-white shadow-sm transition-all data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[state=checked]:bg-sand-9 data-[state=checked]:border-sand-9"
+                class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent bg-sand-1 text-sand-10 opacity-60 cursor-not-allowed shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]"
               >
                 <span x-show="checked" class="flex items-center justify-center h-full w-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                 </span>
@@ -156,14 +155,9 @@
 
             <div class="flex items-center gap-3" x-data="checkboxMachine({ id: 'cb-disabled-unchecked', disabled: true })">
               <button
+                x-bind="controlProps()"
                 type="button"
-                role="checkbox"
-                aria-checked="false"
-                aria-disabled="true"
-                tabindex="-1"
-                data-state="unchecked"
-                data-disabled=""
-                class="peer h-5 w-5 shrink-0 rounded border border-sand-8 bg-sand-2 text-white shadow-sm transition-all data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+                class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent bg-sand-1 text-sand-10 opacity-60 cursor-not-allowed shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]"
               >
                 <span class="flex items-center justify-center h-full w-full"></span>
               </button>

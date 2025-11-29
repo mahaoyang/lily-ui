@@ -1,43 +1,30 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
-- `src/input.css`: Tailwind 入口；base/components/utilities 分层。
-- `src/machines/`: 组件状态机（TS），每组件一工厂（如 `tabs.ts`）。
-- `tailwind.config.ts`: Radix 令牌源，编译为 `tailwind.config.js`（生成物）；勿改生成物。
-- `dist/output.css`: 构建产物；不手改。
-- `public/index.html`: 演示/验证页，可附示例。
-- `public/playground/`: 组件示例目录（子页面按组件拆分，如 `switch.html`）；`public/playground/index.html` 为入口导航。
-- `node_modules/@radix-ui/themes/tokens`: 上游令牌，只读。
-- 额外示例可放在 `public` 下独立 HTML，便于视觉回归。
+## 项目结构与模块
+- 源码：`src/machines/*.ts` 存放组件状态机（逻辑层，Alpine 可直接 `x-data="machine()"` 使用）。`src/input.css` 生成全局样式与 Radix 主题变量。
+- 产物：`public/machines/*.js` 为打包后的浏览器端状态机；`dist/output.css` 为 Tailwind 编译结果。
+- Playground：`public/playground/*.html` 按组件拆页，`public/playground/index.html` 为目录。静态资源直接走 `public`。
+- 设计原则：遵循 notice.txt 的 “Logic-View Separation”。逻辑文件提供 prop getters（ARIA、事件、class），HTML 只负责绑定。
 
-## Build, Test, and Development Commands
-- `bun install`: 安装依赖。
-- `bun dev`: 编译配置 + Tailwind watch，输出 `dist/output.css`。
-- `bun run build`: 一次性构建并压缩；提交前跑。
-- `bun run build:config`: 单独生成 CJS（dev/build 已包含）。
-- 一键开发：`./dev.sh`（或 `bun run dev:all` / `bash scripts/dev.sh`），同时 watch 状态机 + Tailwind，并在仓库根开静态服务（默认端口 4173）。
-- 验证：访问 `http://localhost:4173/playground.html`（跳转到 `/public/playground/index.html`）查看目录，再进入各组件示例；或直接打开 `public/index.html`。
+## 构建、调试与预览
+- 本地开发（监听样式 + 状态机）：`bun run dev:all`（执行 `scripts/dev.sh`，并行跑 Tailwind 与机器打包）。
+- 单独看样式：`bun run dev`；单独看状态机：`bun run dev:machines`。
+- 生产构建：`bun run build`（含 `build:config` + Tailwind 压缩）；仅重新打包状态机：`bun run build:machines`。
+- Playground 预览：构建后可 `bunx serve public` 或 `python -m http.server 8000`，然后打开 `/public/playground/*.html`。
 
-## Coding Style & Naming Conventions
-- TypeScript ESM，2 空格，偏好 `const` + 箭头函数；状态机用工厂返回普通对象供 Alpine `x-data`。
-- Tailwind 优先，少写魔法值；令牌 key 小写连字符（`space-3`, `blue-9`, `radius-2`）。
-- 生成文件（`dist/output.css`, `tailwind.config.cjs`）不提交手改。
+## 代码风格与命名
+- TypeScript 逻辑：保持纯函数/闭包工厂，返回 `state + actions + prop getters`。变量/方法用 `camelCase`，配置接口以 `Config` 结尾。
+- HTML 层：使用 `x-bind="...Props()"` 挂载，避免内联逻辑；Class 以 Tailwind 原子类组合，允许主题/Accent 透传（不要封死样式）。
+- 样式：Tailwind 4 + Radix 色板，accent 通过 `data-accent-color` 或 `.accent-*` 切换；暗黑靠 `dark` 类切换。使用 1px 边框、无多余阴影的扁平风格。
 
-## 组件状态机 & Alpine 集成
-- Logic-View 分离：逻辑在 `src/machines/*.ts`，HTML 用 `x-bind`。
-- 工厂签名：`export default (config = {}) => ({ state, actions, propGetters })`；prop getter 返回 Alpine 友好键（`@click`, `@keydown.space.prevent`, `x-show`, `role` 等）。
-- 注册示例：`import Alpine from 'alpinejs'; import createTabs from './machines/tabs'; Alpine.data('tabs', createTabs); Alpine.start();`
-- 关注焦点回退、外部点击、滚动锁定：在 `init()`/`destroy()` 或动作内用 DOM API、`@click.outside` 处理。
-- 常用命名：`triggerProps`, `contentProps`；内置 ARIA 与键盘交互，保持 HTML 干净。
-- 文件命名保持 kebab-case，并与 Alpine `x-data` 名称对应，便于复用。
-- 色彩系统基于 Radix 变量：父级 `.dark/.dark-theme` 切暗色；用 `[data-accent-color="blue"]` 或 `.accent-blue` 等切换 accent，类如 `bg-accent-9` 自动跟随。Tailwind 原生 dark 模式已关闭。
+## 测试与验证
+- 目前未写自动化测试；新增状态机时至少自测：键盘可达性（Enter/Space）、ARIA `aria-*`/`role` 是否随状态同步，禁用态是否阻断事件。
+- 如需脚本化测试，优先用 Bun（`bun test`）并放在 `tests/` 目录，数据依赖放 `public/fixtures`。
 
-## Testing Guidelines
-- 暂无自动化；确保 `bun run build` 通过且无报错。
-- 在 `public/index.html` 手动查视觉、ARIA、键盘交互。
-- 若写 JS 测试，命名 `<name>.test.ts` 以备未来 `bun test`。
+## 提交与变更流程
+- 提交信息沿用本仓库历史风格：`feat|fix|chore|docs: 描述`（例：`chore: add component machines and playground`）。
+- PR/合并说明应包含：变更范围要点、影响的 Playground 页面、验证方式（命令行输出或截图），以及是否需要重新跑 `build:machines`/`build`。
 
-## Commit & Pull Request Guidelines
-- Conventional Commits（`feat:`, `chore:`, `fix:`），粒度小。
-- 描述说明调整令牌、配置或状态机的原因。
-- PR 附摘要、关联 issue（如有）、`bun run build` 结果，以及更新示例截图/录屏。
+## 安全与配置
+- Tailwind 配置由 `tailwind.config.ts` 动态生成颜色变量，会覆盖默认色板；如改主题记得同步跑 `bun run build:config`。
+- 公共页面默认走静态服务，不依赖 Node SSR；避免在浏览器端暴露私有 Token/接口地址。***

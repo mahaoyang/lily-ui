@@ -1,12 +1,9 @@
 // src/machines/input.ts
 function createInput(config = {}) {
-  const { defaultValue = "", disabled = false } = config;
+  const { defaultValue = "" } = config;
   return {
     value: defaultValue,
-    disabled,
     setValue(next) {
-      if (this.disabled)
-        return;
       this.value = next;
       config.onChange?.(this.value);
     },
@@ -17,8 +14,11 @@ function createInput(config = {}) {
       return {
         type: "text",
         value: this.value,
-        disabled: this.disabled,
         "@input": (e) => {
+          const target = e.target;
+          this.setValue(target.value);
+        },
+        "@change": (e) => {
           const target = e.target;
           this.setValue(target.value);
         }

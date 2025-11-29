@@ -82,10 +82,10 @@
               :key="option.id">
               <div class="flex items-center gap-3">
                 <button x-bind="optionProps(option.id)" type="button"
-                  class="peer h-[25px] w-[25px] shrink-0 cursor-default rounded-full border shadow-sm transition hover:bg-sand-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8 disabled:cursor-not-allowed disabled:opacity-50"
-                  :class="value === option.id ? 'border-accent-9 bg-white' : 'border-sand-8 bg-sand-2'">
-                  <span class="flex items-center justify-center h-full w-full">
-                    <span class="block h-[11px] w-[11px] rounded-full bg-accent-9"
+                  class="peer h-4 w-4 shrink-0 cursor-default rounded-full border transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8 disabled:cursor-not-allowed disabled:opacity-50"
+                  :class="value === option.id ? 'border-accent-9 bg-white shadow-sm' : 'border-sand-8 bg-transparent shadow-none hover:bg-sand-2'">
+                  <span class="grid place-items-center h-full w-full">
+                    <span class="block h-[10px] w-[10px] rounded-full bg-accent-9"
                       :style="`transform: scale(${value === option.id ? 1 : 0}); transition: transform 120ms;`"></span>
                   </span>
                 </button>
@@ -109,10 +109,10 @@
             <template x-for="option in [{id:'list',label:'List View'}, {id:'grid',label:'Grid View'}]" :key="option.id">
               <div class="flex items-center gap-3">
                 <button x-bind="optionProps(option.id)" type="button"
-                  class="peer h-[25px] w-[25px] shrink-0 cursor-default rounded-full border shadow-sm transition"
-                  :class="value === option.id ? 'border-accent-9 bg-white' : 'border-sand-8 bg-sand-2'">
-                  <span class="flex items-center justify-center h-full w-full">
-                    <span class="block h-[11px] w-[11px] rounded-full bg-accent-9"
+                  class="peer h-4 w-4 shrink-0 cursor-default rounded-full border transition"
+                  :class="value === option.id ? 'border-accent-9 bg-white shadow-sm' : 'border-sand-8 bg-transparent shadow-none'">
+                  <span class="grid place-items-center h-full w-full">
+                    <span class="block h-[10px] w-[10px] rounded-full bg-accent-9"
                       :style="`transform: scale(${value === option.id ? 1 : 0}); transition: transform 120ms;`"></span>
                   </span>
                 </button>
