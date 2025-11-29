@@ -40,6 +40,7 @@ export default function createStepper(config: StepperConfig = {}) {
         max,
         step,
         disabled: this.disabled || undefined,
+        "x-model.number": "value",
         "@input": (e: Event) => {
           const v = Number((e.target as HTMLInputElement).value);
           this.setValue(v);

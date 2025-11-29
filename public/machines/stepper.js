@@ -31,6 +31,7 @@ function createStepper(config = {}) {
         max,
         step,
         disabled: this.disabled || undefined,
+        "x-model.number": "value",
         "@input": (e) => {
           const v = Number(e.target.value);
           this.setValue(v);
