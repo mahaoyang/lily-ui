@@ -20,16 +20,7 @@ function createSlider(config = {}) {
         min: this.min,
         max: this.max,
         step: this.step,
-        value: this.value,
-        disabled: this.disabled || undefined,
-        "@input": (e) => {
-          const v = Number(e.target.value);
-          this.setValue(v);
-        },
-        "@change": (e) => {
-          const v = Number(e.target.value);
-          this.setValue(v);
-        }
+        disabled: this.disabled || undefined
       };
     }
   };
