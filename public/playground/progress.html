@@ -10,11 +10,14 @@
     import createProgress from "/public/machines/progress.js";
 
     window.Alpine = Alpine;
-    Alpine.data("progressMachine", createProgress);
+    window.createProgress = createProgress;
     Alpine.start();
   </script>
 </head>
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300" x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent" :data-accent-color="accent">
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }"
+  :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
     <header class="flex items-center justify-between">
       <div class="space-y-2">
@@ -22,7 +25,7 @@
           <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">PR</span>
           <div>
             <h1 class="text-5 font-semibold text-sand-12 leading-tight">Progress Playground</h1>
-            <p class="text-2 text-sand-11">进度与状态展示</p>
+            <p class="text-2 text-sand-11">进度条组件，支持确定/不确定状态</p>
           </div>
         </div>
         <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
@@ -30,15 +33,102 @@
       <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
     </header>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4" style="background: var(--sand-surface);" x-data="progressMachine({ defaultValue: 35 })">
-      <h2 class="text-3 font-medium">进度条</h2>
-      <div class="h-3 w-full rounded-full border border-sand-6 bg-sand-3 overflow-hidden">
-        <div class="h-full bg-accent-9 transition-all" :style="`width: ${percent()}%`"></div>
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4" style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1" style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition" :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'" @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition" :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'" @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2" :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'" @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle" :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button @click="setValue(value - 10)" class="px-2 py-1 rounded-md border border-sand-6 text-sm">-10</button>
-        <button @click="setValue(value + 10)" class="px-2 py-1 rounded-md border border-sand-6 text-sm">+10</button>
-        <span class="text-xs text-sand-11">当前：<span class="text-sand-12 font-medium" x-text="percent() + '%'"></span></span>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Progress 示例</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Determinate Progress -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Determinate</h3>
+          <div x-data="createProgress({ value: 35 })" class="space-y-4">
+            <div x-bind="rootProps()" class="progress-root progress-size-2">
+              <div class="progress-indicator"
+                :data-state="dataState"
+                :style="`transform: scaleX(${percent / 100})`"></div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button @click="setValue(value - 10)" class="px-2 py-1 rounded-md border border-sand-6 text-sm hover:bg-sand-3">-10</button>
+              <button @click="setValue(value + 10)" class="px-2 py-1 rounded-md border border-sand-6 text-sm hover:bg-sand-3">+10</button>
+              <span class="text-xs text-sand-11">当前：<span class="text-sand-12 font-medium" x-text="percent + '%'"></span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indeterminate Progress -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Indeterminate</h3>
+          <div x-data="createProgress()" class="space-y-4">
+            <div x-bind="rootProps()" class="progress-root progress-size-2">
+              <div class="progress-indicator"
+                :data-state="dataState"
+                :style="indeterminate ? '' : `transform: scaleX(${percent / 100})`"></div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button @click="setValue(indeterminate ? 50 : null)" class="px-2 py-1 rounded-md border border-sand-6 text-sm hover:bg-sand-3">
+                <span x-text="indeterminate ? '设为确定状态' : '设为不确定状态'"></span>
+              </button>
+              <span class="text-xs text-sand-11">状态：<span class="text-sand-12 font-medium" x-text="indeterminate ? '加载中...' : percent + '%'"></span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sizes -->
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Sizes</h3>
+        <div class="space-y-3">
+          <div x-data="createProgress({ value: 60 })" class="space-y-1">
+            <div class="text-xs text-sand-11">Size 1</div>
+            <div x-bind="rootProps()" class="progress-root progress-size-1">
+              <div class="progress-indicator" :style="`transform: scaleX(${percent / 100})`"></div>
+            </div>
+          </div>
+          <div x-data="createProgress({ value: 60 })" class="space-y-1">
+            <div class="text-xs text-sand-11">Size 2</div>
+            <div x-bind="rootProps()" class="progress-root progress-size-2">
+              <div class="progress-indicator" :style="`transform: scaleX(${percent / 100})`"></div>
+            </div>
+          </div>
+          <div x-data="createProgress({ value: 60 })" class="space-y-1">
+            <div class="text-xs text-sand-11">Size 3</div>
+            <div x-bind="rootProps()" class="progress-root progress-size-3">
+              <div class="progress-indicator" :style="`transform: scaleX(${percent / 100})`"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soft variant -->
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Soft Variant</h3>
+        <div x-data="createProgress({ value: 75 })" class="space-y-1">
+          <div x-bind="rootProps()" class="progress-root progress-size-2 progress-soft">
+            <div class="progress-indicator" :style="`transform: scaleX(${percent / 100})`"></div>
+          </div>
+        </div>
       </div>
     </section>
   </main>

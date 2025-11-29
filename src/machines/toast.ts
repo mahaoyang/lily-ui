@@ -1,50 +1,87 @@
+type ToastType = "default" | "success" | "error" | "warning" | "info";
+
 interface Toast {
   id: string;
   title: string;
-  message?: string;
+  description?: string;
+  type?: ToastType;
   duration?: number;
 }
 
 interface ToastConfig {
-  defaultToasts?: Toast[];
+  defaultDuration?: number;
+  position?: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
 }
 
 export default function createToast(config: ToastConfig = {}) {
-  const queue = new Map<string, number>();
+  const { defaultDuration = 5000, position = "bottom-right" } = config;
+  const timers = new Map<string, number>();
 
   return {
-    toasts: config.defaultToasts ?? [],
+    toasts: [] as Toast[],
+    position,
 
-    push(toast: Toast) {
-      const merged: Toast = { duration: 3000, ...toast };
-      this.toasts = [...this.toasts, merged];
-      this.scheduleAutoClose(merged);
+    add(toast: Omit<Toast, "id"> & { id?: string }) {
+      const id = toast.id ?? crypto.randomUUID();
+      const newToast: Toast = {
+        id,
+        type: "default",
+        duration: defaultDuration,
+        ...toast,
+      };
+      this.toasts = [...this.toasts, newToast];
+
+      if (newToast.duration && newToast.duration > 0) {
+        this.scheduleRemove(id, newToast.duration);
+      }
+
+      return id;
     },
 
     remove(id: string) {
       this.toasts = this.toasts.filter((t) => t.id !== id);
-      const timer = queue.get(id);
+      const timer = timers.get(id);
       if (timer) {
         clearTimeout(timer);
-        queue.delete(id);
+        timers.delete(id);
       }
     },
 
-    scheduleAutoClose(toast: Toast) {
-      const timer = window.setTimeout(() => this.remove(toast.id), toast.duration);
-      queue.set(toast.id, timer);
+    scheduleRemove(id: string, duration: number) {
+      const timer = window.setTimeout(() => this.remove(id), duration);
+      timers.set(id, timer);
     },
 
-    listProps() {
+    // Convenience methods
+    success(title: string, description?: string) {
+      return this.add({ title, description, type: "success" });
+    },
+
+    error(title: string, description?: string) {
+      return this.add({ title, description, type: "error" });
+    },
+
+    warning(title: string, description?: string) {
+      return this.add({ title, description, type: "warning" });
+    },
+
+    info(title: string, description?: string) {
+      return this.add({ title, description, type: "info" });
+    },
+
+    // Props
+    viewportProps() {
       return {
-        role: "status",
-        "aria-live": "polite",
+        role: "region",
+        "aria-label": "Notifications",
       };
     },
 
-    itemProps(id: string) {
+    toastProps(id: string) {
       return {
-        "data-id": id,
+        role: "status",
+        "aria-live": "polite",
+        "aria-atomic": "true",
       };
     },
   };

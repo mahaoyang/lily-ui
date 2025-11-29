@@ -10,7 +10,7 @@
     import createToast from "/public/machines/toast.js";
 
     window.Alpine = Alpine;
-    Alpine.data("toastMachine", createToast);
+    window.createToast = createToast;
     Alpine.start();
   </script>
 </head>
@@ -27,7 +27,7 @@
           <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">TS</span>
           <div>
             <h1 class="text-5 font-semibold text-sand-12 leading-tight">Toast Playground</h1>
-            <p class="text-2 text-sand-11">队列 + 自动关闭</p>
+            <p class="text-2 text-sand-11">通知提示，支持多种类型和自动关闭</p>
           </div>
         </div>
         <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
@@ -58,21 +58,79 @@
       </div>
     </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);" x-data="toastMachine()">
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);"
+      x-data="createToast({ position: 'bottom-right' })">
       <h2 class="text-3 font-medium">Toast 示例</h2>
-      <div class="flex gap-3">
-        <button @click="push({ id: crypto.randomUUID(), title: '保存成功', message: '更改已同步', duration: 2500 })" class="px-3 py-2 rounded-md bg-accent-9 text-white text-sm">成功</button>
-        <button @click="push({ id: crypto.randomUUID(), title: '警告', message: '请检查字段', duration: 3500 })" class="px-3 py-2 rounded-md border border-sand-6 text-sm">警告</button>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Type Variants</h3>
+        <div class="flex flex-wrap gap-3">
+          <button @click="add({ title: '默认通知', description: '这是一条普通的通知消息' })"
+            class="px-3 py-2 rounded-md border border-sand-6 text-sm hover:bg-sand-3">
+            Default
+          </button>
+          <button @click="success('操作成功', '您的更改已保存')"
+            class="px-3 py-2 rounded-md bg-jade-9 text-white text-sm hover:bg-jade-10">
+            Success
+          </button>
+          <button @click="error('操作失败', '请检查网络连接后重试')"
+            class="px-3 py-2 rounded-md bg-red-9 text-white text-sm hover:bg-red-10">
+            Error
+          </button>
+          <button @click="warning('注意', '此操作不可撤销')"
+            class="px-3 py-2 rounded-md bg-amber-9 text-sand-12 text-sm hover:bg-amber-10">
+            Warning
+          </button>
+          <button @click="info('提示', '您可以在设置中更改此选项')"
+            class="px-3 py-2 rounded-md bg-blue-9 text-white text-sm hover:bg-blue-10">
+            Info
+          </button>
+        </div>
       </div>
-      <div x-bind="listProps()" class="fixed right-4 top-4 w-80 space-y-3">
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Custom Duration</h3>
+        <div class="flex flex-wrap gap-3">
+          <button @click="add({ title: '快速消失', description: '2秒后关闭', duration: 2000 })"
+            class="px-3 py-2 rounded-md border border-sand-6 text-sm hover:bg-sand-3">
+            2秒
+          </button>
+          <button @click="add({ title: '正常时长', description: '5秒后关闭', duration: 5000 })"
+            class="px-3 py-2 rounded-md border border-sand-6 text-sm hover:bg-sand-3">
+            5秒
+          </button>
+          <button @click="add({ title: '持久通知', description: '需要手动关闭', duration: 0 })"
+            class="px-3 py-2 rounded-md border border-sand-6 text-sm hover:bg-sand-3">
+            不自动关闭
+          </button>
+        </div>
+      </div>
+
+      <p class="text-xs text-sand-11">点击按钮触发 Toast，5秒后自动消失。点击 × 按钮可手动关闭。</p>
+
+      <!-- Toast Viewport -->
+      <div x-bind="viewportProps()"
+        class="toast-viewport"
+        :class="`toast-viewport-${position}`">
         <template x-for="toast in toasts" :key="toast.id">
-          <div x-bind="itemProps(toast.id)" class="rounded-md border border-sand-7 bg-white p-3 shadow-sm" :class="theme === 'dark' ? 'bg-sand-2 text-sand-12' : 'bg-white text-sand-12'">
-            <div class="flex items-center justify-between gap-3">
+          <div x-bind="toastProps(toast.id)"
+            class="toast-root toast-enter"
+            :class="{
+              'toast-success': toast.type === 'success',
+              'toast-error': toast.type === 'error',
+              'toast-warning': toast.type === 'warning',
+              'toast-info': toast.type === 'info'
+            }">
+            <div class="toast-header">
               <div>
-                <div class="text-sm font-semibold" x-text="toast.title"></div>
-                <div class="text-xs text-sand-11" x-text="toast.message"></div>
+                <div class="toast-title" x-text="toast.title"></div>
+                <div class="toast-description" x-show="toast.description" x-text="toast.description"></div>
               </div>
-              <button @click="remove(toast.id)" class="text-sand-11 hover:text-sand-12 text-xs">✕</button>
+              <button @click="remove(toast.id)" class="toast-close" aria-label="关闭">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
             </div>
           </div>
         </template>

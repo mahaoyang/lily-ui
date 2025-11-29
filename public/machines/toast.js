@@ -1,34 +1,59 @@
 // src/machines/toast.ts
 function createToast(config = {}) {
-  const queue = new Map;
+  const { defaultDuration = 5000, position = "bottom-right" } = config;
+  const timers = new Map;
   return {
-    toasts: config.defaultToasts ?? [],
-    push(toast) {
-      const merged = { duration: 3000, ...toast };
-      this.toasts = [...this.toasts, merged];
-      this.scheduleAutoClose(merged);
+    toasts: [],
+    position,
+    add(toast) {
+      const id = toast.id ?? crypto.randomUUID();
+      const newToast = {
+        id,
+        type: "default",
+        duration: defaultDuration,
+        ...toast
+      };
+      this.toasts = [...this.toasts, newToast];
+      if (newToast.duration && newToast.duration > 0) {
+        this.scheduleRemove(id, newToast.duration);
+      }
+      return id;
     },
     remove(id) {
       this.toasts = this.toasts.filter((t) => t.id !== id);
-      const timer = queue.get(id);
+      const timer = timers.get(id);
       if (timer) {
         clearTimeout(timer);
-        queue.delete(id);
+        timers.delete(id);
       }
     },
-    scheduleAutoClose(toast) {
-      const timer = window.setTimeout(() => this.remove(toast.id), toast.duration);
-      queue.set(toast.id, timer);
+    scheduleRemove(id, duration) {
+      const timer = window.setTimeout(() => this.remove(id), duration);
+      timers.set(id, timer);
     },
-    listProps() {
+    success(title, description) {
+      return this.add({ title, description, type: "success" });
+    },
+    error(title, description) {
+      return this.add({ title, description, type: "error" });
+    },
+    warning(title, description) {
+      return this.add({ title, description, type: "warning" });
+    },
+    info(title, description) {
+      return this.add({ title, description, type: "info" });
+    },
+    viewportProps() {
       return {
-        role: "status",
-        "aria-live": "polite"
+        role: "region",
+        "aria-label": "Notifications"
       };
     },
-    itemProps(id) {
+    toastProps(id) {
       return {
-        "data-id": id
+        role: "status",
+        "aria-live": "polite",
+        "aria-atomic": "true"
       };
     }
   };
