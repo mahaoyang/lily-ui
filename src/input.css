@@ -304,14 +304,19 @@
   .slider-range {
     position: absolute;
     border-radius: inherit;
+    background-color: var(--accent-9);
   }
 
   .slider-range[data-orientation="horizontal"] {
     height: 100%;
+    left: 0;
+    top: 0;
   }
 
   .slider-range[data-orientation="vertical"] {
     width: 100%;
+    left: 0;
+    bottom: 0;
   }
 
   .slider-thumb {
