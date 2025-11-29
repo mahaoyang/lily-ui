@@ -31,8 +31,8 @@ export default function createSlider(config: SliderConfig = {}) {
         min: this.min,
         max: this.max,
         step: this.step,
+        value: this.value,
         disabled: this.disabled || undefined,
-        "x-model.number": "value",
         "@input": (e: Event) => {
           const v = Number((e.target as HTMLInputElement).value);
           this.setValue(v);
