@@ -3,22 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Playground - Select/Listbox</title>
+  <title>Playground - Select</title>
   <link rel="stylesheet" href="/dist/output.css">
   <script type="module">
     import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
     import createSelect from "/public/machines/select.js";
 
-    const options = [
-      { id: "apple", label: "Apple" },
-      { id: "banana", label: "Banana" },
-      { id: "cherry", label: "Cherry" },
-      { id: "disabled", label: "Disabled", disabled: true },
-      { id: "grape", label: "Grape" },
-    ];
-
     window.Alpine = Alpine;
-    Alpine.data("selectMachine", (cfg = {}) => createSelect({ options, ...cfg }));
+    window.createSelect = createSelect;
     Alpine.start();
   </script>
 </head>
@@ -34,7 +26,7 @@
         <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur" style="background: var(--sand-surface);">
           <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">SL</span>
           <div>
-            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Select/Listbox Playground</h1>
+            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Select Playground</h1>
             <p class="text-2 text-sand-11">下拉选择，箭头导航 + 禁用项</p>
           </div>
         </div>
@@ -66,36 +58,170 @@
       </div>
     </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
       <h2 class="text-3 font-medium">Select 示例</h2>
-      <div x-data="selectMachine({ defaultValue: 'banana' })" class="relative w-64">
-        <button
-          x-bind="triggerProps()"
-          type="button"
-          class="w-full px-3 py-2 rounded-md border border-sand-6 bg-sand-3 text-left"
-        >
-          <span x-text="currentLabel()"></span>
-        </button>
 
-        <div x-bind="listboxProps()" class="absolute mt-2 w-full rounded-md border border-sand-7 bg-white shadow-sm" :class="theme === 'dark' ? 'bg-sand-2' : 'bg-white'">
-          <template x-for="option in [{id:'apple',label:'Apple'},{id:'banana',label:'Banana'},{id:'cherry',label:'Cherry'},{id:'disabled',label:'Disabled',disabled:true},{id:'grape',label:'Grape'}]" :key="option.id">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Basic Select -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Basic</h3>
+          <div x-data="createSelect({
+            items: [
+              { value: 'apple', label: 'Apple' },
+              { value: 'banana', label: 'Banana' },
+              { value: 'cherry', label: 'Cherry' },
+              { value: 'disabled', label: 'Disabled Option', disabled: true },
+              { value: 'grape', label: 'Grape' },
+            ],
+            defaultValue: 'banana',
+            placeholder: 'Select a fruit...'
+          })" class="relative w-64">
+            <!-- Trigger -->
             <button
-              x-bind="optionProps(option.id)"
+              x-bind="triggerProps()"
+              @click="toggle()"
+              @keydown="onTriggerKeydown($event)"
+              :aria-expanded="open"
+              :data-state="open ? 'open' : 'closed'"
+              :data-placeholder="!hasValue || undefined"
               type="button"
-              class="w-full text-left px-3 py-2 text-sm"
-              :class="{
-                'bg-accent-4 text-accent-12': highlightId === option.id,
-                'text-sand-11 hover:text-sand-12': highlightId !== option.id,
-                'opacity-50 cursor-not-allowed': option.disabled
-              }"
+              class="select-trigger select-trigger-surface select-trigger-size-2 w-full"
             >
-              <span x-text="option.label"></span>
-              <span x-show="value === option.id" class="float-right text-xs text-accent-12">✓</span>
+              <span class="select-trigger-inner" x-text="displayValue || placeholder"></span>
+              <svg class="select-icon" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6L7.5 9.5L11 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
-          </template>
+
+            <!-- Content -->
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              @keydown="onContentKeydown($event)"
+              @click.outside="closeMenu()"
+              x-transition:enter="transition ease-out duration-100"
+              x-transition:enter-start="opacity-0 scale-95"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-75"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-95"
+              class="select-content absolute mt-1 w-full z-50"
+            >
+              <div class="select-viewport">
+                <template x-for="option in getOptions()" :key="option.value">
+                  <button
+                    x-bind="itemProps(option.value)"
+                    @click="select(option.value)"
+                    @mouseenter="highlightOption(option.value)"
+                    :data-highlighted="isHighlighted(option.value) ? '' : null"
+                    :data-disabled="option.disabled ? '' : null"
+                    type="button"
+                    class="select-item w-full text-left"
+                  >
+                    <span class="select-item-indicator" x-show="isSelected(option.value)">
+                      <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                      </svg>
+                    </span>
+                    <span x-text="option.label"></span>
+                  </button>
+                </template>
+              </div>
+            </div>
+
+            <div class="text-xs text-sand-11 mt-2">Selected: <span class="text-sand-12 font-medium" x-text="value || 'none'"></span></div>
+          </div>
+        </div>
+
+        <!-- Grouped Select -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Grouped</h3>
+          <div x-data="createSelect({
+            items: [
+              {
+                label: 'Fruits',
+                options: [
+                  { value: 'apple', label: 'Apple' },
+                  { value: 'banana', label: 'Banana' },
+                  { value: 'orange', label: 'Orange' },
+                ]
+              },
+              {
+                label: 'Vegetables',
+                options: [
+                  { value: 'carrot', label: 'Carrot' },
+                  { value: 'broccoli', label: 'Broccoli' },
+                  { value: 'spinach', label: 'Spinach', disabled: true },
+                ]
+              }
+            ],
+            placeholder: 'Select food...'
+          })" class="relative w-64">
+            <!-- Trigger -->
+            <button
+              x-bind="triggerProps()"
+              @click="toggle()"
+              @keydown="onTriggerKeydown($event)"
+              :aria-expanded="open"
+              :data-state="open ? 'open' : 'closed'"
+              :data-placeholder="!hasValue || undefined"
+              type="button"
+              class="select-trigger select-trigger-surface select-trigger-size-2 w-full"
+            >
+              <span class="select-trigger-inner" x-text="displayValue || placeholder"></span>
+              <svg class="select-icon" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6L7.5 9.5L11 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <!-- Content -->
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              @keydown="onContentKeydown($event)"
+              @click.outside="closeMenu()"
+              x-transition:enter="transition ease-out duration-100"
+              x-transition:enter-start="opacity-0 scale-95"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-75"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-95"
+              class="select-content absolute mt-1 w-full z-50"
+            >
+              <div class="select-viewport">
+                <template x-for="(group, groupIndex) in getGroups()" :key="groupIndex">
+                  <div class="select-group">
+                    <div class="select-label" x-text="group.label"></div>
+                    <template x-for="option in group.options" :key="option.value">
+                      <button
+                        x-bind="itemProps(option.value)"
+                        @click="select(option.value)"
+                        @mouseenter="highlightOption(option.value)"
+                        :data-highlighted="isHighlighted(option.value) ? '' : null"
+                        :data-disabled="option.disabled ? '' : null"
+                        type="button"
+                        class="select-item w-full text-left"
+                      >
+                        <span class="select-item-indicator" x-show="isSelected(option.value)">
+                          <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                          </svg>
+                        </span>
+                        <span x-text="option.label"></span>
+                      </button>
+                    </template>
+                    <div x-show="groupIndex < getGroups().length - 1" class="select-separator"></div>
+                  </div>
+                </template>
+              </div>
+            </div>
+
+            <div class="text-xs text-sand-11 mt-2">Selected: <span class="text-sand-12 font-medium" x-text="value || 'none'"></span></div>
+          </div>
         </div>
       </div>
-      <p class="text-xs text-sand-11">键盘：Enter/Space 打开，↑↓ 导航，Enter/Click 选择，Esc 关闭。</p>
+
+      <p class="text-xs text-sand-11">键盘：Enter/Space/↑↓ 打开，↑↓ 导航，Home/End 跳转，Enter/Space 选择，Esc/Tab 关闭。</p>
     </section>
   </main>
 </body>
