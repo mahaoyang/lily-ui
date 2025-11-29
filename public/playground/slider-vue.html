@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Slider (Vue)</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import { createApp, ref } from "/node_modules/vue/dist/vue.esm-browser.js";
+    import { SliderRoot, SliderTrack, SliderRange, SliderThumb } from "/node_modules/radix-vue/dist/index.js";
+
+    const App = {
+      components: { SliderRoot, SliderTrack, SliderRange, SliderThumb },
+      setup() {
+        const theme = ref("light");
+        const accent = ref("iris");
+        const value = ref([40]);
+        const disabledValue = ref([60]);
+        const stepped = ref([20]);
+
+        return { theme, accent, value, disabledValue, stepped };
+      },
+    };
+
+    createApp(App).mount("#app");
+  </script>
+</head>
+
+<body class="bg-sand-2 text-sand-12 antialiased">
+  <div id="app" :class="[(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent]" :data-accent-color="accent"
+    class="min-h-screen">
+    <main class="mx-auto max-w-5xl p-8 space-y-8">
+      <header class="flex items-center justify-between">
+        <div class="space-y-2">
+          <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+            style="background: var(--sand-surface);">
+            <span
+              class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">SL</span>
+            <div>
+              <h1 class="text-5 font-semibold text-sand-12 leading-tight">Slider (Vue + Radix)</h1>
+              <p class="text-2 text-sand-11">仿 Radix Themes 的滑杆，支持禁用/步进。</p>
+            </div>
+          </div>
+          <p class="text-sm text-sand-11">启动：<code>bunx serve public</code> 或 <code>bun run dev:all</code> 后打开本页。</p>
+        </div>
+        <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+      </header>
+
+      <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+        style="background: var(--sand-surface);">
+        <div class="flex flex-wrap items-center gap-6">
+          <div class="space-y-2">
+            <div class="text-sm font-medium text-sand-12">主题</div>
+            <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+              style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+              <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+                :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+                @click="theme = 'light'">Light</button>
+              <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+                :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+                @click="theme = 'dark'">Dark</button>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="text-sm font-medium text-sand-12">Accent</div>
+            <div class="flex flex-wrap gap-2">
+              <button v-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color" type="button"
+                class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize">{{ color }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+        <h2 class="text-3 font-medium">交互示例</h2>
+
+        <div class="space-y-6">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">默认</h3>
+              <span class="text-xs text-sand-11">值：{{ value[0] }}</span>
+            </div>
+            <SliderRoot v-model="value" :min="0" :max="100" :step="1" class="relative flex h-6 items-center">
+              <SliderTrack class="relative h-1.5 w-full rounded-full bg-sand-4">
+                <SliderRange class="absolute h-full rounded-full bg-accent-9" />
+              </SliderTrack>
+              <SliderThumb class="block h-5 w-5 -translate-y-[1px] rounded-full bg-white shadow-sm border border-accent-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8 focus-visible:ring-offset-2" />
+            </SliderRoot>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">步进 10</h3>
+              <span class="text-xs text-sand-11">值：{{ stepped[0] }}</span>
+            </div>
+            <SliderRoot v-model="stepped" :min="0" :max="100" :step="10" class="relative flex h-6 items-center">
+              <SliderTrack class="relative h-1.5 w-full rounded-full bg-sand-4">
+                <SliderRange class="absolute h-full rounded-full bg-accent-9" />
+              </SliderTrack>
+              <SliderThumb class="block h-5 w-5 -translate-y-[1px] rounded-full bg-white shadow-sm border border-accent-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8 focus-visible:ring-offset-2" />
+            </SliderRoot>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">禁用</h3>
+              <span class="text-xs text-sand-11">值：{{ disabledValue[0] }}</span>
+            </div>
+            <SliderRoot v-model="disabledValue" :min="0" :max="100" :step="5" disabled
+              class="relative flex h-6 items-center opacity-60 cursor-not-allowed">
+              <SliderTrack class="relative h-1.5 w-full rounded-full bg-sand-4">
+                <SliderRange class="absolute h-full rounded-full bg-sand-6" />
+              </SliderTrack>
+              <SliderThumb class="block h-5 w-5 -translate-y-[1px] rounded-full bg-white shadow-sm border border-sand-7" />
+            </SliderRoot>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+
+</html>
