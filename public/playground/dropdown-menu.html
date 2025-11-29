@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dropdown Menu - Lily UI</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script type="module">
+    import { createDropdownMenu } from '/src/machines/dropdown-menu.ts';
+    window.createDropdownMenu = createDropdownMenu;
+  </script>
+</head>
+<body class="min-h-screen bg-sand-1 text-sand-12 p-8">
+
+  <div class="mx-auto max-w-4xl">
+    <div class="mb-8">
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12">← Back to Playground</a>
+    </div>
+
+    <h1 class="text-4xl font-bold mb-4">Dropdown Menu</h1>
+    <p class="text-lg text-sand-11 mb-8">
+      Displays a menu to the user—such as a set of actions or functions—triggered by a button.
+    </p>
+
+    <!-- Basic Example -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Basic Example</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6">
+        <div x-data="createDropdownMenu()" class="relative inline-block">
+          <!-- Trigger Button -->
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-soft button-size-2 accent-blue gap-1"
+          >
+            <span>Actions</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              :class="{ 'rotate-180': open }"
+              class="transition-transform"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <!-- Menu Content -->
+          <div
+            x-show="open"
+            x-ref="content"
+            x-bind="contentProps()"
+            x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-75"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="dropdown-menu-content dropdown-menu-size-2 dropdown-menu-variant-solid"
+            :class="`dropdown-menu-size-${size} dropdown-menu-variant-${variant}`"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
+          >
+            <div class="dropdown-menu-viewport">
+              <div
+                x-bind="itemProps('new')"
+                class="dropdown-menu-item"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="12" y1="18" x2="12" y2="12"></line>
+                  <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+                New File
+                <span class="dropdown-menu-shortcut">⌘N</span>
+              </div>
+
+              <div
+                x-bind="itemProps('open')"
+                class="dropdown-menu-item"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                Open File
+                <span class="dropdown-menu-shortcut">⌘O</span>
+              </div>
+
+              <div
+                x-bind="itemProps('save')"
+                class="dropdown-menu-item"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                Save
+                <span class="dropdown-menu-shortcut">⌘S</span>
+              </div>
+
+              <div class="dropdown-menu-separator"></div>
+
+              <div class="dropdown-menu-label">More</div>
+
+              <div
+                x-bind="itemProps('print')"
+                class="dropdown-menu-item"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                  <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                Print
+                <span class="dropdown-menu-shortcut">⌘P</span>
+              </div>
+
+              <div class="dropdown-menu-separator"></div>
+
+              <div
+                x-bind="itemProps('quit', false)"
+                class="dropdown-menu-item"
+                data-accent-color="red"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Quit
+                <span class="dropdown-menu-shortcut">⌘Q</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sizes -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6 flex flex-wrap gap-4">
+        <!-- Size 1 -->
+        <div x-data="createDropdownMenu({ size: '1' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-surface button-size-1"
+          >
+            Size 1
+          </button>
+          <div
+            x-show="open"
+            x-ref="content"
+            x-bind="contentProps()"
+            x-transition
+            class="dropdown-menu-content dropdown-menu-size-1"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
+          >
+            <div class="dropdown-menu-viewport">
+              <div x-bind="itemProps('item1')" class="dropdown-menu-item">Item 1</div>
+              <div x-bind="itemProps('item2')" class="dropdown-menu-item">Item 2</div>
+              <div x-bind="itemProps('item3')" class="dropdown-menu-item">Item 3</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size 2 -->
+        <div x-data="createDropdownMenu({ size: '2' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-surface button-size-2"
+          >
+            Size 2
+          </button>
+          <div
+            x-show="open"
+            x-ref="content"
+            x-bind="contentProps()"
+            x-transition
+            class="dropdown-menu-content dropdown-menu-size-2"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
+          >
+            <div class="dropdown-menu-viewport">
+              <div x-bind="itemProps('item1')" class="dropdown-menu-item">Item 1</div>
+              <div x-bind="itemProps('item2')" class="dropdown-menu-item">Item 2</div>
+              <div x-bind="itemProps('item3')" class="dropdown-menu-item">Item 3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Variants -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Variants</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6 flex flex-wrap gap-4">
+        <!-- Solid Variant -->
+        <div x-data="createDropdownMenu({ variant: 'solid' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-soft button-size-2 accent-blue"
+          >
+            Solid
+          </button>
+          <div
+            x-show="open"
+            x-ref="content"
+            x-bind="contentProps()"
+            x-transition
+            class="dropdown-menu-content dropdown-menu-size-2 dropdown-menu-variant-solid"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
+          >
+            <div class="dropdown-menu-viewport">
+              <div x-bind="itemProps('cut')" class="dropdown-menu-item">Cut</div>
+              <div x-bind="itemProps('copy')" class="dropdown-menu-item">Copy</div>
+              <div x-bind="itemProps('paste')" class="dropdown-menu-item">Paste</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Soft Variant -->
+        <div x-data="createDropdownMenu({ variant: 'soft' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-soft button-size-2 accent-violet"
+          >
+            Soft
+          </button>
+          <div
+            x-show="open"
+            x-ref="content"
+            x-bind="contentProps()"
+            x-transition
+            class="dropdown-menu-content dropdown-menu-size-2 dropdown-menu-variant-soft"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
+          >
+            <div class="dropdown-menu-viewport">
+              <div x-bind="itemProps('cut')" class="dropdown-menu-item">Cut</div>
+              <div x-bind="itemProps('copy')" class="dropdown-menu-item">Copy</div>
+              <div x-bind="itemProps('paste')" class="dropdown-menu-item">Paste</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- With Disabled Items -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">With Disabled Items</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6">
+        <div x-data="createDropdownMenu()" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-soft button-size-2"
+          >
+            Edit
+          </button>
+          <div
+            x-show="open"
+            x-ref="content"
+            x-bind="contentProps()"
+            x-transition
+            class="dropdown-menu-content dropdown-menu-size-2"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
+          >
+            <div class="dropdown-menu-viewport">
+              <div x-bind="itemProps('undo')" class="dropdown-menu-item">Undo</div>
+              <div x-bind="itemProps('redo', true)" class="dropdown-menu-item">Redo</div>
+              <div class="dropdown-menu-separator"></div>
+              <div x-bind="itemProps('cut')" class="dropdown-menu-item">Cut</div>
+              <div x-bind="itemProps('copy')" class="dropdown-menu-item">Copy</div>
+              <div x-bind="itemProps('paste', true)" class="dropdown-menu-item">Paste</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Keyboard Navigation -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Keyboard Navigation</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6">
+        <p class="text-sm text-sand-11 mb-4">
+          Try using keyboard to navigate:
+        </p>
+        <ul class="text-sm text-sand-11 mb-4 space-y-1">
+          <li><kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">↓</kbd> / <kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">↑</kbd> - Navigate items</li>
+          <li><kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">Home</kbd> / <kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">End</kbd> - First / Last item</li>
+          <li><kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">Enter</kbd> / <kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">Space</kbd> - Select item</li>
+          <li><kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">Esc</kbd> - Close menu</li>
+        </ul>
+        <div x-data="createDropdownMenu()" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-soft button-size-2"
+          >
+            Try Keyboard Navigation
+          </button>
+          <div
+            x-show="open"
+            x-ref="content"
+            x-bind="contentProps()"
+            x-transition
+            class="dropdown-menu-content dropdown-menu-size-2"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
+          >
+            <div class="dropdown-menu-viewport">
+              <div x-bind="itemProps('item1')" class="dropdown-menu-item">First Item</div>
+              <div x-bind="itemProps('item2')" class="dropdown-menu-item">Second Item</div>
+              <div x-bind="itemProps('item3')" class="dropdown-menu-item">Third Item</div>
+              <div x-bind="itemProps('item4')" class="dropdown-menu-item">Fourth Item</div>
+              <div x-bind="itemProps('item5')" class="dropdown-menu-item">Last Item</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

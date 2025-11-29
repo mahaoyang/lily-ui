@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popover - Lily UI</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script type="module">
+    import { createPopover } from '/src/machines/popover.ts';
+    window.createPopover = createPopover;
+  </script>
+</head>
+<body class="min-h-screen bg-sand-1 text-sand-12 p-8">
+
+  <div class="mx-auto max-w-4xl">
+    <div class="mb-8">
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12">← Back to Playground</a>
+    </div>
+
+    <h1 class="text-4xl font-bold mb-4">Popover</h1>
+    <p class="text-lg text-sand-11 mb-8">
+      Displays rich content in a portal, triggered by a button.
+    </p>
+
+    <!-- Basic Example -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Basic Example</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6">
+        <div x-data="createPopover()" class="relative inline-block">
+          <!-- Trigger Button -->
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-soft button-size-2 accent-blue"
+          >
+            Open Popover
+          </button>
+
+          <!-- Popover Content -->
+          <div
+            x-show="open"
+            x-bind="contentProps()"
+            x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-75"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="popover-content popover-size-2"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem; min-width: 300px;"
+          >
+            <h3 class="font-semibold text-sand-12 mb-2">About Popover</h3>
+            <p class="text-sm text-sand-11 mb-4">
+              Popovers are perfect for displaying additional information without navigating away from the current page.
+            </p>
+            <button
+              x-bind="closeProps()"
+              class="button button-variant-soft button-size-1"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sizes -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6 flex flex-wrap gap-4">
+        <!-- Size 1 -->
+        <div x-data="createPopover({ size: '1' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-surface button-size-1"
+          >
+            Size 1
+          </button>
+          <div
+            x-show="open"
+            x-bind="contentProps()"
+            x-transition
+            class="popover-content popover-size-1"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem; min-width: 200px;"
+          >
+            <div class="text-sm">
+              <p class="font-semibold mb-1">Size 1</p>
+              <p class="text-sand-11">Compact popover size.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size 2 -->
+        <div x-data="createPopover({ size: '2' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-surface button-size-2"
+          >
+            Size 2
+          </button>
+          <div
+            x-show="open"
+            x-bind="contentProps()"
+            x-transition
+            class="popover-content popover-size-2"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem; min-width: 240px;"
+          >
+            <div class="text-sm">
+              <p class="font-semibold mb-1">Size 2</p>
+              <p class="text-sand-11">Default popover size.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size 3 -->
+        <div x-data="createPopover({ size: '3' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-surface button-size-2"
+          >
+            Size 3
+          </button>
+          <div
+            x-show="open"
+            x-bind="contentProps()"
+            x-transition
+            class="popover-content popover-size-3"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem; min-width: 280px;"
+          >
+            <div class="text-sm">
+              <p class="font-semibold mb-2">Size 3</p>
+              <p class="text-sand-11">Larger popover with more padding.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size 4 -->
+        <div x-data="createPopover({ size: '4' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-surface button-size-2"
+          >
+            Size 4
+          </button>
+          <div
+            x-show="open"
+            x-bind="contentProps()"
+            x-transition
+            class="popover-content popover-size-4"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem; min-width: 320px;"
+          >
+            <div class="text-sm">
+              <p class="font-semibold mb-2">Size 4</p>
+              <p class="text-sand-11">Largest popover size for detailed content.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- With Form -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">With Form</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6">
+        <div x-data="createPopover({ size: '3' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-soft button-size-2 accent-violet"
+          >
+            Create New
+          </button>
+          <div
+            x-show="open"
+            x-bind="contentProps()"
+            x-transition
+            class="popover-content popover-size-3"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem; width: 320px;"
+          >
+            <h3 class="font-semibold text-sand-12 mb-3">Create a new item</h3>
+            <form @submit.prevent="hide()" class="space-y-3">
+              <div>
+                <label class="block text-sm font-medium text-sand-11 mb-1">Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter name"
+                  class="input-shell w-full px-3 py-2 bg-white text-sm"
+                >
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-sand-11 mb-1">Description</label>
+                <textarea
+                  placeholder="Enter description"
+                  rows="3"
+                  class="input-shell w-full px-3 py-2 bg-white text-sm resize-none"
+                ></textarea>
+              </div>
+              <div class="flex gap-2 justify-end">
+                <button
+                  type="button"
+                  x-bind="closeProps()"
+                  class="button button-variant-ghost button-size-2"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="button button-variant-soft button-size-2 accent-violet"
+                >
+                  Create
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rich Content -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Rich Content</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6">
+        <div x-data="createPopover({ size: '4' })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-soft button-size-2 accent-teal"
+          >
+            View Details
+          </button>
+          <div
+            x-show="open"
+            x-bind="contentProps()"
+            x-transition
+            class="popover-content popover-size-4"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem; width: 400px;"
+          >
+            <div class="flex items-start gap-3 mb-4">
+              <div class="avatar-root avatar-size-3 avatar-variant-soft accent-teal" data-radius="full">
+                <div class="avatar-fallback" data-letters="2">JD</div>
+              </div>
+              <div>
+                <h3 class="font-semibold text-sand-12">John Doe</h3>
+                <p class="text-sm text-sand-11">Software Engineer</p>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div>
+                <p class="text-xs font-medium text-sand-11 uppercase mb-1">Email</p>
+                <p class="text-sm text-sand-12">john.doe@example.com</p>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-sand-11 uppercase mb-1">Location</p>
+                <p class="text-sm text-sand-12">San Francisco, CA</p>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-sand-11 uppercase mb-1">Bio</p>
+                <p class="text-sm text-sand-11">
+                  Passionate about building great user experiences with modern web technologies.
+                </p>
+              </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-sand-6 flex gap-2">
+              <button class="button button-variant-soft button-size-1 accent-teal flex-1">
+                Follow
+              </button>
+              <button class="button button-variant-ghost button-size-1 flex-1">
+                Message
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- No Close on Outside Click -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">No Close on Outside Click</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6">
+        <div x-data="createPopover({ closeOnOutsideClick: false })" class="relative inline-block">
+          <button
+            x-bind="triggerProps()"
+            class="button button-variant-soft button-size-2 accent-amber"
+          >
+            Important Notice
+          </button>
+          <div
+            x-show="open"
+            x-bind="contentProps()"
+            x-transition
+            class="popover-content popover-size-3"
+            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem; width: 300px;"
+          >
+            <div class="callout-root callout-variant-soft callout-size-2 accent-amber mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="callout-icon">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <div class="callout-text">
+                <p class="font-medium">Click outside won't close this</p>
+                <p class="text-sm mt-1">You must explicitly close using the button or ESC key.</p>
+              </div>
+            </div>
+            <button
+              x-bind="closeProps()"
+              class="button button-variant-soft button-size-2 accent-amber w-full"
+            >
+              I Understand
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Positioning Examples -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Positioning</h2>
+      <div class="p-6 bg-white rounded-lg border border-sand-6">
+        <div class="grid grid-cols-3 gap-8">
+          <!-- Top Left -->
+          <div x-data="createPopover()" class="relative">
+            <button
+              x-bind="triggerProps()"
+              class="button button-variant-surface button-size-2 w-full"
+            >
+              Top Left
+            </button>
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              x-transition
+              class="popover-content popover-size-2"
+              style="display: none; position: absolute; bottom: 100%; left: 0; margin-bottom: 0.5rem; width: 200px;"
+            >
+              <p class="text-sm">Opens to top left</p>
+            </div>
+          </div>
+
+          <!-- Top Center -->
+          <div x-data="createPopover()" class="relative">
+            <button
+              x-bind="triggerProps()"
+              class="button button-variant-surface button-size-2 w-full"
+            >
+              Top Center
+            </button>
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              x-transition
+              class="popover-content popover-size-2"
+              style="display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 0.5rem; width: 200px;"
+            >
+              <p class="text-sm">Opens to top center</p>
+            </div>
+          </div>
+
+          <!-- Top Right -->
+          <div x-data="createPopover()" class="relative">
+            <button
+              x-bind="triggerProps()"
+              class="button button-variant-surface button-size-2 w-full"
+            >
+              Top Right
+            </button>
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              x-transition
+              class="popover-content popover-size-2"
+              style="display: none; position: absolute; bottom: 100%; right: 0; margin-bottom: 0.5rem; width: 200px;"
+            >
+              <p class="text-sm">Opens to top right</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>
