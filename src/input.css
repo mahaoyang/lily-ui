@@ -1,7 +1,237 @@
 @import "tailwindcss";
 
+@source "../public/**/*.{html,js,ts,jsx,tsx}";
+@source "./**/*.{html,js,ts,jsx,tsx}";
+
+/* 引入 Radix 颜色与基础令牌 */
+@import "../node_modules/@radix-ui/themes/tokens/base.css";
+@import "../node_modules/@radix-ui/themes/tokens/colors/iris.css";
+@import "../node_modules/@radix-ui/themes/tokens/colors/blue.css";
+@import "../node_modules/@radix-ui/themes/tokens/colors/violet.css";
+@import "../node_modules/@radix-ui/themes/tokens/colors/teal.css";
+@import "../node_modules/@radix-ui/themes/tokens/colors/amber.css";
+@import "../node_modules/@radix-ui/themes/tokens/colors/red.css";
+@import "../node_modules/@radix-ui/themes/tokens/colors/jade.css";
+@import "../node_modules/@radix-ui/themes/tokens/colors/sand.css";
+
 @layer base {
   html {
     line-height: 1;
   }
+
+  /* 默认 accent=iris，支持 data-accent-color / .accent-* 切换 */
+  :root, .light, .light-theme, .dark, .dark-theme {
+    --accent-1: var(--iris-1);
+    --accent-2: var(--iris-2);
+    --accent-3: var(--iris-3);
+    --accent-4: var(--iris-4);
+    --accent-5: var(--iris-5);
+    --accent-6: var(--iris-6);
+    --accent-7: var(--iris-7);
+    --accent-8: var(--iris-8);
+    --accent-9: var(--iris-9);
+    --accent-10: var(--iris-10);
+    --accent-11: var(--iris-11);
+    --accent-12: var(--iris-12);
+    --accent-a1: var(--iris-a1);
+    --accent-a2: var(--iris-a2);
+    --accent-a3: var(--iris-a3);
+    --accent-a4: var(--iris-a4);
+    --accent-a5: var(--iris-a5);
+    --accent-a6: var(--iris-a6);
+    --accent-a7: var(--iris-a7);
+    --accent-a8: var(--iris-a8);
+    --accent-a9: var(--iris-a9);
+    --accent-a10: var(--iris-a10);
+    --accent-a11: var(--iris-a11);
+    --accent-a12: var(--iris-a12);
+  }
+
+  [data-accent-color="blue"], .accent-blue {
+    --accent-1: var(--blue-1);
+    --accent-2: var(--blue-2);
+    --accent-3: var(--blue-3);
+    --accent-4: var(--blue-4);
+    --accent-5: var(--blue-5);
+    --accent-6: var(--blue-6);
+    --accent-7: var(--blue-7);
+    --accent-8: var(--blue-8);
+    --accent-9: var(--blue-9);
+    --accent-10: var(--blue-10);
+    --accent-11: var(--blue-11);
+    --accent-12: var(--blue-12);
+    --accent-a1: var(--blue-a1);
+    --accent-a2: var(--blue-a2);
+    --accent-a3: var(--blue-a3);
+    --accent-a4: var(--blue-a4);
+    --accent-a5: var(--blue-a5);
+    --accent-a6: var(--blue-a6);
+    --accent-a7: var(--blue-a7);
+    --accent-a8: var(--blue-a8);
+    --accent-a9: var(--blue-a9);
+    --accent-a10: var(--blue-a10);
+    --accent-a11: var(--blue-a11);
+    --accent-a12: var(--blue-a12);
+  }
+
+  [data-accent-color="violet"], .accent-violet {
+    --accent-1: var(--violet-1);
+    --accent-2: var(--violet-2);
+    --accent-3: var(--violet-3);
+    --accent-4: var(--violet-4);
+    --accent-5: var(--violet-5);
+    --accent-6: var(--violet-6);
+    --accent-7: var(--violet-7);
+    --accent-8: var(--violet-8);
+    --accent-9: var(--violet-9);
+    --accent-10: var(--violet-10);
+    --accent-11: var(--violet-11);
+    --accent-12: var(--violet-12);
+    --accent-a1: var(--violet-a1);
+    --accent-a2: var(--violet-a2);
+    --accent-a3: var(--violet-a3);
+    --accent-a4: var(--violet-a4);
+    --accent-a5: var(--violet-a5);
+    --accent-a6: var(--violet-a6);
+    --accent-a7: var(--violet-a7);
+    --accent-a8: var(--violet-a8);
+    --accent-a9: var(--violet-a9);
+    --accent-a10: var(--violet-a10);
+    --accent-a11: var(--violet-a11);
+    --accent-a12: var(--violet-a12);
+  }
+
+  [data-accent-color="teal"], .accent-teal {
+    --accent-1: var(--teal-1);
+    --accent-2: var(--teal-2);
+    --accent-3: var(--teal-3);
+    --accent-4: var(--teal-4);
+    --accent-5: var(--teal-5);
+    --accent-6: var(--teal-6);
+    --accent-7: var(--teal-7);
+    --accent-8: var(--teal-8);
+    --accent-9: var(--teal-9);
+    --accent-10: var(--teal-10);
+    --accent-11: var(--teal-11);
+    --accent-12: var(--teal-12);
+    --accent-a1: var(--teal-a1);
+    --accent-a2: var(--teal-a2);
+    --accent-a3: var(--teal-a3);
+    --accent-a4: var(--teal-a4);
+    --accent-a5: var(--teal-a5);
+    --accent-a6: var(--teal-a6);
+    --accent-a7: var(--teal-a7);
+    --accent-a8: var(--teal-a8);
+    --accent-a9: var(--teal-a9);
+    --accent-a10: var(--teal-a10);
+    --accent-a11: var(--teal-a11);
+    --accent-a12: var(--teal-a12);
+  }
+
+  [data-accent-color="amber"], .accent-amber {
+    --accent-1: var(--amber-1);
+    --accent-2: var(--amber-2);
+    --accent-3: var(--amber-3);
+    --accent-4: var(--amber-4);
+    --accent-5: var(--amber-5);
+    --accent-6: var(--amber-6);
+    --accent-7: var(--amber-7);
+    --accent-8: var(--amber-8);
+    --accent-9: var(--amber-9);
+    --accent-10: var(--amber-10);
+    --accent-11: var(--amber-11);
+    --accent-12: var(--amber-12);
+    --accent-a1: var(--amber-a1);
+    --accent-a2: var(--amber-a2);
+    --accent-a3: var(--amber-a3);
+    --accent-a4: var(--amber-a4);
+    --accent-a5: var(--amber-a5);
+    --accent-a6: var(--amber-a6);
+    --accent-a7: var(--amber-a7);
+    --accent-a8: var(--amber-a8);
+    --accent-a9: var(--amber-a9);
+    --accent-a10: var(--amber-a10);
+    --accent-a11: var(--amber-a11);
+    --accent-a12: var(--amber-a12);
+  }
+
+  [data-accent-color="red"], .accent-red {
+    --accent-1: var(--red-1);
+    --accent-2: var(--red-2);
+    --accent-3: var(--red-3);
+    --accent-4: var(--red-4);
+    --accent-5: var(--red-5);
+    --accent-6: var(--red-6);
+    --accent-7: var(--red-7);
+    --accent-8: var(--red-8);
+    --accent-9: var(--red-9);
+    --accent-10: var(--red-10);
+    --accent-11: var(--red-11);
+    --accent-12: var(--red-12);
+    --accent-a1: var(--red-a1);
+    --accent-a2: var(--red-a2);
+    --accent-a3: var(--red-a3);
+    --accent-a4: var(--red-a4);
+    --accent-a5: var(--red-a5);
+    --accent-a6: var(--red-a6);
+    --accent-a7: var(--red-a7);
+    --accent-a8: var(--red-a8);
+    --accent-a9: var(--red-a9);
+    --accent-a10: var(--red-a10);
+    --accent-a11: var(--red-a11);
+    --accent-a12: var(--red-a12);
+  }
+
+  [data-accent-color="jade"], .accent-jade {
+    --accent-1: var(--jade-1);
+    --accent-2: var(--jade-2);
+    --accent-3: var(--jade-3);
+    --accent-4: var(--jade-4);
+    --accent-5: var(--jade-5);
+    --accent-6: var(--jade-6);
+    --accent-7: var(--jade-7);
+    --accent-8: var(--jade-8);
+    --accent-9: var(--jade-9);
+    --accent-10: var(--jade-10);
+    --accent-11: var(--jade-11);
+    --accent-12: var(--jade-12);
+    --accent-a1: var(--jade-a1);
+    --accent-a2: var(--jade-a2);
+    --accent-a3: var(--jade-a3);
+    --accent-a4: var(--jade-a4);
+    --accent-a5: var(--jade-a5);
+    --accent-a6: var(--jade-a6);
+    --accent-a7: var(--jade-a7);
+    --accent-a8: var(--jade-a8);
+    --accent-a9: var(--jade-a9);
+    --accent-a10: var(--jade-a10);
+    --accent-a11: var(--jade-a11);
+    --accent-a12: var(--jade-a12);
+  }
+}
+
+@layer utilities {
+  /* Sand colors */
+  .bg-sand-2 { background-color: var(--sand-2); }
+  .bg-sand-3 { background-color: var(--sand-3); }
+  .bg-sand-8 { background-color: var(--sand-8); }
+  .border-sand-6 { border-color: var(--sand-6); }
+  .border-sand-7 { border-color: var(--sand-7); }
+  .border-sand-8 { border-color: var(--sand-8); }
+  .bg-white { background-color: #ffffff; }
+  .text-sand-11 { color: var(--sand-11); }
+  .text-sand-12 { color: var(--sand-12); }
+
+  /* Accent colors */
+  .bg-accent-4 { background-color: var(--accent-4); }
+  .bg-accent-5 { background-color: var(--accent-5); }
+  .bg-accent-9 { background-color: var(--accent-9); }
+  .border-accent-7 { border-color: var(--accent-7); }
+  .border-accent-9 { border-color: var(--accent-9); }
+  .text-accent-12 { color: var(--accent-12); }
+  .text-white { color: #ffffff; }
+
+  /* Hover variants used in示例 */
+  .hover\:text-sand-12:hover { color: var(--sand-12); }
+  .hover\:text-gray-12:hover { color: var(--sand-12); }
 }

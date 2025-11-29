@@ -1,0 +1,130 @@
+核心思路：The "Logic-View Separation" Pattern
+我们要模仿 Zag.js 的架构，但是去掉那层厚重的 adapter 包装。
+
+Logic (TS): 一个纯粹的 Class 或 Object，负责管理状态、计算属性（aria-*）、处理事件。
+
+View (HTML): 只负责绑定数据，不写任何逻辑。
+
+实战演示：做一个 Tabs 组件
+我们不把逻辑写在 HTML 里，而是写在一个 tabs.ts 文件中。
+
+第一步：编写 TS 逻辑 (你的 "Zag-lite")
+利用 Alpine 的 Alpine.reactive 或者简单的闭包工厂函数。
+
+TypeScript
+
+// src/components/tabs.ts
+
+// 定义类型，爽！
+interface TabConfig {
+  defaultParams?: string;
+  onChange?: (id: string) => void;
+}
+
+export default function createTabs(config: TabConfig = {}) {
+  return {
+    // 1. 状态 (State)
+    activeId: config.defaultParams || 'tab-1',
+    
+    // 2. 动作 (Actions)
+    select(id: string) {
+      this.activeId = id;
+      if (config.onChange) config.onChange(id);
+    },
+
+    // 3. 属性生成器 (Prop Getters) - 这是 Zag 的精髓
+    // 把复杂的 ARIA 逻辑封装在这里，HTML 那边就不用操心了
+    triggerProps(id: string) {
+      const isSelected = this.activeId === id;
+      return {
+        'role': 'tab',
+        'aria-selected': isSelected.toString(),
+        'tabindex': isSelected ? '0' : '-1',
+        '@click': () => this.select(id),
+        '@keydown.space.prevent': () => this.select(id), // 键盘支持
+        // 动态 class 也可以在这里计算
+        ':class': isSelected 
+          ? 'text-accent-9 border-b-2 border-accent-9' 
+          : 'text-gray-11 hover:text-gray-12'
+      };
+    },
+
+    contentProps(id: string) {
+      return {
+        'role': 'tabpanel',
+        'x-show': this.activeId === id,
+        // 利用 Tailwind 的 hidden 配合 x-show
+        'class': this.activeId === id ? 'block animate-fade-in' : 'hidden'
+      };
+    }
+  };
+}
+第二步：注册到 Alpine
+在你的入口文件里：
+
+TypeScript
+
+import Alpine from 'alpinejs';
+import createTabs from './components/tabs';
+
+// 注册为全局可用的 data
+Alpine.data('tabs', createTabs);
+
+Alpine.start();
+第三步：HTML 渲染 (极简)
+现在你的 HTML 极其干净，所有的脏活累活都在 TS 里干完了。我们使用 x-bind 来一把梭哈属性。
+
+HTML
+
+<div x-data="tabs({ defaultParams: 'account' })" class="w-full">
+  
+  <div class="flex gap-4 border-b border-gray-6" role="tablist">
+    <button x-bind="triggerProps('account')">
+      账户信息
+    </button>
+    
+    <button x-bind="triggerProps('settings')">
+      系统设置
+    </button>
+  </div>
+
+  <div class="mt-4">
+    <div x-bind="contentProps('account')">
+      这里是账户信息的内容...
+    </div>
+    
+    <div x-bind="contentProps('settings')">
+      这里是设置面板...
+    </div>
+  </div>
+  
+</div>
+为什么说这比 Zag 更好？
+0 依赖： 你不需要引入 @zag-js/core 之类的一大堆东西。
+
+无过度封装： Zag 为了适配 React/Vue/Solid 做了一层复杂的 Normalization。你只用 Alpine，所以你可以直接返回 Alpine 能识别的指令（如 '@click' 或 'x-show'），这在 Zag 里是做不到的。
+
+完全的 TS 支持： 你在写 triggerProps 时，IDE 会告诉你你在写什么。
+
+你需要注意的坑 (难点)
+既然你要自己实现逻辑层，你要当心 Radix 帮你解决掉的那些 隐形工作：
+
+Focus Management (焦点管理)：
+
+例如 Dialog 关闭时，焦点要归还给触发它的按钮。
+
+例如 Dropdown 打开时，焦点要困在菜单里 (Focus Trap)。
+
+解决： 在你的 TS 类里使用 this.$el (Alpine魔法属性) 或者原生 document.activeElement 来手动调度。
+
+Click Outside (点击外部)：
+
+Zag 内部有复杂的层级判断。
+
+解决： Alpine 提供了 @click.outside，在 triggerProps 里可以直接返回这个指令。
+
+Scroll Locking (滚动锁定)：
+
+模态框打开时 body 不能动。
+
+解决： 在 TS 的 init() 和 destroy() 生命周期里操作 document.body.style.overflow。

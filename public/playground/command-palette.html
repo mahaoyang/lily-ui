@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Command Palette</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import createCommandPalette from "/public/machines/command-palette.js";
+
+    const commands = [
+      { id: "new-file", label: "新建文件", shortcut: "⌘N" },
+      { id: "open", label: "打开...", shortcut: "⌘O" },
+      { id: "save", label: "保存", shortcut: "⌘S" },
+      { id: "theme", label: "切换主题", shortcut: "⌘T" },
+      { id: "settings", label: "设置", shortcut: "⌘," },
+    ];
+
+    window.Alpine = Alpine;
+    Alpine.data("paletteMachine", (cfg = {}) => createCommandPalette({ commands, ...cfg }));
+    Alpine.start();
+  </script>
+</head>
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300" x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent" :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur" style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">CP</span>
+          <div>
+            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Command Palette</h1>
+            <p class="text-2 text-sand-11">指令搜索 + 快捷键提示</p>
+          </div>
+        </div>
+        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4" style="background: var(--sand-surface);" x-data="paletteMachine()">
+      <div class="flex items-center gap-2">
+        <button x-bind="triggerProps()" class="px-3 py-2 rounded-md border border-sand-6 bg-sand-3 hover:text-sand-12">打开指令面板</button>
+      </div>
+
+      <div x-bind="overlayProps()"></div>
+      <div x-bind="panelProps()" class="fixed inset-0 flex items-start justify-center pt-24">
+        <div class="w-[420px] rounded-lg border border-sand-7 bg-white p-4 shadow-lg" :class="theme === 'dark' ? 'bg-sand-2 text-sand-12' : 'bg-white text-sand-12'">
+          <input x-bind="inputProps()" class="w-full rounded-md border border-sand-6 bg-transparent px-3 py-2 outline-none" placeholder="搜索指令..." />
+          <div class="mt-3 max-h-64 overflow-auto space-y-1">
+            <template x-for="cmd in filtered()" :key="cmd.id">
+              <button
+                x-bind="itemProps(cmd.id)"
+                type="button"
+                class="w-full flex items-center justify-between px-3 py-2 rounded-md text-sm"
+                :class="{'bg-accent-4 text-accent-12': highlightId === cmd.id, 'text-sand-11 hover:text-sand-12': highlightId !== cmd.id}"
+              >
+                <span x-text="cmd.label"></span>
+                <span class="text-xs text-sand-11" x-text="cmd.shortcut"></span>
+              </button>
+            </template>
+            <div x-show="filtered().length === 0" class="text-xs text-sand-11 px-3 py-2">无匹配结果</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

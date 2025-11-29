@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Select/Listbox</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import createSelect from "/public/machines/select.js";
+
+    const options = [
+      { id: "apple", label: "Apple" },
+      { id: "banana", label: "Banana" },
+      { id: "cherry", label: "Cherry" },
+      { id: "disabled", label: "Disabled", disabled: true },
+      { id: "grape", label: "Grape" },
+    ];
+
+    window.Alpine = Alpine;
+    Alpine.data("selectMachine", (cfg = {}) => createSelect({ options, ...cfg }));
+    Alpine.start();
+  </script>
+</head>
+<body
+  class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }"
+  :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent"
+>
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur" style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">SL</span>
+          <div>
+            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Select/Listbox Playground</h1>
+            <p class="text-2 text-sand-11">下拉选择，箭头导航 + 禁用项</p>
+          </div>
+        </div>
+        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4" style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1" style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition" :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'" @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition" :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'" @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2" :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'" @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle" :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Select 示例</h2>
+      <div x-data="selectMachine({ defaultValue: 'banana' })" class="relative w-64">
+        <button
+          x-bind="triggerProps()"
+          type="button"
+          class="w-full px-3 py-2 rounded-md border border-sand-6 bg-sand-3 text-left"
+        >
+          <span x-text="currentLabel()"></span>
+        </button>
+
+        <div x-bind="listboxProps()" class="absolute mt-2 w-full rounded-md border border-sand-7 bg-white shadow-sm" :class="theme === 'dark' ? 'bg-sand-2' : 'bg-white'">
+          <template x-for="option in [{id:'apple',label:'Apple'},{id:'banana',label:'Banana'},{id:'cherry',label:'Cherry'},{id:'disabled',label:'Disabled',disabled:true},{id:'grape',label:'Grape'}]" :key="option.id">
+            <button
+              x-bind="optionProps(option.id)"
+              type="button"
+              class="w-full text-left px-3 py-2 text-sm"
+              :class="{
+                'bg-accent-4 text-accent-12': highlightId === option.id,
+                'text-sand-11 hover:text-sand-12': highlightId !== option.id,
+                'opacity-50 cursor-not-allowed': option.disabled
+              }"
+            >
+              <span x-text="option.label"></span>
+              <span x-show="value === option.id" class="float-right text-xs text-accent-12">✓</span>
+            </button>
+          </template>
+        </div>
+      </div>
+      <p class="text-xs text-sand-11">键盘：Enter/Space 打开，↑↓ 导航，Enter/Click 选择，Esc 关闭。</p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Toast</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import createToast from "/public/machines/toast.js";
+
+    window.Alpine = Alpine;
+    Alpine.data("toastMachine", createToast);
+    Alpine.start();
+  </script>
+</head>
+<body
+  class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }"
+  :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent"
+>
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur" style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">TS</span>
+          <div>
+            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Toast Playground</h1>
+            <p class="text-2 text-sand-11">队列 + 自动关闭</p>
+          </div>
+        </div>
+        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4" style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1" style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition" :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'" @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition" :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'" @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2" :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'" @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle" :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);" x-data="toastMachine()">
+      <h2 class="text-3 font-medium">Toast 示例</h2>
+      <div class="flex gap-3">
+        <button @click="push({ id: crypto.randomUUID(), title: '保存成功', message: '更改已同步', duration: 2500 })" class="px-3 py-2 rounded-md bg-accent-9 text-white text-sm">成功</button>
+        <button @click="push({ id: crypto.randomUUID(), title: '警告', message: '请检查字段', duration: 3500 })" class="px-3 py-2 rounded-md border border-sand-6 text-sm">警告</button>
+      </div>
+      <div x-bind="listProps()" class="fixed right-4 top-4 w-80 space-y-3">
+        <template x-for="toast in toasts" :key="toast.id">
+          <div x-bind="itemProps(toast.id)" class="rounded-md border border-sand-7 bg-white p-3 shadow-sm" :class="theme === 'dark' ? 'bg-sand-2 text-sand-12' : 'bg-white text-sand-12'">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <div class="text-sm font-semibold" x-text="toast.title"></div>
+                <div class="text-xs text-sand-11" x-text="toast.message"></div>
+              </div>
+              <button @click="remove(toast.id)" class="text-sand-11 hover:text-sand-12 text-xs">✕</button>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

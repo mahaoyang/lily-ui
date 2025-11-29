@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Input</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import createInput from "/public/machines/input.js";
+    import createTextarea from "/public/machines/textarea.js";
+
+    window.Alpine = Alpine;
+    Alpine.data("inputMachine", createInput);
+    Alpine.data("textareaMachine", createTextarea);
+    Alpine.start();
+  </script>
+</head>
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300" x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent" :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur" style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">IN</span>
+          <div>
+            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Input / Textarea Playground</h1>
+            <p class="text-2 text-sand-11">前后缀、清除、自动增高</p>
+          </div>
+        </div>
+        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4" style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1" style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition" :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'" @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition" :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'" @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2" :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'" @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle" :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">输入框</h2>
+      <div x-data="inputMachine({ defaultValue: 'hello@lily.ui' })" class="space-y-3">
+        <div class="flex items-center gap-2 rounded-md border border-sand-6 bg-white px-3 py-2" :class="theme === 'dark' ? 'bg-sand-2' : 'bg-white'">
+          <span class="text-sand-11">邮箱</span>
+          <input x-bind="inputProps()" class="flex-1 bg-transparent outline-none" placeholder="you@example.com" />
+          <button @click="clear()" class="text-sand-11 hover:text-sand-12 text-xs">清除</button>
+        </div>
+        <div class="text-xs text-sand-11">当前值：<span class="text-sand-12 font-medium" x-text="value"></span></div>
+      </div>
+
+      <div x-data="inputMachine({ defaultValue: '', disabled: true })" class="space-y-2">
+        <div class="flex items-center gap-2 rounded-md border border-sand-6 bg-sand-3 px-3 py-2 opacity-50">
+          <span class="text-sand-11">禁用</span>
+          <input x-bind="inputProps()" class="flex-1 bg-transparent outline-none" placeholder="不可编辑" />
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Textarea（自动增高）</h2>
+      <div x-data="textareaMachine({ defaultValue: '这是一段可以自动增高的多行文本。', autoGrow: true })" class="space-y-2">
+        <textarea x-bind="textareaProps()" class="w-full rounded-md border border-sand-6 bg-white px-3 py-2 outline-none" :class="theme === 'dark' ? 'bg-sand-2' : 'bg-white'"></textarea>
+        <div class="text-xs text-sand-11">长度：<span class="text-sand-12 font-medium" x-text="value.length"></span></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

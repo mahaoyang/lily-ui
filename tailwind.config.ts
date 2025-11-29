@@ -1,17 +1,18 @@
 import fs from "fs";
 import path from "path";
+import plugin from "tailwindcss/plugin";
 import type { Config } from "tailwindcss";
 
 const scaling = 1;
 const radiusFactor = 1;
 const radixTokenRoot = path.join(process.cwd(), "node_modules", "@radix-ui", "themes", "tokens");
 
-function parseVarsFromCss(content: string) {
-  const section = content.split("@supports")[0];
+function parseVarBlock(block: string | undefined) {
+  if (!block) return {};
   const vars: Record<string, string> = {};
   const regex = /--([\w-]+):\s*([^;]+);/g;
   let match: RegExpExecArray | null;
-  while ((match = regex.exec(section)) !== null) {
+  while ((match = regex.exec(block)) !== null) {
     vars[match[1]] = match[2].trim();
   }
   return vars;
@@ -25,7 +26,7 @@ function resolveCalc(value: string) {
 
 function loadBaseTokens() {
   const baseCss = fs.readFileSync(path.join(radixTokenRoot, "base.css"), "utf8");
-  const vars = parseVarsFromCss(baseCss);
+  const vars = parseVarBlock(baseCss);
 
   const spacing: Record<string, string> = {};
   Object.entries(vars)
@@ -86,24 +87,63 @@ function loadBaseTokens() {
   return { spacing, fontSize, lineHeights, letterSpacing, borderRadius, boxShadow, cursor };
 }
 
-function loadRadixColors() {
+function parseColorFile(filePath: string) {
+  const content = fs.readFileSync(filePath, "utf8");
+  const lightBlock = content.match(/:root,\s*\.light,\s*\.light-theme\s*{([\s\S]*?)}/);
+  const darkBlock = content.match(/\.dark,\s*\.dark-theme\s*{([\s\S]*?)}/);
+  const rootBlocks = Array.from(content.matchAll(/:root\s*{([\s\S]*?)}/g));
+
+  const light = parseVarBlock(lightBlock?.[1]);
+  const dark = parseVarBlock(darkBlock?.[1]);
+  const rootVars = rootBlocks.reduce<Record<string, string>>((acc, match) => {
+    Object.assign(acc, parseVarBlock(match[1]));
+    return acc;
+  }, {});
+
+  return { light, dark, rootVars };
+}
+
+function loadRadixColorVars() {
   const colorsDir = path.join(radixTokenRoot, "colors");
-  const colors: Record<string, Record<string, string> | string> = {};
+  const lightVars: Record<string, string> = {};
+  const darkVars: Record<string, string> = {};
 
   fs.readdirSync(colorsDir).forEach((file) => {
     if (!file.endsWith(".css")) return;
-    const name = file.replace(".css", "");
-    const content = fs.readFileSync(path.join(colorsDir, file), "utf8");
-    const vars = parseVarsFromCss(content);
+    const { light, dark, rootVars } = parseColorFile(path.join(colorsDir, file));
+    Object.assign(lightVars, rootVars, light);
+    Object.assign(darkVars, rootVars, dark);
+  });
 
-    Object.entries(vars).forEach(([key, value]) => {
-      const match = key.match(/^([a-zA-Z]+)-(a?\d+)/);
-      if (!match) return;
-      const [, colorName, step] = match;
-      if (!colors[colorName]) colors[colorName] = {};
-      (colors[colorName] as Record<string, string>)[step] = value;
+  return { light: lightVars, dark: darkVars };
+}
+
+function buildPaletteSuffixMap(colorVarNames: string[]) {
+  const paletteMap: Record<string, Set<string>> = {};
+  colorVarNames.forEach((name) => {
+    const match = name.match(/^([a-zA-Z]+)-(.*)$/);
+    if (!match) return;
+    const [, palette, suffix] = match;
+    if (!paletteMap[palette]) paletteMap[palette] = new Set<string>();
+    paletteMap[palette].add(suffix);
+  });
+  return paletteMap;
+}
+
+function buildRadixColors(paletteSuffixMap: Record<string, Set<string>>, accentSuffixes: string[]) {
+  const colors: Record<string, Record<string, string> | string> = {};
+
+  Object.entries(paletteSuffixMap).forEach(([palette, suffixes]) => {
+    colors[palette] = {};
+    suffixes.forEach((suffix) => {
+      (colors[palette] as Record<string, string>)[suffix] = `var(--${palette}-${suffix})`;
     });
   });
+
+  colors.accent = accentSuffixes.reduce<Record<string, string>>((acc, suffix) => {
+    acc[suffix] = `var(--accent-${suffix})`;
+    return acc;
+  }, {});
 
   colors.black = "#000000";
   colors.white = "#ffffff";
@@ -111,8 +151,22 @@ function loadRadixColors() {
   return colors;
 }
 
+function buildAccentAliases(palette: string, paletteSuffixMap: Record<string, Set<string>>) {
+  const suffixes = Array.from(paletteSuffixMap[palette] ?? []);
+  const aliases: Record<string, string> = {};
+  suffixes.forEach((suffix) => {
+    aliases[`--accent-${suffix}`] = `var(--${palette}-${suffix})`;
+  });
+  return aliases;
+}
+
 const baseTokens = loadBaseTokens();
-const colors = loadRadixColors();
+const colorVars = loadRadixColorVars();
+const colorVarNames = Array.from(new Set([...Object.keys(colorVars.light), ...Object.keys(colorVars.dark)]));
+const paletteSuffixMap = buildPaletteSuffixMap(colorVarNames);
+const defaultAccent = paletteSuffixMap.iris ? "iris" : Object.keys(paletteSuffixMap)[0];
+const accentSuffixes = Array.from(paletteSuffixMap[defaultAccent] ?? []);
+const colors = buildRadixColors(paletteSuffixMap, accentSuffixes);
 
 const fontSize = Object.fromEntries(
   Object.entries(baseTokens.fontSize).map(([k, size]) => [
@@ -133,4 +187,20 @@ export default {
     boxShadow: baseTokens.boxShadow,
     cursor: baseTokens.cursor,
   },
+  plugins: [
+    plugin(({ addBase }) => {
+      const accentSelectors: Record<string, Record<string, string>> = {};
+      Object.keys(paletteSuffixMap).forEach((palette) => {
+        const selector = `[data-accent-color="${palette}"], .accent-${palette}`;
+        accentSelectors[selector] = buildAccentAliases(palette, paletteSuffixMap);
+      });
+
+      const defaultAccentAliases = buildAccentAliases(defaultAccent, paletteSuffixMap);
+      addBase({
+        ":root, .light, .light-theme": { ...colorVars.light, ...defaultAccentAliases },
+        ".dark, .dark-theme": { ...colorVars.light, ...colorVars.dark, ...defaultAccentAliases },
+        ...accentSelectors,
+      });
+    }),
+  ],
 } satisfies Config;
