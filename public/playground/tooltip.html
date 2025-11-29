@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tooltip - Lily UI</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script type="module">
+    import { createTooltip } from '/src/machines/tooltip.ts';
+    window.createTooltip = createTooltip;
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 p-8">
+
+  <div class="mx-auto max-w-4xl">
+    <!-- Header -->
+    <div class="mb-8">
+      <a href="/public/playground/index.html" class="inline-flex items-center gap-2 text-sm text-sand-11 hover:text-sand-12 mb-4">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10 12L6 8l4-4" />
+        </svg>
+        Back to Playground
+      </a>
+      <h1 class="text-4xl font-bold text-sand-12 mb-2">Tooltip</h1>
+      <p class="text-lg text-sand-11">A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.</p>
+    </div>
+
+    <!-- Basic Example -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-sand-12 mb-4">Basic Tooltip</h2>
+      <div class="bg-white border border-sand-6 rounded-lg p-6 flex items-center justify-center min-h-[200px]">
+        <div x-data="createTooltip()" class="relative inline-block">
+          <button
+            @mouseenter="scheduleShow()"
+            @mouseleave="scheduleHide()"
+            @focus="show()"
+            @blur="hideImmediately()"
+            x-bind="triggerProps()"
+            class="px-4 py-2 bg-accent-9 text-white rounded-md hover:bg-accent-10 transition-colors">
+            Hover me
+          </button>
+
+          <!-- Tooltip Content -->
+          <div
+            x-show="open"
+            x-bind="contentProps()"
+            :data-state="open ? 'delayed-open' : 'closed'"
+            :data-side="side"
+            class="tooltip-content"
+            style="margin-bottom: 4px;"
+            x-transition:enter="transition ease-out duration-140"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-100"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0">
+            This is a helpful tooltip
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Positions -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-sand-12 mb-4">Positions</h2>
+      <div class="bg-white border border-sand-6 rounded-lg p-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 items-center justify-items-center min-h-[300px]">
+          <!-- Top -->
+          <div x-data="createTooltip({ side: 'top' })" class="relative">
+            <button
+              @mouseenter="scheduleShow()"
+              @mouseleave="scheduleHide()"
+              @focus="show()"
+              @blur="hideImmediately()"
+              x-bind="triggerProps()"
+              class="px-4 py-2 bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
+              Top
+            </button>
+
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              :data-state="open ? 'delayed-open' : 'closed'"
+              :data-side="side"
+              class="tooltip-content"
+              style="margin-bottom: 4px;"
+              x-transition:enter="transition ease-out duration-140"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0">
+              Tooltip on top
+            </div>
+          </div>
+
+          <!-- Right -->
+          <div x-data="createTooltip({ side: 'right' })" class="relative">
+            <button
+              @mouseenter="scheduleShow()"
+              @mouseleave="scheduleHide()"
+              @focus="show()"
+              @blur="hideImmediately()"
+              x-bind="triggerProps()"
+              class="px-4 py-2 bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
+              Right
+            </button>
+
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              :data-state="open ? 'delayed-open' : 'closed'"
+              :data-side="side"
+              class="tooltip-content"
+              style="margin-left: 4px;"
+              x-transition:enter="transition ease-out duration-140"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0">
+              Tooltip on right
+            </div>
+          </div>
+
+          <!-- Bottom -->
+          <div x-data="createTooltip({ side: 'bottom' })" class="relative">
+            <button
+              @mouseenter="scheduleShow()"
+              @mouseleave="scheduleHide()"
+              @focus="show()"
+              @blur="hideImmediately()"
+              x-bind="triggerProps()"
+              class="px-4 py-2 bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
+              Bottom
+            </button>
+
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              :data-state="open ? 'delayed-open' : 'closed'"
+              :data-side="side"
+              class="tooltip-content"
+              style="margin-top: 4px;"
+              x-transition:enter="transition ease-out duration-140"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0">
+              Tooltip on bottom
+            </div>
+          </div>
+
+          <!-- Left -->
+          <div x-data="createTooltip({ side: 'left' })" class="relative">
+            <button
+              @mouseenter="scheduleShow()"
+              @mouseleave="scheduleHide()"
+              @focus="show()"
+              @blur="hideImmediately()"
+              x-bind="triggerProps()"
+              class="px-4 py-2 bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
+              Left
+            </button>
+
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              :data-state="open ? 'delayed-open' : 'closed'"
+              :data-side="side"
+              class="tooltip-content"
+              style="margin-right: 4px;"
+              x-transition:enter="transition ease-out duration-140"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0">
+              Tooltip on left
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Delay Duration -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-sand-12 mb-4">Delay Duration</h2>
+      <div class="bg-white border border-sand-6 rounded-lg p-6">
+        <div class="flex flex-wrap gap-6 items-center justify-center min-h-[150px]">
+          <!-- No Delay -->
+          <div x-data="createTooltip({ delayDuration: 0 })" class="relative">
+            <button
+              @mouseenter="scheduleShow()"
+              @mouseleave="scheduleHide()"
+              @focus="show()"
+              @blur="hideImmediately()"
+              x-bind="triggerProps()"
+              class="px-4 py-2 bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
+              Instant (0ms)
+            </button>
+
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              :data-state="open ? 'delayed-open' : 'closed'"
+              :data-side="side"
+              class="tooltip-content"
+              style="margin-bottom: 4px;"
+              x-transition:enter="transition ease-out duration-140"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0">
+              Shows immediately
+            </div>
+          </div>
+
+          <!-- Short Delay -->
+          <div x-data="createTooltip({ delayDuration: 300 })" class="relative">
+            <button
+              @mouseenter="scheduleShow()"
+              @mouseleave="scheduleHide()"
+              @focus="show()"
+              @blur="hideImmediately()"
+              x-bind="triggerProps()"
+              class="px-4 py-2 bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
+              Short (300ms)
+            </button>
+
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              :data-state="open ? 'delayed-open' : 'closed'"
+              :data-side="side"
+              class="tooltip-content"
+              style="margin-bottom: 4px;"
+              x-transition:enter="transition ease-out duration-140"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0">
+              Short delay
+            </div>
+          </div>
+
+          <!-- Default Delay -->
+          <div x-data="createTooltip({ delayDuration: 700 })" class="relative">
+            <button
+              @mouseenter="scheduleShow()"
+              @mouseleave="scheduleHide()"
+              @focus="show()"
+              @blur="hideImmediately()"
+              x-bind="triggerProps()"
+              class="px-4 py-2 bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
+              Default (700ms)
+            </button>
+
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              :data-state="open ? 'delayed-open' : 'closed'"
+              :data-side="side"
+              class="tooltip-content"
+              style="margin-bottom: 4px;"
+              x-transition:enter="transition ease-out duration-140"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0">
+              Default delay
+            </div>
+          </div>
+
+          <!-- Long Delay -->
+          <div x-data="createTooltip({ delayDuration: 1500 })" class="relative">
+            <button
+              @mouseenter="scheduleShow()"
+              @mouseleave="scheduleHide()"
+              @focus="show()"
+              @blur="hideImmediately()"
+              x-bind="triggerProps()"
+              class="px-4 py-2 bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
+              Long (1500ms)
+            </button>
+
+            <div
+              x-show="open"
+              x-bind="contentProps()"
+              :data-state="open ? 'delayed-open' : 'closed'"
+              :data-side="side"
+              class="tooltip-content"
+              style="margin-bottom: 4px;"
+              x-transition:enter="transition ease-out duration-140"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition ease-in duration-100"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0">
+              Long delay
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Examples -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-sand-12 mb-4">Interactive Examples</h2>
+      <div class="bg-white border border-sand-6 rounded-lg p-6">
+        <div class="space-y-6">
+          <!-- Icon Buttons -->
+          <div>
+            <h3 class="text-sm font-medium text-sand-11 mb-3">Icon Buttons with Tooltips</h3>
+            <div class="flex gap-3">
+              <div x-data="createTooltip({ delayDuration: 300 })" class="relative">
+                <button
+                  @mouseenter="scheduleShow()"
+                  @mouseleave="scheduleHide()"
+                  @focus="show()"
+                  @blur="hideImmediately()"
+                  x-bind="triggerProps()"
+                  class="w-10 h-10 flex items-center justify-center bg-sand-3 rounded-md hover:bg-sand-4 transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 1v14M1 8h14" />
+                  </svg>
+                </button>
+                <div
+                  x-show="open"
+                  x-bind="contentProps()"
+                  :data-state="open ? 'delayed-open' : 'closed'"
+                  :data-side="side"
+                  class="tooltip-content"
+                  style="margin-bottom: 4px;"
+                  x-transition:enter="transition ease-out duration-140"
+                  x-transition:enter-start="opacity-0"
+                  x-transition:enter-end="opacity-100"
+                  x-transition:leave="transition ease-in duration-100"
+                  x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0">
+                  Add new item
+                </div>
+              </div>
+
+              <div x-data="createTooltip({ delayDuration: 300 })" class="relative">
+                <button
+                  @mouseenter="scheduleShow()"
+                  @mouseleave="scheduleHide()"
+                  @focus="show()"
+                  @blur="hideImmediately()"
+                  x-bind="triggerProps()"
+                  class="w-10 h-10 flex items-center justify-center bg-sand-3 rounded-md hover:bg-sand-4 transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 8h10M8 2l6 6-6 6" />
+                  </svg>
+                </button>
+                <div
+                  x-show="open"
+                  x-bind="contentProps()"
+                  :data-state="open ? 'delayed-open' : 'closed'"
+                  :data-side="side"
+                  class="tooltip-content"
+                  style="margin-bottom: 4px;"
+                  x-transition:enter="transition ease-out duration-140"
+                  x-transition:enter-start="opacity-0"
+                  x-transition:enter-end="opacity-100"
+                  x-transition:leave="transition ease-in duration-100"
+                  x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0">
+                  Go forward
+                </div>
+              </div>
+
+              <div x-data="createTooltip({ delayDuration: 300 })" class="relative">
+                <button
+                  @mouseenter="scheduleShow()"
+                  @mouseleave="scheduleHide()"
+                  @focus="show()"
+                  @blur="hideImmediately()"
+                  x-bind="triggerProps()"
+                  class="w-10 h-10 flex items-center justify-center bg-sand-3 rounded-md hover:bg-sand-4 transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="8" cy="8" r="6" />
+                    <path d="M8 5v3M8 11h.01" />
+                  </svg>
+                </button>
+                <div
+                  x-show="open"
+                  x-bind="contentProps()"
+                  :data-state="open ? 'delayed-open' : 'closed'"
+                  :data-side="side"
+                  class="tooltip-content"
+                  style="margin-bottom: 4px;"
+                  x-transition:enter="transition ease-out duration-140"
+                  x-transition:enter-start="opacity-0"
+                  x-transition:enter-end="opacity-100"
+                  x-transition:leave="transition ease-in duration-100"
+                  x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0">
+                  More information
+                </div>
+              </div>
+
+              <div x-data="createTooltip({ delayDuration: 300 })" class="relative">
+                <button
+                  @mouseenter="scheduleShow()"
+                  @mouseleave="scheduleHide()"
+                  @focus="show()"
+                  @blur="hideImmediately()"
+                  x-bind="triggerProps()"
+                  class="w-10 h-10 flex items-center justify-center bg-sand-3 rounded-md hover:bg-sand-4 transition-colors">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 3h10v10H3z" />
+                    <path d="M6 6h4v4H6z" />
+                  </svg>
+                </button>
+                <div
+                  x-show="open"
+                  x-bind="contentProps()"
+                  :data-state="open ? 'delayed-open' : 'closed'"
+                  :data-side="side"
+                  class="tooltip-content"
+                  style="margin-bottom: 4px;"
+                  x-transition:enter="transition ease-out duration-140"
+                  x-transition:enter-start="opacity-0"
+                  x-transition:enter-end="opacity-100"
+                  x-transition:leave="transition ease-in duration-100"
+                  x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0">
+                  View layout
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text with Tooltip -->
+          <div>
+            <h3 class="text-sm font-medium text-sand-11 mb-3">Inline Text Tooltip</h3>
+            <p class="text-sand-11">
+              Hover over
+              <span x-data="createTooltip({ delayDuration: 200 })" class="relative inline-block">
+                <span
+                  @mouseenter="scheduleShow()"
+                  @mouseleave="scheduleHide()"
+                  @focus="show()"
+                  @blur="hideImmediately()"
+                  x-bind="triggerProps()"
+                  class="text-accent-11 underline decoration-dotted cursor-help">
+                  this term
+                </span>
+                <div
+                  x-show="open"
+                  x-bind="contentProps()"
+                  :data-state="open ? 'delayed-open' : 'closed'"
+                  :data-side="side"
+                  class="tooltip-content whitespace-nowrap"
+                  style="margin-bottom: 4px;"
+                  x-transition:enter="transition ease-out duration-140"
+                  x-transition:enter-start="opacity-0"
+                  x-transition:enter-end="opacity-100"
+                  x-transition:leave="transition ease-in duration-100"
+                  x-transition:leave-start="opacity-100"
+                  x-transition:leave-end="opacity-0">
+                  Additional context or definition
+                </div>
+              </span>
+              to see additional information.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold text-sand-12 mb-4">Features</h2>
+      <div class="bg-white border border-sand-6 rounded-lg p-6">
+        <ul class="space-y-2 text-sand-11">
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Hover activation</strong> - Shows on mouse hover with configurable delay</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Keyboard accessible</strong> - Also shows on focus for keyboard navigation</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Multiple positions</strong> - Supports top, right, bottom, and left positioning</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Customizable delay</strong> - Configure show and hide delays to match your UX</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Smooth animations</strong> - Elegant slide and fade animations</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+</body>
+
+</html>
