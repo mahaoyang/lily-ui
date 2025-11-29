@@ -55,14 +55,169 @@
       </div>
     </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
       <h2 class="text-3 font-medium">Slider</h2>
-      <div x-data="sliderMachine({ defaultValue: 40, min: 0, max: 100, step: 5 })" class="space-y-2">
-        <input x-bind="inputProps()" x-model.number="value" class="w-full accent-accent-9" />
-        <div class="flex justify-between text-xs text-sand-11">
-          <span x-text="min"></span>
-          <span class="text-sand-12 font-medium" x-text="value"></span>
-          <span x-text="max"></span>
+
+      <!-- Surface variant (default) -->
+      <div class="space-y-3">
+        <div class="text-sm font-medium text-sand-11">Surface (Default)</div>
+        <div x-data="sliderMachine({ defaultValue: 40, min: 0, max: 100, step: 5, variant: 'surface', size: '2' })">
+          <div x-bind="rootProps()" class="relative">
+            <div x-bind="trackProps()">
+              <div x-bind="rangeProps()"></div>
+            </div>
+            <div x-bind="thumbProps()"
+                 @mousedown="dragging = true"
+                 @mouseup="dragging = false; onCommit()"
+                 @keydown.left.prevent="setValue(value - step)"
+                 @keydown.right.prevent="setValue(value + step)"
+                 @keydown.down.prevent="setValue(value - step)"
+                 @keydown.up.prevent="setValue(value + step)"></div>
+            <input x-bind="inputProps()" x-model.number="value" />
+          </div>
+          <div class="flex justify-between text-xs text-sand-11 mt-2">
+            <span x-text="min"></span>
+            <span class="text-sand-12 font-medium" x-text="value"></span>
+            <span x-text="max"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Classic variant -->
+      <div class="space-y-3">
+        <div class="text-sm font-medium text-sand-11">Classic</div>
+        <div x-data="sliderMachine({ defaultValue: 60, min: 0, max: 100, step: 1, variant: 'classic', size: '2' })">
+          <div x-bind="rootProps()" class="relative">
+            <div x-bind="trackProps()">
+              <div x-bind="rangeProps()"></div>
+            </div>
+            <div x-bind="thumbProps()"
+                 @mousedown="dragging = true"
+                 @mouseup="dragging = false; onCommit()"
+                 @keydown.left.prevent="setValue(value - step)"
+                 @keydown.right.prevent="setValue(value + step)"
+                 @keydown.down.prevent="setValue(value - step)"
+                 @keydown.up.prevent="setValue(value + step)"></div>
+            <input x-bind="inputProps()" x-model.number="value" />
+          </div>
+          <div class="flex justify-between text-xs text-sand-11 mt-2">
+            <span x-text="min"></span>
+            <span class="text-sand-12 font-medium" x-text="value"></span>
+            <span x-text="max"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soft variant -->
+      <div class="space-y-3">
+        <div class="text-sm font-medium text-sand-11">Soft</div>
+        <div x-data="sliderMachine({ defaultValue: 30, min: 0, max: 100, step: 1, variant: 'soft', size: '2' })">
+          <div x-bind="rootProps()" class="relative">
+            <div x-bind="trackProps()">
+              <div x-bind="rangeProps()"></div>
+            </div>
+            <div x-bind="thumbProps()"
+                 @mousedown="dragging = true"
+                 @mouseup="dragging = false; onCommit()"
+                 @keydown.left.prevent="setValue(value - step)"
+                 @keydown.right.prevent="setValue(value + step)"
+                 @keydown.down.prevent="setValue(value - step)"
+                 @keydown.up.prevent="setValue(value + step)"></div>
+            <input x-bind="inputProps()" x-model.number="value" />
+          </div>
+          <div class="flex justify-between text-xs text-sand-11 mt-2">
+            <span x-text="min"></span>
+            <span class="text-sand-12 font-medium" x-text="value"></span>
+            <span x-text="max"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- High contrast -->
+      <div class="space-y-3">
+        <div class="text-sm font-medium text-sand-11">High Contrast</div>
+        <div x-data="sliderMachine({ defaultValue: 75, min: 0, max: 100, step: 5, variant: 'surface', size: '2', highContrast: true })">
+          <div x-bind="rootProps()" class="relative">
+            <div x-bind="trackProps()">
+              <div x-bind="rangeProps()"></div>
+            </div>
+            <div x-bind="thumbProps()"
+                 @mousedown="dragging = true"
+                 @mouseup="dragging = false; onCommit()"
+                 @keydown.left.prevent="setValue(value - step)"
+                 @keydown.right.prevent="setValue(value + step)"
+                 @keydown.down.prevent="setValue(value - step)"
+                 @keydown.up.prevent="setValue(value + step)"></div>
+            <input x-bind="inputProps()" x-model.number="value" />
+          </div>
+          <div class="flex justify-between text-xs text-sand-11 mt-2">
+            <span x-text="min"></span>
+            <span class="text-sand-12 font-medium" x-text="value"></span>
+            <span x-text="max"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sizes -->
+      <div class="space-y-3">
+        <div class="text-sm font-medium text-sand-11">Sizes</div>
+        <div class="space-y-4">
+          <div x-data="sliderMachine({ defaultValue: 25, min: 0, max: 100, step: 1, size: '1' })">
+            <div class="text-xs text-sand-11 mb-1">Size 1 (Small)</div>
+            <div x-bind="rootProps()" class="relative">
+              <div x-bind="trackProps()">
+                <div x-bind="rangeProps()"></div>
+              </div>
+              <div x-bind="thumbProps()"
+                   @mousedown="dragging = true"
+                   @mouseup="dragging = false; onCommit()"
+                   @keydown.left.prevent="setValue(value - step)"
+                   @keydown.right.prevent="setValue(value + step)"></div>
+              <input x-bind="inputProps()" x-model.number="value" />
+            </div>
+          </div>
+          <div x-data="sliderMachine({ defaultValue: 50, min: 0, max: 100, step: 1, size: '2' })">
+            <div class="text-xs text-sand-11 mb-1">Size 2 (Medium)</div>
+            <div x-bind="rootProps()" class="relative">
+              <div x-bind="trackProps()">
+                <div x-bind="rangeProps()"></div>
+              </div>
+              <div x-bind="thumbProps()"
+                   @mousedown="dragging = true"
+                   @mouseup="dragging = false; onCommit()"
+                   @keydown.left.prevent="setValue(value - step)"
+                   @keydown.right.prevent="setValue(value + step)"></div>
+              <input x-bind="inputProps()" x-model.number="value" />
+            </div>
+          </div>
+          <div x-data="sliderMachine({ defaultValue: 75, min: 0, max: 100, step: 1, size: '3' })">
+            <div class="text-xs text-sand-11 mb-1">Size 3 (Large)</div>
+            <div x-bind="rootProps()" class="relative">
+              <div x-bind="trackProps()">
+                <div x-bind="rangeProps()"></div>
+              </div>
+              <div x-bind="thumbProps()"
+                   @mousedown="dragging = true"
+                   @mouseup="dragging = false; onCommit()"
+                   @keydown.left.prevent="setValue(value - step)"
+                   @keydown.right.prevent="setValue(value + step)"></div>
+              <input x-bind="inputProps()" x-model.number="value" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Disabled state -->
+      <div class="space-y-3">
+        <div class="text-sm font-medium text-sand-11">Disabled</div>
+        <div x-data="sliderMachine({ defaultValue: 50, min: 0, max: 100, step: 1, disabled: true })">
+          <div x-bind="rootProps()" class="relative">
+            <div x-bind="trackProps()">
+              <div x-bind="rangeProps()"></div>
+            </div>
+            <div x-bind="thumbProps()"></div>
+            <input x-bind="inputProps()" x-model.number="value" />
+          </div>
         </div>
       </div>
     </section>

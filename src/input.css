@@ -13,6 +13,7 @@
 @import "../node_modules/@radix-ui/themes/tokens/colors/red.css";
 @import "../node_modules/@radix-ui/themes/tokens/colors/jade.css";
 @import "../node_modules/@radix-ui/themes/tokens/colors/sand.css";
+@import "../node_modules/@radix-ui/themes/tokens/colors/gray.css";
 
 @layer base {
   html {
@@ -257,5 +258,237 @@
   .input-shell:disabled {
     cursor: not-allowed;
     opacity: 0.6;
+  }
+
+  /* Slider Component */
+  .slider-root {
+    --slider-thumb-size: calc(var(--slider-track-size) + var(--space-1));
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    border-radius: max(
+      calc(var(--radius-factor, 1) * var(--slider-track-size) / 3),
+      calc(var(--radius-factor, 1) * var(--radius-thumb, 0.5rem))
+    );
+    user-select: none;
+    touch-action: none;
+  }
+
+  .slider-root[data-orientation="horizontal"] {
+    width: 100%;
+    height: var(--slider-track-size);
+  }
+
+  .slider-root[data-orientation="vertical"] {
+    height: 100%;
+    flex-direction: column;
+    width: var(--slider-track-size);
+  }
+
+  .slider-track {
+    overflow: hidden;
+    position: relative;
+    flex-grow: 1;
+    border-radius: inherit;
+  }
+
+  .slider-track[data-orientation="horizontal"] {
+    height: var(--slider-track-size);
+  }
+
+  .slider-track[data-orientation="vertical"] {
+    width: var(--slider-track-size);
+  }
+
+  .slider-range {
+    position: absolute;
+    border-radius: inherit;
+  }
+
+  .slider-range[data-orientation="horizontal"] {
+    height: 100%;
+  }
+
+  .slider-range[data-orientation="vertical"] {
+    width: 100%;
+  }
+
+  .slider-thumb {
+    display: block;
+    position: absolute;
+    width: var(--slider-thumb-size);
+    height: var(--slider-thumb-size);
+    transform: translate(-50%, -50%);
+    outline: 0;
+  }
+
+  .slider-thumb::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: calc(var(--slider-thumb-size) * 3);
+    height: calc(var(--slider-thumb-size) * 3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .slider-thumb::after {
+    content: '';
+    position: absolute;
+    inset: calc(-0.25 * var(--slider-track-size));
+    background-color: white;
+    border-radius: max(var(--radius-1, 0.25rem), var(--radius-thumb, 0.5rem));
+    box-shadow: var(--slider-thumb-box-shadow);
+    cursor: pointer;
+  }
+
+  .slider-thumb:focus-visible::after {
+    box-shadow: var(--slider-thumb-box-shadow),
+                0 0 0 3px var(--accent-3),
+                0 0 0 5px var(--accent-8);
+  }
+
+  .slider-thumb:active {
+    cursor: grabbing;
+  }
+
+  /* Size variants */
+  .slider-size-1 {
+    --slider-track-size: calc(var(--space-2, 0.5rem) * 0.75);
+  }
+
+  .slider-size-2 {
+    --slider-track-size: var(--space-2, 0.5rem);
+  }
+
+  .slider-size-3 {
+    --slider-track-size: calc(var(--space-2, 0.5rem) * 1.25);
+  }
+
+  /* Variant: surface */
+  .slider-variant-surface .slider-track {
+    background-color: var(--gray-a3);
+    box-shadow: inset 0 0 0 1px var(--gray-a5);
+  }
+
+  .slider-variant-surface .slider-track[data-disabled] {
+    box-shadow: inset 0 0 0 1px var(--gray-a4);
+  }
+
+  .slider-variant-surface .slider-range {
+    background-color: var(--accent-9);
+    box-shadow: inset 0 0 0 1px var(--gray-a5);
+  }
+
+  .slider-variant-surface .slider-range.slider-high-contrast {
+    background-image: linear-gradient(var(--black-a8), var(--black-a8));
+  }
+
+  .slider-variant-surface .slider-thumb {
+    --slider-thumb-box-shadow: 0 0 0 1px var(--black-a4);
+  }
+
+  .slider-variant-surface .slider-thumb[data-disabled]::after {
+    background-color: var(--gray-1);
+    box-shadow: 0 0 0 1px var(--gray-6);
+  }
+
+  /* Variant: classic */
+  .slider-variant-classic .slider-track {
+    background-color: var(--gray-a3);
+    position: relative;
+  }
+
+  .slider-variant-classic .slider-track::before {
+    content: '';
+    inset: 0;
+    position: absolute;
+    border-radius: inherit;
+    box-shadow: 0 1px 2px var(--black-a3);
+  }
+
+  .slider-variant-classic .slider-track[data-disabled]::before {
+    opacity: 0.5;
+  }
+
+  .slider-variant-classic .slider-range {
+    background-color: var(--accent-9);
+    box-shadow: inset 0 0 0 1px var(--gray-a3),
+                inset 0 0 0 1px var(--accent-a4),
+                inset 0 0 0 1px var(--black-a1),
+                inset 0 1.5px 2px 0 var(--black-a2);
+  }
+
+  .slider-variant-classic .slider-range.slider-high-contrast {
+    box-shadow: inset 0 0 0 1px var(--gray-a3),
+                inset 0 0 0 1px var(--black-a2),
+                inset 0 1.5px 2px 0 var(--black-a2);
+  }
+
+  .slider-variant-classic .slider-thumb {
+    --slider-thumb-box-shadow:
+      0 0 0 1px var(--black-a3),
+      0 1px 3px var(--black-a1),
+      0 2px 4px -1px var(--black-a1);
+  }
+
+  .slider-variant-classic .slider-thumb[data-disabled]::after {
+    background-color: var(--gray-1);
+    box-shadow: 0 0 0 1px var(--gray-6);
+  }
+
+  /* Variant: soft */
+  .slider-variant-soft .slider-track {
+    background-color: var(--gray-a4);
+    background-image: linear-gradient(var(--white-a1), var(--white-a1));
+  }
+
+  .slider-variant-soft .slider-track[data-disabled] {
+    background-color: var(--gray-a4);
+    background-image: none;
+  }
+
+  .slider-variant-soft .slider-range {
+    background-image: linear-gradient(var(--accent-a5), var(--accent-a5));
+    background-color: var(--accent-6);
+  }
+
+  .slider-variant-soft .slider-range.slider-high-contrast {
+    background-image:
+      linear-gradient(var(--accent-a5), var(--accent-a5)),
+      linear-gradient(var(--black-a8), var(--black-a8));
+  }
+
+  .slider-variant-soft .slider-thumb {
+    --slider-thumb-box-shadow:
+      0 0 0 1px var(--black-a3),
+      0 0 0 1px var(--gray-a2),
+      0 0 0 1px var(--accent-a2),
+      0 1px 2px var(--gray-a4),
+      0 1px 3px -0.5px var(--gray-a3);
+  }
+
+  .slider-variant-soft .slider-thumb[data-disabled]::after {
+    background-color: var(--gray-1);
+    box-shadow: 0 0 0 1px var(--gray-5);
+  }
+
+  /* Disabled state */
+  .slider-root[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .slider-root[data-disabled] .slider-range {
+    background-color: transparent;
+    background-image: none;
+    box-shadow: none;
+  }
+
+  .slider-root[data-disabled] .slider-thumb,
+  .slider-root[data-disabled] .slider-thumb::after {
+    cursor: not-allowed;
   }
 }
