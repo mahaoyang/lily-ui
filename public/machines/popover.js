@@ -43,13 +43,13 @@ function createPopover(options = {}) {
       const spaceBelow = viewport.height - triggerRect.bottom;
       const spaceLeft = triggerRect.left;
       const spaceRight = viewport.width - triggerRect.right;
-      if (actualSide === "bottom" && spaceBelow < contentRect.height + this.sideOffset && spaceAbove > spaceBelow) {
+      if (actualSide === "bottom" && spaceBelow < contentRect.height + this.sideOffset && spaceAbove > contentRect.height + this.sideOffset) {
         actualSide = "top";
-      } else if (actualSide === "top" && spaceAbove < contentRect.height + this.sideOffset && spaceBelow > spaceAbove) {
+      } else if (actualSide === "top" && spaceAbove < contentRect.height + this.sideOffset && spaceBelow > contentRect.height + this.sideOffset) {
         actualSide = "bottom";
-      } else if (actualSide === "right" && spaceRight < contentRect.width + this.sideOffset && spaceLeft > spaceRight) {
+      } else if (actualSide === "right" && spaceRight < contentRect.width + this.sideOffset && spaceLeft > contentRect.width + this.sideOffset) {
         actualSide = "left";
-      } else if (actualSide === "left" && spaceLeft < contentRect.width + this.sideOffset && spaceRight > spaceLeft) {
+      } else if (actualSide === "left" && spaceLeft < contentRect.width + this.sideOffset && spaceRight > contentRect.width + this.sideOffset) {
         actualSide = "right";
       }
       switch (actualSide) {
@@ -99,7 +99,7 @@ function createPopover(options = {}) {
       if (!this.open) {
         this.open = true;
         onOpenChange?.(true);
-        requestAnimationFrame(() => {
+        this.$nextTick(() => {
           this.updatePosition();
         });
       }
@@ -123,16 +123,14 @@ function createPopover(options = {}) {
         "aria-haspopup": "dialog",
         "aria-expanded": this.open,
         "@click": "toggle()",
-        "x-ref": "trigger",
-        "x-init": "triggerEl = $refs.trigger"
+        "x-init": "triggerEl = $el"
       };
     },
     contentProps() {
       return {
         role: "dialog",
         tabindex: "-1",
-        "x-ref": "content",
-        "x-init": "contentEl = $refs.content",
+        "x-effect": "contentEl = $el; if (open) updatePosition()",
         "@keydown.escape.window": closeOnEscape ? "hide()" : undefined,
         "@click.outside": closeOnOutsideClick ? "hide()" : undefined,
         ":style": `{ position: 'fixed', top: position.top + 'px', left: position.left + 'px', zIndex: 9999 }`

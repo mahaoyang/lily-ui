@@ -88,13 +88,13 @@ export function createPopover(options: PopoverOptions = {}) {
       const spaceRight = viewport.width - triggerRect.right;
 
       // 边缘检测和翻转
-      if (actualSide === 'bottom' && spaceBelow < contentRect.height + this.sideOffset && spaceAbove > spaceBelow) {
+      if (actualSide === 'bottom' && spaceBelow < contentRect.height + this.sideOffset && spaceAbove > contentRect.height + this.sideOffset) {
         actualSide = 'top';
-      } else if (actualSide === 'top' && spaceAbove < contentRect.height + this.sideOffset && spaceBelow > spaceAbove) {
+      } else if (actualSide === 'top' && spaceAbove < contentRect.height + this.sideOffset && spaceBelow > contentRect.height + this.sideOffset) {
         actualSide = 'bottom';
-      } else if (actualSide === 'right' && spaceRight < contentRect.width + this.sideOffset && spaceLeft > spaceRight) {
+      } else if (actualSide === 'right' && spaceRight < contentRect.width + this.sideOffset && spaceLeft > contentRect.width + this.sideOffset) {
         actualSide = 'left';
-      } else if (actualSide === 'left' && spaceLeft < contentRect.width + this.sideOffset && spaceRight > spaceLeft) {
+      } else if (actualSide === 'left' && spaceLeft < contentRect.width + this.sideOffset && spaceRight > contentRect.width + this.sideOffset) {
         actualSide = 'right';
       }
 
@@ -153,8 +153,8 @@ export function createPopover(options: PopoverOptions = {}) {
       if (!this.open) {
         this.open = true;
         onOpenChange?.(true);
-        // 下一帧更新位置
-        requestAnimationFrame(() => {
+        // 等待 DOM 更新后计算位置（x-teleport 需要额外时间）
+        this.$nextTick(() => {
           this.updatePosition();
         });
       }
@@ -182,8 +182,7 @@ export function createPopover(options: PopoverOptions = {}) {
         'aria-haspopup': 'dialog',
         'aria-expanded': this.open,
         '@click': 'toggle()',
-        'x-ref': 'trigger',
-        'x-init': 'triggerEl = $refs.trigger',
+        'x-init': 'triggerEl = $el',
       };
     },
 
@@ -192,8 +191,7 @@ export function createPopover(options: PopoverOptions = {}) {
       return {
         role: 'dialog',
         tabindex: '-1',
-        'x-ref': 'content',
-        'x-init': 'contentEl = $refs.content',
+        'x-effect': 'contentEl = $el; if (open) updatePosition()',
         '@keydown.escape.window': closeOnEscape ? 'hide()' : undefined,
         '@click.outside': closeOnOutsideClick ? 'hide()' : undefined,
         ':style': `{ position: 'fixed', top: position.top + 'px', left: position.left + 'px', zIndex: 9999 }`,
