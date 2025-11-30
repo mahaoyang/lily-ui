@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Checkbox Cards</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12"
+  x-data="{ theme: 'light' }" :class="theme === 'dark' ? 'dark' : ''">
+  <main class="mx-auto max-w-3xl p-8 space-y-8">
+    <header class="space-y-2">
+      <h1 class="text-xl font-semibold text-sand-12">Checkbox Cards</h1>
+      <p class="text-sm text-sand-11">Set of interactive cards that allow multiple selection.</p>
+    </header>
+
+    <!-- Theme Switcher -->
+    <div class="flex gap-2">
+      <button type="button" class="px-3 py-1 text-sm rounded-md border transition"
+        :class="theme === 'light' ? 'bg-sand-12 text-sand-1 border-sand-12' : 'border-sand-6 text-sand-11'"
+        @click="theme = 'light'">Light</button>
+      <button type="button" class="px-3 py-1 text-sm rounded-md border transition"
+        :class="theme === 'dark' ? 'bg-sand-12 text-sand-1 border-sand-12' : 'border-sand-6 text-sand-11'"
+        @click="theme = 'dark'">Dark</button>
+    </div>
+
+    <!-- Basic -->
+    <section class="space-y-4">
+      <h2 class="text-base font-medium text-sand-12">Basic</h2>
+      <p class="text-sm text-sand-11">Click cards to toggle selection.</p>
+
+      <div x-data="{ selected: ['email'] }" class="checkbox-cards checkbox-cards-cols-1" style="max-width: 300px;">
+        <label class="checkbox-card-item" :data-checked="selected.includes('email') ? '' : undefined"
+          @click="selected.includes('email') ? selected = selected.filter(v => v !== 'email') : selected.push('email')">
+          <input type="checkbox" class="sr-only" :checked="selected.includes('email')">
+          <div class="checkbox-card-content">
+            <div class="checkbox-card-title">Email</div>
+            <div class="checkbox-card-description">Receive notifications via email</div>
+          </div>
+        </label>
+        <label class="checkbox-card-item" :data-checked="selected.includes('sms') ? '' : undefined"
+          @click="selected.includes('sms') ? selected = selected.filter(v => v !== 'sms') : selected.push('sms')">
+          <input type="checkbox" class="sr-only" :checked="selected.includes('sms')">
+          <div class="checkbox-card-content">
+            <div class="checkbox-card-title">SMS</div>
+            <div class="checkbox-card-description">Receive notifications via SMS</div>
+          </div>
+        </label>
+        <label class="checkbox-card-item" :data-checked="selected.includes('push') ? '' : undefined"
+          @click="selected.includes('push') ? selected = selected.filter(v => v !== 'push') : selected.push('push')">
+          <input type="checkbox" class="sr-only" :checked="selected.includes('push')">
+          <div class="checkbox-card-content">
+            <div class="checkbox-card-title">Push</div>
+            <div class="checkbox-card-description">Receive push notifications</div>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <!-- Columns -->
+    <section class="space-y-4">
+      <h2 class="text-base font-medium text-sand-12">Columns</h2>
+      <p class="text-sm text-sand-11">Use column variants to control layout.</p>
+
+      <div class="space-y-6">
+        <div>
+          <p class="text-xs text-sand-11 mb-2">2 columns</p>
+          <div x-data="{ selected: ['a'] }" class="checkbox-cards checkbox-cards-cols-2">
+            <template x-for="item in ['a', 'b', 'c', 'd']" :key="item">
+              <label class="checkbox-card-item" :data-checked="selected.includes(item) ? '' : undefined"
+                @click="selected.includes(item) ? selected = selected.filter(v => v !== item) : selected.push(item)">
+                <input type="checkbox" class="sr-only" :checked="selected.includes(item)">
+                <div class="checkbox-card-content">
+                  <div class="checkbox-card-title" x-text="'Option ' + item.toUpperCase()"></div>
+                </div>
+              </label>
+            </template>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-xs text-sand-11 mb-2">3 columns</p>
+          <div x-data="{ selected: ['a'] }" class="checkbox-cards checkbox-cards-cols-3">
+            <template x-for="item in ['a', 'b', 'c', 'd', 'e', 'f']" :key="item">
+              <label class="checkbox-card-item" :data-checked="selected.includes(item) ? '' : undefined"
+                @click="selected.includes(item) ? selected = selected.filter(v => v !== item) : selected.push(item)">
+                <input type="checkbox" class="sr-only" :checked="selected.includes(item)">
+                <div class="checkbox-card-content">
+                  <div class="checkbox-card-title" x-text="'Option ' + item.toUpperCase()"></div>
+                </div>
+              </label>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disabled -->
+    <section class="space-y-4">
+      <h2 class="text-base font-medium text-sand-12">Disabled</h2>
+      <p class="text-sm text-sand-11">Use the disabled state to prevent interaction.</p>
+
+      <div class="checkbox-cards checkbox-cards-cols-2" style="max-width: 400px;">
+        <label class="checkbox-card-item" data-checked>
+          <input type="checkbox" class="sr-only" checked>
+          <div class="checkbox-card-content">
+            <div class="checkbox-card-title">Enabled checked</div>
+          </div>
+        </label>
+        <label class="checkbox-card-item">
+          <input type="checkbox" class="sr-only">
+          <div class="checkbox-card-content">
+            <div class="checkbox-card-title">Enabled unchecked</div>
+          </div>
+        </label>
+        <label class="checkbox-card-item" data-disabled data-checked>
+          <input type="checkbox" class="sr-only" checked disabled>
+          <div class="checkbox-card-content">
+            <div class="checkbox-card-title">Disabled checked</div>
+          </div>
+        </label>
+        <label class="checkbox-card-item" data-disabled>
+          <input type="checkbox" class="sr-only" disabled>
+          <div class="checkbox-card-content">
+            <div class="checkbox-card-title">Disabled unchecked</div>
+          </div>
+        </label>
+      </div>
+    </section>
+
+  </main>
+</body>
+
+</html>

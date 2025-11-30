@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Playground - Radio Group</title>
+  <title>Playground - Radio & Radio Group</title>
   <link rel="stylesheet" href="/dist/output.css">
   <script type="module">
     import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
@@ -24,14 +24,12 @@
       <div class="space-y-2">
         <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
           style="background: var(--sand-surface);">
-          <span
-            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">RG</span>
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">R</span>
           <div>
-            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Radio Group Playground</h1>
-            <p class="text-xs text-sand-11">单选组，ARIA/键盘切换</p>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Radio & Radio Group</h1>
+            <p class="text-xs text-sand-11">单选按钮与单选组</p>
           </div>
         </div>
-        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
       </div>
       <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
     </header>
@@ -69,7 +67,8 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">交互示例</h2>
+      <h2 class="text-sm font-medium">Radio Group（单选组）</h2>
+      <p class="text-xs text-sand-11">一组互斥的单选按钮，只能选择一个。支持键盘导航。</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Basic Radio Group -->
@@ -112,6 +111,66 @@
               </div>
             </template>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Radio 单个样式 -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Radio（单个按钮样式）</h2>
+
+      <!-- Size -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-medium text-sand-11 uppercase tracking-wider">Size</h3>
+        <div class="flex items-center gap-6">
+          <div class="flex items-center gap-2">
+            <button type="button" class="radio-root radio-size-1" data-state="checked"></button>
+            <span class="text-xs text-sand-11">Size 1</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" class="radio-root radio-size-2" data-state="checked"></button>
+            <span class="text-xs text-sand-11">Size 2</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" class="radio-root radio-size-3" data-state="checked"></button>
+            <span class="text-xs text-sand-11">Size 3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- States -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-medium text-sand-11 uppercase tracking-wider">States</h3>
+        <div class="flex items-center gap-6">
+          <div class="flex items-center gap-2">
+            <button type="button" class="radio-root radio-size-2" data-state="unchecked"></button>
+            <span class="text-xs text-sand-11">Unchecked</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" class="radio-root radio-size-2" data-state="checked"></button>
+            <span class="text-xs text-sand-11">Checked</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" class="radio-root radio-size-2" data-state="unchecked" data-disabled disabled></button>
+            <span class="text-xs text-sand-11">Disabled</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" class="radio-root radio-size-2" data-state="checked" data-disabled disabled></button>
+            <span class="text-xs text-sand-11">Disabled Checked</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colors -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-medium text-sand-11 uppercase tracking-wider">Colors</h3>
+        <div class="flex items-center gap-4">
+          <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+            <div class="flex items-center gap-2" :class="'accent-' + color">
+              <button type="button" class="radio-root radio-size-2" data-state="checked"></button>
+              <span class="text-xs text-sand-11 capitalize" x-text="color"></span>
+            </div>
+          </template>
         </div>
       </div>
     </section>
