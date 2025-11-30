@@ -17,14 +17,15 @@
   x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
-    <header class="space-y-3 flex items-center justify-between">
-      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
-        style="background: var(--sand-surface);">
-        <span
-          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">KB</span>
-        <div>
-          <h1 class="text-lg font-semibold text-sand-12 leading-tight">Kbd Playground</h1>
-          <p class="text-xs text-sand-11">键盘按键组件</p>
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">KB</span>
+          <div>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Kbd Playground</h1>
+            <p class="text-xs text-sand-11">键盘按键组件</p>
+          </div>
         </div>
       </div>
       <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
@@ -39,425 +40,100 @@
             style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
             <button type="button" class="px-3 py-1 text-sm rounded-md transition"
               :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'light'">
-              Light
-            </button>
+              @click="theme = 'light'">Light</button>
             <button type="button" class="px-3 py-1 text-sm rounded-md transition"
               :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'dark'">
-              Dark
-            </button>
-          </div>
-        </div>
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">Accent</div>
-          <div class="flex flex-wrap gap-2">
-            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
-              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
-                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
-                @click="accent = color">
-                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
-                  :style="`background: var(--${color}-9)`"></span>
-                <span class="capitalize" x-text="color"></span>
-              </button>
-            </template>
-          </div>
-        </div>
-      </div>
-      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
-        <code>data-accent-color</code> 切换；组件可在自身容器覆写。
-      </p>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">尺寸变体</h2>
-
-      <div class="grid grid-cols-1 gap-8">
-        <!-- Size 1 -->
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Extra Small)</h3>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-sm">Press <kbd class="kbd kbd-size-1">Ctrl</kbd> + <kbd class="kbd kbd-size-1">C</kbd> to copy</span>
-          </div>
-        </div>
-
-        <!-- Size 2 -->
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Small)</h3>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-base">Press <kbd class="kbd kbd-size-2">Ctrl</kbd> + <kbd class="kbd kbd-size-2">C</kbd> to copy</span>
-          </div>
-        </div>
-
-        <!-- Size 3 -->
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Default)</h3>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-lg">Press <kbd class="kbd kbd-size-3">Ctrl</kbd> + <kbd class="kbd kbd-size-3">C</kbd> to copy</span>
-          </div>
-        </div>
-
-        <!-- Size 4 -->
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 4 (Large)</h3>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-xl">Press <kbd class="kbd kbd-size-4">Ctrl</kbd> + <kbd class="kbd kbd-size-4">C</kbd> to copy</span>
-          </div>
-        </div>
-
-        <!-- Size 5 -->
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 5 (Extra Large)</h3>
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="text-2xl">Press <kbd class="kbd kbd-size-5">Ctrl</kbd> + <kbd class="kbd kbd-size-5">C</kbd> to copy</span>
+              @click="theme = 'dark'">Dark</button>
           </div>
         </div>
       </div>
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">常用快捷键</h2>
+      <h2 class="text-sm font-medium">Kbd</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Copy/Paste -->
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">复制 & 粘贴</h3>
-          <div class="space-y-2">
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">复制</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">C</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">剪切</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">X</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">粘贴</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">V</kbd>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Undo/Redo -->
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">撤销 & 重做</h3>
-          <div class="space-y-2">
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">撤销</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">Z</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">重做</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">Y</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">全选</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">A</kbd>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- File Operations -->
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">文件操作</h3>
-          <div class="space-y-2">
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">新建</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">N</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">保存</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">S</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">打印</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">P</kbd>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Navigation -->
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">导航</h3>
-          <div class="space-y-2">
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">查找</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">F</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">替换</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">H</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">转到行</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">Ctrl</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">G</kbd>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">特殊按键</h2>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">Enter</kbd>
-          <span class="text-xs text-sand-11">回车</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">Tab</kbd>
-          <span class="text-xs text-sand-11">制表符</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">Esc</kbd>
-          <span class="text-xs text-sand-11">退出</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">Space</kbd>
-          <span class="text-xs text-sand-11">空格</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">Shift</kbd>
-          <span class="text-xs text-sand-11">上档</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">Ctrl</kbd>
-          <span class="text-xs text-sand-11">控制</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">Alt</kbd>
-          <span class="text-xs text-sand-11">替代</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">Del</kbd>
-          <span class="text-xs text-sand-11">删除</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">←</kbd>
-          <span class="text-xs text-sand-11">左箭头</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">→</kbd>
-          <span class="text-xs text-sand-11">右箭头</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">↑</kbd>
-          <span class="text-xs text-sand-11">上箭头</span>
-        </div>
-        <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
-          <kbd class="kbd kbd-size-3">↓</kbd>
-          <span class="text-xs text-sand-11">下箭头</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">Mac 快捷键</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Command Key Shortcuts -->
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Command 快捷键</h3>
-          <div class="space-y-2">
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">复制</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">⌘</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">C</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">粘贴</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">⌘</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">V</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">保存</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">⌘</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">S</kbd>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Option Key Shortcuts -->
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Option 快捷键</h3>
-          <div class="space-y-2">
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">截图区域</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">⌘</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">⇧</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">4</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">Spotlight</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">⌘</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">Space</kbd>
-              </div>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded bg-sand-3">
-              <span class="text-sm text-sand-12">切换应用</span>
-              <div class="flex items-center gap-1">
-                <kbd class="kbd kbd-size-2">⌘</kbd>
-                <span class="text-sand-11">+</span>
-                <kbd class="kbd kbd-size-2">Tab</kbd>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">组合键示例</h2>
-
+      <!-- Sizes -->
       <div class="space-y-4">
-        <div class="p-4 rounded bg-sand-3">
-          <p class="text-sm text-sand-11 mb-3">三键组合</p>
-          <div class="flex items-center gap-2">
-            <kbd class="kbd kbd-size-3">Ctrl</kbd>
-            <span class="text-sand-11">+</span>
-            <kbd class="kbd kbd-size-3">Shift</kbd>
-            <span class="text-sand-11">+</span>
-            <kbd class="kbd kbd-size-3">P</kbd>
-            <span class="text-sm text-sand-11 ml-4">命令面板</span>
-          </div>
+        <div class="text-sm font-medium text-sand-11">尺寸 (1-5)</div>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="text-2xs text-sand-11">Size 1</span>
+          <kbd class="kbd kbd-size-1">⌘</kbd>
+          <kbd class="kbd kbd-size-1">K</kbd>
         </div>
-
-        <div class="p-4 rounded bg-sand-3">
-          <p class="text-sm text-sand-11 mb-3">四键组合</p>
-          <div class="flex items-center gap-2">
-            <kbd class="kbd kbd-size-3">Ctrl</kbd>
-            <span class="text-sand-11">+</span>
-            <kbd class="kbd kbd-size-3">Alt</kbd>
-            <span class="text-sand-11">+</span>
-            <kbd class="kbd kbd-size-3">Shift</kbd>
-            <span class="text-sand-11">+</span>
-            <kbd class="kbd kbd-size-3">T</kbd>
-            <span class="text-sm text-sand-11 ml-4">重新打开终端</span>
-          </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="text-xs text-sand-11">Size 2</span>
+          <kbd class="kbd kbd-size-2">⌘</kbd>
+          <kbd class="kbd kbd-size-2">K</kbd>
         </div>
-
-        <div class="p-4 rounded bg-sand-3">
-          <p class="text-sm text-sand-11 mb-3">功能键</p>
-          <div class="flex items-center gap-2">
-            <kbd class="kbd kbd-size-3">F1</kbd>
-            <span class="text-sm text-sand-11 ml-4">到</span>
-            <kbd class="kbd kbd-size-3">F12</kbd>
-            <span class="text-sm text-sand-11 ml-4">功能键</span>
-          </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="text-sm text-sand-11">Size 3</span>
+          <kbd class="kbd kbd-size-3">⌘</kbd>
+          <kbd class="kbd kbd-size-3">K</kbd>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="text-base text-sand-11">Size 4</span>
+          <kbd class="kbd kbd-size-4">⌘</kbd>
+          <kbd class="kbd kbd-size-4">K</kbd>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="text-lg text-sand-11">Size 5</span>
+          <kbd class="kbd kbd-size-5">⌘</kbd>
+          <kbd class="kbd kbd-size-5">K</kbd>
         </div>
       </div>
-    </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">内联使用</h2>
-
+      <!-- Common shortcuts -->
       <div class="space-y-4">
-        <p class="text-base text-sand-12">
-          Use <kbd class="kbd kbd-size-2">Ctrl</kbd> + <kbd class="kbd kbd-size-2">C</kbd> to copy the selected text.
-        </p>
-        <p class="text-base text-sand-12">
-          Press <kbd class="kbd kbd-size-2">Enter</kbd> to submit the form.
-        </p>
-        <p class="text-base text-sand-12">
-          To save your work, press <kbd class="kbd kbd-size-2">Ctrl</kbd> + <kbd class="kbd kbd-size-2">S</kbd> or use
-          <kbd class="kbd kbd-size-2">⌘</kbd> + <kbd class="kbd kbd-size-2">S</kbd> on Mac.
-        </p>
-        <p class="text-base text-sand-12">
-          Navigate between items using the arrow keys <kbd class="kbd kbd-size-2">↑</kbd>
-          <kbd class="kbd kbd-size-2">↓</kbd> <kbd class="kbd kbd-size-2">←</kbd>
-          <kbd class="kbd kbd-size-2">→</kbd>.
+        <div class="text-sm font-medium text-sand-11">常用快捷键</div>
+        <div class="flex flex-wrap gap-6">
+          <div class="flex items-center gap-1">
+            <kbd class="kbd kbd-size-2">⌘</kbd>
+            <kbd class="kbd kbd-size-2">C</kbd>
+            <span class="text-xs text-sand-11 ml-2">复制</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <kbd class="kbd kbd-size-2">⌘</kbd>
+            <kbd class="kbd kbd-size-2">V</kbd>
+            <span class="text-xs text-sand-11 ml-2">粘贴</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <kbd class="kbd kbd-size-2">⌘</kbd>
+            <kbd class="kbd kbd-size-2">Z</kbd>
+            <span class="text-xs text-sand-11 ml-2">撤销</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <kbd class="kbd kbd-size-2">⌘</kbd>
+            <kbd class="kbd kbd-size-2">⇧</kbd>
+            <kbd class="kbd kbd-size-2">Z</kbd>
+            <span class="text-xs text-sand-11 ml-2">重做</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Special keys -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">特殊按键</div>
+        <div class="flex flex-wrap items-center gap-2">
+          <kbd class="kbd kbd-size-2">⌘</kbd>
+          <kbd class="kbd kbd-size-2">⌥</kbd>
+          <kbd class="kbd kbd-size-2">⌃</kbd>
+          <kbd class="kbd kbd-size-2">⇧</kbd>
+          <kbd class="kbd kbd-size-2">⏎</kbd>
+          <kbd class="kbd kbd-size-2">⌫</kbd>
+          <kbd class="kbd kbd-size-2">⎋</kbd>
+          <kbd class="kbd kbd-size-2">Tab</kbd>
+          <kbd class="kbd kbd-size-2">Space</kbd>
+        </div>
+      </div>
+
+      <!-- Inline usage -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">行内使用</div>
+        <p class="text-sm text-sand-12">
+          按 <kbd class="kbd kbd-size-1">⌘</kbd> <kbd class="kbd kbd-size-1">K</kbd> 打开命令面板，
+          或按 <kbd class="kbd kbd-size-1">⎋</kbd> 关闭当前窗口。
         </p>
       </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium mb-4">代码示例</h2>
-      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法 --&gt;
-&lt;kbd class="kbd kbd-size-2"&gt;Ctrl&lt;/kbd&gt;
-
-&lt;!-- 不同尺寸 --&gt;
-&lt;kbd class="kbd kbd-size-1"&gt;Ctrl&lt;/kbd&gt;
-&lt;kbd class="kbd kbd-size-2"&gt;Ctrl&lt;/kbd&gt;
-&lt;kbd class="kbd kbd-size-3"&gt;Ctrl&lt;/kbd&gt;
-&lt;kbd class="kbd kbd-size-4"&gt;Ctrl&lt;/kbd&gt;
-&lt;kbd class="kbd kbd-size-5"&gt;Ctrl&lt;/kbd&gt;
-
-&lt;!-- 组合快捷键 --&gt;
-&lt;kbd class="kbd kbd-size-2"&gt;Ctrl&lt;/kbd&gt; + &lt;kbd class="kbd kbd-size-2"&gt;C&lt;/kbd&gt;
-
-&lt;!-- 内联使用 --&gt;
-&lt;p&gt;Press &lt;kbd class="kbd kbd-size-2"&gt;Enter&lt;/kbd&gt; to submit.&lt;/p&gt;
-
-&lt;!-- Mac 符号 --&gt;
-&lt;kbd class="kbd kbd-size-2"&gt;⌘&lt;/kbd&gt; + &lt;kbd class="kbd kbd-size-2"&gt;C&lt;/kbd&gt;
-
-&lt;!-- 箭头键 --&gt;
-&lt;kbd class="kbd kbd-size-2"&gt;↑&lt;/kbd&gt; &lt;kbd class="kbd kbd-size-2"&gt;↓&lt;/kbd&gt;
-&lt;kbd class="kbd kbd-size-2"&gt;←&lt;/kbd&gt; &lt;kbd class="kbd kbd-size-2"&gt;→&lt;/kbd&gt;</code></pre>
     </section>
   </main>
 </body>

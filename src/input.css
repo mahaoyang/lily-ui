@@ -4,7 +4,10 @@
 @source "../public/**/*.{html,js,ts,jsx,tsx}";
 @source "./**/*.{html,js,ts,jsx,tsx}";
 
-/* 引入 Radix 颜色令牌 (base tokens 已通过 @theme 注入) */
+/* 引入 Radix 基础令牌 (black-a*, white-a*, shadows 等) */
+@import "../node_modules/@radix-ui/themes/tokens/base.css";
+
+/* 引入 Radix 颜色令牌 */
 @import "../node_modules/@radix-ui/themes/tokens/colors/iris.css";
 @import "../node_modules/@radix-ui/themes/tokens/colors/blue.css";
 @import "../node_modules/@radix-ui/themes/tokens/colors/violet.css";
@@ -284,7 +287,7 @@
     scrollbar-width: none;
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
     --tab-height: var(--spacing-7);
     --tab-padding-x: var(--spacing-2);
     --tab-inner-padding-x: var(--spacing-2);
@@ -332,22 +335,22 @@
   .blockquote.blockquote-size-1 {
     font-size: var(--text-2xs);
     --line-height: var(--text-2xs--line-height);
-    --letter-spacing: var(--text-2xs--letter-spacing);
+    --letter-spacing: var(--letter-spacing-1);
   }
   .blockquote.blockquote-size-2 {
     font-size: var(--text-xs);
     --line-height: var(--text-xs--line-height);
-    --letter-spacing: var(--text-xs--letter-spacing);
+    --letter-spacing: var(--letter-spacing-2);
   }
   .blockquote.blockquote-size-3 {
     font-size: var(--text-sm);
     --line-height: var(--text-sm--line-height);
-    --letter-spacing: var(--text-sm--letter-spacing);
+    --letter-spacing: var(--letter-spacing-3);
   }
   .blockquote.blockquote-size-4 {
     font-size: var(--text-base);
     --line-height: var(--text-base--line-height);
-    --letter-spacing: var(--text-base--letter-spacing);
+    --letter-spacing: var(--letter-spacing-4);
   }
   .blockquote.blockquote-size-5 {
     font-size: var(--text-lg);
@@ -357,22 +360,22 @@
   .blockquote.blockquote-size-6 {
     font-size: var(--text-xl);
     --line-height: var(--text-xl--line-height);
-    --letter-spacing: var(--text-xl--letter-spacing);
+    --letter-spacing: var(--letter-spacing-6);
   }
   .blockquote.blockquote-size-7 {
     font-size: var(--text-2xl);
     --line-height: var(--text-2xl--line-height);
-    --letter-spacing: var(--text-2xl--letter-spacing);
+    --letter-spacing: var(--letter-spacing-7);
   }
   .blockquote.blockquote-size-8 {
     font-size: var(--text-3xl);
     --line-height: var(--text-3xl--line-height);
-    --letter-spacing: var(--text-3xl--letter-spacing);
+    --letter-spacing: var(--letter-spacing-8);
   }
   .blockquote.blockquote-size-9 {
     font-size: var(--text-4xl);
     --line-height: var(--text-4xl--line-height);
-    --letter-spacing: var(--text-4xl--letter-spacing);
+    --letter-spacing: var(--letter-spacing-9);
   }
 
   /* WEIGHT VARIANTS */
@@ -570,7 +573,7 @@
     position: absolute;
     transition: opacity calc(0.8 * var(--segmented-control-transition-duration));
     font-weight: var(--font-weight-regular, 400);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
     opacity: 1;
     transition-timing-function: ease-out;
   }
@@ -583,7 +586,7 @@
   .segmented-control-item-label-active {
     transition: opacity calc(0.8 * var(--segmented-control-transition-duration));
     font-weight: var(--font-weight-medium);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
     opacity: 0;
     transition-timing-function: ease-in;
   }
@@ -709,7 +712,7 @@
 
   .segmented-control-size-1 .segmented-control-item-label {
     font-size: var(--text-2xs);
-    letter-spacing: var(--text-2xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-1);
     padding-left: var(--spacing-3);
     padding-right: var(--spacing-3);
     gap: var(--spacing-1);
@@ -722,7 +725,7 @@
 
   .segmented-control-size-2 .segmented-control-item-label {
     font-size: var(--text-xs);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
     padding-left: var(--spacing-4);
     padding-right: var(--spacing-4);
     gap: var(--spacing-2);
@@ -735,7 +738,7 @@
 
   .segmented-control-size-3 .segmented-control-item-label {
     font-size: var(--text-sm);
-    letter-spacing: var(--text-sm--letter-spacing);
+    letter-spacing: var(--letter-spacing-3);
     padding-left: var(--spacing-4);
     padding-right: var(--spacing-4);
     gap: var(--spacing-3);
@@ -1026,7 +1029,7 @@
   .badge-size-1 {
     font-size: var(--text-2xs);
     line-height: var(--text-2xs--line-height);
-    letter-spacing: var(--text-2xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-1);
     padding: calc(var(--spacing-1) * 0.5) calc(var(--spacing-1) * 1.5);
     gap: calc(var(--spacing-1) * 1.5);
     border-radius: max(var(--radius-1), var(--radius-full));
@@ -1035,7 +1038,7 @@
   .badge-size-2 {
     font-size: var(--text-2xs);
     line-height: var(--text-2xs--line-height);
-    letter-spacing: var(--text-2xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-1);
     padding: var(--spacing-1) var(--spacing-2);
     gap: calc(var(--spacing-1) * 1.5);
     border-radius: max(var(--radius-2), var(--radius-full));
@@ -1044,7 +1047,7 @@
   .badge-size-3 {
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
     padding: var(--spacing-1) calc(var(--spacing-2) * 1.25);
     gap: var(--spacing-2);
     border-radius: max(var(--radius-2), var(--radius-full));
@@ -1162,72 +1165,72 @@
     text-transform: uppercase;
   }
 
-  /* Avatar sizes */
+  /* Avatar sizes - following Radix original token mapping */
   .avatar-size-1 {
     --avatar-size: var(--spacing-5);
-    --avatar-fallback-one-letter-font-size: var(--text-xs);
-    --avatar-fallback-two-letters-font-size: var(--text-2xs);
+    --avatar-fallback-one-letter-font-size: var(--font-size-2);
+    --avatar-fallback-two-letters-font-size: var(--font-size-1);
     border-radius: max(var(--radius-2), var(--radius-full));
-    letter-spacing: var(--text-2xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-1);
   }
 
   .avatar-size-2 {
     --avatar-size: var(--spacing-6);
-    --avatar-fallback-one-letter-font-size: var(--text-sm);
-    --avatar-fallback-two-letters-font-size: var(--text-xs);
+    --avatar-fallback-one-letter-font-size: var(--font-size-3);
+    --avatar-fallback-two-letters-font-size: var(--font-size-2);
     border-radius: max(var(--radius-2), var(--radius-full));
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
   }
 
   .avatar-size-3 {
     --avatar-size: var(--spacing-7);
-    --avatar-fallback-one-letter-font-size: var(--text-base);
-    --avatar-fallback-two-letters-font-size: var(--text-sm);
+    --avatar-fallback-one-letter-font-size: var(--font-size-4);
+    --avatar-fallback-two-letters-font-size: var(--font-size-3);
     border-radius: max(var(--radius-3), var(--radius-full));
-    letter-spacing: var(--text-sm--letter-spacing);
+    letter-spacing: var(--letter-spacing-3);
   }
 
   .avatar-size-4 {
     --avatar-size: var(--spacing-8);
-    --avatar-fallback-one-letter-font-size: var(--text-lg);
-    --avatar-fallback-two-letters-font-size: var(--text-base);
+    --avatar-fallback-one-letter-font-size: var(--font-size-5);
+    --avatar-fallback-two-letters-font-size: var(--font-size-4);
     border-radius: max(var(--radius-3), var(--radius-full));
-    letter-spacing: var(--text-base--letter-spacing);
+    letter-spacing: var(--letter-spacing-4);
   }
 
   .avatar-size-5 {
     --avatar-size: var(--spacing-9);
-    --avatar-fallback-one-letter-font-size: var(--text-xl);
+    --avatar-fallback-one-letter-font-size: var(--font-size-6);
     border-radius: max(var(--radius-4), var(--radius-full));
-    letter-spacing: var(--text-xl--letter-spacing);
+    letter-spacing: var(--letter-spacing-6);
   }
 
   .avatar-size-6 {
     --avatar-size: 80px;
-    --avatar-fallback-one-letter-font-size: var(--text-2xl);
+    --avatar-fallback-one-letter-font-size: var(--font-size-7);
     border-radius: max(var(--radius-5), var(--radius-full));
-    letter-spacing: var(--text-2xl--letter-spacing);
+    letter-spacing: var(--letter-spacing-7);
   }
 
   .avatar-size-7 {
     --avatar-size: 96px;
-    --avatar-fallback-one-letter-font-size: var(--text-2xl);
+    --avatar-fallback-one-letter-font-size: var(--font-size-7);
     border-radius: max(var(--radius-5), var(--radius-full));
-    letter-spacing: var(--text-2xl--letter-spacing);
+    letter-spacing: var(--letter-spacing-7);
   }
 
   .avatar-size-8 {
     --avatar-size: 128px;
-    --avatar-fallback-one-letter-font-size: var(--text-3xl);
+    --avatar-fallback-one-letter-font-size: var(--font-size-8);
     border-radius: max(var(--radius-6), var(--radius-full));
-    letter-spacing: var(--text-3xl--letter-spacing);
+    letter-spacing: var(--letter-spacing-8);
   }
 
   .avatar-size-9 {
     --avatar-size: 160px;
-    --avatar-fallback-one-letter-font-size: var(--text-4xl);
+    --avatar-fallback-one-letter-font-size: var(--font-size-9);
     border-radius: max(var(--radius-6), var(--radius-full));
-    letter-spacing: var(--text-4xl--letter-spacing);
+    letter-spacing: var(--letter-spacing-9);
   }
 
   /* Avatar fallback letter sizes */
@@ -1457,7 +1460,7 @@
     scrollbar-width: none;
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
     --tab-height: var(--spacing-7);
     --tab-padding-x: var(--spacing-2);
     --tab-inner-padding-x: var(--spacing-2);
@@ -2097,7 +2100,7 @@
     gap: var(--spacing-1);
     font-size: var(--text-2xs);
     line-height: var(--text-2xs--line-height);
-    letter-spacing: var(--text-2xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-1);
     height: var(--spacing-5);
     padding-left: var(--spacing-2);
     padding-right: var(--spacing-2);
@@ -2115,7 +2118,7 @@
     gap: var(--spacing-2);
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
     height: var(--spacing-6);
     padding-left: var(--spacing-3);
     padding-right: var(--spacing-3);
@@ -2133,7 +2136,7 @@
     gap: var(--spacing-3);
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
-    letter-spacing: var(--text-sm--letter-spacing);
+    letter-spacing: var(--letter-spacing-3);
     height: var(--spacing-7);
     padding-left: var(--spacing-4);
     padding-right: var(--spacing-4);
@@ -2151,7 +2154,7 @@
     gap: var(--spacing-3);
     font-size: var(--text-base);
     line-height: var(--text-base--line-height);
-    letter-spacing: var(--text-base--letter-spacing);
+    letter-spacing: var(--letter-spacing-4);
     height: var(--spacing-8);
     padding-left: var(--spacing-5);
     padding-right: var(--spacing-5);
@@ -2433,8 +2436,7 @@
 
   .icon-button .icon-button-spinner {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: none;
@@ -2829,7 +2831,7 @@
   .callout-size-1 .callout-text {
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
   }
 
   .callout-size-2 {
@@ -2843,7 +2845,7 @@
   .callout-size-2 .callout-text {
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
   }
 
   .callout-size-3 {
@@ -2857,7 +2859,7 @@
   .callout-size-3 .callout-text {
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
-    letter-spacing: var(--text-sm--letter-spacing);
+    letter-spacing: var(--letter-spacing-3);
   }
 
   /* Callout variant: soft */
@@ -4427,8 +4429,7 @@
       0 0.08em 0.17em var(--gray-a7);
   }
 
-  .dark :root,
-  :root.dark {
+  .dark, .dark-theme {
     /* prettier-ignore */
     --kbd-box-shadow:
       inset 0 -0.05em 0.5em var(--gray-a3),
@@ -4497,27 +4498,27 @@
   /* Kbd Size Variants */
   .kbd-size-1 {
     font-size: calc(var(--text-2xs) * 0.8);
-    letter-spacing: var(--text-2xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-1);
   }
 
   .kbd-size-2 {
     font-size: calc(var(--text-xs) * 0.8);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
   }
 
   .kbd-size-3 {
     font-size: calc(var(--text-sm) * 0.8);
-    letter-spacing: var(--text-sm--letter-spacing);
+    letter-spacing: var(--letter-spacing-3);
   }
 
   .kbd-size-4 {
     font-size: calc(var(--text-base) * 0.8);
-    letter-spacing: var(--text-base--letter-spacing);
+    letter-spacing: var(--letter-spacing-4);
   }
 
   .kbd-size-5 {
     font-size: calc(var(--text-lg) * 0.8);
-    letter-spacing: var(--text-lg--letter-spacing);
+    letter-spacing: var(--letter-spacing-5);
   }
 
   /* ========================================
@@ -4689,25 +4690,25 @@
   .text-size-1 {
     font-size: var(--text-2xs);
     line-height: var(--text-2xs--line-height);
-    letter-spacing: var(--text-2xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-1);
   }
 
   .text-size-2 {
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
   }
 
   .text-size-3 {
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
-    letter-spacing: var(--text-sm--letter-spacing);
+    letter-spacing: var(--letter-spacing-3);
   }
 
   .text-size-4 {
     font-size: var(--text-base);
     line-height: var(--text-base--line-height);
-    letter-spacing: var(--text-base--letter-spacing);
+    letter-spacing: var(--letter-spacing-4);
   }
 
   .text-size-5 {
@@ -4719,25 +4720,25 @@
   .text-size-6 {
     font-size: var(--text-xl);
     line-height: var(--text-xl--line-height);
-    letter-spacing: var(--text-xl--letter-spacing);
+    letter-spacing: var(--letter-spacing-6);
   }
 
   .text-size-7 {
     font-size: var(--text-2xl);
     line-height: var(--text-2xl--line-height);
-    letter-spacing: var(--text-2xl--letter-spacing);
+    letter-spacing: var(--letter-spacing-7);
   }
 
   .text-size-8 {
     font-size: var(--text-3xl);
     line-height: var(--text-3xl--line-height);
-    letter-spacing: var(--text-3xl--letter-spacing);
+    letter-spacing: var(--letter-spacing-8);
   }
 
   .text-size-9 {
     font-size: var(--text-4xl);
     line-height: var(--text-4xl--line-height);
-    letter-spacing: var(--text-4xl--letter-spacing);
+    letter-spacing: var(--letter-spacing-9);
   }
 
   /* Text weight variants */
@@ -4942,7 +4943,7 @@
   .checkbox-group-1 .checkbox-label {
     font-size: var(--text-2xs);
     line-height: var(--text-2xs--line-height);
-    letter-spacing: var(--text-2xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-1);
   }
 
   .checkbox-group-2 {
@@ -4954,7 +4955,7 @@
   .checkbox-group-2 .checkbox-label {
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
   }
 
   .checkbox-group-3 {
@@ -4966,7 +4967,7 @@
   .checkbox-group-3 .checkbox-label {
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
-    letter-spacing: var(--text-sm--letter-spacing);
+    letter-spacing: var(--letter-spacing-3);
   }
 
   /* ==================== Radio Cards ==================== */
@@ -5177,7 +5178,7 @@
   .radio-cards-size-1 {
     font-size: var(--text-xs);
     --line-height: var(--text-xs--line-height);
-    --letter-spacing: var(--text-xs--letter-spacing);
+    --letter-spacing: var(--letter-spacing-2);
     --radio-card-padding-x: var(--spacing-3);
     --radio-card-padding-y: calc(var(--spacing-3) / 1.2);
     --radio-card-border-radius: var(--radius-3);
@@ -5186,7 +5187,7 @@
   .radio-cards-size-2 {
     font-size: var(--text-xs);
     --line-height: var(--text-xs--line-height);
-    --letter-spacing: var(--text-xs--letter-spacing);
+    --letter-spacing: var(--letter-spacing-2);
     --radio-card-padding-x: var(--spacing-4);
     --radio-card-padding-y: calc(var(--spacing-4) * 0.875);
     --radio-card-border-radius: var(--radius-3);
@@ -5195,7 +5196,7 @@
   .radio-cards-size-3 {
     font-size: var(--text-sm);
     --line-height: var(--text-sm--line-height);
-    --letter-spacing: var(--text-sm--letter-spacing);
+    --letter-spacing: var(--letter-spacing-3);
     --radio-card-padding-x: var(--spacing-5);
     --radio-card-padding-y: calc(var(--spacing-5) / 1.2);
     --radio-card-border-radius: var(--radius-4);
@@ -5365,7 +5366,7 @@
   .checkbox-cards-size-1 {
     font-size: var(--text-xs);
     --line-height: var(--text-xs--line-height);
-    --letter-spacing: var(--text-xs--letter-spacing);
+    --letter-spacing: var(--letter-spacing-2);
     --checkbox-card-padding-top: calc(var(--spacing-3) / 1.2);
     --checkbox-card-padding-bottom: calc(var(--spacing-3) / 1.2);
     --checkbox-card-padding-left: var(--spacing-3);
@@ -5380,7 +5381,7 @@
   .checkbox-cards-size-2 {
     font-size: var(--text-xs);
     --line-height: var(--text-xs--line-height);
-    --letter-spacing: var(--text-xs--letter-spacing);
+    --letter-spacing: var(--letter-spacing-2);
     --checkbox-card-padding-top: calc(var(--spacing-4) * 0.875);
     --checkbox-card-padding-bottom: calc(var(--spacing-4) * 0.875);
     --checkbox-card-padding-left: var(--spacing-4);
@@ -5395,7 +5396,7 @@
   .checkbox-cards-size-3 {
     font-size: var(--text-sm);
     --line-height: var(--text-sm--line-height);
-    --letter-spacing: var(--text-sm--letter-spacing);
+    --letter-spacing: var(--letter-spacing-3);
     --checkbox-card-padding-top: calc(var(--spacing-5) / 1.2);
     --checkbox-card-padding-bottom: calc(var(--spacing-5) / 1.2);
     --checkbox-card-padding-left: var(--spacing-5);
@@ -5685,7 +5686,7 @@
     scrollbar-width: none;
     font-size: var(--text-xs);
     line-height: var(--text-xs--line-height);
-    letter-spacing: var(--text-xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-2);
   }
 
   .tab-nav::-webkit-scrollbar {
@@ -5736,7 +5737,7 @@
   .tab-nav-size-1 {
     font-size: var(--text-2xs);
     line-height: var(--text-2xs--line-height);
-    letter-spacing: var(--text-2xs--letter-spacing);
+    letter-spacing: var(--letter-spacing-1);
   }
   .tab-nav-size-1 .tab-nav-link {
     height: var(--spacing-6);

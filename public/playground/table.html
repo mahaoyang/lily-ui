@@ -14,462 +14,174 @@
 </head>
 
 <body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
-  x-data="{
-    theme: 'light',
-    accent: 'iris',
-    sortColumn: null,
-    sortDirection: 'asc',
-    users: [
-      { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin', status: 'Active', joined: '2023-01-15' },
-      { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Developer', status: 'Active', joined: '2023-03-22' },
-      { id: 3, name: 'Carol White', email: 'carol@example.com', role: 'Designer', status: 'Active', joined: '2023-05-10' },
-      { id: 4, name: 'David Brown', email: 'david@example.com', role: 'Developer', status: 'Inactive', joined: '2023-02-08' },
-      { id: 5, name: 'Eve Davis', email: 'eve@example.com', role: 'Manager', status: 'Active', joined: '2023-04-17' }
-    ],
-    transactions: [
-      { id: 'TXN-001', date: '2024-11-30', amount: 1250.00, type: 'Credit', status: 'Completed' },
-      { id: 'TXN-002', date: '2024-11-29', amount: 750.50, type: 'Debit', status: 'Completed' },
-      { id: 'TXN-003', date: '2024-11-28', amount: 2100.00, type: 'Credit', status: 'Pending' },
-      { id: 'TXN-004', date: '2024-11-27', amount: 450.25, type: 'Debit', status: 'Completed' },
-      { id: 'TXN-005', date: '2024-11-26', amount: 3250.00, type: 'Credit', status: 'Failed' }
-    ],
-    sortTable(column) {
-      if (this.sortColumn === column) {
-        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-      } else {
-        this.sortColumn = column;
-        this.sortDirection = 'asc';
-      }
-
-      this.users.sort((a, b) => {
-        let aVal = a[column];
-        let bVal = b[column];
-
-        if (this.sortDirection === 'asc') {
-          return aVal > bVal ? 1 : -1;
-        } else {
-          return aVal < bVal ? 1 : -1;
-        }
-      });
-    }
-  }"
-  :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
-  <main class="mx-auto max-w-7xl p-8 space-y-8">
-    <header class="space-y-3 flex items-center justify-between">
-      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
-        style="background: var(--sand-surface);">
-        <span
-          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">TB</span>
-        <div>
-          <h1 class="text-lg font-semibold text-sand-12 leading-tight">Table Playground</h1>
-          <p class="text-xs text-sand-11">Pure CSS table component</p>
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">TB</span>
+          <div>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Table Playground</h1>
+            <p class="text-xs text-sand-11">表格组件</p>
+          </div>
         </div>
       </div>
-      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">Back to Index</a>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
     </header>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
       style="background: var(--sand-surface);">
       <div class="flex flex-wrap items-center gap-6">
         <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">Theme</div>
+          <div class="text-sm font-medium text-sand-12">主题</div>
           <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
             style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
             <button type="button" class="px-3 py-1 text-sm rounded-md transition"
               :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'light'">
-              Light
-            </button>
+              @click="theme = 'light'">Light</button>
             <button type="button" class="px-3 py-1 text-sm rounded-md transition"
               :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'dark'">
-              Dark
-            </button>
-          </div>
-        </div>
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">Accent</div>
-          <div class="flex flex-wrap gap-2">
-            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
-              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
-                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
-                @click="accent = color">
-                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
-                  :style="`background: var(--${color}-9)`"></span>
-                <span class="capitalize" x-text="color"></span>
-              </button>
-            </template>
+              @click="theme = 'dark'">Dark</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Basic Table Examples -->
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">Basic Table - Size Variants</h2>
+      <h2 class="text-sm font-medium">Table</h2>
 
-      <div class="space-y-6">
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Compact) - Ghost Variant</h3>
-          <div class="table-root table-variant-ghost table-size-1">
-            <table class="table">
-              <thead class="table-header">
-                <tr class="table-row">
-                  <th class="table-cell table-column-header">Name</th>
-                  <th class="table-cell table-column-header">Email</th>
-                  <th class="table-cell table-column-header">Role</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr class="table-row">
-                  <td class="table-cell">Alice Johnson</td>
-                  <td class="table-cell">alice@example.com</td>
-                  <td class="table-cell">Admin</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="table-cell">Bob Smith</td>
-                  <td class="table-cell">bob@example.com</td>
-                  <td class="table-cell">Developer</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="table-cell">Carol White</td>
-                  <td class="table-cell">carol@example.com</td>
-                  <td class="table-cell">Designer</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Default) - Surface Variant</h3>
-          <div class="table-root table-variant-surface table-size-2">
-            <table class="table">
-              <thead class="table-header">
-                <tr class="table-row">
-                  <th class="table-cell table-column-header">Name</th>
-                  <th class="table-cell table-column-header">Email</th>
-                  <th class="table-cell table-column-header">Role</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr class="table-row">
-                  <td class="table-cell">Alice Johnson</td>
-                  <td class="table-cell">alice@example.com</td>
-                  <td class="table-cell">Admin</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="table-cell">Bob Smith</td>
-                  <td class="table-cell">bob@example.com</td>
-                  <td class="table-cell">Developer</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="table-cell">Carol White</td>
-                  <td class="table-cell">carol@example.com</td>
-                  <td class="table-cell">Designer</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Large) - Surface Variant</h3>
-          <div class="table-root table-variant-surface table-size-3">
-            <table class="table">
-              <thead class="table-header">
-                <tr class="table-row">
-                  <th class="table-cell table-column-header">Name</th>
-                  <th class="table-cell table-column-header">Email</th>
-                  <th class="table-cell table-column-header">Role</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr class="table-row">
-                  <td class="table-cell">Alice Johnson</td>
-                  <td class="table-cell">alice@example.com</td>
-                  <td class="table-cell">Admin</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="table-cell">Bob Smith</td>
-                  <td class="table-cell">bob@example.com</td>
-                  <td class="table-cell">Developer</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="table-cell">Carol White</td>
-                  <td class="table-cell">carol@example.com</td>
-                  <td class="table-cell">Designer</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Table with Row Headers -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">Table with Row Headers</h2>
-
-      <div class="table-root table-variant-surface table-size-2">
-        <table class="table">
-          <thead class="table-header">
-            <tr class="table-row">
-              <th class="table-cell table-column-header">Metric</th>
-              <th class="table-cell table-column-header table-cell-align-end">Q1</th>
-              <th class="table-cell table-column-header table-cell-align-end">Q2</th>
-              <th class="table-cell table-column-header table-cell-align-end">Q3</th>
-              <th class="table-cell table-column-header table-cell-align-end">Q4</th>
-            </tr>
-          </thead>
-          <tbody class="table-body">
-            <tr class="table-row">
-              <th class="table-cell table-row-header">Revenue</th>
-              <td class="table-cell table-cell-align-end">$125,000</td>
-              <td class="table-cell table-cell-align-end">$142,000</td>
-              <td class="table-cell table-cell-align-end">$158,000</td>
-              <td class="table-cell table-cell-align-end">$175,000</td>
-            </tr>
-            <tr class="table-row">
-              <th class="table-cell table-row-header">Expenses</th>
-              <td class="table-cell table-cell-align-end">$85,000</td>
-              <td class="table-cell table-cell-align-end">$92,000</td>
-              <td class="table-cell table-cell-align-end">$98,000</td>
-              <td class="table-cell table-cell-align-end">$105,000</td>
-            </tr>
-            <tr class="table-row">
-              <th class="table-cell table-row-header">Profit</th>
-              <td class="table-cell table-cell-align-end">$40,000</td>
-              <td class="table-cell table-cell-align-end">$50,000</td>
-              <td class="table-cell table-cell-align-end">$60,000</td>
-              <td class="table-cell table-cell-align-end">$70,000</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Sortable Table Example -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">Sortable Table (Interactive)</h2>
-      <p class="text-sm text-sand-11">Click on column headers to sort. Visual indicators show sort direction.</p>
-
-      <div class="table-root table-variant-surface table-size-2">
-        <table class="table">
-          <thead class="table-header">
-            <tr class="table-row">
-              <th class="table-cell table-column-header table-column-header-sortable"
-                  @click="sortTable('name')"
-                  :data-sort="sortColumn === 'name' ? sortDirection : null">
-                Name
-              </th>
-              <th class="table-cell table-column-header table-column-header-sortable"
-                  @click="sortTable('email')"
-                  :data-sort="sortColumn === 'email' ? sortDirection : null">
-                Email
-              </th>
-              <th class="table-cell table-column-header table-column-header-sortable"
-                  @click="sortTable('role')"
-                  :data-sort="sortColumn === 'role' ? sortDirection : null">
-                Role
-              </th>
-              <th class="table-cell table-column-header table-column-header-sortable"
-                  @click="sortTable('status')"
-                  :data-sort="sortColumn === 'status' ? sortDirection : null">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody class="table-body">
-            <template x-for="user in users" :key="user.id">
+      <!-- Surface variant -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Surface 变体</div>
+        <div class="table-root table-size-2 table-variant-surface">
+          <table class="table">
+            <thead class="table-header">
               <tr class="table-row">
-                <td class="table-cell" x-text="user.name"></td>
-                <td class="table-cell" x-text="user.email"></td>
-                <td class="table-cell" x-text="user.role"></td>
-                <td class="table-cell">
-                  <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
-                    :class="user.status === 'Active' ? 'bg-jade-3 text-jade-11 border border-jade-7' : 'bg-sand-3 text-sand-11 border border-sand-7'"
-                    x-text="user.status">
-                  </span>
-                </td>
+                <th class="table-cell table-column-header">姓名</th>
+                <th class="table-cell table-column-header">邮箱</th>
+                <th class="table-cell table-column-header">角色</th>
+                <th class="table-cell table-column-header">状态</th>
               </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Interactive Rows -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">Interactive Rows</h2>
-      <p class="text-sm text-sand-11">Rows with hover effects and click interactions.</p>
-
-      <div class="table-root table-variant-surface table-size-2">
-        <table class="table">
-          <thead class="table-header">
-            <tr class="table-row">
-              <th class="table-cell table-column-header">Transaction ID</th>
-              <th class="table-cell table-column-header">Date</th>
-              <th class="table-cell table-column-header table-cell-align-end">Amount</th>
-              <th class="table-cell table-column-header">Type</th>
-              <th class="table-cell table-column-header">Status</th>
-            </tr>
-          </thead>
-          <tbody class="table-body">
-            <template x-for="txn in transactions" :key="txn.id">
-              <tr class="table-row table-row-interactive" @click="alert('Clicked: ' + txn.id)">
-                <td class="table-cell font-mono text-sm" x-text="txn.id"></td>
-                <td class="table-cell" x-text="txn.date"></td>
-                <td class="table-cell table-cell-align-end font-mono" x-text="'$' + txn.amount.toFixed(2)"></td>
-                <td class="table-cell">
-                  <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
-                    :class="txn.type === 'Credit' ? 'bg-jade-3 text-jade-11 border border-jade-7' : 'bg-amber-3 text-amber-11 border border-amber-7'"
-                    x-text="txn.type">
-                  </span>
-                </td>
-                <td class="table-cell">
-                  <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
-                    :class="txn.status === 'Completed' ? 'bg-jade-3 text-jade-11 border border-jade-7' : (txn.status === 'Pending' ? 'bg-amber-3 text-amber-11 border border-amber-7' : 'bg-red-3 text-red-11 border border-red-7')"
-                    x-text="txn.status">
-                  </span>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Striped Table -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">Striped Table</h2>
-      <p class="text-sm text-sand-11">Alternating row colors for better readability.</p>
-
-      <div class="table-root table-variant-ghost table-size-2 table-striped">
-        <table class="table">
-          <thead class="table-header">
-            <tr class="table-row">
-              <th class="table-cell table-column-header">ID</th>
-              <th class="table-cell table-column-header">Name</th>
-              <th class="table-cell table-column-header">Email</th>
-              <th class="table-cell table-column-header">Role</th>
-              <th class="table-cell table-column-header">Joined</th>
-            </tr>
-          </thead>
-          <tbody class="table-body">
-            <template x-for="user in users" :key="user.id">
+            </thead>
+            <tbody class="table-body">
               <tr class="table-row">
-                <td class="table-cell" x-text="user.id"></td>
-                <td class="table-cell" x-text="user.name"></td>
-                <td class="table-cell" x-text="user.email"></td>
-                <td class="table-cell" x-text="user.role"></td>
-                <td class="table-cell" x-text="user.joined"></td>
+                <td class="table-cell table-row-header">张三</td>
+                <td class="table-cell">zhang@example.com</td>
+                <td class="table-cell">管理员</td>
+                <td class="table-cell"><span class="badge badge-size-1 badge-variant-soft" data-accent-color="teal">在线</span></td>
               </tr>
-            </template>
-          </tbody>
-        </table>
+              <tr class="table-row">
+                <td class="table-cell table-row-header">李四</td>
+                <td class="table-cell">li@example.com</td>
+                <td class="table-cell">开发者</td>
+                <td class="table-cell"><span class="badge badge-size-1 badge-variant-soft" data-accent-color="teal">在线</span></td>
+              </tr>
+              <tr class="table-row">
+                <td class="table-cell table-row-header">王五</td>
+                <td class="table-cell">wang@example.com</td>
+                <td class="table-cell">设计师</td>
+                <td class="table-cell"><span class="badge badge-size-1 badge-variant-soft" data-accent-color="gray">离线</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </section>
 
-    <!-- Layout Variants -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">Table Layout Variants</h2>
+      <!-- Ghost variant -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Ghost 变体</div>
+        <div class="table-root table-size-2 table-variant-ghost">
+          <table class="table">
+            <thead class="table-header">
+              <tr class="table-row">
+                <th class="table-cell table-column-header">ID</th>
+                <th class="table-cell table-column-header">产品</th>
+                <th class="table-cell table-column-header">价格</th>
+                <th class="table-cell table-column-header">库存</th>
+              </tr>
+            </thead>
+            <tbody class="table-body">
+              <tr class="table-row">
+                <td class="table-cell">001</td>
+                <td class="table-cell">笔记本电脑</td>
+                <td class="table-cell">¥8,999</td>
+                <td class="table-cell">23</td>
+              </tr>
+              <tr class="table-row">
+                <td class="table-cell">002</td>
+                <td class="table-cell">无线鼠标</td>
+                <td class="table-cell">¥299</td>
+                <td class="table-cell">156</td>
+              </tr>
+              <tr class="table-row">
+                <td class="table-cell">003</td>
+                <td class="table-cell">机械键盘</td>
+                <td class="table-cell">¥599</td>
+                <td class="table-cell">42</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-      <div class="space-y-6">
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Auto Layout (content-based width)</h3>
-          <div class="table-root table-variant-surface table-size-2">
-            <table class="table table-layout-auto">
+      <!-- Sizes -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">尺寸 (1-3)</div>
+        <div class="grid grid-cols-1 gap-6">
+          <div class="table-root table-size-1 table-variant-surface">
+            <table class="table">
               <thead class="table-header">
                 <tr class="table-row">
-                  <th class="table-cell table-column-header">ID</th>
-                  <th class="table-cell table-column-header">Very Long Column Name for Description</th>
-                  <th class="table-cell table-column-header">Short</th>
+                  <th class="table-cell table-column-header">Size 1</th>
+                  <th class="table-cell table-column-header">Column</th>
                 </tr>
               </thead>
               <tbody class="table-body">
                 <tr class="table-row">
-                  <td class="table-cell">1</td>
-                  <td class="table-cell">This is a very long description that will determine the column width</td>
-                  <td class="table-cell">OK</td>
+                  <td class="table-cell">Data</td>
+                  <td class="table-cell">Data</td>
                 </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-root table-size-2 table-variant-surface">
+            <table class="table">
+              <thead class="table-header">
                 <tr class="table-row">
-                  <td class="table-cell">2</td>
-                  <td class="table-cell">Short text</td>
-                  <td class="table-cell">Yes</td>
+                  <th class="table-cell table-column-header">Size 2</th>
+                  <th class="table-cell table-column-header">Column</th>
+                </tr>
+              </thead>
+              <tbody class="table-body">
+                <tr class="table-row">
+                  <td class="table-cell">Data</td>
+                  <td class="table-cell">Data</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-root table-size-3 table-variant-surface">
+            <table class="table">
+              <thead class="table-header">
+                <tr class="table-row">
+                  <th class="table-cell table-column-header">Size 3</th>
+                  <th class="table-cell table-column-header">Column</th>
+                </tr>
+              </thead>
+              <tbody class="table-body">
+                <tr class="table-row">
+                  <td class="table-cell">Data</td>
+                  <td class="table-cell">Data</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Fixed Layout (equal width columns)</h3>
-          <div class="table-root table-variant-surface table-size-2">
-            <table class="table table-layout-fixed">
-              <thead class="table-header">
-                <tr class="table-row">
-                  <th class="table-cell table-column-header">ID</th>
-                  <th class="table-cell table-column-header">Very Long Column Name for Description</th>
-                  <th class="table-cell table-column-header">Short</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr class="table-row">
-                  <td class="table-cell">1</td>
-                  <td class="table-cell">This is a very long description that will be truncated or wrapped</td>
-                  <td class="table-cell">OK</td>
-                </tr>
-                <tr class="table-row">
-                  <td class="table-cell">2</td>
-                  <td class="table-cell">Short text</td>
-                  <td class="table-cell">Yes</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
     </section>
-
-    <!-- Alignment Examples -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">Cell Alignment</h2>
-
-      <div class="table-root table-variant-surface table-size-2">
-        <table class="table">
-          <thead class="table-header">
-            <tr class="table-row">
-              <th class="table-cell table-column-header table-cell-align-start">Left Aligned</th>
-              <th class="table-cell table-column-header table-cell-align-center">Center Aligned</th>
-              <th class="table-cell table-column-header table-cell-align-end">Right Aligned</th>
-            </tr>
-          </thead>
-          <tbody class="table-body">
-            <tr class="table-row">
-              <td class="table-cell table-cell-align-start">Text on the left</td>
-              <td class="table-cell table-cell-align-center">Text in center</td>
-              <td class="table-cell table-cell-align-end">Text on the right</td>
-            </tr>
-            <tr class="table-row">
-              <td class="table-cell table-cell-align-start">Another row</td>
-              <td class="table-cell table-cell-align-center">Centered data</td>
-              <td class="table-cell table-cell-align-end">$1,234.56</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
   </main>
-
-  <footer class="border-t border-sand-6 py-8">
-    <div class="mx-auto max-w-7xl px-8">
-      <p class="text-sm text-sand-11 text-center">Table Component - Lily UI Playground</p>
-    </div>
-  </footer>
-
 </body>
 
 </html>

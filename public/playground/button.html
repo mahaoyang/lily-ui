@@ -17,14 +17,15 @@
   x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
-    <header class="space-y-3 flex items-center justify-between">
-      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
-        style="background: var(--sand-surface);">
-        <span
-          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">BT</span>
-        <div>
-          <h1 class="text-lg font-semibold text-sand-12 leading-tight">Button Playground</h1>
-          <p class="text-xs text-sand-11">纯 CSS 按钮组件</p>
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">BT</span>
+          <div>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Button Playground</h1>
+            <p class="text-xs text-sand-11">按钮组件</p>
+          </div>
         </div>
       </div>
       <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
@@ -39,14 +40,10 @@
             style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
             <button type="button" class="px-3 py-1 text-sm rounded-md transition"
               :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'light'">
-              Light
-            </button>
+              @click="theme = 'light'">Light</button>
             <button type="button" class="px-3 py-1 text-sm rounded-md transition"
               :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'dark'">
-              Dark
-            </button>
+              @click="theme = 'dark'">Dark</button>
           </div>
         </div>
         <div class="space-y-2">
@@ -64,313 +61,86 @@
           </div>
         </div>
       </div>
-      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
-        <code>data-accent-color</code> 切换；组件可在自身容器覆写。
-      </p>
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">尺寸变体</h2>
+      <h2 class="text-sm font-medium">Button</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Compact)</h3>
-          <div class="flex flex-wrap gap-3">
-            <button class="button button-size-1 button-variant-solid">Size 1</button>
-            <button class="button button-size-1 button-variant-soft">Size 1</button>
-            <button class="button button-size-1 button-variant-ghost">Size 1</button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Default)</h3>
-          <div class="flex flex-wrap gap-3">
-            <button class="button button-size-2 button-variant-solid">Size 2</button>
-            <button class="button button-size-2 button-variant-soft">Size 2</button>
-            <button class="button button-size-2 button-variant-ghost">Size 2</button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Large)</h3>
-          <div class="flex flex-wrap gap-3">
-            <button class="button button-size-3 button-variant-solid">Size 3</button>
-            <button class="button button-size-3 button-variant-soft">Size 3</button>
-            <button class="button button-size-3 button-variant-ghost">Size 3</button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 4 (Extra Large)</h3>
-          <div class="flex flex-wrap gap-3">
-            <button class="button button-size-4 button-variant-solid">Size 4</button>
-            <button class="button button-size-4 button-variant-soft">Size 4</button>
-            <button class="button button-size-4 button-variant-ghost">Size 4</button>
-          </div>
+      <!-- Sizes -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">尺寸 (1-4)</div>
+        <div class="flex flex-wrap items-center gap-3">
+          <button class="button button-size-1 button-variant-solid">Size 1</button>
+          <button class="button button-size-2 button-variant-solid">Size 2</button>
+          <button class="button button-size-3 button-variant-solid">Size 3</button>
+          <button class="button button-size-4 button-variant-solid">Size 4</button>
         </div>
       </div>
-    </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">变体样式</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Classic</h3>
-          <div class="flex flex-col gap-3">
-            <button class="button button-size-2 button-variant-classic">Classic</button>
-            <button class="button button-size-2 button-variant-classic" disabled>Disabled</button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Solid</h3>
-          <div class="flex flex-col gap-3">
-            <button class="button button-size-2 button-variant-solid">Solid</button>
-            <button class="button button-size-2 button-variant-solid" disabled>Disabled</button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Soft</h3>
-          <div class="flex flex-col gap-3">
-            <button class="button button-size-2 button-variant-soft">Soft</button>
-            <button class="button button-size-2 button-variant-soft" disabled>Disabled</button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Surface</h3>
-          <div class="flex flex-col gap-3">
-            <button class="button button-size-2 button-variant-surface">Surface</button>
-            <button class="button button-size-2 button-variant-surface" disabled>Disabled</button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Outline</h3>
-          <div class="flex flex-col gap-3">
-            <button class="button button-size-2 button-variant-outline">Outline</button>
-            <button class="button button-size-2 button-variant-outline" disabled>Disabled</button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Ghost</h3>
-          <div class="flex flex-col gap-3">
-            <button class="button button-size-2 button-variant-ghost">Ghost</button>
-            <button class="button button-size-2 button-variant-ghost" disabled>Disabled</button>
-          </div>
+      <!-- Variants -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">变体</div>
+        <div class="flex flex-wrap items-center gap-3">
+          <button class="button button-size-2 button-variant-classic">Classic</button>
+          <button class="button button-size-2 button-variant-solid">Solid</button>
+          <button class="button button-size-2 button-variant-soft">Soft</button>
+          <button class="button button-size-2 button-variant-surface">Surface</button>
+          <button class="button button-size-2 button-variant-outline">Outline</button>
+          <button class="button button-size-2 button-variant-ghost">Ghost</button>
         </div>
       </div>
-    </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">加载状态</h2>
-
-      <div class="flex flex-wrap gap-4">
-        <button class="button button-size-2 button-variant-solid" data-loading>
-          <span class="button-content">Loading</span>
-          <span class="button-spinner spinner spinner-size-2" style="color: var(--accent-contrast);">
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-          </span>
-        </button>
-
-        <button class="button button-size-2 button-variant-soft" data-loading>
-          <span class="button-content">Loading</span>
-          <span class="button-spinner spinner spinner-size-2" style="color: var(--accent-11);">
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-          </span>
-        </button>
-
-        <button class="button button-size-3 button-variant-classic" data-loading>
-          <span class="button-content">Processing</span>
-          <span class="button-spinner spinner spinner-size-2" style="color: var(--accent-contrast);">
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-          </span>
-        </button>
-      </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">带图标</h2>
-
-      <div class="flex flex-wrap gap-4">
-        <button class="button button-size-2 button-variant-solid">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
-          Next
-        </button>
-
-        <button class="button button-size-2 button-variant-soft">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 6h18" />
-            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-          </svg>
-          Delete
-        </button>
-
-        <button class="button button-size-3 button-variant-outline">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-          Download
-        </button>
-      </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">颜色变体</h2>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
-          <div class="space-y-3" :data-accent-color="color">
-            <h3 class="text-sm font-medium capitalize" :style="`color: var(--${color}-11)`" x-text="color"></h3>
-            <div class="flex flex-col gap-2">
-              <button class="button button-size-2 button-variant-solid">Solid</button>
-              <button class="button button-size-2 button-variant-soft">Soft</button>
-              <button class="button button-size-2 button-variant-outline">Outline</button>
-            </div>
-          </div>
-        </template>
-      </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">使用场景</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">表单操作</h3>
-          <div class="flex gap-3">
-            <button class="button button-size-2 button-variant-solid">Submit</button>
-            <button class="button button-size-2 button-variant-ghost">Cancel</button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">导航</h3>
-          <div class="flex gap-2">
-            <button class="button button-size-2 button-variant-soft">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m12 19-7-7 7-7" />
-                <path d="M19 12H5" />
-              </svg>
-              Previous
-            </button>
-            <button class="button button-size-2 button-variant-solid">
-              Next
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">危险操作</h3>
-          <div data-accent-color="red">
-            <button class="button button-size-2 button-variant-soft">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 6h18" />
-                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-              </svg>
-              Delete Account
-            </button>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">成功操作</h3>
-          <div data-accent-color="jade">
-            <button class="button button-size-2 button-variant-solid">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              Confirm
-            </button>
-          </div>
+      <!-- High contrast -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">高对比度</div>
+        <div class="flex flex-wrap items-center gap-3">
+          <button class="button button-size-2 button-variant-solid button-high-contrast">Solid</button>
+          <button class="button button-size-2 button-variant-soft button-high-contrast">Soft</button>
+          <button class="button button-size-2 button-variant-surface button-high-contrast">Surface</button>
+          <button class="button button-size-2 button-variant-outline button-high-contrast">Outline</button>
         </div>
       </div>
-    </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium mb-4">代码示例</h2>
-      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法 --&gt;
-&lt;button class="button button-size-2 button-variant-solid"&gt;Button&lt;/button&gt;
+      <!-- Disabled -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">禁用状态</div>
+        <div class="flex flex-wrap items-center gap-3">
+          <button class="button button-size-2 button-variant-solid" disabled>Disabled</button>
+          <button class="button button-size-2 button-variant-soft" disabled>Disabled</button>
+          <button class="button button-size-2 button-variant-outline" disabled>Disabled</button>
+        </div>
+      </div>
 
-&lt;!-- 不同尺寸 --&gt;
-&lt;button class="button button-size-1 button-variant-solid"&gt;Small&lt;/button&gt;
-&lt;button class="button button-size-2 button-variant-solid"&gt;Default&lt;/button&gt;
-&lt;button class="button button-size-3 button-variant-solid"&gt;Large&lt;/button&gt;
-&lt;button class="button button-size-4 button-variant-solid"&gt;XLarge&lt;/button&gt;
+      <!-- Loading -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">加载状态</div>
+        <div class="flex flex-wrap items-center gap-3">
+          <button class="button button-size-2 button-variant-solid" data-loading>
+            <span class="button-text">Loading</span>
+            <span class="button-spinner spinner spinner-size-1" style="color: var(--accent-contrast);">
+              <span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span>
+            </span>
+          </button>
+          <button class="button button-size-2 button-variant-soft" data-loading>
+            <span class="button-text">Loading</span>
+            <span class="button-spinner spinner spinner-size-1" style="color: var(--accent-11);">
+              <span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span>
+              <span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span>
+            </span>
+          </button>
+        </div>
+      </div>
 
-&lt;!-- 不同变体 --&gt;
-&lt;button class="button button-size-2 button-variant-classic"&gt;Classic&lt;/button&gt;
-&lt;button class="button button-size-2 button-variant-solid"&gt;Solid&lt;/button&gt;
-&lt;button class="button button-size-2 button-variant-soft"&gt;Soft&lt;/button&gt;
-&lt;button class="button button-size-2 button-variant-surface"&gt;Surface&lt;/button&gt;
-&lt;button class="button button-size-2 button-variant-outline"&gt;Outline&lt;/button&gt;
-&lt;button class="button button-size-2 button-variant-ghost"&gt;Ghost&lt;/button&gt;
-
-&lt;!-- 禁用状态 --&gt;
-&lt;button class="button button-size-2 button-variant-solid" disabled&gt;
-  Disabled
-&lt;/button&gt;
-
-&lt;!-- 加载状态 --&gt;
-&lt;button class="button button-size-2 button-variant-solid" data-loading&gt;
-  &lt;span class="button-content"&gt;Loading&lt;/span&gt;
-  &lt;span class="button-spinner spinner spinner-size-2"&gt;
-    &lt;!-- 8个 spinner-leaf --&gt;
-  &lt;/span&gt;
-&lt;/button&gt;
-
-&lt;!-- 带图标 --&gt;
-&lt;button class="button button-size-2 button-variant-solid"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-  Next
-&lt;/button&gt;
-
-&lt;!-- 自定义颜色 --&gt;
-&lt;div data-accent-color="red"&gt;
-  &lt;button class="button button-size-2 button-variant-solid"&gt;Delete&lt;/button&gt;
-&lt;/div&gt;</code></pre>
+      <!-- Colors -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">颜色</div>
+        <div class="flex flex-wrap gap-2">
+          <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
+            <button class="button button-size-2 button-variant-solid" :data-accent-color="color" x-text="color"></button>
+          </template>
+        </div>
+      </div>
     </section>
   </main>
 </body>

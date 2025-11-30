@@ -17,14 +17,15 @@
   x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
-    <header class="space-y-3 flex items-center justify-between">
-      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
-        style="background: var(--sand-surface);">
-        <span
-          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">AR</span>
-        <div>
-          <h1 class="text-lg font-semibold text-sand-12 leading-tight">Aspect Ratio Playground</h1>
-          <p class="text-xs text-sand-11">保持固定宽高比的容器</p>
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">AR</span>
+          <div>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Aspect Ratio Playground</h1>
+            <p class="text-xs text-sand-11">保持固定宽高比的容器</p>
+          </div>
         </div>
       </div>
       <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
@@ -39,372 +40,103 @@
             style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
             <button type="button" class="px-3 py-1 text-sm rounded-md transition"
               :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'light'">
-              Light
-            </button>
+              @click="theme = 'light'">Light</button>
             <button type="button" class="px-3 py-1 text-sm rounded-md transition"
               :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'dark'">
-              Dark
-            </button>
-          </div>
-        </div>
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">Accent</div>
-          <div class="flex flex-wrap gap-2">
-            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
-              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
-                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
-                @click="accent = color">
-                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
-                  :style="`background: var(--${color}-9)`"></span>
-                <span class="capitalize" x-text="color"></span>
-              </button>
-            </template>
-          </div>
-        </div>
-      </div>
-      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
-        <code>data-accent-color</code> 切换。
-      </p>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">常用宽高比</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">1:1 (Square)</h3>
-          <div class="aspect-ratio aspect-ratio-1-1 rounded-lg overflow-hidden border border-sand-7">
-            <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&h=800&fit=crop"
-              alt="Square aspect ratio demo" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">16:9 (Widescreen)</h3>
-          <div class="aspect-ratio aspect-ratio-16-9 rounded-lg overflow-hidden border border-sand-7">
-            <img src="https://images.unsplash.com/photo-1682687220923-c58b9a4592ae?w=1600&h=900&fit=crop"
-              alt="16:9 aspect ratio demo" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">4:3 (Standard)</h3>
-          <div class="aspect-ratio aspect-ratio-4-3 rounded-lg overflow-hidden border border-sand-7">
-            <img src="https://images.unsplash.com/photo-1682687220063-4742bd7fd538?w=1200&h=900&fit=crop"
-              alt="4:3 aspect ratio demo" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">3:2 (Photo)</h3>
-          <div class="aspect-ratio aspect-ratio-3-2 rounded-lg overflow-hidden border border-sand-7">
-            <img src="https://images.unsplash.com/photo-1682687221038-404cb8830901?w=1200&h=800&fit=crop"
-              alt="3:2 aspect ratio demo" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">21:9 (Ultrawide)</h3>
-          <div class="aspect-ratio aspect-ratio-21-9 rounded-lg overflow-hidden border border-sand-7">
-            <img src="https://images.unsplash.com/photo-1682687221080-5cb261c645cb?w=2100&h=900&fit=crop"
-              alt="21:9 aspect ratio demo" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">9:16 (Portrait/Story)</h3>
-          <div class="aspect-ratio aspect-ratio-9-16 rounded-lg overflow-hidden border border-sand-7 mx-auto max-w-xs">
-            <img src="https://images.unsplash.com/photo-1682687220208-22d7a2543e88?w=900&h=1600&fit=crop"
-              alt="9:16 aspect ratio demo" class="w-full h-full object-cover">
+              @click="theme = 'dark'">Dark</button>
           </div>
         </div>
       </div>
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">自定义宽高比</h2>
+      <h2 class="text-sm font-medium">Aspect Ratio</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Custom 2:1</h3>
-          <div class="aspect-ratio rounded-lg overflow-hidden border border-sand-7" style="--aspect-ratio: 2;">
-            <img src="https://images.unsplash.com/photo-1682687220866-c856f566f1bd?w=1600&h=800&fit=crop"
-              alt="Custom 2:1 aspect ratio" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Custom 3:4 (Portrait)</h3>
-          <div class="aspect-ratio aspect-ratio-3-4 rounded-lg overflow-hidden border border-sand-7 mx-auto max-w-xs">
-            <img src="https://images.unsplash.com/photo-1682687220777-2c60708d6889?w=900&h=1200&fit=crop"
-              alt="Custom 3:4 aspect ratio" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Custom Golden Ratio (1.618:1)</h3>
-          <div class="aspect-ratio rounded-lg overflow-hidden border border-sand-7" style="--aspect-ratio: 1.618;">
-            <img src="https://images.unsplash.com/photo-1682687221038-404cb8830901?w=1618&h=1000&fit=crop"
-              alt="Golden ratio aspect ratio" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Custom 5:4</h3>
-          <div class="aspect-ratio rounded-lg overflow-hidden border border-sand-7" style="--aspect-ratio: 1.25;">
-            <img src="https://images.unsplash.com/photo-1682687220795-796d3f6f7000?w=1250&h=1000&fit=crop"
-              alt="5:4 aspect ratio" class="w-full h-full object-cover">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">Object Fit 变体</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Cover (Default)</h3>
-          <div class="aspect-ratio aspect-ratio-1-1 aspect-ratio-cover rounded-lg overflow-hidden border border-sand-7">
-            <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&h=600&fit=crop"
-              alt="Cover fit demo">
-          </div>
-          <p class="text-xs text-sand-11">保持宽高比，裁剪以填满容器</p>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Contain</h3>
-          <div class="aspect-ratio aspect-ratio-1-1 aspect-ratio-contain rounded-lg overflow-hidden border border-sand-7 bg-sand-3">
-            <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&h=600&fit=crop"
-              alt="Contain fit demo">
-          </div>
-          <p class="text-xs text-sand-11">完整显示图像，可能留白</p>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Fill</h3>
-          <div class="aspect-ratio aspect-ratio-1-1 aspect-ratio-fill rounded-lg overflow-hidden border border-sand-7">
-            <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&h=600&fit=crop"
-              alt="Fill fit demo">
-          </div>
-          <p class="text-xs text-sand-11">拉伸填满容器，可能变形</p>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">None</h3>
-          <div class="aspect-ratio aspect-ratio-1-1 aspect-ratio-none rounded-lg overflow-hidden border border-sand-7 bg-sand-3">
-            <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=400&h=300&fit=crop"
-              alt="None fit demo">
-          </div>
-          <p class="text-xs text-sand-11">保持原始大小，可能溢出</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">视频嵌入</h2>
-
-      <div class="grid grid-cols-1 gap-6">
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">YouTube 嵌入 (16:9)</h3>
-          <div class="aspect-ratio aspect-ratio-16-9 rounded-lg overflow-hidden border border-sand-7 bg-sand-12">
-            <div class="w-full h-full flex items-center justify-center text-white">
-              <div class="text-center space-y-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto">
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-                <p class="text-sm">YouTube Video Placeholder</p>
-                <p class="text-xs opacity-70">Use iframe for real embed</p>
-              </div>
+      <!-- Common ratios -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">常用宽高比</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="space-y-2">
+            <div class="aspect-ratio aspect-ratio-1-1 rounded-lg border border-sand-6 bg-accent-3 flex items-center justify-center">
+              <span class="text-xs text-accent-11">1:1</span>
             </div>
+            <span class="text-2xs text-sand-11">Square</span>
           </div>
-          <pre class="bg-sand-3 text-sand-12 p-3 rounded text-xs overflow-x-auto"><code>&lt;div class="aspect-ratio aspect-ratio-16-9"&gt;
-  &lt;iframe src="https://youtube.com/embed/..."&gt;&lt;/iframe&gt;
-&lt;/div&gt;</code></pre>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Vertical Video (9:16)</h3>
-          <div class="aspect-ratio aspect-ratio-9-16 rounded-lg overflow-hidden border border-sand-7 bg-sand-12 mx-auto max-w-xs">
-            <div class="w-full h-full flex items-center justify-center text-white">
-              <div class="text-center space-y-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto">
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-                <p class="text-sm">TikTok/Story</p>
-                <p class="text-xs opacity-70">Vertical format</p>
-              </div>
+          <div class="space-y-2">
+            <div class="aspect-ratio aspect-ratio-16-9 rounded-lg border border-sand-6 bg-accent-3 flex items-center justify-center">
+              <span class="text-xs text-accent-11">16:9</span>
             </div>
+            <span class="text-2xs text-sand-11">Widescreen</span>
+          </div>
+          <div class="space-y-2">
+            <div class="aspect-ratio aspect-ratio-4-3 rounded-lg border border-sand-6 bg-accent-3 flex items-center justify-center">
+              <span class="text-xs text-accent-11">4:3</span>
+            </div>
+            <span class="text-2xs text-sand-11">Standard</span>
+          </div>
+          <div class="space-y-2">
+            <div class="aspect-ratio aspect-ratio-3-2 rounded-lg border border-sand-6 bg-accent-3 flex items-center justify-center">
+              <span class="text-xs text-accent-11">3:2</span>
+            </div>
+            <span class="text-2xs text-sand-11">Photo</span>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">实际应用：响应式图片画廊</h2>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="aspect-ratio aspect-ratio-1-1 rounded-lg overflow-hidden border border-sand-7 hover:scale-105 transition-transform cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=400&h=400&fit=crop"
-            alt="Gallery image 1" class="w-full h-full object-cover">
-        </div>
-        <div class="aspect-ratio aspect-ratio-1-1 rounded-lg overflow-hidden border border-sand-7 hover:scale-105 transition-transform cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1682687220923-c58b9a4592ae?w=400&h=400&fit=crop"
-            alt="Gallery image 2" class="w-full h-full object-cover">
-        </div>
-        <div class="aspect-ratio aspect-ratio-1-1 rounded-lg overflow-hidden border border-sand-7 hover:scale-105 transition-transform cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1682687220063-4742bd7fd538?w=400&h=400&fit=crop"
-            alt="Gallery image 3" class="w-full h-full object-cover">
-        </div>
-        <div class="aspect-ratio aspect-ratio-1-1 rounded-lg overflow-hidden border border-sand-7 hover:scale-105 transition-transform cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1682687221038-404cb8830901?w=400&h=400&fit=crop"
-            alt="Gallery image 4" class="w-full h-full object-cover">
-        </div>
-        <div class="aspect-ratio aspect-ratio-1-1 rounded-lg overflow-hidden border border-sand-7 hover:scale-105 transition-transform cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1682687221080-5cb261c645cb?w=400&h=400&fit=crop"
-            alt="Gallery image 5" class="w-full h-full object-cover">
-        </div>
-        <div class="aspect-ratio aspect-ratio-1-1 rounded-lg overflow-hidden border border-sand-7 hover:scale-105 transition-transform cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1682687220208-22d7a2543e88?w=400&h=400&fit=crop"
-            alt="Gallery image 6" class="w-full h-full object-cover">
-        </div>
-        <div class="aspect-ratio aspect-ratio-1-1 rounded-lg overflow-hidden border border-sand-7 hover:scale-105 transition-transform cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1682687220866-c856f566f1bd?w=400&h=400&fit=crop"
-            alt="Gallery image 7" class="w-full h-full object-cover">
-        </div>
-        <div class="aspect-ratio aspect-ratio-1-1 rounded-lg overflow-hidden border border-sand-7 hover:scale-105 transition-transform cursor-pointer">
-          <img src="https://images.unsplash.com/photo-1682687220777-2c60708d6889?w=400&h=400&fit=crop"
-            alt="Gallery image 8" class="w-full h-full object-cover">
-        </div>
-      </div>
-    </section>
-
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium">实际应用：产品卡片</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="rounded-lg border border-sand-7 overflow-hidden hover:border-accent-8 transition-colors" style="background: var(--sand-surface);">
-          <div class="aspect-ratio aspect-ratio-4-3">
-            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=600&fit=crop"
-              alt="Product 1" class="w-full h-full object-cover">
-          </div>
-          <div class="p-4 space-y-2">
-            <h3 class="font-semibold text-sand-12">Wireless Headphones</h3>
-            <p class="text-sm text-sand-11">Premium sound quality with noise cancellation</p>
-            <div class="flex items-center justify-between pt-2">
-              <span class="text-lg font-bold text-accent-11">$299</span>
-              <button class="button button-size-2 button-variant-soft">Add to Cart</button>
+      <!-- Portrait ratios -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">竖屏宽高比</div>
+        <div class="flex gap-4">
+          <div class="space-y-2 w-24">
+            <div class="aspect-ratio aspect-ratio-9-16 rounded-lg border border-sand-6 bg-accent-3 flex items-center justify-center">
+              <span class="text-xs text-accent-11">9:16</span>
             </div>
+            <span class="text-2xs text-sand-11">Story</span>
           </div>
-        </div>
-
-        <div class="rounded-lg border border-sand-7 overflow-hidden hover:border-accent-8 transition-colors" style="background: var(--sand-surface);">
-          <div class="aspect-ratio aspect-ratio-4-3">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop"
-              alt="Product 2" class="w-full h-full object-cover">
-          </div>
-          <div class="p-4 space-y-2">
-            <h3 class="font-semibold text-sand-12">Smart Watch</h3>
-            <p class="text-sm text-sand-11">Track your fitness and stay connected</p>
-            <div class="flex items-center justify-between pt-2">
-              <span class="text-lg font-bold text-accent-11">$399</span>
-              <button class="button button-size-2 button-variant-soft">Add to Cart</button>
+          <div class="space-y-2 w-24">
+            <div class="aspect-ratio aspect-ratio-3-4 rounded-lg border border-sand-6 bg-accent-3 flex items-center justify-center">
+              <span class="text-xs text-accent-11">3:4</span>
             </div>
+            <span class="text-2xs text-sand-11">Portrait</span>
           </div>
-        </div>
-
-        <div class="rounded-lg border border-sand-7 overflow-hidden hover:border-accent-8 transition-colors" style="background: var(--sand-surface);">
-          <div class="aspect-ratio aspect-ratio-4-3">
-            <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&h=600&fit=crop"
-              alt="Product 3" class="w-full h-full object-cover">
-          </div>
-          <div class="p-4 space-y-2">
-            <h3 class="font-semibold text-sand-12">Designer Sunglasses</h3>
-            <p class="text-sm text-sand-11">UV protection with stylish frames</p>
-            <div class="flex items-center justify-between pt-2">
-              <span class="text-lg font-bold text-accent-11">$199</span>
-              <button class="button button-size-2 button-variant-soft">Add to Cart</button>
+          <div class="space-y-2 w-24">
+            <div class="aspect-ratio aspect-ratio-2-3 rounded-lg border border-sand-6 bg-accent-3 flex items-center justify-center">
+              <span class="text-xs text-accent-11">2:3</span>
             </div>
+            <span class="text-2xs text-sand-11">Poster</span>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
-      <h2 class="text-sm font-medium mb-4">代码示例</h2>
-      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 使用预设宽高比 --&gt;
-&lt;div class="aspect-ratio aspect-ratio-16-9"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
+      <!-- With image -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">带图片</div>
+        <div class="grid grid-cols-2 gap-4 max-w-lg">
+          <div class="space-y-2">
+            <div class="aspect-ratio aspect-ratio-16-9 rounded-lg overflow-hidden border border-sand-6">
+              <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=400&h=225&fit=crop" alt="Demo" class="w-full h-full object-cover">
+            </div>
+            <span class="text-2xs text-sand-11">object-cover (默认)</span>
+          </div>
+          <div class="space-y-2">
+            <div class="aspect-ratio aspect-ratio-16-9 aspect-ratio-contain rounded-lg overflow-hidden border border-sand-6 bg-sand-3">
+              <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=400&h=400&fit=crop" alt="Demo" class="w-full h-full">
+            </div>
+            <span class="text-2xs text-sand-11">object-contain</span>
+          </div>
+        </div>
+      </div>
 
-&lt;!-- 1:1 正方形 --&gt;
-&lt;div class="aspect-ratio aspect-ratio-1-1"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
-
-&lt;!-- 4:3 标准 --&gt;
-&lt;div class="aspect-ratio aspect-ratio-4-3"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
-
-&lt;!-- 3:2 照片 --&gt;
-&lt;div class="aspect-ratio aspect-ratio-3-2"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
-
-&lt;!-- 21:9 超宽屏 --&gt;
-&lt;div class="aspect-ratio aspect-ratio-21-9"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
-
-&lt;!-- 9:16 竖屏/故事 --&gt;
-&lt;div class="aspect-ratio aspect-ratio-9-16"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
-
-&lt;!-- 自定义宽高比 --&gt;
-&lt;div class="aspect-ratio" style="--aspect-ratio: 2.35;"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
-
-&lt;!-- 自定义黄金比例 --&gt;
-&lt;div class="aspect-ratio" style="--aspect-ratio: 1.618;"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
-
-&lt;!-- Object fit 变体 --&gt;
-&lt;div class="aspect-ratio aspect-ratio-1-1 aspect-ratio-cover"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
-
-&lt;div class="aspect-ratio aspect-ratio-1-1 aspect-ratio-contain"&gt;
-  &lt;img src="image.jpg" alt="..."&gt;
-&lt;/div&gt;
-
-&lt;!-- 视频嵌入 --&gt;
-&lt;div class="aspect-ratio aspect-ratio-16-9"&gt;
-  &lt;iframe
-    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen
-  &gt;&lt;/iframe&gt;
-&lt;/div&gt;
-
-&lt;!-- 响应式图片画廊 --&gt;
-&lt;div class="grid grid-cols-2 md:grid-cols-4 gap-4"&gt;
-  &lt;div class="aspect-ratio aspect-ratio-1-1"&gt;
-    &lt;img src="image1.jpg" alt="..."&gt;
-  &lt;/div&gt;
-  &lt;div class="aspect-ratio aspect-ratio-1-1"&gt;
-    &lt;img src="image2.jpg" alt="..."&gt;
-  &lt;/div&gt;
-  &lt;!-- ... more images --&gt;
-&lt;/div&gt;</code></pre>
+      <!-- Custom ratio -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">自定义宽高比</div>
+        <div class="max-w-sm">
+          <div class="aspect-ratio rounded-lg border border-sand-6 bg-accent-3 flex items-center justify-center" style="--aspect-ratio: 2.35;">
+            <span class="text-xs text-accent-11">2.35:1 (Cinemascope)</span>
+          </div>
+          <p class="text-2xs text-sand-11 mt-2">style="--aspect-ratio: 2.35;"</p>
+        </div>
+      </div>
     </section>
   </main>
 </body>
