@@ -7,8 +7,9 @@
     "dev:machines": "rm -rf public/machines && bun build ./src/machines/*.ts --target browser --format esm --outdir public/machines --entry-naming [name].js --watch",
     "build:machines": "rm -rf public/machines && bun build ./src/machines/*.ts --target browser --format esm --outdir public/machines --entry-naming [name].js",
     "dev:all": "bash scripts/dev.sh",
-    "dev": "bun run build:config && tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --watch",
-    "build": "bun run build:config && tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --minify"
+    "dev": "bun run build:tokens && bun run build:config && tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --watch",
+    "build": "bun run build:tokens && bun run build:config && tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --minify",
+    "build:tokens": "node scripts/generate-tokens.cjs"
   },
   "devDependencies": {
     "@radix-ui/themes": "3.2.1",

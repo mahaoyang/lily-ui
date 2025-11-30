@@ -16,7 +16,7 @@
     Alpine.start();
   </script>
 </head>
-<body class="min-h-screen bg-sand-2 text-sand-12" x-data="{ theme: 'light', accent: 'iris' }"
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12" x-data="{ theme: 'light', accent: 'iris' }"
   :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent" :data-accent-color="accent">
   <main class="mx-auto max-w-4xl p-8 space-y-10">
     <header class="flex items-center justify-between">

@@ -1,0 +1,127 @@
+@theme {
+  --space-1: calc(4px * 1);
+  --space-2: calc(8px * 1);
+  --space-3: calc(12px * 1);
+  --space-4: calc(16px * 1);
+  --space-5: calc(24px * 1);
+  --space-6: calc(32px * 1);
+  --space-7: calc(40px * 1);
+  --space-8: calc(48px * 1);
+  --space-9: calc(64px * 1);
+  --font-size-1: calc(12px * 1);
+  --font-size-2: calc(14px * 1);
+  --font-size-3: calc(16px * 1);
+  --font-size-4: calc(18px * 1);
+  --font-size-5: calc(20px * 1);
+  --font-size-6: calc(24px * 1);
+  --font-size-7: calc(28px * 1);
+  --font-size-8: calc(35px * 1);
+  --font-size-9: calc(60px * 1);
+  --line-height-1: calc(16px * 1);
+  --line-height-2: calc(20px * 1);
+  --line-height-3: calc(24px * 1);
+  --line-height-4: calc(26px * 1);
+  --line-height-5: calc(28px * 1);
+  --line-height-6: calc(30px * 1);
+  --line-height-7: calc(36px * 1);
+  --line-height-8: calc(40px * 1);
+  --line-height-9: calc(60px * 1);
+  --letter-spacing-1: 0.0025em;
+  --letter-spacing-2: 0em;
+  --letter-spacing-3: 0em;
+  --letter-spacing-4: -0.0025em;
+  --letter-spacing-5: -0.005em;
+  --letter-spacing-6: -0.00625em;
+  --letter-spacing-7: -0.0075em;
+  --letter-spacing-8: -0.01em;
+  --letter-spacing-9: -0.025em;
+  --radius-1: calc(3px * 1 * 1);
+  --radius-2: calc(4px * 1 * 1);
+  --radius-3: calc(6px * 1 * 1);
+  --radius-4: calc(8px * 1 * 1);
+  --radius-5: calc(12px * 1 * 1);
+  --radius-6: calc(16px * 1 * 1);
+  --radius-factor: 1.5;
+  --radius-full: 9999px;
+  --radius-thumb: 9999px;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Tailwind spacing -> Radix space */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-7: var(--space-7);
+  --spacing-8: var(--space-8);
+  --spacing-9: var(--space-9);
+
+  /* Tailwind text sizes -> Radix font sizes */
+  /* Custom small sizes */
+  --text-4xs: 8px;
+  --text-4xs--line-height: 12px;
+  --text-4xs--letter-spacing: 0.005em;
+  --text-3xs: 10px;
+  --text-3xs--line-height: 14px;
+  --text-3xs--letter-spacing: 0.004em;
+  --text-2xs: var(--font-size-1);
+  --text-2xs--line-height: var(--line-height-1);
+  --text-2xs--letter-spacing: var(--letter-spacing-1);
+  --text-xs: var(--font-size-2);
+  --text-xs--line-height: var(--line-height-2);
+  --text-xs--letter-spacing: var(--letter-spacing-2);
+  --text-sm: var(--font-size-3);
+  --text-sm--line-height: var(--line-height-3);
+  --text-sm--letter-spacing: var(--letter-spacing-3);
+  --text-base: var(--font-size-4);
+  --text-base--line-height: var(--line-height-4);
+  --text-base--letter-spacing: var(--letter-spacing-4);
+  --text-lg: var(--font-size-5);
+  --text-lg--line-height: var(--line-height-5);
+  --text-lg--letter-spacing: var(--letter-spacing-5);
+  --text-xl: var(--font-size-6);
+  --text-xl--line-height: var(--line-height-6);
+  --text-xl--letter-spacing: var(--letter-spacing-6);
+  --text-2xl: var(--font-size-7);
+  --text-2xl--line-height: var(--line-height-7);
+  --text-2xl--letter-spacing: var(--letter-spacing-7);
+  --text-3xl: var(--font-size-8);
+  --text-3xl--line-height: var(--line-height-8);
+  --text-3xl--letter-spacing: var(--letter-spacing-8);
+  --text-4xl: var(--font-size-9);
+  --text-4xl--line-height: var(--line-height-9);
+  --text-4xl--letter-spacing: var(--letter-spacing-9);
+
+  /* Disable unused Tailwind defaults */
+  --text-5xl: initial;
+  --text-6xl: initial;
+  --text-7xl: initial;
+  --text-8xl: initial;
+  --text-9xl: initial;
+
+  /* Tailwind leading -> Radix line heights */
+  --leading-1: var(--line-height-1);
+  --leading-2: var(--line-height-2);
+  --leading-3: var(--line-height-3);
+  --leading-4: var(--line-height-4);
+  --leading-5: var(--line-height-5);
+  --leading-6: var(--line-height-6);
+  --leading-7: var(--line-height-7);
+  --leading-8: var(--line-height-8);
+  --leading-9: var(--line-height-9);
+
+  /* Tailwind tracking -> Radix letter spacing */
+  --tracking-1: var(--letter-spacing-1);
+  --tracking-2: var(--letter-spacing-2);
+  --tracking-3: var(--letter-spacing-3);
+  --tracking-4: var(--letter-spacing-4);
+  --tracking-5: var(--letter-spacing-5);
+  --tracking-6: var(--letter-spacing-6);
+  --tracking-7: var(--letter-spacing-7);
+  --tracking-8: var(--letter-spacing-8);
+  --tracking-9: var(--letter-spacing-9);
+}

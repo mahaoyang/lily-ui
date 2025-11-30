@@ -16,7 +16,7 @@
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
   x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
@@ -27,8 +27,8 @@
           <span
             class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">SA</span>
           <div>
-            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Scroll Area Playground</h1>
-            <p class="text-2 text-sand-11">自定义滚动条组件</p>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Scroll Area Playground</h1>
+            <p class="text-xs text-sand-11">自定义滚动条组件</p>
           </div>
         </div>
         <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
@@ -69,7 +69,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Scroll Area</h2>
+      <h2 class="text-sm font-medium">Scroll Area</h2>
 
       <!-- Vertical scroll -->
       <div class="space-y-4">

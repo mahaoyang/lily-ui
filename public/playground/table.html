@@ -13,7 +13,7 @@
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
   x-data="{
     theme: 'light',
     accent: 'iris',
@@ -62,8 +62,8 @@
         <span
           class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">TB</span>
         <div>
-          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Table Playground</h1>
-          <p class="text-2 text-sand-11">Pure CSS table component</p>
+          <h1 class="text-lg font-semibold text-sand-12 leading-tight">Table Playground</h1>
+          <p class="text-xs text-sand-11">Pure CSS table component</p>
         </div>
       </div>
       <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">Back to Index</a>
@@ -107,7 +107,7 @@
 
     <!-- Basic Table Examples -->
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Basic Table - Size Variants</h2>
+      <h2 class="text-sm font-medium">Basic Table - Size Variants</h2>
 
       <div class="space-y-6">
         <div class="space-y-3">
@@ -210,7 +210,7 @@
 
     <!-- Table with Row Headers -->
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Table with Row Headers</h2>
+      <h2 class="text-sm font-medium">Table with Row Headers</h2>
 
       <div class="table-root table-variant-surface table-size-2">
         <table class="table">
@@ -252,7 +252,7 @@
 
     <!-- Sortable Table Example -->
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Sortable Table (Interactive)</h2>
+      <h2 class="text-sm font-medium">Sortable Table (Interactive)</h2>
       <p class="text-sm text-sand-11">Click on column headers to sort. Visual indicators show sort direction.</p>
 
       <div class="table-root table-variant-surface table-size-2">
@@ -302,7 +302,7 @@
 
     <!-- Interactive Rows -->
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Interactive Rows</h2>
+      <h2 class="text-sm font-medium">Interactive Rows</h2>
       <p class="text-sm text-sand-11">Rows with hover effects and click interactions.</p>
 
       <div class="table-root table-variant-surface table-size-2">
@@ -343,7 +343,7 @@
 
     <!-- Striped Table -->
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Striped Table</h2>
+      <h2 class="text-sm font-medium">Striped Table</h2>
       <p class="text-sm text-sand-11">Alternating row colors for better readability.</p>
 
       <div class="table-root table-variant-ghost table-size-2 table-striped">
@@ -374,7 +374,7 @@
 
     <!-- Layout Variants -->
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Table Layout Variants</h2>
+      <h2 class="text-sm font-medium">Table Layout Variants</h2>
 
       <div class="space-y-6">
         <div class="space-y-3">
@@ -435,7 +435,7 @@
 
     <!-- Alignment Examples -->
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Cell Alignment</h2>
+      <h2 class="text-sm font-medium">Cell Alignment</h2>
 
       <div class="table-root table-variant-surface table-size-2">
         <table class="table">

@@ -55,20 +55,19 @@ function createSegmentedControl(config = {}) {
     rootProps() {
       return {
         role: "radiogroup",
-        "data-disabled": this.disabled ? "" : undefined
+        ...this.disabled ? { "data-disabled": "" } : {}
       };
     },
     itemProps(value) {
-      const isSelected = this.isSelected(value);
       return {
         role: "radio",
         type: "button",
-        "data-state": isSelected ? "on" : "off",
-        "data-disabled": this.disabled ? "" : undefined,
-        "aria-checked": isSelected.toString(),
-        tabindex: isSelected ? 0 : -1,
-        "@click": () => this.select(value),
-        "@keydown": (e) => this.handleKeydown(e, value)
+        ":data-state": `value === '${value}' ? 'on' : 'off'`,
+        ...this.disabled ? { "data-disabled": "" } : {},
+        ":aria-checked": `(value === '${value}').toString()`,
+        ":tabindex": `value === '${value}' ? 0 : -1`,
+        "@click": `select('${value}')`,
+        "@keydown": `handleKeydown($event, '${value}')`
       };
     }
   };

@@ -1,10 +1,10 @@
 @import "tailwindcss";
+@import "./radix-tokens.css";
 
 @source "../public/**/*.{html,js,ts,jsx,tsx}";
 @source "./**/*.{html,js,ts,jsx,tsx}";
 
-/* 引入 Radix 颜色与基础令牌 */
-@import "../node_modules/@radix-ui/themes/tokens/base.css";
+/* 引入 Radix 颜色令牌 (base tokens 已通过 @theme 注入) */
 @import "../node_modules/@radix-ui/themes/tokens/colors/iris.css";
 @import "../node_modules/@radix-ui/themes/tokens/colors/blue.css";
 @import "../node_modules/@radix-ui/themes/tokens/colors/violet.css";
@@ -20,7 +20,7 @@
     line-height: 1;
   }
 /* Radix Themes 默认变量 */
-  .radix-themes {
+  :root {
     --scaling: 1;
     --radius-factor: 1;
     --radius-full: 9999px;
@@ -282,13 +282,21 @@
     white-space: nowrap;
     box-shadow: inset 0 -1px 0 0 var(--sand-6);
     scrollbar-width: none;
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    letter-spacing: var(--text-xs--letter-spacing);
+    --tab-height: var(--spacing-7);
+    --tab-padding-x: var(--spacing-2);
+    --tab-inner-padding-x: var(--spacing-2);
+    --tab-inner-padding-y: var(--spacing-1);
+    --tab-inner-border-radius: var(--radius-2);
   }
   .tabs-list::-webkit-scrollbar {
     display: none;
   }
 
   .tabs-list-sm .tabs-trigger {
-    font-size: var(--font-size-1, 0.75rem);
+    font-size: var(--text-2xs);
     height: 2rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
@@ -304,8 +312,8 @@
   /* Blockquote Component */
   .blockquote {
     box-sizing: border-box;
-    border-left: max(var(--space-1, 0.25rem), 0.25em) solid var(--accent-a6);
-    padding-left: min(var(--space-5, 1.5rem), max(var(--space-3, 0.75rem), 0.5em));
+    border-left: max(var(--spacing-1), 0.25em) solid var(--accent-a6);
+    padding-left: min(var(--spacing-5), max(var(--spacing-3), 0.5em));
     margin: 0;
     line-height: var(--line-height, var(--default-line-height));
     letter-spacing: var(--letter-spacing, inherit);
@@ -322,49 +330,49 @@
 
   /* SIZE VARIANTS */
   .blockquote.blockquote-size-1 {
-    font-size: var(--font-size-1, 0.75rem);
-    --line-height: var(--line-height-1, 1.25rem);
-    --letter-spacing: var(--letter-spacing-1, 0.0025em);
+    font-size: var(--text-2xs);
+    --line-height: var(--text-2xs--line-height);
+    --letter-spacing: var(--text-2xs--letter-spacing);
   }
   .blockquote.blockquote-size-2 {
-    font-size: var(--font-size-2, 0.875rem);
-    --line-height: var(--line-height-2, 1.25rem);
-    --letter-spacing: var(--letter-spacing-2, 0em);
+    font-size: var(--text-xs);
+    --line-height: var(--text-xs--line-height);
+    --letter-spacing: var(--text-xs--letter-spacing);
   }
   .blockquote.blockquote-size-3 {
-    font-size: var(--font-size-3, 1rem);
-    --line-height: var(--line-height-3, 1.5rem);
-    --letter-spacing: var(--letter-spacing-3, 0em);
+    font-size: var(--text-sm);
+    --line-height: var(--text-sm--line-height);
+    --letter-spacing: var(--text-sm--letter-spacing);
   }
   .blockquote.blockquote-size-4 {
-    font-size: var(--font-size-4, 1.125rem);
-    --line-height: var(--line-height-4, 1.625rem);
-    --letter-spacing: var(--letter-spacing-4, -0.0025em);
+    font-size: var(--text-base);
+    --line-height: var(--text-base--line-height);
+    --letter-spacing: var(--text-base--letter-spacing);
   }
   .blockquote.blockquote-size-5 {
-    font-size: var(--font-size-5, 1.25rem);
-    --line-height: var(--line-height-5, 1.75rem);
-    --letter-spacing: var(--letter-spacing-5, -0.005em);
+    font-size: var(--text-lg);
+    --line-height: var(--text-lg--line-height);
+    --letter-spacing: var(--text-lg--letter-spacing);
   }
   .blockquote.blockquote-size-6 {
-    font-size: var(--font-size-6, 1.5rem);
-    --line-height: var(--line-height-6, 2rem);
-    --letter-spacing: var(--letter-spacing-6, -0.00625em);
+    font-size: var(--text-xl);
+    --line-height: var(--text-xl--line-height);
+    --letter-spacing: var(--text-xl--letter-spacing);
   }
   .blockquote.blockquote-size-7 {
-    font-size: var(--font-size-7, 1.875rem);
-    --line-height: var(--line-height-7, 2.375rem);
-    --letter-spacing: var(--letter-spacing-7, -0.0075em);
+    font-size: var(--text-2xl);
+    --line-height: var(--text-2xl--line-height);
+    --letter-spacing: var(--text-2xl--letter-spacing);
   }
   .blockquote.blockquote-size-8 {
-    font-size: var(--font-size-8, 2.25rem);
-    --line-height: var(--line-height-8, 2.75rem);
-    --letter-spacing: var(--letter-spacing-8, -0.00875em);
+    font-size: var(--text-3xl);
+    --line-height: var(--text-3xl--line-height);
+    --letter-spacing: var(--text-3xl--letter-spacing);
   }
   .blockquote.blockquote-size-9 {
-    font-size: var(--font-size-9, 3rem);
-    --line-height: var(--line-height-9, 3.5rem);
-    --letter-spacing: var(--letter-spacing-9, -0.025em);
+    font-size: var(--text-4xl);
+    --line-height: var(--text-4xl--line-height);
+    --letter-spacing: var(--text-4xl--letter-spacing);
   }
 
   /* WEIGHT VARIANTS */
@@ -441,7 +449,7 @@
     height: 2.5rem;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
-    font-size: var(--font-size-2, 0.875rem);
+    font-size: var(--text-xs);
     color: var(--sand-11);
     background: transparent;
     border: none;
@@ -545,7 +553,7 @@
     align-items: center;
     justify-content: center;
     border-radius: inherit;
-    gap: var(--space-2);
+    gap: var(--spacing-2);
   }
 
   .segmented-control-item-label svg {
@@ -562,7 +570,7 @@
     position: absolute;
     transition: opacity calc(0.8 * var(--segmented-control-transition-duration));
     font-weight: var(--font-weight-regular, 400);
-    letter-spacing: var(--letter-spacing-2);
+    letter-spacing: var(--text-xs--letter-spacing);
     opacity: 1;
     transition-timing-function: ease-out;
   }
@@ -574,8 +582,8 @@
 
   .segmented-control-item-label-active {
     transition: opacity calc(0.8 * var(--segmented-control-transition-duration));
-    font-weight: var(--font-weight-medium, 500);
-    letter-spacing: var(--letter-spacing-2);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--text-xs--letter-spacing);
     opacity: 0;
     transition-timing-function: ease-in;
   }
@@ -696,41 +704,41 @@
   /* Size variants */
   .segmented-control-size-1 {
     
-    height: var(--space-5, 1.25rem);
+    height: var(--spacing-5);
   }
 
   .segmented-control-size-1 .segmented-control-item-label {
-    font-size: var(--font-size-1, 0.75rem);
-    letter-spacing: var(--letter-spacing-1);
-    padding-left: var(--space-3, 0.75rem);
-    padding-right: var(--space-3, 0.75rem);
-    gap: var(--space-1, 0.25rem);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--text-2xs--letter-spacing);
+    padding-left: var(--spacing-3);
+    padding-right: var(--spacing-3);
+    gap: var(--spacing-1);
   }
 
   .segmented-control-size-2 {
     
-    height: var(--space-6, 1.5rem);
+    height: var(--spacing-6);
   }
 
   .segmented-control-size-2 .segmented-control-item-label {
-    font-size: var(--font-size-2, 0.875rem);
-    letter-spacing: var(--letter-spacing-2);
-    padding-left: var(--space-4, 1rem);
-    padding-right: var(--space-4, 1rem);
-    gap: var(--space-2, 0.5rem);
+    font-size: var(--text-xs);
+    letter-spacing: var(--text-xs--letter-spacing);
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
+    gap: var(--spacing-2);
   }
 
   .segmented-control-size-3 {
     
-    height: var(--space-7, 1.75rem);
+    height: var(--spacing-7);
   }
 
   .segmented-control-size-3 .segmented-control-item-label {
-    font-size: var(--font-size-3, 1rem);
-    letter-spacing: var(--letter-spacing-3);
-    padding-left: var(--space-4, 1rem);
-    padding-right: var(--space-4, 1rem);
-    gap: var(--space-3, 0.75rem);
+    font-size: var(--text-sm);
+    letter-spacing: var(--text-sm--letter-spacing);
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
+    gap: var(--spacing-3);
   }
 
   /* Variant: Surface */
@@ -762,7 +770,7 @@
 
   /* Slider Component */
   .slider-root {
-    --slider-thumb-size: calc(var(--slider-track-size) + var(--space-1));
+    --slider-thumb-size: calc(var(--slider-track-size) + var(--spacing-1));
     position: relative;
     display: flex;
     align-items: center;
@@ -863,15 +871,15 @@
 
   /* Size variants */
   .slider-size-1 {
-    --slider-track-size: calc(var(--space-2, 0.5rem) * 0.75);
+    --slider-track-size: calc(var(--spacing-2) * 0.75);
   }
 
   .slider-size-2 {
-    --slider-track-size: var(--space-2, 0.5rem);
+    --slider-track-size: var(--spacing-2);
   }
 
   .slider-size-3 {
-    --slider-track-size: calc(var(--space-2, 0.5rem) * 1.25);
+    --slider-track-size: calc(var(--spacing-2) * 1.25);
   }
 
   /* Variant: surface */
@@ -1016,29 +1024,29 @@
 
   /* Badge sizes */
   .badge-size-1 {
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-1);
-    letter-spacing: var(--letter-spacing-1);
-    padding: calc(var(--space-1) * 0.5) calc(var(--space-1) * 1.5);
-    gap: calc(var(--space-1) * 1.5);
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
+    letter-spacing: var(--text-2xs--letter-spacing);
+    padding: calc(var(--spacing-1) * 0.5) calc(var(--spacing-1) * 1.5);
+    gap: calc(var(--spacing-1) * 1.5);
     border-radius: max(var(--radius-1), var(--radius-full));
   }
 
   .badge-size-2 {
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-1);
-    letter-spacing: var(--letter-spacing-1);
-    padding: var(--space-1) var(--space-2);
-    gap: calc(var(--space-1) * 1.5);
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
+    letter-spacing: var(--text-2xs--letter-spacing);
+    padding: var(--spacing-1) var(--spacing-2);
+    gap: calc(var(--spacing-1) * 1.5);
     border-radius: max(var(--radius-2), var(--radius-full));
   }
 
   .badge-size-3 {
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
-    letter-spacing: var(--letter-spacing-2);
-    padding: var(--space-1) calc(var(--space-2) * 1.25);
-    gap: var(--space-2);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    letter-spacing: var(--text-xs--letter-spacing);
+    padding: var(--spacing-1) calc(var(--spacing-2) * 1.25);
+    gap: var(--spacing-2);
     border-radius: max(var(--radius-2), var(--radius-full));
   }
 
@@ -1156,70 +1164,70 @@
 
   /* Avatar sizes */
   .avatar-size-1 {
-    --avatar-size: var(--space-5);
-    --avatar-fallback-one-letter-font-size: var(--font-size-2);
-    --avatar-fallback-two-letters-font-size: var(--font-size-1);
+    --avatar-size: var(--spacing-5);
+    --avatar-fallback-one-letter-font-size: var(--text-xs);
+    --avatar-fallback-two-letters-font-size: var(--text-2xs);
     border-radius: max(var(--radius-2), var(--radius-full));
-    letter-spacing: var(--letter-spacing-1);
+    letter-spacing: var(--text-2xs--letter-spacing);
   }
 
   .avatar-size-2 {
-    --avatar-size: var(--space-6);
-    --avatar-fallback-one-letter-font-size: var(--font-size-3);
-    --avatar-fallback-two-letters-font-size: var(--font-size-2);
+    --avatar-size: var(--spacing-6);
+    --avatar-fallback-one-letter-font-size: var(--text-sm);
+    --avatar-fallback-two-letters-font-size: var(--text-xs);
     border-radius: max(var(--radius-2), var(--radius-full));
-    letter-spacing: var(--letter-spacing-2);
+    letter-spacing: var(--text-xs--letter-spacing);
   }
 
   .avatar-size-3 {
-    --avatar-size: var(--space-7);
-    --avatar-fallback-one-letter-font-size: var(--font-size-4);
-    --avatar-fallback-two-letters-font-size: var(--font-size-3);
+    --avatar-size: var(--spacing-7);
+    --avatar-fallback-one-letter-font-size: var(--text-base);
+    --avatar-fallback-two-letters-font-size: var(--text-sm);
     border-radius: max(var(--radius-3), var(--radius-full));
-    letter-spacing: var(--letter-spacing-3);
+    letter-spacing: var(--text-sm--letter-spacing);
   }
 
   .avatar-size-4 {
-    --avatar-size: var(--space-8);
-    --avatar-fallback-one-letter-font-size: var(--font-size-5);
-    --avatar-fallback-two-letters-font-size: var(--font-size-4);
+    --avatar-size: var(--spacing-8);
+    --avatar-fallback-one-letter-font-size: var(--text-lg);
+    --avatar-fallback-two-letters-font-size: var(--text-base);
     border-radius: max(var(--radius-3), var(--radius-full));
-    letter-spacing: var(--letter-spacing-4);
+    letter-spacing: var(--text-base--letter-spacing);
   }
 
   .avatar-size-5 {
-    --avatar-size: var(--space-9);
-    --avatar-fallback-one-letter-font-size: var(--font-size-6);
+    --avatar-size: var(--spacing-9);
+    --avatar-fallback-one-letter-font-size: var(--text-xl);
     border-radius: max(var(--radius-4), var(--radius-full));
-    letter-spacing: var(--letter-spacing-6);
+    letter-spacing: var(--text-xl--letter-spacing);
   }
 
   .avatar-size-6 {
     --avatar-size: 80px;
-    --avatar-fallback-one-letter-font-size: var(--font-size-7);
+    --avatar-fallback-one-letter-font-size: var(--text-2xl);
     border-radius: max(var(--radius-5), var(--radius-full));
-    letter-spacing: var(--letter-spacing-7);
+    letter-spacing: var(--text-2xl--letter-spacing);
   }
 
   .avatar-size-7 {
     --avatar-size: 96px;
-    --avatar-fallback-one-letter-font-size: var(--font-size-7);
+    --avatar-fallback-one-letter-font-size: var(--text-2xl);
     border-radius: max(var(--radius-5), var(--radius-full));
-    letter-spacing: var(--letter-spacing-7);
+    letter-spacing: var(--text-2xl--letter-spacing);
   }
 
   .avatar-size-8 {
     --avatar-size: 128px;
-    --avatar-fallback-one-letter-font-size: var(--font-size-8);
+    --avatar-fallback-one-letter-font-size: var(--text-3xl);
     border-radius: max(var(--radius-6), var(--radius-full));
-    letter-spacing: var(--letter-spacing-8);
+    letter-spacing: var(--text-3xl--letter-spacing);
   }
 
   .avatar-size-9 {
     --avatar-size: 160px;
-    --avatar-fallback-one-letter-font-size: var(--font-size-9);
+    --avatar-fallback-one-letter-font-size: var(--text-4xl);
     border-radius: max(var(--radius-6), var(--radius-full));
-    letter-spacing: var(--letter-spacing-9);
+    letter-spacing: var(--text-4xl--letter-spacing);
   }
 
   /* Avatar fallback letter sizes */
@@ -1344,16 +1352,16 @@
 
   /* Spinner sizes */
   .spinner-size-1 {
-    width: var(--space-3);
-    height: var(--space-3);
+    width: var(--spacing-3);
+    height: var(--spacing-3);
   }
   .spinner-size-2 {
-    width: var(--space-4);
-    height: var(--space-4);
+    width: var(--spacing-4);
+    height: var(--spacing-4);
   }
   .spinner-size-3 {
-    width: calc(1.25 * var(--space-4));
-    height: calc(1.25 * var(--space-4));
+    width: calc(1.25 * var(--spacing-4));
+    height: calc(1.25 * var(--spacing-4));
   }
 
   /* ========================================
@@ -1382,7 +1390,7 @@
 
   .skeleton:empty {
     display: block;
-    height: var(--space-3);
+    height: var(--spacing-3);
   }
 
   .skeleton > *,
@@ -1421,13 +1429,13 @@
 
   /* Separator sizes */
   .separator-size-1 {
-    --separator-size: var(--space-4);
+    --separator-size: var(--spacing-4);
   }
   .separator-size-2 {
-    --separator-size: var(--space-6);
+    --separator-size: var(--spacing-6);
   }
   .separator-size-3 {
-    --separator-size: var(--space-9);
+    --separator-size: var(--spacing-9);
   }
   .separator-size-4 {
     --separator-size: 100%;
@@ -1447,6 +1455,14 @@
     min-height: 0;
     overflow: auto;
     scrollbar-width: none;
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    letter-spacing: var(--text-xs--letter-spacing);
+    --tab-height: var(--spacing-7);
+    --tab-padding-x: var(--spacing-2);
+    --tab-inner-padding-x: var(--spacing-2);
+    --tab-inner-padding-y: var(--spacing-1);
+    --tab-inner-border-radius: var(--radius-2);
   }
   .scroll-area-viewport::-webkit-scrollbar {
     display: none;
@@ -2078,73 +2094,73 @@
 
   /* Button sizes */
   .button-size-1 {
-    gap: var(--space-1);
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-1);
-    letter-spacing: var(--letter-spacing-1);
-    height: var(--space-5);
-    padding-left: var(--space-2);
-    padding-right: var(--space-2);
+    gap: var(--spacing-1);
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
+    letter-spacing: var(--text-2xs--letter-spacing);
+    height: var(--spacing-5);
+    padding-left: var(--spacing-2);
+    padding-right: var(--spacing-2);
     border-radius: max(var(--radius-1), var(--radius-full));
   }
 
   .button-size-1.button-variant-ghost {
-    gap: var(--space-1);
-    padding: var(--space-1) var(--space-2);
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-2);
     height: auto;
     box-sizing: content-box;
   }
 
   .button-size-2 {
-    gap: var(--space-2);
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
-    letter-spacing: var(--letter-spacing-2);
-    height: var(--space-6);
-    padding-left: var(--space-3);
-    padding-right: var(--space-3);
+    gap: var(--spacing-2);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    letter-spacing: var(--text-xs--letter-spacing);
+    height: var(--spacing-6);
+    padding-left: var(--spacing-3);
+    padding-right: var(--spacing-3);
     border-radius: max(var(--radius-2), var(--radius-full));
   }
 
   .button-size-2.button-variant-ghost {
-    gap: var(--space-1);
-    padding: var(--space-1) var(--space-2);
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-2);
     height: auto;
     box-sizing: content-box;
   }
 
   .button-size-3 {
-    gap: var(--space-3);
-    font-size: var(--font-size-3);
-    line-height: var(--line-height-3);
-    letter-spacing: var(--letter-spacing-3);
-    height: var(--space-7);
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
+    gap: var(--spacing-3);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    letter-spacing: var(--text-sm--letter-spacing);
+    height: var(--spacing-7);
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
     border-radius: max(var(--radius-3), var(--radius-full));
   }
 
   .button-size-3.button-variant-ghost {
-    gap: var(--space-2);
-    padding: calc(var(--space-1) * 1.5) var(--space-3);
+    gap: var(--spacing-2);
+    padding: calc(var(--spacing-1) * 1.5) var(--spacing-3);
     height: auto;
     box-sizing: content-box;
   }
 
   .button-size-4 {
-    gap: var(--space-3);
-    font-size: var(--font-size-4);
-    line-height: var(--line-height-4);
-    letter-spacing: var(--letter-spacing-4);
-    height: var(--space-8);
-    padding-left: var(--space-5);
-    padding-right: var(--space-5);
+    gap: var(--spacing-3);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    letter-spacing: var(--text-base--letter-spacing);
+    height: var(--spacing-8);
+    padding-left: var(--spacing-5);
+    padding-right: var(--spacing-5);
     border-radius: max(var(--radius-4), var(--radius-full));
   }
 
   .button-size-4.button-variant-ghost {
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-4);
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-4);
     height: auto;
     box-sizing: content-box;
   }
@@ -2435,7 +2451,7 @@
   }
 
   .icon-button-size-1 {
-    --icon-button-size: var(--space-5);
+    --icon-button-size: var(--spacing-5);
     border-radius: max(var(--radius-1), var(--radius-full));
   }
 
@@ -2445,7 +2461,7 @@
   }
 
   .icon-button-size-2 {
-    --icon-button-size: var(--space-6);
+    --icon-button-size: var(--spacing-6);
     border-radius: max(var(--radius-2), var(--radius-full));
   }
 
@@ -2455,7 +2471,7 @@
   }
 
   .icon-button-size-3 {
-    --icon-button-size: var(--space-7);
+    --icon-button-size: var(--spacing-7);
     border-radius: max(var(--radius-3), var(--radius-full));
   }
 
@@ -2465,7 +2481,7 @@
   }
 
   .icon-button-size-4 {
-    --icon-button-size: var(--space-8);
+    --icon-button-size: var(--spacing-8);
     border-radius: max(var(--radius-4), var(--radius-full));
   }
 
@@ -2482,19 +2498,19 @@
   }
 
   .icon-button-size-1.icon-button-variant-ghost {
-    padding: var(--space-1);
+    padding: var(--spacing-1);
   }
 
   .icon-button-size-2.icon-button-variant-ghost {
-    padding: calc(var(--space-1) * 1.5);
+    padding: calc(var(--spacing-1) * 1.5);
   }
 
   .icon-button-size-3.icon-button-variant-ghost {
-    padding: var(--space-2);
+    padding: var(--spacing-2);
   }
 
   .icon-button-size-4.icon-button-variant-ghost {
-    padding: var(--space-3);
+    padding: var(--spacing-3);
   }
 
   /* Icon Button variants */
@@ -2803,45 +2819,45 @@
 
   /* Callout sizes */
   .callout-size-1 {
-    row-gap: var(--space-2);
-    column-gap: var(--space-2);
-    padding: var(--space-3);
+    row-gap: var(--spacing-2);
+    column-gap: var(--spacing-2);
+    padding: var(--spacing-3);
     border-radius: var(--radius-3);
-    --callout-icon-height: var(--line-height-2);
+    --callout-icon-height: var(--text-xs--line-height);
   }
 
   .callout-size-1 .callout-text {
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
-    letter-spacing: var(--letter-spacing-2);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    letter-spacing: var(--text-xs--letter-spacing);
   }
 
   .callout-size-2 {
-    row-gap: var(--space-2);
-    column-gap: var(--space-3);
-    padding: var(--space-4);
+    row-gap: var(--spacing-2);
+    column-gap: var(--spacing-3);
+    padding: var(--spacing-4);
     border-radius: var(--radius-4);
-    --callout-icon-height: var(--line-height-2);
+    --callout-icon-height: var(--text-xs--line-height);
   }
 
   .callout-size-2 .callout-text {
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
-    letter-spacing: var(--letter-spacing-2);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    letter-spacing: var(--text-xs--letter-spacing);
   }
 
   .callout-size-3 {
-    row-gap: var(--space-3);
-    column-gap: var(--space-4);
-    padding: var(--space-5);
+    row-gap: var(--spacing-3);
+    column-gap: var(--spacing-4);
+    padding: var(--spacing-5);
     border-radius: var(--radius-5);
-    --callout-icon-height: var(--line-height-3);
+    --callout-icon-height: var(--text-sm--line-height);
   }
 
   .callout-size-3 .callout-text {
-    font-size: var(--font-size-3);
-    line-height: var(--line-height-3);
-    letter-spacing: var(--letter-spacing-3);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    letter-spacing: var(--text-sm--letter-spacing);
   }
 
   /* Callout variant: soft */
@@ -2887,10 +2903,10 @@
   .dialog-scroll-padding {
     flex-grow: 1;
     margin: auto;
-    padding-top: var(--space-6);
-    padding-bottom: max(var(--space-6), 6vh);
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
+    padding-top: var(--spacing-6);
+    padding-bottom: max(var(--spacing-6), 6vh);
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
   }
 
   .dialog-scroll-padding[data-align="start"] {
@@ -2922,44 +2938,44 @@
 
   /* Dialog sizes */
   .dialog-size-1 {
-    --dialog-padding: var(--space-3);
+    --dialog-padding: var(--spacing-3);
     padding: var(--dialog-padding);
     border-radius: var(--radius-4);
   }
 
   .dialog-size-2 {
-    --dialog-padding: var(--space-4);
+    --dialog-padding: var(--spacing-4);
     padding: var(--dialog-padding);
     border-radius: var(--radius-4);
   }
 
   .dialog-size-3 {
-    --dialog-padding: var(--space-5);
+    --dialog-padding: var(--spacing-5);
     padding: var(--dialog-padding);
     border-radius: var(--radius-5);
   }
 
   .dialog-size-4 {
-    --dialog-padding: var(--space-6);
+    --dialog-padding: var(--spacing-6);
     padding: var(--dialog-padding);
     border-radius: var(--radius-5);
   }
 
   /* Dialog title */
   .dialog-title {
-    font-size: var(--font-size-5);
+    font-size: var(--text-lg);
     font-weight: 500;
-    line-height: var(--line-height-5);
+    line-height: var(--text-lg--line-height);
     color: var(--sand-12);
-    margin: 0 0 var(--space-3) 0;
+    margin: 0 0 var(--spacing-3) 0;
   }
 
   /* Dialog description */
   .dialog-description {
-    font-size: var(--font-size-3);
-    line-height: var(--line-height-3);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
     color: var(--sand-11);
-    margin: 0 0 var(--space-4) 0;
+    margin: 0 0 var(--spacing-4) 0;
   }
 
   /* Dialog close button */
@@ -3073,10 +3089,10 @@
   .alert-dialog-scroll-padding {
     flex-grow: 1;
     margin: auto;
-    padding-top: var(--space-6);
-    padding-bottom: max(var(--space-6), 6vh);
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
+    padding-top: var(--spacing-6);
+    padding-bottom: max(var(--spacing-6), 6vh);
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
   }
 
   .alert-dialog-scroll-padding[data-align="start"] {
@@ -3107,52 +3123,52 @@
 
   /* Alert Dialog sizes */
   .alert-dialog-size-1 {
-    --alert-dialog-padding: var(--space-3);
+    --alert-dialog-padding: var(--spacing-3);
     padding: var(--alert-dialog-padding);
     border-radius: var(--radius-4);
   }
 
   .alert-dialog-size-2 {
-    --alert-dialog-padding: var(--space-4);
+    --alert-dialog-padding: var(--spacing-4);
     padding: var(--alert-dialog-padding);
     border-radius: var(--radius-4);
   }
 
   .alert-dialog-size-3 {
-    --alert-dialog-padding: var(--space-5);
+    --alert-dialog-padding: var(--spacing-5);
     padding: var(--alert-dialog-padding);
     border-radius: var(--radius-5);
   }
 
   .alert-dialog-size-4 {
-    --alert-dialog-padding: var(--space-6);
+    --alert-dialog-padding: var(--spacing-6);
     padding: var(--alert-dialog-padding);
     border-radius: var(--radius-5);
   }
 
   /* Alert Dialog title */
   .alert-dialog-title {
-    font-size: var(--font-size-5);
+    font-size: var(--text-lg);
     font-weight: 500;
-    line-height: var(--line-height-5);
+    line-height: var(--text-lg--line-height);
     color: var(--sand-12);
-    margin: 0 0 var(--space-3) 0;
+    margin: 0 0 var(--spacing-3) 0;
   }
 
   /* Alert Dialog description */
   .alert-dialog-description {
-    font-size: var(--font-size-3);
-    line-height: var(--line-height-3);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
     color: var(--sand-11);
-    margin: 0 0 var(--space-4) 0;
+    margin: 0 0 var(--spacing-4) 0;
   }
 
   /* Alert Dialog actions container */
   .alert-dialog-actions {
     display: flex;
     justify-content: flex-end;
-    gap: var(--space-3);
-    margin-top: var(--space-5);
+    gap: var(--spacing-3);
+    margin-top: var(--spacing-5);
   }
 
   /* Alert Dialog animations */
@@ -3221,12 +3237,12 @@
    * ======================================== */
   .tooltip-content {
     box-sizing: border-box;
-    padding: var(--space-1) var(--space-2);
+    padding: var(--spacing-1) var(--spacing-2);
     background-color: var(--gray-12);
     color: var(--gray-1);
     border-radius: var(--radius-2);
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-1);
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
     user-select: none;
     z-index: 100;
     position: absolute;
@@ -3471,22 +3487,22 @@
 
   /* Popover sizes */
   .popover-size-1 {
-    padding: var(--space-3);
+    padding: var(--spacing-3);
     border-radius: var(--radius-4);
   }
 
   .popover-size-2 {
-    padding: var(--space-4);
+    padding: var(--spacing-4);
     border-radius: var(--radius-4);
   }
 
   .popover-size-3 {
-    padding: var(--space-5);
+    padding: var(--spacing-5);
     border-radius: var(--radius-5);
   }
 
   .popover-size-4 {
-    padding: var(--space-6);
+    padding: var(--spacing-6);
     border-radius: var(--radius-5);
   }
 
@@ -3511,17 +3527,17 @@
 
   /* Hover Card sizes */
   .hover-card-size-1 {
-    padding: var(--space-3);
+    padding: var(--spacing-3);
     border-radius: var(--radius-4);
   }
 
   .hover-card-size-2 {
-    padding: var(--space-4);
+    padding: var(--spacing-4);
     border-radius: var(--radius-4);
   }
 
   .hover-card-size-3 {
-    padding: var(--space-5);
+    padding: var(--spacing-5);
     border-radius: var(--radius-5);
   }
 
@@ -3583,24 +3599,24 @@
   .context-menu-viewport {
     flex: 1;
     overflow: auto;
-    padding: var(--space-2);
+    padding: var(--spacing-2);
   }
 
   .context-menu-item {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--spacing-2);
     position: relative;
-    height: var(--space-6);
-    padding-left: var(--space-3);
-    padding-right: var(--space-3);
+    height: var(--spacing-6);
+    padding-left: var(--spacing-3);
+    padding-right: var(--spacing-3);
     border-radius: var(--radius-2);
     user-select: none;
     outline: none;
     cursor: pointer;
     color: var(--sand-12);
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
     transition: background-color 100ms;
   }
 
@@ -3618,13 +3634,13 @@
 
   /* 有 indicator 的 item 需要更多左边距 */
   .context-menu-item:has(.context-menu-item-indicator) {
-    padding-left: var(--space-5);
+    padding-left: var(--spacing-5);
   }
 
   .context-menu-item-indicator {
     position: absolute;
     left: 0;
-    width: var(--space-5);
+    width: var(--spacing-5);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -3637,8 +3653,8 @@
 
   .context-menu-shortcut {
     margin-left: auto;
-    padding-left: var(--space-4);
-    font-size: var(--font-size-1);
+    padding-left: var(--spacing-4);
+    font-size: var(--text-2xs);
     color: var(--gray-a11);
   }
 
@@ -3650,11 +3666,11 @@
   .context-menu-label {
     display: flex;
     align-items: center;
-    height: var(--space-6);
-    padding-left: var(--space-3);
-    padding-right: var(--space-3);
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
+    height: var(--spacing-6);
+    padding-left: var(--spacing-3);
+    padding-right: var(--spacing-3);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
     font-weight: 500;
     color: var(--gray-a10);
     user-select: none;
@@ -3662,22 +3678,22 @@
 
   .context-menu-separator {
     height: 1px;
-    margin: var(--space-2) var(--space-3);
+    margin: var(--spacing-2) var(--spacing-3);
     background-color: var(--gray-a6);
   }
 
   /* Context Menu sizes */
   .context-menu-size-1 .context-menu-viewport {
-    padding: var(--space-1);
+    padding: var(--spacing-1);
   }
 
   .context-menu-size-1 .context-menu-item,
   .context-menu-size-1 .context-menu-label {
-    height: var(--space-5);
-    padding-left: calc(var(--space-5) / 1.2);
-    padding-right: var(--space-2);
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-1);
+    height: var(--spacing-5);
+    padding-left: calc(var(--spacing-5) / 1.2);
+    padding-right: var(--spacing-2);
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
   }
 
   .context-menu-size-2 .context-menu-item,
@@ -3781,10 +3797,10 @@
   /* Size Variants */
   .table-size-1 {
     --table-border-radius: var(--radius-3);
-    --table-cell-padding: var(--space-2);
+    --table-cell-padding: var(--spacing-2);
     --table-cell-min-height: 36px;
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
   }
 
   .table-size-1 .table-cell {
@@ -3795,10 +3811,10 @@
 
   .table-size-2 {
     --table-border-radius: var(--radius-4);
-    --table-cell-padding: var(--space-3);
+    --table-cell-padding: var(--spacing-3);
     --table-cell-min-height: 44px;
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
   }
 
   .table-size-2 .table-cell {
@@ -3809,10 +3825,10 @@
 
   .table-size-3 {
     --table-border-radius: var(--radius-4);
-    --table-cell-padding: var(--space-3) var(--space-4);
-    --table-cell-min-height: var(--space-8);
-    font-size: var(--font-size-3);
-    line-height: var(--line-height-3);
+    --table-cell-padding: var(--spacing-3) var(--spacing-4);
+    --table-cell-min-height: var(--spacing-8);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
   }
 
   .table-size-3 .table-cell {
@@ -4264,15 +4280,15 @@
 
   /* Data List Sizes */
   .data-list-size-1 {
-    gap: var(--space-3, 0.75rem);
+    gap: var(--spacing-3);
   }
 
   .data-list-size-2 {
-    gap: var(--space-4, 1rem);
+    gap: var(--spacing-4);
   }
 
   .data-list-size-3 {
-    gap: calc(var(--space-4, 1rem) * 1.25);
+    gap: calc(var(--spacing-4) * 1.25);
   }
 
   /* Data List Orientation: Vertical */
@@ -4288,7 +4304,7 @@
     --data-list-last-item-value-margin-bottom: 0px;
     display: flex;
     flex-direction: column;
-    gap: var(--space-1, 0.25rem);
+    gap: var(--spacing-1);
   }
 
   .data-list-vertical .data-list-label {
@@ -4480,28 +4496,28 @@
 
   /* Kbd Size Variants */
   .kbd-size-1 {
-    font-size: calc(var(--font-size-1, 0.75rem) * 0.8);
-    letter-spacing: var(--letter-spacing-1, 0.025em);
+    font-size: calc(var(--text-2xs) * 0.8);
+    letter-spacing: var(--text-2xs--letter-spacing);
   }
 
   .kbd-size-2 {
-    font-size: calc(var(--font-size-2, 0.875rem) * 0.8);
-    letter-spacing: var(--letter-spacing-2, 0);
+    font-size: calc(var(--text-xs) * 0.8);
+    letter-spacing: var(--text-xs--letter-spacing);
   }
 
   .kbd-size-3 {
-    font-size: calc(var(--font-size-3, 1rem) * 0.8);
-    letter-spacing: var(--letter-spacing-3, 0);
+    font-size: calc(var(--text-sm) * 0.8);
+    letter-spacing: var(--text-sm--letter-spacing);
   }
 
   .kbd-size-4 {
-    font-size: calc(var(--font-size-4, 1.125rem) * 0.8);
-    letter-spacing: var(--letter-spacing-4, -0.01em);
+    font-size: calc(var(--text-base) * 0.8);
+    letter-spacing: var(--text-base--letter-spacing);
   }
 
   .kbd-size-5 {
-    font-size: calc(var(--font-size-5, 1.25rem) * 0.8);
-    letter-spacing: var(--letter-spacing-5, -0.01em);
+    font-size: calc(var(--text-lg) * 0.8);
+    letter-spacing: var(--text-lg--letter-spacing);
   }
 
   /* ========================================
@@ -4527,57 +4543,57 @@
 
   /* Heading size variants */
   .heading-size-1 {
-    font-size: calc(var(--font-size-1) * var(--heading-font-size-adjust, 1));
-    line-height: var(--heading-line-height-1, var(--line-height-1));
-    letter-spacing: calc(var(--letter-spacing-1) + var(--heading-letter-spacing, 0em));
+    font-size: calc(var(--text-2xs) * var(--heading-font-size-adjust, 1));
+    line-height: var(--heading-line-height-1, var(--text-2xs--line-height));
+    letter-spacing: calc(var(--text-2xs--letter-spacing) + var(--heading-letter-spacing, 0em));
   }
 
   .heading-size-2 {
-    font-size: calc(var(--font-size-2) * var(--heading-font-size-adjust, 1));
-    line-height: var(--heading-line-height-2, var(--line-height-2));
-    letter-spacing: calc(var(--letter-spacing-2) + var(--heading-letter-spacing, 0em));
+    font-size: calc(var(--text-xs) * var(--heading-font-size-adjust, 1));
+    line-height: var(--heading-line-height-2, var(--text-xs--line-height));
+    letter-spacing: calc(var(--text-xs--letter-spacing) + var(--heading-letter-spacing, 0em));
   }
 
   .heading-size-3 {
-    font-size: calc(var(--font-size-3) * var(--heading-font-size-adjust, 1));
-    line-height: var(--heading-line-height-3, var(--line-height-3));
-    letter-spacing: calc(var(--letter-spacing-3) + var(--heading-letter-spacing, 0em));
+    font-size: calc(var(--text-sm) * var(--heading-font-size-adjust, 1));
+    line-height: var(--heading-line-height-3, var(--text-sm--line-height));
+    letter-spacing: calc(var(--text-sm--letter-spacing) + var(--heading-letter-spacing, 0em));
   }
 
   .heading-size-4 {
-    font-size: calc(var(--font-size-4) * var(--heading-font-size-adjust, 1));
-    line-height: var(--heading-line-height-4, var(--line-height-4));
-    letter-spacing: calc(var(--letter-spacing-4) + var(--heading-letter-spacing, 0em));
+    font-size: calc(var(--text-base) * var(--heading-font-size-adjust, 1));
+    line-height: var(--heading-line-height-4, var(--text-base--line-height));
+    letter-spacing: calc(var(--text-base--letter-spacing) + var(--heading-letter-spacing, 0em));
   }
 
   .heading-size-5 {
-    font-size: calc(var(--font-size-5) * var(--heading-font-size-adjust, 1));
-    line-height: var(--heading-line-height-5, var(--line-height-5));
-    letter-spacing: calc(var(--letter-spacing-5) + var(--heading-letter-spacing, 0em));
+    font-size: calc(var(--text-lg) * var(--heading-font-size-adjust, 1));
+    line-height: var(--heading-line-height-5, var(--text-lg--line-height));
+    letter-spacing: calc(var(--text-lg--letter-spacing) + var(--heading-letter-spacing, 0em));
   }
 
   .heading-size-6 {
-    font-size: calc(var(--font-size-6) * var(--heading-font-size-adjust, 1));
-    line-height: var(--heading-line-height-6, var(--line-height-6));
-    letter-spacing: calc(var(--letter-spacing-6) + var(--heading-letter-spacing, 0em));
+    font-size: calc(var(--text-xl) * var(--heading-font-size-adjust, 1));
+    line-height: var(--heading-line-height-6, var(--text-xl--line-height));
+    letter-spacing: calc(var(--text-xl--letter-spacing) + var(--heading-letter-spacing, 0em));
   }
 
   .heading-size-7 {
-    font-size: calc(var(--font-size-7) * var(--heading-font-size-adjust, 1));
-    line-height: var(--heading-line-height-7, var(--line-height-7));
-    letter-spacing: calc(var(--letter-spacing-7) + var(--heading-letter-spacing, 0em));
+    font-size: calc(var(--text-2xl) * var(--heading-font-size-adjust, 1));
+    line-height: var(--heading-line-height-7, var(--text-2xl--line-height));
+    letter-spacing: calc(var(--text-2xl--letter-spacing) + var(--heading-letter-spacing, 0em));
   }
 
   .heading-size-8 {
-    font-size: calc(var(--font-size-8) * var(--heading-font-size-adjust, 1));
-    line-height: var(--heading-line-height-8, var(--line-height-8));
-    letter-spacing: calc(var(--letter-spacing-8) + var(--heading-letter-spacing, 0em));
+    font-size: calc(var(--text-3xl) * var(--heading-font-size-adjust, 1));
+    line-height: var(--heading-line-height-8, var(--text-3xl--line-height));
+    letter-spacing: calc(var(--text-3xl--letter-spacing) + var(--heading-letter-spacing, 0em));
   }
 
   .heading-size-9 {
-    font-size: calc(var(--font-size-9) * var(--heading-font-size-adjust, 1));
-    line-height: var(--heading-line-height-9, var(--line-height-9));
-    letter-spacing: calc(var(--letter-spacing-9) + var(--heading-letter-spacing, 0em));
+    font-size: calc(var(--text-4xl) * var(--heading-font-size-adjust, 1));
+    line-height: var(--heading-line-height-9, var(--text-4xl--line-height));
+    letter-spacing: calc(var(--text-4xl--letter-spacing) + var(--heading-letter-spacing, 0em));
   }
 
   /* Heading weight variants */
@@ -4671,57 +4687,57 @@
 
   /* Text size variants */
   .text-size-1 {
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-1);
-    letter-spacing: var(--letter-spacing-1);
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
+    letter-spacing: var(--text-2xs--letter-spacing);
   }
 
   .text-size-2 {
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
-    letter-spacing: var(--letter-spacing-2);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    letter-spacing: var(--text-xs--letter-spacing);
   }
 
   .text-size-3 {
-    font-size: var(--font-size-3);
-    line-height: var(--line-height-3);
-    letter-spacing: var(--letter-spacing-3);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    letter-spacing: var(--text-sm--letter-spacing);
   }
 
   .text-size-4 {
-    font-size: var(--font-size-4);
-    line-height: var(--line-height-4);
-    letter-spacing: var(--letter-spacing-4);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    letter-spacing: var(--text-base--letter-spacing);
   }
 
   .text-size-5 {
-    font-size: var(--font-size-5);
-    line-height: var(--line-height-5);
-    letter-spacing: var(--letter-spacing-5);
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    letter-spacing: var(--text-lg--letter-spacing);
   }
 
   .text-size-6 {
-    font-size: var(--font-size-6);
-    line-height: var(--line-height-6);
-    letter-spacing: var(--letter-spacing-6);
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    letter-spacing: var(--text-xl--letter-spacing);
   }
 
   .text-size-7 {
-    font-size: var(--font-size-7);
-    line-height: var(--line-height-7);
-    letter-spacing: var(--letter-spacing-7);
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+    letter-spacing: var(--text-2xl--letter-spacing);
   }
 
   .text-size-8 {
-    font-size: var(--font-size-8);
-    line-height: var(--line-height-8);
-    letter-spacing: var(--letter-spacing-8);
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl--line-height);
+    letter-spacing: var(--text-3xl--letter-spacing);
   }
 
   .text-size-9 {
-    font-size: var(--font-size-9);
-    line-height: var(--line-height-9);
-    letter-spacing: var(--letter-spacing-9);
+    font-size: var(--text-4xl);
+    line-height: var(--text-4xl--line-height);
+    letter-spacing: var(--text-4xl--letter-spacing);
   }
 
   /* Text weight variants */
@@ -4813,26 +4829,73 @@
   }
 
   /* ==================== Checkbox ==================== */
-  .checkbox-root {
+  /*
+   * Checkbox uses Tailwind utilities with Radix tokens:
+   * - Sizes: h-4 w-4 (size-2), scaled for size-1/size-3
+   * - Border radius: rounded-1
+   * - Colors: bg-accent-9, text-white, text-sand-12
+   * - Text: text-xs (size-2), text-2xs (size-1), text-sm (size-3)
+   */
+
+  /* Size 1: 14px (space-4 * 0.875) */
+  .checkbox-1 {
+    height: 14px;
+    width: 14px;
+    border-radius: 2.5px;
+  }
+  /* Size 2: 16px (space-4) - default */
+  .checkbox-2 {
+    height: var(--spacing-4);
+    width: var(--spacing-4);
+    border-radius: var(--radius-1);
+  }
+  /* Size 3: 20px (space-4 * 1.25) */
+  .checkbox-3 {
+    height: var(--spacing-5);
+    width: var(--spacing-5);
+    border-radius: 4px;
+  }
+
+  /* Base checkbox button */
+  .checkbox {
     position: relative;
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: top;
     flex-shrink: 0;
     cursor: pointer;
-    border-radius: var(--checkbox-border-radius);
-    height: var(--checkbox-size);
-    width: var(--checkbox-size);
-    background-color: var(--color-surface, #fff);
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    transition: background-color 150ms, box-shadow 150ms;
     box-shadow: inset 0 0 0 1px var(--gray-a7);
   }
 
-  .checkbox-root.checkbox-checked {
+  .checkbox[data-state="checked"],
+  .checkbox[data-state="indeterminate"] {
     background-color: var(--accent-9);
     box-shadow: none;
   }
 
+  .checkbox:hover:not([data-disabled]) {
+    box-shadow: inset 0 0 0 1px var(--gray-a8);
+  }
+
+  .checkbox[data-state="checked"]:hover:not([data-disabled]),
+  .checkbox[data-state="indeterminate"]:hover:not([data-disabled]) {
+    background-color: var(--accent-10);
+    box-shadow: none;
+  }
+
+  .checkbox:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 1px var(--accent-9), 0 0 0 1px var(--accent-9);
+  }
+
+  .checkbox[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Checkbox indicator (icon container) */
   .checkbox-indicator {
     position: absolute;
     display: flex;
@@ -4841,96 +4904,74 @@
     color: white;
   }
 
+  /* Checkbox label */
   .checkbox-label {
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
-    color: var(--sand-12);
     cursor: pointer;
     user-select: none;
+    color: var(--sand-12);
   }
-
-  /* Checkbox sizes */
-  .checkbox-size-1 {
-    --checkbox-size: calc(var(--space-4) * 0.875);
-    --checkbox-border-radius: calc(var(--radius-1) * 0.875);
-  }
-
-  .checkbox-size-2 {
-    --checkbox-size: var(--space-4);
-    --checkbox-border-radius: var(--radius-1);
-  }
-
-  .checkbox-size-3 {
-    --checkbox-size: calc(var(--space-4) * 1.25);
-    --checkbox-border-radius: calc(var(--radius-1) * 1.25);
-  }
-
-  /* Checkbox disabled */
-  .checkbox-disabled {
+  .checkbox-label[data-disabled] {
     cursor: not-allowed;
-    opacity: 0.5;
-  }
-
-  .checkbox-disabled.checkbox-checked {
-    background-color: var(--gray-a8);
-  }
-
-  .checkbox-label-disabled {
     color: var(--gray-a8);
-    cursor: not-allowed;
   }
 
   /* ==================== Checkbox Group ==================== */
   .checkbox-group {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
   }
 
   .checkbox-group-item {
     display: flex;
-    align-items: center;
-    gap: var(--space-2);
     width: fit-content;
     cursor: pointer;
+    align-items: center;
   }
 
   .checkbox-group-item-inner {
-    /* Make layouts with text truncation possible */
     min-width: 0;
   }
 
-  /* Checkbox Group sizes */
-  .checkbox-group-size-1 {
-    gap: var(--space-1);
+  /* Checkbox Group sizes - gap between items and label text size */
+  .checkbox-group-1 {
+    gap: var(--spacing-1);
+  }
+  .checkbox-group-1 .checkbox-group-item {
+    gap: var(--spacing-2);
+  }
+  .checkbox-group-1 .checkbox-label {
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
+    letter-spacing: var(--text-2xs--letter-spacing);
   }
 
-  .checkbox-group-size-1 .checkbox-label {
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-1);
+  .checkbox-group-2 {
+    gap: var(--spacing-2);
+  }
+  .checkbox-group-2 .checkbox-group-item {
+    gap: var(--spacing-2);
+  }
+  .checkbox-group-2 .checkbox-label {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    letter-spacing: var(--text-xs--letter-spacing);
   }
 
-  .checkbox-group-size-2 {
-    gap: var(--space-2);
+  .checkbox-group-3 {
+    gap: var(--spacing-3);
   }
-
-  .checkbox-group-size-2 .checkbox-label {
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
+  .checkbox-group-3 .checkbox-group-item {
+    gap: var(--spacing-3);
   }
-
-  .checkbox-group-size-3 {
-    gap: var(--space-3);
-  }
-
-  .checkbox-group-size-3 .checkbox-label {
-    font-size: var(--font-size-3);
-    line-height: var(--line-height-3);
+  .checkbox-group-3 .checkbox-label {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    letter-spacing: var(--text-sm--letter-spacing);
   }
 
   /* ==================== Radio Cards ==================== */
   .radio-cards {
-    --radio-cards-gap: var(--space-4);
+    --radio-cards-gap: var(--spacing-4);
     --radio-cards-columns: repeat(auto-fit, minmax(160px, 1fr));
 
     display: grid;
@@ -4972,17 +5013,17 @@
   }
 
   /* Gap variants */
-  .radio-cards-gap-1 { --radio-cards-gap: var(--space-1); }
-  .radio-cards-gap-2 { --radio-cards-gap: var(--space-2); }
-  .radio-cards-gap-3 { --radio-cards-gap: var(--space-3); }
-  .radio-cards-gap-4 { --radio-cards-gap: var(--space-4); }
-  .radio-cards-gap-5 { --radio-cards-gap: var(--space-5); }
-  .radio-cards-gap-6 { --radio-cards-gap: var(--space-6); }
+  .radio-cards-gap-1 { --radio-cards-gap: var(--spacing-1); }
+  .radio-cards-gap-2 { --radio-cards-gap: var(--spacing-2); }
+  .radio-cards-gap-3 { --radio-cards-gap: var(--spacing-3); }
+  .radio-cards-gap-4 { --radio-cards-gap: var(--spacing-4); }
+  .radio-cards-gap-5 { --radio-cards-gap: var(--spacing-5); }
+  .radio-cards-gap-6 { --radio-cards-gap: var(--spacing-6); }
 
   /* Individual card item */
   .radio-card-item {
-    --card-padding-x: var(--radio-card-padding-x, var(--space-4));
-    --card-padding-y: var(--radio-card-padding-y, calc(var(--space-4) * 0.875));
+    --card-padding-x: var(--radio-card-padding-x, var(--spacing-4));
+    --card-padding-y: var(--radio-card-padding-y, calc(var(--spacing-4) * 0.875));
     --card-border-radius: var(--radio-card-border-radius, var(--radius-3));
     --card-border-width: 1px;
 
@@ -4990,7 +5031,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-2);
+    gap: var(--spacing-2);
     padding: var(--card-padding-y) var(--card-padding-x);
     border-radius: var(--card-border-radius);
     background-color: var(--color-surface, var(--sand-1));
@@ -5134,29 +5175,29 @@
 
   /* Size variants */
   .radio-cards-size-1 {
-    font-size: var(--font-size-2);
-    --line-height: var(--line-height-2);
-    --letter-spacing: var(--letter-spacing-2);
-    --radio-card-padding-x: var(--space-3);
-    --radio-card-padding-y: calc(var(--space-3) / 1.2);
+    font-size: var(--text-xs);
+    --line-height: var(--text-xs--line-height);
+    --letter-spacing: var(--text-xs--letter-spacing);
+    --radio-card-padding-x: var(--spacing-3);
+    --radio-card-padding-y: calc(var(--spacing-3) / 1.2);
     --radio-card-border-radius: var(--radius-3);
   }
 
   .radio-cards-size-2 {
-    font-size: var(--font-size-2);
-    --line-height: var(--line-height-2);
-    --letter-spacing: var(--letter-spacing-2);
-    --radio-card-padding-x: var(--space-4);
-    --radio-card-padding-y: calc(var(--space-4) * 0.875);
+    font-size: var(--text-xs);
+    --line-height: var(--text-xs--line-height);
+    --letter-spacing: var(--text-xs--letter-spacing);
+    --radio-card-padding-x: var(--spacing-4);
+    --radio-card-padding-y: calc(var(--spacing-4) * 0.875);
     --radio-card-border-radius: var(--radius-3);
   }
 
   .radio-cards-size-3 {
-    font-size: var(--font-size-3);
-    --line-height: var(--line-height-3);
-    --letter-spacing: var(--letter-spacing-3);
-    --radio-card-padding-x: var(--space-5);
-    --radio-card-padding-y: calc(var(--space-5) / 1.2);
+    font-size: var(--text-sm);
+    --line-height: var(--text-sm--line-height);
+    --letter-spacing: var(--text-sm--letter-spacing);
+    --radio-card-padding-x: var(--spacing-5);
+    --radio-card-padding-y: calc(var(--spacing-5) / 1.2);
     --radio-card-border-radius: var(--radius-4);
   }
 
@@ -5174,7 +5215,7 @@
   }
 
   .radio-card-description {
-    margin-top: var(--space-1);
+    margin-top: var(--spacing-1);
     font-size: 0.9em;
     color: var(--sand-11);
     line-height: 1.4;
@@ -5187,7 +5228,7 @@
 
   /* ==================== Checkbox Cards ==================== */
   .checkbox-cards {
-    --checkbox-cards-gap: var(--space-2);
+    --checkbox-cards-gap: var(--spacing-2);
     --checkbox-cards-columns: 1;
 
     display: grid;
@@ -5222,17 +5263,17 @@
 
   /* Individual card item */
   .checkbox-card-item {
-    --card-padding-top: var(--checkbox-card-padding-top, var(--space-3));
+    --card-padding-top: var(--checkbox-card-padding-top, var(--spacing-3));
     --card-padding-right: var(--checkbox-card-padding-right);
-    --card-padding-bottom: var(--checkbox-card-padding-bottom, var(--space-3));
-    --card-padding-left: var(--checkbox-card-padding-left, var(--space-3));
+    --card-padding-bottom: var(--checkbox-card-padding-bottom, var(--spacing-3));
+    --card-padding-left: var(--checkbox-card-padding-left, var(--spacing-3));
     --card-border-radius: var(--checkbox-card-border-radius, var(--radius-3));
     --card-border-width: 1px;
 
     position: relative;
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--spacing-2);
     padding: var(--card-padding-top) var(--card-padding-right) var(--card-padding-bottom) var(--card-padding-left);
     border-radius: var(--card-border-radius);
     background-color: var(--color-surface, var(--sand-1));
@@ -5322,14 +5363,14 @@
 
   /* Size variants */
   .checkbox-cards-size-1 {
-    font-size: var(--font-size-2);
-    --line-height: var(--line-height-2);
-    --letter-spacing: var(--letter-spacing-2);
-    --checkbox-card-padding-top: calc(var(--space-3) / 1.2);
-    --checkbox-card-padding-bottom: calc(var(--space-3) / 1.2);
-    --checkbox-card-padding-left: var(--space-3);
+    font-size: var(--text-xs);
+    --line-height: var(--text-xs--line-height);
+    --letter-spacing: var(--text-xs--letter-spacing);
+    --checkbox-card-padding-top: calc(var(--spacing-3) / 1.2);
+    --checkbox-card-padding-bottom: calc(var(--spacing-3) / 1.2);
+    --checkbox-card-padding-left: var(--spacing-3);
     --checkbox-card-border-radius: var(--radius-3);
-    --checkbox-card-checkbox-size: calc(var(--space-4) * 0.875);
+    --checkbox-card-checkbox-size: calc(var(--spacing-4) * 0.875);
   }
 
   .checkbox-cards-size-1 .checkbox-card-item {
@@ -5337,14 +5378,14 @@
   }
 
   .checkbox-cards-size-2 {
-    font-size: var(--font-size-2);
-    --line-height: var(--line-height-2);
-    --letter-spacing: var(--letter-spacing-2);
-    --checkbox-card-padding-top: calc(var(--space-4) * 0.875);
-    --checkbox-card-padding-bottom: calc(var(--space-4) * 0.875);
-    --checkbox-card-padding-left: var(--space-4);
+    font-size: var(--text-xs);
+    --line-height: var(--text-xs--line-height);
+    --letter-spacing: var(--text-xs--letter-spacing);
+    --checkbox-card-padding-top: calc(var(--spacing-4) * 0.875);
+    --checkbox-card-padding-bottom: calc(var(--spacing-4) * 0.875);
+    --checkbox-card-padding-left: var(--spacing-4);
     --checkbox-card-border-radius: var(--radius-3);
-    --checkbox-card-checkbox-size: var(--space-4);
+    --checkbox-card-checkbox-size: var(--spacing-4);
   }
 
   .checkbox-cards-size-2 .checkbox-card-item {
@@ -5352,14 +5393,14 @@
   }
 
   .checkbox-cards-size-3 {
-    font-size: var(--font-size-3);
-    --line-height: var(--line-height-3);
-    --letter-spacing: var(--letter-spacing-3);
-    --checkbox-card-padding-top: calc(var(--space-5) / 1.2);
-    --checkbox-card-padding-bottom: calc(var(--space-5) / 1.2);
-    --checkbox-card-padding-left: var(--space-5);
+    font-size: var(--text-sm);
+    --line-height: var(--text-sm--line-height);
+    --letter-spacing: var(--text-sm--letter-spacing);
+    --checkbox-card-padding-top: calc(var(--spacing-5) / 1.2);
+    --checkbox-card-padding-bottom: calc(var(--spacing-5) / 1.2);
+    --checkbox-card-padding-left: var(--spacing-5);
     --checkbox-card-border-radius: var(--radius-4);
-    --checkbox-card-checkbox-size: calc(var(--space-4) * 1.25);
+    --checkbox-card-checkbox-size: calc(var(--spacing-4) * 1.25);
   }
 
   .checkbox-cards-size-3 .checkbox-card-item {
@@ -5379,7 +5420,7 @@
   }
 
   .checkbox-card-description {
-    margin-top: var(--space-1);
+    margin-top: var(--spacing-1);
     font-size: 0.9em;
     color: var(--sand-11);
     line-height: 1.4;
@@ -5630,23 +5671,9 @@
   /* ===================================================================
    * Tab Nav
    * ===================================================================
-   * A CSS-only navigation component using standard anchor elements.
-   * For tabbed content switching, use the Tabs component instead.
-   *
-   * Structure:
-   *   <nav class="tab-nav">
-   *     <a href="#" class="tab-nav-link" data-active>Link 1</a>
-   *     <a href="#" class="tab-nav-link">Link 2</a>
-   *   </nav>
-   *
-   * Variants:
-   *   - Size: .tab-nav-sm, .tab-nav-lg (default is medium)
-   *   - Active state: Add [data-active] to .tab-nav-link
-   *   - High contrast: Add .tab-nav-high-contrast to container
-   *   - Justify: Add .tab-nav-center or .tab-nav-end
+   * Navigation tabs with active indicator underline.
    * ================================================================ */
 
-  /* Base styles */
   .tab-nav {
     display: flex;
     justify-content: flex-start;
@@ -5654,145 +5681,119 @@
     white-space: nowrap;
     font-family: var(--default-font-family);
     font-style: normal;
-    box-shadow: inset 0 -1px 0 0 var(--sand-a5);
-
-    /* Hide scrollbar */
+    box-shadow: inset 0 -1px 0 0 var(--gray-a5);
     scrollbar-width: none;
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    letter-spacing: var(--text-xs--letter-spacing);
   }
 
   .tab-nav::-webkit-scrollbar {
     display: none;
   }
 
-  /* Link styles */
+  /* Link base styles */
   .tab-nav-link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     position: relative;
     user-select: none;
     box-sizing: border-box;
-    color: var(--sand-a11);
+    color: var(--gray-a11);
     text-decoration: none;
     cursor: pointer;
-
-    /* Smooth transitions */
-    transition: color 150ms ease;
-
-    /* Inner content wrapper for proper spacing */
-    padding: 0 var(--space-2);
-    height: var(--space-7);
-    font-size: var(--font-size-2);
-    line-height: var(--line-height-2);
-    letter-spacing: var(--letter-spacing-2);
+    height: var(--spacing-7);
+    padding-left: var(--spacing-2);
+    padding-right: var(--spacing-2);
   }
 
-  /* Inner wrapper for active state font weight trick */
-  .tab-nav-link::before {
-    content: attr(data-text);
-    height: 0;
-    visibility: hidden;
-    overflow: hidden;
-    user-select: none;
-    pointer-events: none;
-    font-weight: var(--font-weight-medium);
+  /* Inner wrapper - holds the visible text */
+  .tab-nav-link-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-2);
+    position: absolute;
+  }
 
-    @media speech {
-      display: none;
-    }
+  /* Hidden wrapper - reserves space for bold text */
+  .tab-nav-link-inner-hidden {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--radius-2);
+    visibility: hidden;
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* Size 1 (small) */
+  .tab-nav-size-1 {
+    font-size: var(--text-2xs);
+    line-height: var(--text-2xs--line-height);
+    letter-spacing: var(--text-2xs--letter-spacing);
+  }
+  .tab-nav-size-1 .tab-nav-link {
+    height: var(--spacing-6);
+    padding-left: var(--spacing-1);
+    padding-right: var(--spacing-1);
+  }
+  .tab-nav-size-1 .tab-nav-link-inner,
+  .tab-nav-size-1 .tab-nav-link-inner-hidden {
+    padding: calc(var(--spacing-1) * 0.5) var(--spacing-1);
+    border-radius: var(--radius-1);
+  }
+
+  /* Active state text styling */
+  .tab-nav-link[data-active] .tab-nav-link-inner {
+    font-weight: var(--font-weight-medium);
   }
 
   /* Hover state */
   @media (hover: hover) {
     .tab-nav-link:hover {
-      color: var(--sand-12);
+      color: var(--gray-12);
+    }
+    .tab-nav-link:hover .tab-nav-link-inner {
+      background-color: var(--gray-a3);
+    }
+    .tab-nav-link:focus-visible:hover .tab-nav-link-inner {
+      background-color: var(--accent-a3);
     }
   }
 
-  /* Active state */
+  /* Active state color */
   .tab-nav-link[data-active] {
-    color: var(--sand-12);
-    font-weight: var(--font-weight-medium);
+    color: var(--gray-12);
   }
 
   /* Active indicator (underline) */
-  .tab-nav-link[data-active]::after {
+  .tab-nav-link[data-active]::before {
+    box-sizing: border-box;
     content: '';
+    height: 2px;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 2px;
     background-color: var(--accent-9);
   }
 
   /* High contrast variant */
-  .tab-nav-high-contrast .tab-nav-link[data-active]::after {
+  .tab-nav-high-contrast .tab-nav-link[data-active]::before {
     background-color: var(--accent-12);
   }
 
   /* Focus visible */
-  .tab-nav-link:focus-visible {
+  .tab-nav-link:focus-visible .tab-nav-link-inner {
     outline: 2px solid var(--accent-8);
     outline-offset: -2px;
-    border-radius: var(--radius-2);
   }
-
-  /* Size variants */
-  .tab-nav-sm {
-    box-shadow: inset 0 -1px 0 0 var(--sand-a5);
-  }
-
-  .tab-nav-sm .tab-nav-link {
-    height: var(--space-6);
-    padding: 0 var(--space-1);
-    font-size: var(--font-size-1);
-    line-height: var(--line-height-1);
-    letter-spacing: var(--letter-spacing-1);
-  }
-
-  .tab-nav-lg .tab-nav-link {
-    height: var(--space-8);
-    padding: 0 var(--space-3);
-    font-size: var(--font-size-3);
-    line-height: var(--line-height-3);
-    letter-spacing: var(--letter-spacing-3);
-  }
-
-  /* Justify variants */
-  .tab-nav-center {
-    justify-content: center;
-  }
-
-  .tab-nav-end {
-    justify-content: flex-end;
-  }
-
-  /* Vertical layout */
-  .tab-nav-vertical {
-    flex-direction: column;
-    box-shadow: inset -1px 0 0 0 var(--sand-a5);
-    overflow-x: visible;
-    overflow-y: auto;
-    white-space: normal;
-    width: fit-content;
-  }
-
-  .tab-nav-vertical .tab-nav-link {
-    justify-content: flex-start;
-    width: 100%;
-  }
-
-  .tab-nav-vertical .tab-nav-link[data-active]::after {
-    top: 0;
-    bottom: 0;
-    left: auto;
-    right: 0;
-    width: 2px;
-    height: auto;
-  }
-
 
   /* ===================================================================
    * Switch Component

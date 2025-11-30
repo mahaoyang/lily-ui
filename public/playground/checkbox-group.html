@@ -4,415 +4,266 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Playground - Checkbox Group & Cards</title>
+  <title>Playground - Checkbox Group</title>
   <link rel="stylesheet" href="/dist/output.css">
   <script type="module">
     import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import createCheckboxGroup from "/public/machines/checkbox-group.js?v=1";
+    import createCheckboxGroup from "/public/machines/checkbox-group.js";
 
     window.Alpine = Alpine;
-    Alpine.data("checkboxGroupMachine", createCheckboxGroup);
+    Alpine.data("checkboxGroup", createCheckboxGroup);
     Alpine.start();
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
-  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
-  :data-accent-color="accent">
-  <main class="mx-auto max-w-5xl p-8 space-y-8">
-    <header class="flex items-center justify-between">
-      <div class="space-y-2">
-        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
-          style="background: var(--sand-surface);">
-          <span
-            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">CG</span>
-          <div>
-            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Checkbox Group & Cards</h1>
-            <p class="text-2 text-sand-11">Multi-select with group and card layouts</p>
-          </div>
-        </div>
-        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
-      </div>
-      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
-    </header>
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 p-8">
+  <div class="mx-auto max-w-4xl space-y-8">
 
-    <!-- Theme/Accent Switcher -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
-      style="background: var(--sand-surface);">
-      <div class="flex flex-wrap items-center gap-6">
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">主题</div>
-          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
-            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
-            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
-              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'light'">Light</button>
-            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
-              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'dark'">Dark</button>
-          </div>
-        </div>
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">Accent</div>
-          <div class="flex flex-wrap gap-2">
-            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
-              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
-                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
-                @click="accent = color">
-                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
-                  :style="`background: var(--${color}-9)`"></span>
-                <span class="capitalize" x-text="color"></span>
-              </button>
-            </template>
-          </div>
+    <!-- Header -->
+    <div class="mb-8">
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 mb-4 inline-block">← Back to Playground</a>
+      <h1 class="text-4xl font-bold text-sand-12 mb-2">Checkbox Group</h1>
+      <p class="text-lg text-sand-11">A set of checkboxes for selecting multiple options.</p>
+    </div>
+
+    <!-- Basic Example -->
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-sand-12">Basic</h2>
+      <div class="bg-white rounded-lg p-6 border border-sand-6">
+        <div x-data="checkboxGroup({
+          name: 'notifications',
+          defaultValues: ['email']
+        })" x-bind="rootProps()" class="checkbox-group checkbox-group-size-2">
+
+          <label class="checkbox-group-item">
+            <button type="button" x-bind="itemProps('email')" class="checkbox-root checkbox-size-2"
+              :class="isChecked('email') ? 'checkbox-checked' : ''">
+              <span x-show="isChecked('email')" class="checkbox-indicator">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                  <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                </svg>
+              </span>
+            </button>
+            <span class="checkbox-label">Email notifications</span>
+          </label>
+
+          <label class="checkbox-group-item">
+            <button type="button" x-bind="itemProps('sms')" class="checkbox-root checkbox-size-2"
+              :class="isChecked('sms') ? 'checkbox-checked' : ''">
+              <span x-show="isChecked('sms')" class="checkbox-indicator">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                  <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                </svg>
+              </span>
+            </button>
+            <span class="checkbox-label">SMS notifications</span>
+          </label>
+
+          <label class="checkbox-group-item">
+            <button type="button" x-bind="itemProps('push')" class="checkbox-root checkbox-size-2"
+              :class="isChecked('push') ? 'checkbox-checked' : ''">
+              <span x-show="isChecked('push')" class="checkbox-indicator">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                  <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                </svg>
+              </span>
+            </button>
+            <span class="checkbox-label">Push notifications</span>
+          </label>
+
         </div>
       </div>
     </section>
 
-    <!-- Basic Checkbox Group -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <div>
-        <h2 class="text-3 font-medium mb-1">Basic Checkbox Group</h2>
-        <p class="text-sm text-sand-11">Simple vertical list of checkboxes</p>
-      </div>
+    <!-- Sizes -->
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-sand-12">Sizes</h2>
+      <div class="bg-white rounded-lg p-6 border border-sand-6 space-y-6">
 
-      <div x-data="checkboxGroupMachine({ name: 'features', defaultValues: ['notifications', 'analytics'], onChange: (values) => console.log('Selected:', values) })"
-        class="space-y-6">
-        <div x-bind="rootProps()" class="checkbox-group">
-          <template x-for="item in [
-            { value: 'notifications', label: 'Email notifications' },
-            { value: 'analytics', label: 'Analytics tracking' },
-            { value: 'marketing', label: 'Marketing emails' },
-            { value: 'updates', label: 'Product updates' }
-          ]" :key="item.value">
-            <div class="checkbox-group-item">
-              <button x-bind="itemProps(item.value, 'cb-' + item.value)" type="button"
-                class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
-                :class="[
-                  disabled
-                    ? 'opacity-55 cursor-not-allowed bg-sand-1 text-sand-10 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]'
-                    : (isChecked(item.value)
-                        ? 'bg-accent-9 text-white shadow-none'
-                        : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]')
-                ]">
-                <span x-show="isChecked(item.value)" class="flex items-center justify-center h-full w-full"
-                  x-transition.opacity.duration.120ms>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                    <polyline points="20 6 9 17 4 12"></polyline>
+        <!-- Size 1 -->
+        <div>
+          <p class="text-sm text-sand-11 mb-3">Size 1</p>
+          <div x-data="checkboxGroup({ name: 'size1', defaultValues: ['a'] })" x-bind="rootProps()" class="checkbox-group checkbox-group-size-1">
+            <label class="checkbox-group-item">
+              <button type="button" x-bind="itemProps('a')" class="checkbox-root checkbox-size-1"
+                :class="isChecked('a') ? 'checkbox-checked' : ''">
+                <span x-show="isChecked('a')" class="checkbox-indicator">
+                  <svg width="7" height="7" viewBox="0 0 9 9" fill="currentColor">
+                    <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
                   </svg>
                 </span>
               </button>
-              <label x-bind="labelProps(item.value, 'cb-' + item.value)"
-                class="text-sm font-medium leading-none text-sand-12 cursor-pointer select-none">
-                <span class="checkbox-group-item-inner" x-text="item.label"></span>
+              <span class="checkbox-label">Option A</span>
+            </label>
+            <label class="checkbox-group-item">
+              <button type="button" x-bind="itemProps('b')" class="checkbox-root checkbox-size-1"
+                :class="isChecked('b') ? 'checkbox-checked' : ''">
+                <span x-show="isChecked('b')" class="checkbox-indicator">
+                  <svg width="7" height="7" viewBox="0 0 9 9" fill="currentColor">
+                    <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                  </svg>
+                </span>
+              </button>
+              <span class="checkbox-label">Option B</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Size 2 -->
+        <div>
+          <p class="text-sm text-sand-11 mb-3">Size 2 (default)</p>
+          <div x-data="checkboxGroup({ name: 'size2', defaultValues: ['a'] })" x-bind="rootProps()" class="checkbox-group checkbox-group-size-2">
+            <label class="checkbox-group-item">
+              <button type="button" x-bind="itemProps('a')" class="checkbox-root checkbox-size-2"
+                :class="isChecked('a') ? 'checkbox-checked' : ''">
+                <span x-show="isChecked('a')" class="checkbox-indicator">
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                    <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                  </svg>
+                </span>
+              </button>
+              <span class="checkbox-label">Option A</span>
+            </label>
+            <label class="checkbox-group-item">
+              <button type="button" x-bind="itemProps('b')" class="checkbox-root checkbox-size-2"
+                :class="isChecked('b') ? 'checkbox-checked' : ''">
+                <span x-show="isChecked('b')" class="checkbox-indicator">
+                  <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                    <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                  </svg>
+                </span>
+              </button>
+              <span class="checkbox-label">Option B</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Size 3 -->
+        <div>
+          <p class="text-sm text-sand-11 mb-3">Size 3</p>
+          <div x-data="checkboxGroup({ name: 'size3', defaultValues: ['a'] })" x-bind="rootProps()" class="checkbox-group checkbox-group-size-3">
+            <label class="checkbox-group-item">
+              <button type="button" x-bind="itemProps('a')" class="checkbox-root checkbox-size-3"
+                :class="isChecked('a') ? 'checkbox-checked' : ''">
+                <span x-show="isChecked('a')" class="checkbox-indicator">
+                  <svg width="11" height="11" viewBox="0 0 9 9" fill="currentColor">
+                    <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                  </svg>
+                </span>
+              </button>
+              <span class="checkbox-label">Option A</span>
+            </label>
+            <label class="checkbox-group-item">
+              <button type="button" x-bind="itemProps('b')" class="checkbox-root checkbox-size-3"
+                :class="isChecked('b') ? 'checkbox-checked' : ''">
+                <span x-show="isChecked('b')" class="checkbox-indicator">
+                  <svg width="11" height="11" viewBox="0 0 9 9" fill="currentColor">
+                    <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                  </svg>
+                </span>
+              </button>
+              <span class="checkbox-label">Option B</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Disabled -->
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-sand-12">Disabled</h2>
+      <div class="bg-white rounded-lg p-6 border border-sand-6">
+        <div x-data="checkboxGroup({
+          name: 'disabled-demo',
+          defaultValues: ['checked'],
+          disabled: true
+        })" x-bind="rootProps()" class="checkbox-group checkbox-group-size-2">
+
+          <label class="checkbox-group-item">
+            <button type="button" x-bind="itemProps('checked')" class="checkbox-root checkbox-size-2 checkbox-disabled"
+              :class="isChecked('checked') ? 'checkbox-checked' : ''">
+              <span x-show="isChecked('checked')" class="checkbox-indicator">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                  <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                </svg>
+              </span>
+            </button>
+            <span class="checkbox-label checkbox-label-disabled">Disabled checked</span>
+          </label>
+
+          <label class="checkbox-group-item">
+            <button type="button" x-bind="itemProps('unchecked')" class="checkbox-root checkbox-size-2 checkbox-disabled"
+              :class="isChecked('unchecked') ? 'checkbox-checked' : ''">
+              <span x-show="isChecked('unchecked')" class="checkbox-indicator">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                  <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                </svg>
+              </span>
+            </button>
+            <span class="checkbox-label checkbox-label-disabled">Disabled unchecked</span>
+          </label>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- With Form -->
+    <section class="space-y-4">
+      <h2 class="text-2xl font-semibold text-sand-12">With Form</h2>
+      <div class="bg-white rounded-lg p-6 border border-sand-6">
+        <form @submit.prevent="console.log('Form submitted')" class="space-y-4">
+          <fieldset>
+            <legend class="text-sm font-medium text-sand-12 mb-3">Select your interests</legend>
+            <div x-data="checkboxGroup({
+              name: 'interests',
+              defaultValues: []
+            })" x-bind="rootProps()" class="checkbox-group checkbox-group-size-2">
+
+              <label class="checkbox-group-item">
+                <button type="button" x-bind="itemProps('design')" class="checkbox-root checkbox-size-2"
+                  :class="isChecked('design') ? 'checkbox-checked' : ''">
+                  <span x-show="isChecked('design')" class="checkbox-indicator">
+                    <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                      <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
+                    </svg>
+                  </span>
+                </button>
+                <span class="checkbox-label">Design</span>
               </label>
-            </div>
-          </template>
-        </div>
 
-        <div class="text-xs text-sand-11 bg-sand-3 rounded p-3 font-mono">
-          Selected: <span x-text="JSON.stringify(values)"></span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Checkbox Cards - Basic -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <div>
-        <h2 class="text-3 font-medium mb-1">Checkbox Cards</h2>
-        <p class="text-sm text-sand-11">Card-style selectable options</p>
-      </div>
-
-      <div x-data="checkboxGroupMachine({ name: 'plan', defaultValues: ['pro'], onChange: (values) => console.log('Selected plans:', values) })"
-        class="space-y-6">
-        <div x-bind="rootProps()" class="checkbox-cards checkbox-cards-cols-3 checkbox-cards-size-2">
-          <template x-for="item in [
-            { value: 'free', title: 'Free', icon: '🎁' },
-            { value: 'pro', title: 'Pro', icon: '⭐' },
-            { value: 'enterprise', title: 'Enterprise', icon: '🏢' }
-          ]" :key="item.value">
-            <div class="checkbox-card-item" :data-checked="isChecked(item.value) ? '' : undefined"
-              :data-disabled="disabled ? '' : undefined" @click="toggle(item.value)">
-              <span class="text-2xl" x-text="item.icon"></span>
-              <div class="checkbox-card-content">
-                <div class="checkbox-card-title" x-text="item.title"></div>
-              </div>
-              <div class="checkbox-card-checkbox">
-                <button x-bind="itemProps(item.value, 'card-' + item.value)" type="button"
-                  class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
-                  :class="[
-                    disabled
-                      ? 'opacity-55 cursor-not-allowed bg-sand-1 text-sand-10 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]'
-                      : (isChecked(item.value)
-                          ? 'bg-accent-9 text-white shadow-none'
-                          : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]')
-                  ]">
-                  <span x-show="isChecked(item.value)" class="flex items-center justify-center h-full w-full"
-                    x-transition.opacity.duration.120ms>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                      <polyline points="20 6 9 17 4 12"></polyline>
+              <label class="checkbox-group-item">
+                <button type="button" x-bind="itemProps('development')" class="checkbox-root checkbox-size-2"
+                  :class="isChecked('development') ? 'checkbox-checked' : ''">
+                  <span x-show="isChecked('development')" class="checkbox-indicator">
+                    <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                      <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
                     </svg>
                   </span>
                 </button>
-              </div>
-            </div>
-          </template>
-        </div>
+                <span class="checkbox-label">Development</span>
+              </label>
 
-        <div class="text-xs text-sand-11 bg-sand-3 rounded p-3 font-mono">
-          Selected: <span x-text="JSON.stringify(values)"></span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Checkbox Cards with Descriptions -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <div>
-        <h2 class="text-3 font-medium mb-1">With Descriptions</h2>
-        <p class="text-sm text-sand-11">Cards with title and description text</p>
-      </div>
-
-      <div x-data="checkboxGroupMachine({ name: 'features-detailed', defaultValues: ['email', 'sms'], onChange: (values) => console.log('Selected:', values) })"
-        class="space-y-6">
-        <div x-bind="rootProps()" class="checkbox-cards checkbox-cards-cols-2 checkbox-cards-size-2">
-          <template x-for="item in [
-            { value: 'email', title: 'Email', description: 'Send notifications via email', icon: '📧' },
-            { value: 'sms', title: 'SMS', description: 'Receive text message alerts', icon: '💬' },
-            { value: 'push', title: 'Push', description: 'Browser push notifications', icon: '🔔' },
-            { value: 'slack', title: 'Slack', description: 'Get notified in Slack', icon: '💼' }
-          ]" :key="item.value">
-            <div class="checkbox-card-item" :data-checked="isChecked(item.value) ? '' : undefined"
-              :data-disabled="disabled ? '' : undefined" @click="toggle(item.value)">
-              <span class="text-2xl" x-text="item.icon"></span>
-              <div class="checkbox-card-content">
-                <div class="checkbox-card-title" x-text="item.title"></div>
-                <div class="checkbox-card-description" x-text="item.description"></div>
-              </div>
-              <div class="checkbox-card-checkbox">
-                <button x-bind="itemProps(item.value, 'desc-' + item.value)" type="button"
-                  class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
-                  :class="[
-                    disabled
-                      ? 'opacity-55 cursor-not-allowed bg-sand-1 text-sand-10 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]'
-                      : (isChecked(item.value)
-                          ? 'bg-accent-9 text-white shadow-none'
-                          : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]')
-                  ]">
-                  <span x-show="isChecked(item.value)" class="flex items-center justify-center h-full w-full"
-                    x-transition.opacity.duration.120ms>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                      <polyline points="20 6 9 17 4 12"></polyline>
+              <label class="checkbox-group-item">
+                <button type="button" x-bind="itemProps('marketing')" class="checkbox-root checkbox-size-2"
+                  :class="isChecked('marketing') ? 'checkbox-checked' : ''">
+                  <span x-show="isChecked('marketing')" class="checkbox-indicator">
+                    <svg width="9" height="9" viewBox="0 0 9 9" fill="currentColor">
+                      <path d="M8.53547 0.62293C8.88226 0.849446 8.97976 1.3142 8.75325 1.66099L4.00325 8.91099C3.87261 9.10943 3.65289 9.22929 3.41679 9.23207C3.18068 9.23485 2.95818 9.12007 2.82352 8.9247L0.573522 5.51221C0.340672 5.16946 0.429025 4.70341 0.771775 4.47056C1.11453 4.23771 1.58058 4.32607 1.81343 4.66882L3.39258 7.00635L7.49687 0.63902C7.72338 0.29223 8.18868 0.194513 8.53547 0.42103V0.62293Z"/>
                     </svg>
                   </span>
                 </button>
-              </div>
+                <span class="checkbox-label">Marketing</span>
+              </label>
+
             </div>
-          </template>
-        </div>
-
-        <div class="text-xs text-sand-11 bg-sand-3 rounded p-3 font-mono">
-          Selected: <span x-text="JSON.stringify(values)"></span>
-        </div>
+          </fieldset>
+          <button type="submit" class="button button-variant-solid button-size-2">Submit</button>
+        </form>
       </div>
     </section>
 
-    <!-- Column Layouts -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <div>
-        <h2 class="text-3 font-medium mb-1">Column Layouts</h2>
-        <p class="text-sm text-sand-11">Different column configurations (responsive)</p>
-      </div>
-
-      <div class="space-y-8">
-        <!-- 1 Column -->
-        <div x-data="checkboxGroupMachine({ defaultValues: ['option1'] })" class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">1 Column</h3>
-          <div x-bind="rootProps()" class="checkbox-cards checkbox-cards-cols-1 checkbox-cards-size-2">
-            <template x-for="i in [1, 2]" :key="i">
-              <div class="checkbox-card-item" :data-checked="isChecked('option' + i) ? '' : undefined"
-                @click="toggle('option' + i)">
-                <div class="checkbox-card-content">
-                  <div class="checkbox-card-title" x-text="'Option ' + i"></div>
-                </div>
-                <div class="checkbox-card-checkbox">
-                  <button x-bind="itemProps('option' + i)" type="button"
-                    class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
-                    :class="isChecked('option' + i) ? 'bg-accent-9 text-white shadow-none' : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]'">
-                    <span x-show="isChecked('option' + i)" class="flex items-center justify-center h-full w-full"
-                      x-transition.opacity.duration.120ms>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </template>
-          </div>
-        </div>
-
-        <!-- 4 Columns -->
-        <div x-data="checkboxGroupMachine({ defaultValues: ['col2'] })" class="space-y-3">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">4 Columns (responsive)</h3>
-          <div x-bind="rootProps()" class="checkbox-cards checkbox-cards-cols-4 checkbox-cards-size-2">
-            <template x-for="i in [1, 2, 3, 4]" :key="i">
-              <div class="checkbox-card-item" :data-checked="isChecked('col' + i) ? '' : undefined"
-                @click="toggle('col' + i)">
-                <div class="checkbox-card-content">
-                  <div class="checkbox-card-title" x-text="'Col ' + i"></div>
-                </div>
-                <div class="checkbox-card-checkbox">
-                  <button x-bind="itemProps('col' + i)" type="button"
-                    class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
-                    :class="isChecked('col' + i) ? 'bg-accent-9 text-white shadow-none' : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]'">
-                    <span x-show="isChecked('col' + i)" class="flex items-center justify-center h-full w-full"
-                      x-transition.opacity.duration.120ms>
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </template>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- High Contrast -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <div>
-        <h2 class="text-3 font-medium mb-1">High Contrast</h2>
-        <p class="text-sm text-sand-11">Enhanced visual contrast for accessibility</p>
-      </div>
-
-      <div x-data="checkboxGroupMachine({ defaultValues: ['hc1'] })" class="space-y-6">
-        <div x-bind="rootProps()" class="checkbox-cards checkbox-cards-cols-3 checkbox-cards-size-2 checkbox-cards-high-contrast">
-          <template x-for="i in [1, 2, 3]" :key="i">
-            <div class="checkbox-card-item" :data-checked="isChecked('hc' + i) ? '' : undefined"
-              @click="toggle('hc' + i)">
-              <div class="checkbox-card-content">
-                <div class="checkbox-card-title" x-text="'Option ' + i"></div>
-                <div class="checkbox-card-description">High contrast mode</div>
-              </div>
-              <div class="checkbox-card-checkbox">
-                <button x-bind="itemProps('hc' + i)" type="button"
-                  class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
-                  :class="isChecked('hc' + i) ? 'bg-accent-9 text-white shadow-none' : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]'">
-                  <span x-show="isChecked('hc' + i)" class="flex items-center justify-center h-full w-full"
-                    x-transition.opacity.duration.120ms>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </template>
-        </div>
-      </div>
-    </section>
-
-    <!-- Disabled State -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <div>
-        <h2 class="text-3 font-medium mb-1">Disabled State</h2>
-        <p class="text-sm text-sand-11">Non-interactive disabled cards</p>
-      </div>
-
-      <div x-data="checkboxGroupMachine({ disabled: true, defaultValues: ['dis1'] })" class="space-y-6">
-        <div x-bind="rootProps()" class="checkbox-cards checkbox-cards-cols-3 checkbox-cards-size-2">
-          <template x-for="i in [1, 2, 3]" :key="i">
-            <div class="checkbox-card-item" :data-checked="isChecked('dis' + i) ? '' : undefined"
-              :data-disabled="disabled ? '' : undefined" @click="toggle('dis' + i)">
-              <div class="checkbox-card-content">
-                <div class="checkbox-card-title" x-text="'Option ' + i"></div>
-                <div class="checkbox-card-description">Disabled option</div>
-              </div>
-              <div class="checkbox-card-checkbox">
-                <button x-bind="itemProps('dis' + i)" type="button"
-                  class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent opacity-55 cursor-not-allowed bg-sand-1 text-sand-10 shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]">
-                  <span x-show="isChecked('dis' + i)" class="flex items-center justify-center h-full w-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </template>
-        </div>
-      </div>
-    </section>
-
-    <!-- Real-world Example -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <div>
-        <h2 class="text-3 font-medium mb-1">Real-world Example</h2>
-        <p class="text-sm text-sand-11">Multi-select subscription preferences</p>
-      </div>
-
-      <div x-data="checkboxGroupMachine({ name: 'subscriptions', defaultValues: ['weekly', 'features'], onChange: (values) => console.log('Subscriptions:', values) })"
-        class="space-y-6">
-        <div x-bind="rootProps()" class="checkbox-cards checkbox-cards-cols-2 checkbox-cards-size-2">
-          <template x-for="item in [
-            { value: 'weekly', title: 'Weekly Digest', description: 'Curated content every Monday', icon: '📰' },
-            { value: 'features', title: 'New Features', description: 'Be first to know about updates', icon: '✨' },
-            { value: 'blog', title: 'Blog Posts', description: 'Latest articles and tutorials', icon: '📝' },
-            { value: 'events', title: 'Events', description: 'Webinars and conferences', icon: '🎪' }
-          ]" :key="item.value">
-            <div class="checkbox-card-item" :data-checked="isChecked(item.value) ? '' : undefined"
-              @click="toggle(item.value)">
-              <span class="text-2xl" x-text="item.icon"></span>
-              <div class="checkbox-card-content">
-                <div class="checkbox-card-title" x-text="item.title"></div>
-                <div class="checkbox-card-description" x-text="item.description"></div>
-              </div>
-              <div class="checkbox-card-checkbox">
-                <button x-bind="itemProps(item.value, 'sub-' + item.value)" type="button"
-                  class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
-                  :class="[
-                    disabled
-                      ? 'opacity-55 cursor-not-allowed bg-sand-1 text-sand-10 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]'
-                      : (isChecked(item.value)
-                          ? 'bg-accent-9 text-white shadow-none'
-                          : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]')
-                  ]">
-                  <span x-show="isChecked(item.value)" class="flex items-center justify-center h-full w-full"
-                    x-transition.opacity.duration.120ms>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </template>
-        </div>
-
-        <div class="flex items-center justify-between">
-          <div class="text-xs text-sand-11 bg-sand-3 rounded p-3 font-mono flex-1">
-            Subscribed to: <span x-text="selectedCount"></span> newsletter(s) - <span
-              x-text="JSON.stringify(values)"></span>
-          </div>
-          <button @click="clear()"
-            class="ml-4 px-4 py-2 text-sm rounded-md bg-sand-3 text-sand-11 hover:bg-sand-4 hover:text-sand-12 transition">
-            Clear All
-          </button>
-        </div>
-      </div>
-    </section>
-
-  </main>
+  </div>
 </body>
 
 </html>

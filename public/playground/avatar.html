@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/dist/output.css">
   <script type="module">
     import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { createAvatar } from "/src/machines/avatar.ts";
+    import { createAvatar } from "/public/machines/avatar.js";
     window.Alpine = Alpine;
     window.createAvatar = createAvatar;
 
@@ -35,7 +35,7 @@
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
   x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
@@ -45,8 +45,8 @@
         <span
           class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">AV</span>
         <div>
-          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Avatar Playground</h1>
-          <p class="text-2 text-sand-11">带 Fallback 逻辑的头像组件</p>
+          <h1 class="text-lg font-semibold text-sand-12 leading-tight">Avatar Playground</h1>
+          <p class="text-xs text-sand-11">带 Fallback 逻辑的头像组件</p>
         </div>
       </div>
       <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
@@ -92,7 +92,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">尺寸变体</h2>
+      <h2 class="text-sm font-medium">尺寸变体</h2>
 
       <div class="grid grid-cols-1 gap-8">
         <div class="space-y-4">
@@ -175,7 +175,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">变体样式</h2>
+      <h2 class="text-sm font-medium">变体样式</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Solid -->
@@ -209,7 +209,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">颜色变体</h2>
+      <h2 class="text-sm font-medium">颜色变体</h2>
 
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
         <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
@@ -229,7 +229,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">圆角半径</h2>
+      <h2 class="text-sm font-medium">圆角半径</h2>
 
       <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
         <div class="space-y-3 flex flex-col items-center">
@@ -267,7 +267,7 @@
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);"
       x-data="avatarDemo">
-      <h2 class="text-3 font-medium">带图片的头像 (自动 Fallback)</h2>
+      <h2 class="text-sm font-medium">带图片的头像 (自动 Fallback)</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="space-y-4">
@@ -305,7 +305,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">使用场景</h2>
+      <h2 class="text-sm font-medium">使用场景</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- User profile -->
@@ -378,7 +378,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <h2 class="text-sm font-medium mb-4">代码示例</h2>
       <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法（仅 Fallback）--&gt;
 &lt;span class="avatar-root avatar-size-3 avatar-variant-soft"&gt;
   &lt;span class="avatar-fallback" data-letters="1"&gt;A&lt;/span&gt;
@@ -392,7 +392,7 @@
 
 &lt;!-- JavaScript 初始化 --&gt;
 &lt;script type="module"&gt;
-  import { createAvatar } from "/src/machines/avatar.ts";
+  import { createAvatar } from "/public/machines/avatar.js";
 
   const avatarEl = document.querySelector('.avatar-root');
   const machine = createAvatar(avatarEl);

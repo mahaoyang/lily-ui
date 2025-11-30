@@ -16,7 +16,7 @@
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
   x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
@@ -27,8 +27,8 @@
           <span
             class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">TB</span>
           <div>
-            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Tabs Playground</h1>
-            <p class="text-2 text-sand-11">键盘可达的标签页</p>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Tabs Playground</h1>
+            <p class="text-xs text-sand-11">键盘可达的标签页</p>
           </div>
         </div>
         <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
@@ -69,7 +69,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Tabs</h2>
+      <h2 class="text-sm font-medium">Tabs</h2>
 
       <!-- Default size -->
       <div class="space-y-4">
@@ -108,11 +108,11 @@
             <p class="text-sand-11">Make changes to your account here. Click save when you're done.</p>
             <div class="mt-4 space-y-3">
               <div class="space-y-1">
-                <label class="text-2 text-sand-12">Name</label>
+                <label class="text-xs text-sand-12">Name</label>
                 <input type="text" value="Pedro Duarte" class="input-shell w-full px-3 py-2 text-sand-12 bg-sand-1" />
               </div>
               <div class="space-y-1">
-                <label class="text-2 text-sand-12">Username</label>
+                <label class="text-xs text-sand-12">Username</label>
                 <input type="text" value="@peduarte" class="input-shell w-full px-3 py-2 text-sand-12 bg-sand-1" />
               </div>
             </div>
@@ -122,11 +122,11 @@
             <p class="text-sand-11">Change your password here. After saving, you'll be logged out.</p>
             <div class="mt-4 space-y-3">
               <div class="space-y-1">
-                <label class="text-2 text-sand-12">Current password</label>
+                <label class="text-xs text-sand-12">Current password</label>
                 <input type="password" class="input-shell w-full px-3 py-2 text-sand-12 bg-sand-1" />
               </div>
               <div class="space-y-1">
-                <label class="text-2 text-sand-12">New password</label>
+                <label class="text-xs text-sand-12">New password</label>
                 <input type="password" class="input-shell w-full px-3 py-2 text-sand-12 bg-sand-1" />
               </div>
             </div>
@@ -136,12 +136,12 @@
             <p class="text-sand-11">Manage your account settings and preferences.</p>
             <div class="mt-4 space-y-3">
               <div class="flex items-center justify-between">
-                <span class="text-2 text-sand-12">Email notifications</span>
-                <span class="text-2 text-sand-11">Enabled</span>
+                <span class="text-xs text-sand-12">Email notifications</span>
+                <span class="text-xs text-sand-11">Enabled</span>
               </div>
               <div class="flex items-center justify-between">
-                <span class="text-2 text-sand-12">Two-factor auth</span>
-                <span class="text-2 text-sand-11">Disabled</span>
+                <span class="text-xs text-sand-12">Two-factor auth</span>
+                <span class="text-xs text-sand-11">Disabled</span>
               </div>
             </div>
           </div>
@@ -188,16 +188,16 @@
           </div>
 
           <div x-bind="contentProps('overview')" x-show="isActive('overview')" class="tabs-content">
-            <p class="text-sand-11 text-2">Overview content goes here.</p>
+            <p class="text-sand-11 text-xs">Overview content goes here.</p>
           </div>
           <div x-bind="contentProps('analytics')" x-show="isActive('analytics')" class="tabs-content">
-            <p class="text-sand-11 text-2">Analytics content goes here.</p>
+            <p class="text-sand-11 text-xs">Analytics content goes here.</p>
           </div>
           <div x-bind="contentProps('reports')" x-show="isActive('reports')" class="tabs-content">
-            <p class="text-sand-11 text-2">Reports content goes here.</p>
+            <p class="text-sand-11 text-xs">Reports content goes here.</p>
           </div>
           <div x-bind="contentProps('notifications')" x-show="isActive('notifications')" class="tabs-content">
-            <p class="text-sand-11 text-2">Notifications content goes here.</p>
+            <p class="text-sand-11 text-xs">Notifications content goes here.</p>
           </div>
         </div>
       </div>

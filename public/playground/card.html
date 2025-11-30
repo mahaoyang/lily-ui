@@ -13,7 +13,7 @@
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
   x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
@@ -23,8 +23,8 @@
         <span
           class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">CD</span>
         <div>
-          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Card Playground</h1>
-          <p class="text-2 text-sand-11">纯 CSS 卡片组件</p>
+          <h1 class="text-lg font-semibold text-sand-12 leading-tight">Card Playground</h1>
+          <p class="text-xs text-sand-11">纯 CSS 卡片组件</p>
         </div>
       </div>
       <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
@@ -70,7 +70,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">尺寸变体</h2>
+      <h2 class="text-sm font-medium">尺寸变体</h2>
 
       <div class="space-y-6">
         <!-- Size 1 -->
@@ -156,7 +156,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">变体样式</h2>
+      <h2 class="text-sm font-medium">变体样式</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Surface -->
@@ -189,7 +189,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">交互式卡片</h2>
+      <h2 class="text-sm font-medium">交互式卡片</h2>
       <p class="text-sm text-sand-11">使用 <code>&lt;a&gt;</code> 或 <code>&lt;button&gt;</code> 元素创建可点击的卡片</p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -214,7 +214,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">带 Inset 的卡片</h2>
+      <h2 class="text-sm font-medium">带 Inset 的卡片</h2>
       <p class="text-sm text-sand-11">使用 <code>.card-inset</code> 创建边到边的内容区域</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -240,7 +240,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">实际应用示例</h2>
+      <h2 class="text-sm font-medium">实际应用示例</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Profile Card -->
@@ -339,7 +339,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <h2 class="text-sm font-medium mb-4">代码示例</h2>
       <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法 --&gt;
 &lt;div class="card card-size-2 card-surface"&gt;
   &lt;p&gt;Card content&lt;/p&gt;

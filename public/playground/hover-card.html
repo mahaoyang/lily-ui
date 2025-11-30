@@ -7,15 +7,16 @@
   <title>Hover Card - Lily UI</title>
   <link rel="stylesheet" href="/dist/output.css">
   <script type="module">
-    import Alpine from 'https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/module.esm.js';
-    import createHoverCard from '/src/machines/hover-card.ts';
+    import Alpine from '/node_modules/alpinejs/dist/module.esm.js';
+    window.Alpine = Alpine;
+    import createHoverCard from '/public/machines/hover-card.js';
 
     Alpine.data('hoverCard', createHoverCard);
     Alpine.start();
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 p-8">
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 p-8">
 
   <div class="max-w-4xl mx-auto space-y-8">
 

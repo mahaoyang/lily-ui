@@ -3,8 +3,6 @@ import path from "path";
 import plugin from "tailwindcss/plugin";
 import type { Config } from "tailwindcss";
 
-const scaling = 1;
-const radiusFactor = 1;
 const radixTokenRoot = path.join(process.cwd(), "node_modules", "@radix-ui", "themes", "tokens");
 
 function parseVarBlock(block: string | undefined) {
@@ -16,75 +14,6 @@ function parseVarBlock(block: string | undefined) {
     vars[match[1]] = match[2].trim();
   }
   return vars;
-}
-
-function resolveCalc(value: string) {
-  return value
-    .replace(/var\(--scaling\)/g, scaling.toString())
-    .replace(/var\(--radius-factor\)/g, radiusFactor.toString());
-}
-
-function loadBaseTokens() {
-  const baseCss = fs.readFileSync(path.join(radixTokenRoot, "base.css"), "utf8");
-  const vars = parseVarBlock(baseCss);
-
-  const spacing: Record<string, string> = {};
-  Object.entries(vars)
-    .filter(([key]) => key.startsWith("space-"))
-    .forEach(([key, value]) => {
-      spacing[key.replace("space-", "")] = resolveCalc(value);
-    });
-
-  const fontSize: Record<string, string> = {};
-  const lineHeights: Record<string, string> = {};
-  const letterSpacing: Record<string, string> = {};
-
-  Object.entries(vars)
-    .filter(([key]) => key.startsWith("font-size-"))
-    .forEach(([key, value]) => {
-      const k = key.replace("font-size-", "");
-      fontSize[k] = resolveCalc(value);
-    });
-
-  Object.entries(vars)
-    .filter(([key]) => key.startsWith("line-height-"))
-    .forEach(([key, value]) => {
-      const k = key.replace("line-height-", "");
-      lineHeights[k] = resolveCalc(value);
-    });
-
-  Object.entries(vars)
-    .filter(([key]) => key.startsWith("letter-spacing-"))
-    .forEach(([key, value]) => {
-      const k = key.replace("letter-spacing-", "");
-      letterSpacing[k] = value;
-    });
-
-  const borderRadius: Record<string, string> = {};
-  Object.entries(vars)
-    .filter(([key]) => key.startsWith("radius-"))
-    .forEach(([key, value]) => {
-      const k = key.replace("radius-", "");
-      borderRadius[k] = resolveCalc(value);
-    });
-
-  const boxShadow: Record<string, string> = {};
-  Object.entries(vars)
-    .filter(([key]) => key.startsWith("shadow-"))
-    .forEach(([key, value]) => {
-      const k = key.replace("shadow-", "");
-      boxShadow[k] = value;
-    });
-
-  const cursor: Record<string, string> = {};
-  Object.entries(vars)
-    .filter(([key]) => key.startsWith("cursor-"))
-    .forEach(([key, value]) => {
-      const k = key.replace("cursor-", "");
-      cursor[k] = value;
-    });
-
-  return { spacing, fontSize, lineHeights, letterSpacing, borderRadius, boxShadow, cursor };
 }
 
 function parseColorFile(filePath: string) {
@@ -136,12 +65,12 @@ function buildRadixColors(paletteSuffixMap: Record<string, Set<string>>, accentS
   Object.entries(paletteSuffixMap).forEach(([palette, suffixes]) => {
     colors[palette] = {};
     suffixes.forEach((suffix) => {
-      (colors[palette] as Record<string, string>)[suffix] = `var(--${palette}-${suffix})`;
+      (colors[palette] as Record<string, string>)[suffix] = "var(--" + palette + "-" + suffix + ")";
     });
   });
 
   colors.accent = accentSuffixes.reduce<Record<string, string>>((acc, suffix) => {
-    acc[suffix] = `var(--accent-${suffix})`;
+    acc[suffix] = "var(--accent-" + suffix + ")";
     return acc;
   }, {});
 
@@ -155,12 +84,11 @@ function buildAccentAliases(palette: string, paletteSuffixMap: Record<string, Se
   const suffixes = Array.from(paletteSuffixMap[palette] ?? []);
   const aliases: Record<string, string> = {};
   suffixes.forEach((suffix) => {
-    aliases[`--accent-${suffix}`] = `var(--${palette}-${suffix})`;
+    aliases["--accent-" + suffix] = "var(--" + palette + "-" + suffix + ")";
   });
   return aliases;
 }
 
-const baseTokens = loadBaseTokens();
 const colorVars = loadRadixColorVars();
 const colorVarNames = Array.from(new Set([...Object.keys(colorVars.light), ...Object.keys(colorVars.dark)]));
 const paletteSuffixMap = buildPaletteSuffixMap(colorVarNames);
@@ -168,34 +96,72 @@ const defaultAccent = paletteSuffixMap.iris ? "iris" : Object.keys(paletteSuffix
 const accentSuffixes = Array.from(paletteSuffixMap[defaultAccent] ?? []);
 const colors = buildRadixColors(paletteSuffixMap, accentSuffixes);
 
-const fontSize = Object.fromEntries(
-  Object.entries(baseTokens.fontSize).map(([k, size]) => [
-    k,
-    [size, { lineHeight: baseTokens.lineHeights[k], letterSpacing: baseTokens.letterSpacing[k] }],
-  ]),
-);
+// Spacing: use CSS variables (--spacing-N references --space-N)
+const spacing: Record<string, string> = {};
+for (let i = 1; i <= 9; i++) {
+  spacing[i.toString()] = "var(--spacing-" + i + ")";
+}
+
+// Font size: Tailwind naming with CSS variables
+// text-2xs, text-xs, text-sm, text-base, text-lg, text-xl, text-2xl, text-3xl, text-4xl
+const fontSize: Record<string, [string, { lineHeight: string; letterSpacing: string }]> = {
+  "4xs": ["var(--text-4xs)", { lineHeight: "var(--text-4xs--line-height)", letterSpacing: "var(--text-4xs--letter-spacing)" }],
+  "3xs": ["var(--text-3xs)", { lineHeight: "var(--text-3xs--line-height)", letterSpacing: "var(--text-3xs--letter-spacing)" }],
+  "2xs": ["var(--text-2xs)", { lineHeight: "var(--text-2xs--line-height)", letterSpacing: "var(--text-2xs--letter-spacing)" }],
+  "xs": ["var(--text-xs)", { lineHeight: "var(--text-xs--line-height)", letterSpacing: "var(--text-xs--letter-spacing)" }],
+  "sm": ["var(--text-sm)", { lineHeight: "var(--text-sm--line-height)", letterSpacing: "var(--text-sm--letter-spacing)" }],
+  "base": ["var(--text-base)", { lineHeight: "var(--text-base--line-height)", letterSpacing: "var(--text-base--letter-spacing)" }],
+  "lg": ["var(--text-lg)", { lineHeight: "var(--text-lg--line-height)", letterSpacing: "var(--text-lg--letter-spacing)" }],
+  "xl": ["var(--text-xl)", { lineHeight: "var(--text-xl--line-height)", letterSpacing: "var(--text-xl--letter-spacing)" }],
+  "2xl": ["var(--text-2xl)", { lineHeight: "var(--text-2xl--line-height)", letterSpacing: "var(--text-2xl--letter-spacing)" }],
+  "3xl": ["var(--text-3xl)", { lineHeight: "var(--text-3xl--line-height)", letterSpacing: "var(--text-3xl--letter-spacing)" }],
+  "4xl": ["var(--text-4xl)", { lineHeight: "var(--text-4xl--line-height)", letterSpacing: "var(--text-4xl--letter-spacing)" }],
+};
+
+// Line height: use CSS variables
+const lineHeight: Record<string, string> = {};
+for (let i = 1; i <= 9; i++) {
+  lineHeight[i.toString()] = "var(--leading-" + i + ")";
+}
+
+// Letter spacing: use CSS variables
+const letterSpacing: Record<string, string> = {};
+for (let i = 1; i <= 9; i++) {
+  letterSpacing[i.toString()] = "var(--tracking-" + i + ")";
+}
+
+// Border radius: use CSS variables
+const borderRadius: Record<string, string> = {
+  "1": "var(--radius-1)",
+  "2": "var(--radius-2)",
+  "3": "var(--radius-3)",
+  "4": "var(--radius-4)",
+  "5": "var(--radius-5)",
+  "6": "var(--radius-6)",
+  "full": "var(--radius-full)",
+  "thumb": "var(--radius-thumb)",
+};
 
 export default {
   content: ["./public/**/*.{html,js,ts,jsx,tsx}", "./src/**/*.{html,js,ts,jsx,tsx}"],
   theme: {
     colors,
-    spacing: baseTokens.spacing,
+    spacing,
     fontSize,
-    lineHeight: baseTokens.lineHeights,
-    letterSpacing: baseTokens.letterSpacing,
-    borderRadius: baseTokens.borderRadius,
-    boxShadow: baseTokens.boxShadow,
-    cursor: baseTokens.cursor,
+    lineHeight,
+    letterSpacing,
+    borderRadius,
   },
   plugins: [
     plugin(({ addBase }) => {
       const accentSelectors: Record<string, Record<string, string>> = {};
       Object.keys(paletteSuffixMap).forEach((palette) => {
-        const selector = `[data-accent-color="${palette}"], .accent-${palette}`;
+        const selector = "[data-accent-color=\"" + palette + "\"], .accent-" + palette;
         accentSelectors[selector] = buildAccentAliases(palette, paletteSuffixMap);
       });
 
       const defaultAccentAliases = buildAccentAliases(defaultAccent, paletteSuffixMap);
+
       addBase({
         ":root, .light, .light-theme": { ...colorVars.light, ...defaultAccentAliases },
         ".dark, .dark-theme": { ...colorVars.light, ...colorVars.dark, ...defaultAccentAliases },

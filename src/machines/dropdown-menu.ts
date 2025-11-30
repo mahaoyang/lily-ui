@@ -210,7 +210,7 @@ export function createDropdownMenu(options: DropdownMenuOptions = {}) {
         role: 'menuitem',
         tabindex: disabled ? undefined : '0',
         'data-value': value,
-        'data-disabled': disabled || undefined,
+        ...(disabled ? { 'data-disabled': '' } : {}),
         '@click': disabled ? undefined : `selectItem('${value}')`,
         '@mouseenter': disabled ? undefined : `highlightedIndex = items.indexOf($el)`,
       };

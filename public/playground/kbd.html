@@ -13,7 +13,7 @@
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
   x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
@@ -23,8 +23,8 @@
         <span
           class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">KB</span>
         <div>
-          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Kbd Playground</h1>
-          <p class="text-2 text-sand-11">键盘按键组件</p>
+          <h1 class="text-lg font-semibold text-sand-12 leading-tight">Kbd Playground</h1>
+          <p class="text-xs text-sand-11">键盘按键组件</p>
         </div>
       </div>
       <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
@@ -70,7 +70,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">尺寸变体</h2>
+      <h2 class="text-sm font-medium">尺寸变体</h2>
 
       <div class="grid grid-cols-1 gap-8">
         <!-- Size 1 -->
@@ -116,7 +116,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">常用快捷键</h2>
+      <h2 class="text-sm font-medium">常用快捷键</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Copy/Paste -->
@@ -246,7 +246,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">特殊按键</h2>
+      <h2 class="text-sm font-medium">特殊按键</h2>
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="flex flex-col items-center gap-2 p-3 rounded bg-sand-3">
@@ -301,7 +301,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Mac 快捷键</h2>
+      <h2 class="text-sm font-medium">Mac 快捷键</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Command Key Shortcuts -->
@@ -371,7 +371,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">组合键示例</h2>
+      <h2 class="text-sm font-medium">组合键示例</h2>
 
       <div class="space-y-4">
         <div class="p-4 rounded bg-sand-3">
@@ -413,7 +413,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">内联使用</h2>
+      <h2 class="text-sm font-medium">内联使用</h2>
 
       <div class="space-y-4">
         <p class="text-base text-sand-12">
@@ -435,7 +435,7 @@
     </section>
 
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <h2 class="text-sm font-medium mb-4">代码示例</h2>
       <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法 --&gt;
 &lt;kbd class="kbd kbd-size-2"&gt;Ctrl&lt;/kbd&gt;
 

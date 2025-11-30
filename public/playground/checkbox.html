@@ -24,150 +24,79 @@
       <div class="space-y-2">
         <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
           style="background: var(--sand-surface);">
-          <span
-            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">CB</span>
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">CB</span>
           <div>
-            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Checkbox Playground</h1>
-            <p class="text-2 text-sand-11">半选/禁用 + 主题/Accent 切换</p>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Checkbox Playground</h1>
+            <p class="text-xs text-sand-11">Checkbox with new component system</p>
           </div>
         </div>
-        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
       </div>
-      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">Back</a>
     </header>
 
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
-      style="background: var(--sand-surface);">
-      <div class="flex flex-wrap items-center gap-6">
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">主题</div>
-          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
-            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
-            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
-              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'light'">Light</button>
-            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
-              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'dark'">Dark</button>
-          </div>
-        </div>
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">Accent</div>
-          <div class="flex flex-wrap gap-2">
-            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
-              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
-                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
-                @click="accent = color">
-                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
-                  :style="`background: var(--${color}-9)`"></span>
-                <span class="capitalize" x-text="color"></span>
-              </button>
-            </template>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">交互示例</h2>
+      <h2 class="text-base font-medium">Interactive Examples</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Basic Checkbox -->
         <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Basic</h3>
+          <h3 class="text-xs font-medium text-sand-11 uppercase tracking-wider">Basic</h3>
           <div x-data="checkboxMachine({ id: 'cb-basic', defaultChecked: true })" class="flex items-center gap-3">
             <button
               x-bind="controlProps()"
               type="button"
-              class="peer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
-              :class="[
-                disabled
-                  ? 'opacity-55 cursor-not-allowed bg-sand-1 text-sand-10 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]'
-                  : (checked || indeterminate
-                      ? 'bg-accent-9 text-white shadow-none'
-                      : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]')
-              ]"
+              class="checkbox checkbox-2"
+              :data-state="checked ? 'checked' : 'unchecked'"
             >
-              <span x-show="checked || indeterminate" class="flex items-center justify-center h-full w-full" x-transition.opacity.duration.120ms>
-                <svg x-show="checked && !indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
+              <span x-show="checked" class="checkbox-indicator" x-transition.opacity.duration.120ms>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3">
                   <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <svg x-show="indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
               </span>
             </button>
-            <label x-bind="labelProps()" class="text-sm font-medium leading-none text-sand-12 cursor-pointer select-none">
-              Accept terms and conditions
+            <label x-bind="labelProps()" class="checkbox-label text-xs font-medium">
+              Accept terms
             </label>
           </div>
         </div>
 
-        <!-- Indeterminate Checkbox -->
+        <!-- Sizes -->
         <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Indeterminate</h3>
-          <div x-data="checkboxMachine({ id: 'cb-mixed', defaultIndeterminate: true })" class="flex items-center gap-3">
-            <button
-              x-bind="controlProps()"
-              type="button"
-              class="peer inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent transition-colors duration-150 outline-none"
-              :class="[
-                disabled
-                  ? 'opacity-55 cursor-not-allowed bg-sand-1 text-sand-10 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]'
-                  : (checked || indeterminate
-                      ? 'bg-accent-9 text-white shadow-none'
-                      : 'bg-sand-1 text-sand-12 border-transparent shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset] hover:shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-12)_14%,transparent)_inset]')
-              ]"
-            >
-              <span x-show="checked || indeterminate" class="flex items-center justify-center h-full w-full" x-transition.opacity.duration.120ms>
-                <svg x-show="checked && !indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <svg x-show="indeterminate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-              </span>
-            </button>
-            <label x-bind="labelProps()" class="text-sm font-medium leading-none text-sand-12 cursor-pointer select-none">
-              Select all rows
-            </label>
+          <h3 class="text-xs font-medium text-sand-11 uppercase tracking-wider">Sizes</h3>
+          <div class="flex flex-col gap-4">
+            <div x-data="checkboxMachine({ id: 'cb-s1', defaultChecked: true })" class="flex items-center gap-2">
+              <button x-bind="controlProps()" type="button" class="checkbox checkbox-1" :data-state="checked ? 'checked' : 'unchecked'">
+                <span x-show="checked" class="checkbox-indicator"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="h-2.5 w-2.5"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              </button>
+              <label x-bind="labelProps()" class="checkbox-label text-2xs">Size 1</label>
+            </div>
+            <div x-data="checkboxMachine({ id: 'cb-s2', defaultChecked: true })" class="flex items-center gap-2">
+              <button x-bind="controlProps()" type="button" class="checkbox checkbox-2" :data-state="checked ? 'checked' : 'unchecked'">
+                <span x-show="checked" class="checkbox-indicator"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="h-3 w-3"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              </button>
+              <label x-bind="labelProps()" class="checkbox-label text-xs">Size 2</label>
+            </div>
+            <div x-data="checkboxMachine({ id: 'cb-s3', defaultChecked: true })" class="flex items-center gap-3">
+              <button x-bind="controlProps()" type="button" class="checkbox checkbox-3" :data-state="checked ? 'checked' : 'unchecked'">
+                <span x-show="checked" class="checkbox-indicator"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="h-3.5 w-3.5"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              </button>
+              <label x-bind="labelProps()" class="checkbox-label text-sm">Size 3</label>
+            </div>
           </div>
         </div>
 
-        <!-- Disabled Checkbox -->
+        <!-- Disabled -->
         <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Disabled</h3>
-          <div class="flex flex-col gap-3">
-            <div class="flex items-center gap-3" x-data="checkboxMachine({ id: 'cb-disabled', disabled: true, defaultChecked: true })">
-              <button
-                x-bind="controlProps()"
-                type="button"
-                class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent bg-sand-1 text-sand-10 opacity-60 cursor-not-allowed shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]"
-              >
-                <span x-show="checked" class="flex items-center justify-center h-full w-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="h-3.5 w-3.5">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                </span>
-              </button>
-              <span class="text-sm font-medium leading-none text-sand-11">Disabled checked</span>
-            </div>
-
-            <div class="flex items-center gap-3" x-data="checkboxMachine({ id: 'cb-disabled-unchecked', disabled: true })">
-              <button
-                x-bind="controlProps()"
-                type="button"
-                class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-[7px] border border-transparent bg-sand-1 text-sand-10 opacity-60 cursor-not-allowed shadow-[0_0_0_1px_color-mix(in_srgb,var(--sand-11)_20%,transparent)_inset]"
-              >
-                <span class="flex items-center justify-center h-full w-full"></span>
-              </button>
-              <span class="text-sm font-medium leading-none text-sand-11">Disabled unchecked</span>
-            </div>
+          <h3 class="text-xs font-medium text-sand-11 uppercase tracking-wider">Disabled</h3>
+          <div class="flex items-center gap-3">
+            <button type="button" class="checkbox checkbox-2" data-state="checked" data-disabled>
+              <span class="checkbox-indicator"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="h-3 w-3"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            </button>
+            <span class="checkbox-label text-xs" data-disabled>Disabled checked</span>
           </div>
         </div>
       </div>
     </section>
   </main>
 </body>
-
 </html>

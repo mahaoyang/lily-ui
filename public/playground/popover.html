@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Popover - Lily UI</title>
   <link rel="stylesheet" href="/dist/output.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  
   <script type="module">
-    import { createPopover } from '/src/machines/popover.ts';
+    import Alpine from '/node_modules/alpinejs/dist/module.esm.js';
+    import { createPopover } from '/public/machines/popover.js';
+    window.Alpine = Alpine;
     window.createPopover = createPopover;
+    Alpine.start();
   </script>
 </head>
-<body class="min-h-screen bg-sand-1 text-sand-12 p-8">
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-1 text-sand-12 p-8">
 
   <div class="mx-auto max-w-4xl">
     <div class="mb-8">

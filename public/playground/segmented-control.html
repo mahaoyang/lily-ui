@@ -16,100 +16,30 @@
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
-  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
-  :data-accent-color="accent">
-  <main class="mx-auto max-w-5xl p-8 space-y-8">
-    <header class="flex items-center justify-between">
-      <div class="space-y-2">
-        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
-          style="background: var(--sand-surface);">
-          <span
-            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">SC</span>
-          <div>
-            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Segmented Control Playground</h1>
-            <p class="text-2 text-sand-11">A set of radio buttons styled as a segmented control</p>
-          </div>
-        </div>
-        <p class="text-sm text-sand-11">Run: <code>bun run dev:all</code> / <code>./dev.sh</code>, then open this page.</p>
-      </div>
-      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">Back to Index</a>
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12"
+  x-data="{ theme: 'light' }" :class="theme === 'dark' ? 'dark' : ''">
+  <main class="mx-auto max-w-3xl p-8 space-y-8">
+    <header class="space-y-2">
+      <h1 class="text-xl font-semibold text-sand-12">Segmented Control</h1>
+      <p class="text-sm text-sand-11">A set of radio buttons styled as a segmented control.</p>
     </header>
 
-    <!-- Theme & Accent Switchers -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
-      style="background: var(--sand-surface);">
-      <div class="flex flex-wrap items-center gap-6">
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">Theme</div>
-          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
-            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
-            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
-              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'light'">Light</button>
-            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
-              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
-              @click="theme = 'dark'">Dark</button>
-          </div>
-        </div>
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-sand-12">Accent</div>
-          <div class="flex flex-wrap gap-2">
-            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
-              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
-                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
-                @click="accent = color">
-                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
-                  :style="`background: var(--${color}-9)`"></span>
-                <span class="capitalize" x-text="color"></span>
-              </button>
-            </template>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Theme Switcher -->
+    <div class="flex gap-2">
+      <button type="button" class="px-3 py-1 text-sm rounded-md border transition"
+        :class="theme === 'light' ? 'bg-sand-12 text-sand-1 border-sand-12' : 'border-sand-6 text-sand-11'"
+        @click="theme = 'light'">Light</button>
+      <button type="button" class="px-3 py-1 text-sm rounded-md border transition"
+        :class="theme === 'dark' ? 'bg-sand-12 text-sand-1 border-sand-12' : 'border-sand-6 text-sand-11'"
+        @click="theme = 'dark'">Dark</button>
+    </div>
 
-    <!-- Basic Example -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Basic Example</h2>
+    <!-- Size -->
+    <section class="space-y-4">
+      <h2 class="text-base font-medium text-sand-12">Size</h2>
+      <p class="text-sm text-sand-11">Use the size prop to control the size.</p>
 
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">Default (Size 2, Surface)</div>
-        <div x-data="segmentedControlMachine({ defaultValue: 'list' })" x-init="registerItems(['list', 'board', 'calendar'])">
-          <div class="segmented-control segmented-control-size-2 segmented-control-surface" x-bind="rootProps()">
-            <button class="segmented-control-item" x-bind="itemProps('list')">
-              <span class="segmented-control-item-separator"></span>
-              <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">List</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">List</span>
-              </span>
-            </button>
-            <button class="segmented-control-item" x-bind="itemProps('board')">
-              <span class="segmented-control-item-separator"></span>
-              <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Board</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Board</span>
-              </span>
-            </button>
-            <button class="segmented-control-item" x-bind="itemProps('calendar')">
-              <span class="segmented-control-item-separator"></span>
-              <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Calendar</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Calendar</span>
-              </span>
-            </button>
-            <div class="segmented-control-indicator"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sizes -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Sizes</h2>
-
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">Size 1 (Small)</div>
+      <div class="flex flex-wrap items-center gap-4">
         <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
           <div class="segmented-control segmented-control-size-1 segmented-control-surface" x-bind="rootProps()">
             <button class="segmented-control-item" x-bind="itemProps('inbox')">
@@ -136,61 +66,55 @@
             <div class="segmented-control-indicator"></div>
           </div>
         </div>
-      </div>
 
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">Size 2 (Medium)</div>
-        <div x-data="segmentedControlMachine({ defaultValue: 'overview' })" x-init="registerItems(['overview', 'activity', 'settings'])">
+        <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
           <div class="segmented-control segmented-control-size-2 segmented-control-surface" x-bind="rootProps()">
-            <button class="segmented-control-item" x-bind="itemProps('overview')">
+            <button class="segmented-control-item" x-bind="itemProps('inbox')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Overview</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Overview</span>
+                <span class="segmented-control-item-label-active">Inbox</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Inbox</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('activity')">
+            <button class="segmented-control-item" x-bind="itemProps('drafts')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Activity</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Activity</span>
+                <span class="segmented-control-item-label-active">Drafts</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Drafts</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('settings')">
+            <button class="segmented-control-item" x-bind="itemProps('sent')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Settings</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Settings</span>
+                <span class="segmented-control-item-label-active">Sent</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Sent</span>
               </span>
             </button>
             <div class="segmented-control-indicator"></div>
           </div>
         </div>
-      </div>
 
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">Size 3 (Large)</div>
-        <div x-data="segmentedControlMachine({ defaultValue: 'profile' })" x-init="registerItems(['profile', 'account', 'notifications'])">
+        <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
           <div class="segmented-control segmented-control-size-3 segmented-control-surface" x-bind="rootProps()">
-            <button class="segmented-control-item" x-bind="itemProps('profile')">
+            <button class="segmented-control-item" x-bind="itemProps('inbox')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Profile</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Profile</span>
+                <span class="segmented-control-item-label-active">Inbox</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Inbox</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('account')">
+            <button class="segmented-control-item" x-bind="itemProps('drafts')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Account</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Account</span>
+                <span class="segmented-control-item-label-active">Drafts</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Drafts</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('notifications')">
+            <button class="segmented-control-item" x-bind="itemProps('sent')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Notifications</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Notifications</span>
+                <span class="segmented-control-item-label-active">Sent</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Sent</span>
               </span>
             </button>
             <div class="segmented-control-indicator"></div>
@@ -199,134 +123,60 @@
       </div>
     </section>
 
-    <!-- Variants -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Variants</h2>
+    <!-- Variant -->
+    <section class="space-y-4">
+      <h2 class="text-base font-medium text-sand-12">Variant</h2>
+      <p class="text-sm text-sand-11">Use the variant prop to control the visual style.</p>
 
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">Surface (Default)</div>
-        <div x-data="segmentedControlMachine({ defaultValue: 'day' })" x-init="registerItems(['day', 'week', 'month'])">
+      <div class="flex flex-wrap items-center gap-4">
+        <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
           <div class="segmented-control segmented-control-size-2 segmented-control-surface" x-bind="rootProps()">
-            <button class="segmented-control-item" x-bind="itemProps('day')">
+            <button class="segmented-control-item" x-bind="itemProps('inbox')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Day</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Day</span>
+                <span class="segmented-control-item-label-active">Inbox</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Inbox</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('week')">
+            <button class="segmented-control-item" x-bind="itemProps('drafts')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Week</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Week</span>
+                <span class="segmented-control-item-label-active">Drafts</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Drafts</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('month')">
+            <button class="segmented-control-item" x-bind="itemProps('sent')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Month</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Month</span>
+                <span class="segmented-control-item-label-active">Sent</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Sent</span>
               </span>
             </button>
             <div class="segmented-control-indicator"></div>
           </div>
         </div>
-      </div>
 
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">Classic (with shadow)</div>
-        <div x-data="segmentedControlMachine({ defaultValue: 'grid' })" x-init="registerItems(['grid', 'list', 'table'])">
+        <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
           <div class="segmented-control segmented-control-size-2 segmented-control-classic" x-bind="rootProps()">
-            <button class="segmented-control-item" x-bind="itemProps('grid')">
+            <button class="segmented-control-item" x-bind="itemProps('inbox')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Grid</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Grid</span>
+                <span class="segmented-control-item-label-active">Inbox</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Inbox</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('list')">
+            <button class="segmented-control-item" x-bind="itemProps('drafts')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">List</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">List</span>
+                <span class="segmented-control-item-label-active">Drafts</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Drafts</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('table')">
+            <button class="segmented-control-item" x-bind="itemProps('sent')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Table</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Table</span>
-              </span>
-            </button>
-            <div class="segmented-control-indicator"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- With Icons -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">With Icons</h2>
-
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">Icons + Text</div>
-        <div x-data="segmentedControlMachine({ defaultValue: 'home' })" x-init="registerItems(['home', 'search', 'profile'])">
-          <div class="segmented-control segmented-control-size-2 segmented-control-surface" x-bind="rootProps()">
-            <button class="segmented-control-item" x-bind="itemProps('home')">
-              <span class="segmented-control-item-separator"></span>
-              <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                  </svg>
-                  Home
-                </span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                  </svg>
-                  Home
-                </span>
-              </span>
-            </button>
-            <button class="segmented-control-item" x-bind="itemProps('search')">
-              <span class="segmented-control-item-separator"></span>
-              <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="m21 21-4.3-4.3"/>
-                  </svg>
-                  Search
-                </span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="m21 21-4.3-4.3"/>
-                  </svg>
-                  Search
-                </span>
-              </span>
-            </button>
-            <button class="segmented-control-item" x-bind="itemProps('profile')">
-              <span class="segmented-control-item-separator"></span>
-              <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                  </svg>
-                  Profile
-                </span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                  </svg>
-                  Profile
-                </span>
+                <span class="segmented-control-item-label-active">Sent</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Sent</span>
               </span>
             </button>
             <div class="segmented-control-indicator"></div>
@@ -335,135 +185,141 @@
       </div>
     </section>
 
-    <!-- Controlled Example -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Controlled Example</h2>
+    <!-- Radius -->
+    <section class="space-y-4">
+      <h2 class="text-base font-medium text-sand-12">Radius</h2>
+      <p class="text-sm text-sand-11">Use the radius prop to assign a specific radius value.</p>
 
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">With State Display</div>
-        <div x-data="segmentedControlMachine({
-          defaultValue: 'read',
-          onChange: (value) => { console.log('Selected:', value) }
-        })" x-init="registerItems(['read', 'unread', 'archived'])">
-          <div class="space-y-4">
-            <div class="segmented-control segmented-control-size-2 segmented-control-surface" x-bind="rootProps()">
-              <button class="segmented-control-item" x-bind="itemProps('read')">
-                <span class="segmented-control-item-separator"></span>
-                <span class="segmented-control-item-label">
-                  <span class="segmented-control-item-label-active">Read</span>
-                  <span class="segmented-control-item-label-inactive" aria-hidden="true">Read</span>
-                </span>
-              </button>
-              <button class="segmented-control-item" x-bind="itemProps('unread')">
-                <span class="segmented-control-item-separator"></span>
-                <span class="segmented-control-item-label">
-                  <span class="segmented-control-item-label-active">Unread</span>
-                  <span class="segmented-control-item-label-inactive" aria-hidden="true">Unread</span>
-                </span>
-              </button>
-              <button class="segmented-control-item" x-bind="itemProps('archived')">
-                <span class="segmented-control-item-separator"></span>
-                <span class="segmented-control-item-label">
-                  <span class="segmented-control-item-label-active">Archived</span>
-                  <span class="segmented-control-item-label-inactive" aria-hidden="true">Archived</span>
-                </span>
-              </button>
-              <div class="segmented-control-indicator"></div>
-            </div>
-            <div class="rounded-lg border border-sand-6 bg-sand-1 p-4">
-              <p class="text-sm text-sand-11">
-                Selected value: <span class="font-mono text-sand-12 font-medium" x-text="value"></span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Disabled State -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Disabled State</h2>
-
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">Disabled Segmented Control</div>
-        <div x-data="segmentedControlMachine({ defaultValue: 'option1', disabled: true })" x-init="registerItems(['option1', 'option2', 'option3'])">
-          <div class="segmented-control segmented-control-size-2 segmented-control-surface" x-bind="rootProps()">
-            <button class="segmented-control-item" x-bind="itemProps('option1')" :disabled="disabled">
+      <div class="flex flex-col gap-4">
+        <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
+          <div class="segmented-control segmented-control-size-2 segmented-control-surface segmented-control-radius-none" x-bind="rootProps()">
+            <button class="segmented-control-item" x-bind="itemProps('inbox')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Option 1</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Option 1</span>
+                <span class="segmented-control-item-label-active">Inbox</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Inbox</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('option2')" :disabled="disabled">
+            <button class="segmented-control-item" x-bind="itemProps('drafts')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Option 2</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Option 2</span>
+                <span class="segmented-control-item-label-active">Drafts</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Drafts</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('option3')" :disabled="disabled">
+            <button class="segmented-control-item" x-bind="itemProps('sent')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Option 3</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Option 3</span>
+                <span class="segmented-control-item-label-active">Sent</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Sent</span>
               </span>
             </button>
             <div class="segmented-control-indicator"></div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Keyboard Navigation -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">Keyboard Navigation</h2>
-      <div class="space-y-4">
-        <p class="text-sm text-sand-11">
-          Try navigating with your keyboard:
-        </p>
-        <ul class="text-sm text-sand-11 space-y-2 list-disc list-inside">
-          <li><kbd class="px-2 py-0.5 rounded bg-sand-3 text-sand-12 font-mono text-xs">Tab</kbd> - Focus the control</li>
-          <li><kbd class="px-2 py-0.5 rounded bg-sand-3 text-sand-12 font-mono text-xs">Arrow Left/Right</kbd> - Navigate between options</li>
-          <li><kbd class="px-2 py-0.5 rounded bg-sand-3 text-sand-12 font-mono text-xs">Arrow Up/Down</kbd> - Navigate between options</li>
-          <li><kbd class="px-2 py-0.5 rounded bg-sand-3 text-sand-12 font-mono text-xs">Home</kbd> - Jump to first option</li>
-          <li><kbd class="px-2 py-0.5 rounded bg-sand-3 text-sand-12 font-mono text-xs">End</kbd> - Jump to last option</li>
-        </ul>
-        <div x-data="segmentedControlMachine({ defaultValue: 'first' })" x-init="registerItems(['first', 'second', 'third', 'fourth', 'fifth'])">
-          <div class="segmented-control segmented-control-size-2 segmented-control-surface" x-bind="rootProps()">
-            <button class="segmented-control-item" x-bind="itemProps('first')">
+        <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
+          <div class="segmented-control segmented-control-size-2 segmented-control-surface segmented-control-radius-small" x-bind="rootProps()">
+            <button class="segmented-control-item" x-bind="itemProps('inbox')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">First</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">First</span>
+                <span class="segmented-control-item-label-active">Inbox</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Inbox</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('second')">
+            <button class="segmented-control-item" x-bind="itemProps('drafts')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Second</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Second</span>
+                <span class="segmented-control-item-label-active">Drafts</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Drafts</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('third')">
+            <button class="segmented-control-item" x-bind="itemProps('sent')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Third</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Third</span>
+                <span class="segmented-control-item-label-active">Sent</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Sent</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('fourth')">
+            <div class="segmented-control-indicator"></div>
+          </div>
+        </div>
+
+        <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
+          <div class="segmented-control segmented-control-size-2 segmented-control-surface segmented-control-radius-medium" x-bind="rootProps()">
+            <button class="segmented-control-item" x-bind="itemProps('inbox')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Fourth</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Fourth</span>
+                <span class="segmented-control-item-label-active">Inbox</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Inbox</span>
               </span>
             </button>
-            <button class="segmented-control-item" x-bind="itemProps('fifth')">
+            <button class="segmented-control-item" x-bind="itemProps('drafts')">
               <span class="segmented-control-item-separator"></span>
               <span class="segmented-control-item-label">
-                <span class="segmented-control-item-label-active">Fifth</span>
-                <span class="segmented-control-item-label-inactive" aria-hidden="true">Fifth</span>
+                <span class="segmented-control-item-label-active">Drafts</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Drafts</span>
+              </span>
+            </button>
+            <button class="segmented-control-item" x-bind="itemProps('sent')">
+              <span class="segmented-control-item-separator"></span>
+              <span class="segmented-control-item-label">
+                <span class="segmented-control-item-label-active">Sent</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Sent</span>
+              </span>
+            </button>
+            <div class="segmented-control-indicator"></div>
+          </div>
+        </div>
+
+        <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
+          <div class="segmented-control segmented-control-size-2 segmented-control-surface segmented-control-radius-large" x-bind="rootProps()">
+            <button class="segmented-control-item" x-bind="itemProps('inbox')">
+              <span class="segmented-control-item-separator"></span>
+              <span class="segmented-control-item-label">
+                <span class="segmented-control-item-label-active">Inbox</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Inbox</span>
+              </span>
+            </button>
+            <button class="segmented-control-item" x-bind="itemProps('drafts')">
+              <span class="segmented-control-item-separator"></span>
+              <span class="segmented-control-item-label">
+                <span class="segmented-control-item-label-active">Drafts</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Drafts</span>
+              </span>
+            </button>
+            <button class="segmented-control-item" x-bind="itemProps('sent')">
+              <span class="segmented-control-item-separator"></span>
+              <span class="segmented-control-item-label">
+                <span class="segmented-control-item-label-active">Sent</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Sent</span>
+              </span>
+            </button>
+            <div class="segmented-control-indicator"></div>
+          </div>
+        </div>
+
+        <div x-data="segmentedControlMachine({ defaultValue: 'inbox' })" x-init="registerItems(['inbox', 'drafts', 'sent'])">
+          <div class="segmented-control segmented-control-size-2 segmented-control-surface segmented-control-radius-full" x-bind="rootProps()">
+            <button class="segmented-control-item" x-bind="itemProps('inbox')">
+              <span class="segmented-control-item-separator"></span>
+              <span class="segmented-control-item-label">
+                <span class="segmented-control-item-label-active">Inbox</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Inbox</span>
+              </span>
+            </button>
+            <button class="segmented-control-item" x-bind="itemProps('drafts')">
+              <span class="segmented-control-item-separator"></span>
+              <span class="segmented-control-item-label">
+                <span class="segmented-control-item-label-active">Drafts</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Drafts</span>
+              </span>
+            </button>
+            <button class="segmented-control-item" x-bind="itemProps('sent')">
+              <span class="segmented-control-item-separator"></span>
+              <span class="segmented-control-item-label">
+                <span class="segmented-control-item-label-active">Sent</span>
+                <span class="segmented-control-item-label-inactive" aria-hidden="true">Sent</span>
               </span>
             </button>
             <div class="segmented-control-indicator"></div>

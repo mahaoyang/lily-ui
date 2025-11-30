@@ -6,14 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tooltip - Lily UI</title>
   <link rel="stylesheet" href="/dist/output.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script type="module">
-    import { createTooltip } from '/src/machines/tooltip.ts';
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import { createTooltip } from "/public/machines/tooltip.js";
+    window.Alpine = Alpine;
     window.createTooltip = createTooltip;
+    Alpine.start();
   </script>
+  <style>[x-cloak] { display: none !important; }</style>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 p-8">
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 p-8">
 
   <div class="mx-auto max-w-4xl">
     <!-- Header -->
@@ -50,7 +53,7 @@
             :data-state="open ? 'delayed-open' : 'closed'"
             :data-side="side"
             class="tooltip-content"
-            style="margin-bottom: 4px;"
+            x-cloak style="margin-bottom: 4px;"
             x-transition:enter="transition ease-out duration-140"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
@@ -85,8 +88,7 @@
               x-bind="contentProps()"
               :data-state="open ? 'delayed-open' : 'closed'"
               :data-side="side"
-              class="tooltip-content"
-              style="margin-bottom: 4px;"
+              class="tooltip-content" x-cloak style="margin-bottom: 4px;"
               x-transition:enter="transition ease-out duration-140"
               x-transition:enter-start="opacity-0"
               x-transition:enter-end="opacity-100"
@@ -114,8 +116,7 @@
               x-bind="contentProps()"
               :data-state="open ? 'delayed-open' : 'closed'"
               :data-side="side"
-              class="tooltip-content"
-              style="margin-left: 4px;"
+              class="tooltip-content" x-cloak style="margin-left: 4px;"
               x-transition:enter="transition ease-out duration-140"
               x-transition:enter-start="opacity-0"
               x-transition:enter-end="opacity-100"
@@ -143,8 +144,7 @@
               x-bind="contentProps()"
               :data-state="open ? 'delayed-open' : 'closed'"
               :data-side="side"
-              class="tooltip-content"
-              style="margin-top: 4px;"
+              class="tooltip-content" x-cloak style="margin-top: 4px;"
               x-transition:enter="transition ease-out duration-140"
               x-transition:enter-start="opacity-0"
               x-transition:enter-end="opacity-100"
@@ -172,8 +172,7 @@
               x-bind="contentProps()"
               :data-state="open ? 'delayed-open' : 'closed'"
               :data-side="side"
-              class="tooltip-content"
-              style="margin-right: 4px;"
+              class="tooltip-content" x-cloak style="margin-right: 4px;"
               x-transition:enter="transition ease-out duration-140"
               x-transition:enter-start="opacity-0"
               x-transition:enter-end="opacity-100"
@@ -209,8 +208,7 @@
               x-bind="contentProps()"
               :data-state="open ? 'delayed-open' : 'closed'"
               :data-side="side"
-              class="tooltip-content"
-              style="margin-bottom: 4px;"
+              class="tooltip-content" x-cloak style="margin-bottom: 4px;"
               x-transition:enter="transition ease-out duration-140"
               x-transition:enter-start="opacity-0"
               x-transition:enter-end="opacity-100"
@@ -238,8 +236,7 @@
               x-bind="contentProps()"
               :data-state="open ? 'delayed-open' : 'closed'"
               :data-side="side"
-              class="tooltip-content"
-              style="margin-bottom: 4px;"
+              class="tooltip-content" x-cloak style="margin-bottom: 4px;"
               x-transition:enter="transition ease-out duration-140"
               x-transition:enter-start="opacity-0"
               x-transition:enter-end="opacity-100"
@@ -267,8 +264,7 @@
               x-bind="contentProps()"
               :data-state="open ? 'delayed-open' : 'closed'"
               :data-side="side"
-              class="tooltip-content"
-              style="margin-bottom: 4px;"
+              class="tooltip-content" x-cloak style="margin-bottom: 4px;"
               x-transition:enter="transition ease-out duration-140"
               x-transition:enter-start="opacity-0"
               x-transition:enter-end="opacity-100"
@@ -296,8 +292,7 @@
               x-bind="contentProps()"
               :data-state="open ? 'delayed-open' : 'closed'"
               :data-side="side"
-              class="tooltip-content"
-              style="margin-bottom: 4px;"
+              class="tooltip-content" x-cloak style="margin-bottom: 4px;"
               x-transition:enter="transition ease-out duration-140"
               x-transition:enter-start="opacity-0"
               x-transition:enter-end="opacity-100"
@@ -337,8 +332,7 @@
                   x-bind="contentProps()"
                   :data-state="open ? 'delayed-open' : 'closed'"
                   :data-side="side"
-                  class="tooltip-content"
-                  style="margin-bottom: 4px;"
+                  class="tooltip-content" x-cloak style="margin-bottom: 4px;"
                   x-transition:enter="transition ease-out duration-140"
                   x-transition:enter-start="opacity-0"
                   x-transition:enter-end="opacity-100"
@@ -366,8 +360,7 @@
                   x-bind="contentProps()"
                   :data-state="open ? 'delayed-open' : 'closed'"
                   :data-side="side"
-                  class="tooltip-content"
-                  style="margin-bottom: 4px;"
+                  class="tooltip-content" x-cloak style="margin-bottom: 4px;"
                   x-transition:enter="transition ease-out duration-140"
                   x-transition:enter-start="opacity-0"
                   x-transition:enter-end="opacity-100"
@@ -396,8 +389,7 @@
                   x-bind="contentProps()"
                   :data-state="open ? 'delayed-open' : 'closed'"
                   :data-side="side"
-                  class="tooltip-content"
-                  style="margin-bottom: 4px;"
+                  class="tooltip-content" x-cloak style="margin-bottom: 4px;"
                   x-transition:enter="transition ease-out duration-140"
                   x-transition:enter-start="opacity-0"
                   x-transition:enter-end="opacity-100"
@@ -426,8 +418,7 @@
                   x-bind="contentProps()"
                   :data-state="open ? 'delayed-open' : 'closed'"
                   :data-side="side"
-                  class="tooltip-content"
-                  style="margin-bottom: 4px;"
+                  class="tooltip-content" x-cloak style="margin-bottom: 4px;"
                   x-transition:enter="transition ease-out duration-140"
                   x-transition:enter-start="opacity-0"
                   x-transition:enter-end="opacity-100"
@@ -455,12 +446,12 @@
                   class="text-accent-11 underline decoration-dotted cursor-help">
                   this term
                 </span>
-                <div
+                <span
                   x-show="open"
                   x-bind="contentProps()"
                   :data-state="open ? 'delayed-open' : 'closed'"
                   :data-side="side"
-                  class="tooltip-content whitespace-nowrap"
+                  class="tooltip-content whitespace-nowrap" x-cloak
                   style="margin-bottom: 4px;"
                   x-transition:enter="transition ease-out duration-140"
                   x-transition:enter-start="opacity-0"
@@ -469,7 +460,7 @@
                   x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0">
                   Additional context or definition
-                </div>
+                </span>
               </span>
               to see additional information.
             </p>
