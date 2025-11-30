@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Radio Cards</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import createRadioGroup from "/public/machines/radio-group.js";
+
+    window.Alpine = Alpine;
+    Alpine.data("radioMachine", createRadioGroup);
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span
+            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">RC</span>
+          <div>
+            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Radio Cards Playground</h1>
+            <p class="text-2 text-sand-11">Card-style radio buttons with rich content</p>
+          </div>
+        </div>
+        <p class="text-sm text-sand-11">Start with: <code>bun run dev:all</code> / <code>./dev.sh</code></p>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">Back to Index</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Theme</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic Examples -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Basic Radio Cards</h2>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Default (auto-fit columns)</h3>
+        <div x-data="radioMachine({ name: 'plan', defaultValue: 'pro' })">
+          <div class="radio-cards radio-cards-size-2" role="radiogroup" aria-label="Subscription Plan">
+            <template
+              x-for="option in [{id:'basic',label:'Basic',desc:'$10/mo'}, {id:'pro',label:'Pro',desc:'$20/mo'}, {id:'team',label:'Team',desc:'$50/mo'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                  <div class="radio-card-description" x-text="option.desc"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+          <div class="text-xs text-sand-11 mt-3">Selected: <span class="text-sand-12 font-medium"
+              x-text="value"></span></div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">3 Columns</h3>
+        <div x-data="radioMachine({ name: 'deployment', defaultValue: 'vercel' })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-2" role="radiogroup"
+            aria-label="Deployment Platform">
+            <template
+              x-for="option in [{id:'vercel',label:'Vercel'}, {id:'netlify',label:'Netlify'}, {id:'railway',label:'Railway'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+          <div class="text-xs text-sand-11 mt-3">Selected: <span class="text-sand-12 font-medium"
+              x-text="value"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Size Variants -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Size Variants</h2>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Compact)</h3>
+        <div x-data="radioMachine({ name: 'size1', defaultValue: 'option1' })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-1" role="radiogroup" aria-label="Size 1 Example">
+            <template x-for="option in [{id:'option1',label:'Option 1'}, {id:'option2',label:'Option 2'}, {id:'option3',label:'Option 3'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Default)</h3>
+        <div x-data="radioMachine({ name: 'size2', defaultValue: 'option1' })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-2" role="radiogroup" aria-label="Size 2 Example">
+            <template x-for="option in [{id:'option1',label:'Option 1'}, {id:'option2',label:'Option 2'}, {id:'option3',label:'Option 3'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Large)</h3>
+        <div x-data="radioMachine({ name: 'size3', defaultValue: 'option1' })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-3" role="radiogroup" aria-label="Size 3 Example">
+            <template x-for="option in [{id:'option1',label:'Option 1'}, {id:'option2',label:'Option 2'}, {id:'option3',label:'Option 3'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Style Variants -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Style Variants</h2>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Surface (Default)</h3>
+        <div x-data="radioMachine({ name: 'variant-surface', defaultValue: 'option1' })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-2 radio-cards-variant-surface" role="radiogroup"
+            aria-label="Surface Variant">
+            <template x-for="option in [{id:'option1',label:'Option 1'}, {id:'option2',label:'Option 2'}, {id:'option3',label:'Option 3'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Classic</h3>
+        <div x-data="radioMachine({ name: 'variant-classic', defaultValue: 'option1' })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-2 radio-cards-variant-classic" role="radiogroup"
+            aria-label="Classic Variant">
+            <template x-for="option in [{id:'option1',label:'Option 1'}, {id:'option2',label:'Option 2'}, {id:'option3',label:'Option 3'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">High Contrast</h3>
+        <div x-data="radioMachine({ name: 'variant-high-contrast', defaultValue: 'option1' })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-2 radio-cards-high-contrast" role="radiogroup"
+            aria-label="High Contrast Variant">
+            <template x-for="option in [{id:'option1',label:'Option 1'}, {id:'option2',label:'Option 2'}, {id:'option3',label:'Option 3'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Column Layouts -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Column Layouts</h2>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">1 Column</h3>
+        <div x-data="radioMachine({ name: 'cols-1', defaultValue: 'option1' })">
+          <div class="radio-cards radio-cards-cols-1 radio-cards-size-2" role="radiogroup" aria-label="1 Column">
+            <template x-for="option in [{id:'option1',label:'Option 1',desc:'Description for option 1'}, {id:'option2',label:'Option 2',desc:'Description for option 2'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                  <div class="radio-card-description" x-text="option.desc"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">2 Columns</h3>
+        <div x-data="radioMachine({ name: 'cols-2', defaultValue: 'option1' })">
+          <div class="radio-cards radio-cards-cols-2 radio-cards-size-2" role="radiogroup" aria-label="2 Columns">
+            <template x-for="option in [{id:'option1',label:'Option 1'}, {id:'option2',label:'Option 2'}, {id:'option3',label:'Option 3'}, {id:'option4',label:'Option 4'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">4 Columns</h3>
+        <div x-data="radioMachine({ name: 'cols-4', defaultValue: 'option1' })">
+          <div class="radio-cards radio-cards-cols-4 radio-cards-size-2" role="radiogroup" aria-label="4 Columns">
+            <template x-for="option in [{id:'option1',label:'Q1'}, {id:'option2',label:'Q2'}, {id:'option3',label:'Q3'}, {id:'option4',label:'Q4'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'">
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real-world Examples -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Real-world Examples</h2>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Plan Selection</h3>
+        <div x-data="radioMachine({ name: 'pricing', defaultValue: 'startup' })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-3" role="radiogroup"
+            aria-label="Pricing Plan">
+            <button x-bind="optionProps('hobby')" type="button" class="radio-card-item"
+              :data-state="value === 'hobby' ? 'checked' : 'unchecked'">
+              <div class="radio-card-content">
+                <div class="radio-card-title">Hobby</div>
+                <div class="radio-card-description">
+                  <div class="text-2xl font-bold text-sand-12 mt-2">$0</div>
+                  <div class="text-xs mt-1">per month</div>
+                </div>
+              </div>
+              <input x-bind="inputProps('hobby')" class="hidden" />
+            </button>
+
+            <button x-bind="optionProps('startup')" type="button" class="radio-card-item"
+              :data-state="value === 'startup' ? 'checked' : 'unchecked'">
+              <div class="radio-card-content">
+                <div class="radio-card-title">Startup</div>
+                <div class="radio-card-description">
+                  <div class="text-2xl font-bold text-sand-12 mt-2">$29</div>
+                  <div class="text-xs mt-1">per month</div>
+                </div>
+              </div>
+              <input x-bind="inputProps('startup')" class="hidden" />
+            </button>
+
+            <button x-bind="optionProps('enterprise')" type="button" class="radio-card-item"
+              :data-state="value === 'enterprise' ? 'checked' : 'unchecked'">
+              <div class="radio-card-content">
+                <div class="radio-card-title">Enterprise</div>
+                <div class="radio-card-description">
+                  <div class="text-2xl font-bold text-sand-12 mt-2">$99</div>
+                  <div class="text-xs mt-1">per month</div>
+                </div>
+              </div>
+              <input x-bind="inputProps('enterprise')" class="hidden" />
+            </button>
+          </div>
+          <div class="text-xs text-sand-11 mt-3">Selected plan: <span class="text-sand-12 font-medium"
+              x-text="value"></span></div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Payment Method</h3>
+        <div x-data="radioMachine({ name: 'payment', defaultValue: 'card' })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-2" role="radiogroup"
+            aria-label="Payment Method">
+            <button x-bind="optionProps('card')" type="button" class="radio-card-item"
+              :data-state="value === 'card' ? 'checked' : 'unchecked'">
+              <div class="radio-card-content">
+                <div class="radio-card-title">Credit Card</div>
+                <div class="radio-card-description">Visa, Mastercard, Amex</div>
+              </div>
+              <input x-bind="inputProps('card')" class="hidden" />
+            </button>
+
+            <button x-bind="optionProps('paypal')" type="button" class="radio-card-item"
+              :data-state="value === 'paypal' ? 'checked' : 'unchecked'">
+              <div class="radio-card-content">
+                <div class="radio-card-title">PayPal</div>
+                <div class="radio-card-description">Pay with PayPal</div>
+              </div>
+              <input x-bind="inputProps('paypal')" class="hidden" />
+            </button>
+
+            <button x-bind="optionProps('crypto')" type="button" class="radio-card-item"
+              :data-state="value === 'crypto' ? 'checked' : 'unchecked'">
+              <div class="radio-card-content">
+                <div class="radio-card-title">Cryptocurrency</div>
+                <div class="radio-card-description">BTC, ETH, USDC</div>
+              </div>
+              <input x-bind="inputProps('crypto')" class="hidden" />
+            </button>
+          </div>
+          <div class="text-xs text-sand-11 mt-3">Selected payment: <span class="text-sand-12 font-medium"
+              x-text="value"></span></div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Delivery Options</h3>
+        <div x-data="radioMachine({ name: 'delivery', defaultValue: 'standard' })">
+          <div class="radio-cards radio-cards-cols-1 radio-cards-size-2" role="radiogroup"
+            aria-label="Delivery Method">
+            <button x-bind="optionProps('standard')" type="button" class="radio-card-item"
+              :data-state="value === 'standard' ? 'checked' : 'unchecked'">
+              <div class="radio-card-content" style="text-align: left;">
+                <div class="radio-card-title">Standard Delivery</div>
+                <div class="radio-card-description">Delivery in 5-7 business days • Free</div>
+              </div>
+              <input x-bind="inputProps('standard')" class="hidden" />
+            </button>
+
+            <button x-bind="optionProps('express')" type="button" class="radio-card-item"
+              :data-state="value === 'express' ? 'checked' : 'unchecked'">
+              <div class="radio-card-content" style="text-align: left;">
+                <div class="radio-card-title">Express Delivery</div>
+                <div class="radio-card-description">Delivery in 2-3 business days • $9.99</div>
+              </div>
+              <input x-bind="inputProps('express')" class="hidden" />
+            </button>
+
+            <button x-bind="optionProps('overnight')" type="button" class="radio-card-item"
+              :data-state="value === 'overnight' ? 'checked' : 'unchecked'">
+              <div class="radio-card-content" style="text-align: left;">
+                <div class="radio-card-title">Overnight Delivery</div>
+                <div class="radio-card-description">Next day delivery • $19.99</div>
+              </div>
+              <input x-bind="inputProps('overnight')" class="hidden" />
+            </button>
+          </div>
+          <div class="text-xs text-sand-11 mt-3">Selected delivery: <span class="text-sand-12 font-medium"
+              x-text="value"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Disabled State -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">Disabled State</h2>
+
+      <div class="space-y-4">
+        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Disabled Group</h3>
+        <div x-data="radioMachine({ name: 'disabled', defaultValue: 'option2', disabled: true })">
+          <div class="radio-cards radio-cards-cols-3 radio-cards-size-2" role="radiogroup" aria-label="Disabled Example">
+            <template x-for="option in [{id:'option1',label:'Option 1'}, {id:'option2',label:'Option 2'}, {id:'option3',label:'Option 3'}]"
+              :key="option.id">
+              <button x-bind="optionProps(option.id)" type="button" class="radio-card-item"
+                :data-state="value === option.id ? 'checked' : 'unchecked'" data-disabled>
+                <div class="radio-card-content">
+                  <div class="radio-card-title" x-text="option.label"></div>
+                </div>
+                <input x-bind="inputProps(option.id)" class="hidden" />
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</body>
+
+</html>

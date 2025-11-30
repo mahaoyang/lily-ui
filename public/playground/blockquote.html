@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Blockquote</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="space-y-3 flex items-center justify-between">
+      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+        style="background: var(--sand-surface);">
+        <span
+          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">BQ</span>
+        <div>
+          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Blockquote Playground</h1>
+          <p class="text-2 text-sand-11">纯 CSS 引用块组件</p>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">
+              Light
+            </button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">
+              Dark
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
+        <code>data-accent-color</code> 切换；组件可在自身容器覆写。
+      </p>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">尺寸变体</h2>
+
+      <div class="grid grid-cols-1 gap-8">
+        <!-- Size 1 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Smallest)</h3>
+          <blockquote class="blockquote blockquote-size-1">
+            The only way to do great work is to love what you do. If you haven't found it yet, keep looking.
+          </blockquote>
+        </div>
+
+        <!-- Size 2 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2</h3>
+          <blockquote class="blockquote blockquote-size-2">
+            The only way to do great work is to love what you do. If you haven't found it yet, keep looking.
+          </blockquote>
+        </div>
+
+        <!-- Size 3 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Default)</h3>
+          <blockquote class="blockquote blockquote-size-3">
+            The only way to do great work is to love what you do. If you haven't found it yet, keep looking.
+          </blockquote>
+        </div>
+
+        <!-- Size 4 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 4</h3>
+          <blockquote class="blockquote blockquote-size-4">
+            The only way to do great work is to love what you do. If you haven't found it yet, keep looking.
+          </blockquote>
+        </div>
+
+        <!-- Size 5 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 5</h3>
+          <blockquote class="blockquote blockquote-size-5">
+            The only way to do great work is to love what you do. If you haven't found it yet, keep looking.
+          </blockquote>
+        </div>
+
+        <!-- Size 6 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 6</h3>
+          <blockquote class="blockquote blockquote-size-6">
+            The only way to do great work is to love what you do.
+          </blockquote>
+        </div>
+
+        <!-- Size 7 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 7</h3>
+          <blockquote class="blockquote blockquote-size-7">
+            The only way to do great work is to love what you do.
+          </blockquote>
+        </div>
+
+        <!-- Size 8 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 8</h3>
+          <blockquote class="blockquote blockquote-size-8">
+            Love what you do.
+          </blockquote>
+        </div>
+
+        <!-- Size 9 -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 9 (Largest)</h3>
+          <blockquote class="blockquote blockquote-size-9">
+            Love what you do.
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">字重变体</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Light</h3>
+          <blockquote class="blockquote blockquote-size-3 blockquote-weight-light">
+            Design is not just what it looks like and feels like. Design is how it works.
+          </blockquote>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Regular (Default)</h3>
+          <blockquote class="blockquote blockquote-size-3 blockquote-weight-regular">
+            Design is not just what it looks like and feels like. Design is how it works.
+          </blockquote>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Medium</h3>
+          <blockquote class="blockquote blockquote-size-3 blockquote-weight-medium">
+            Design is not just what it looks like and feels like. Design is how it works.
+          </blockquote>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Bold</h3>
+          <blockquote class="blockquote blockquote-size-3 blockquote-weight-bold">
+            Design is not just what it looks like and feels like. Design is how it works.
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">颜色变体</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
+          <div class="space-y-3">
+            <h3 class="text-sm font-medium capitalize" :style="`color: var(--${color}-11)`" x-text="color"></h3>
+            <blockquote class="blockquote blockquote-size-3" :data-accent-color="color">
+              Innovation distinguishes between a leader and a follower.
+            </blockquote>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">高对比度</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Normal Contrast</h3>
+          <blockquote class="blockquote blockquote-size-3" data-accent-color="iris">
+            The people who are crazy enough to think they can change the world are the ones who do.
+          </blockquote>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">High Contrast</h3>
+          <blockquote class="blockquote blockquote-size-3 blockquote-high-contrast" data-accent-color="iris">
+            The people who are crazy enough to think they can change the world are the ones who do.
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">带引用来源</h2>
+
+      <div class="grid grid-cols-1 gap-8">
+        <div class="space-y-2">
+          <blockquote class="blockquote blockquote-size-4">
+            Stay hungry, stay foolish.
+          </blockquote>
+          <cite class="text-sm text-sand-11 not-italic">— Steve Jobs, Stanford Commencement Speech 2005</cite>
+        </div>
+
+        <div class="space-y-2">
+          <blockquote class="blockquote blockquote-size-3" data-accent-color="blue">
+            The best way to predict the future is to invent it.
+          </blockquote>
+          <cite class="text-sm text-sand-11 not-italic">— Alan Kay</cite>
+        </div>
+
+        <div class="space-y-2">
+          <blockquote class="blockquote blockquote-size-3 blockquote-weight-medium" data-accent-color="violet">
+            Code is like humor. When you have to explain it, it's bad.
+          </blockquote>
+          <cite class="text-sm text-sand-11 not-italic">— Cory House</cite>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">嵌套引用</h2>
+
+      <div class="space-y-6">
+        <div class="space-y-3">
+          <blockquote class="blockquote blockquote-size-3" data-accent-color="iris">
+            <p class="mb-4">The future belongs to those who believe in the beauty of their dreams.</p>
+            <blockquote class="blockquote blockquote-size-2" data-accent-color="blue">
+              Dreams are the touchstones of our characters.
+            </blockquote>
+          </blockquote>
+          <cite class="text-sm text-sand-11 not-italic">— Nested quotations example</cite>
+        </div>
+
+        <div class="space-y-3">
+          <blockquote class="blockquote blockquote-size-4 blockquote-weight-medium" data-accent-color="teal">
+            <p class="mb-4">Success is not final, failure is not fatal: it is the courage to continue that counts.</p>
+            <blockquote class="blockquote blockquote-size-3" data-accent-color="amber">
+              <p class="mb-3">Courage is resistance to fear, mastery of fear - not absence of fear.</p>
+              <blockquote class="blockquote blockquote-size-2" data-accent-color="red">
+                Fear is the mind-killer.
+              </blockquote>
+            </blockquote>
+          </blockquote>
+          <cite class="text-sm text-sand-11 not-italic">— Multiple levels of nesting</cite>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">长文本示例</h2>
+
+      <div class="space-y-6">
+        <div class="space-y-2">
+          <blockquote class="blockquote blockquote-size-3" data-accent-color="violet">
+            Here's to the crazy ones. The misfits. The rebels. The troublemakers. The round pegs in the square holes.
+            The ones who see things differently. They're not fond of rules. And they have no respect for the status quo.
+            You can quote them, disagree with them, glorify or vilify them. About the only thing you can't do is ignore them.
+            Because they change things. They push the human race forward. And while some may see them as the crazy ones,
+            we see genius. Because the people who are crazy enough to think they can change the world, are the ones who do.
+          </blockquote>
+          <cite class="text-sm text-sand-11 not-italic">— Apple Inc., "Think Different" campaign</cite>
+        </div>
+
+        <div class="space-y-2">
+          <blockquote class="blockquote blockquote-size-3 blockquote-weight-light" data-accent-color="jade">
+            Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma —
+            which is living with the results of other people's thinking. Don't let the noise of others' opinions
+            drown out your own inner voice. And most important, have the courage to follow your heart and intuition.
+            They somehow already know what you truly want to become.
+          </blockquote>
+          <cite class="text-sm text-sand-11 not-italic">— Steve Jobs</cite>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法 --&gt;
+&lt;blockquote class="blockquote blockquote-size-3"&gt;
+  Your quote text here.
+&lt;/blockquote&gt;
+
+&lt;!-- 不同尺寸 (1-9) --&gt;
+&lt;blockquote class="blockquote blockquote-size-1"&gt;Small quote&lt;/blockquote&gt;
+&lt;blockquote class="blockquote blockquote-size-3"&gt;Default quote&lt;/blockquote&gt;
+&lt;blockquote class="blockquote blockquote-size-6"&gt;Large quote&lt;/blockquote&gt;
+
+&lt;!-- 字重变体 --&gt;
+&lt;blockquote class="blockquote blockquote-size-3 blockquote-weight-light"&gt;
+  Light weight quote
+&lt;/blockquote&gt;
+&lt;blockquote class="blockquote blockquote-size-3 blockquote-weight-bold"&gt;
+  Bold quote
+&lt;/blockquote&gt;
+
+&lt;!-- 自定义颜色 --&gt;
+&lt;blockquote class="blockquote blockquote-size-3" data-accent-color="blue"&gt;
+  Blue accent quote
+&lt;/blockquote&gt;
+
+&lt;!-- 高对比度 --&gt;
+&lt;blockquote class="blockquote blockquote-size-3 blockquote-high-contrast"
+  data-accent-color="iris"&gt;
+  High contrast quote
+&lt;/blockquote&gt;
+
+&lt;!-- 带引用来源 --&gt;
+&lt;blockquote class="blockquote blockquote-size-4"&gt;
+  Stay hungry, stay foolish.
+&lt;/blockquote&gt;
+&lt;cite class="text-sm text-sand-11 not-italic"&gt;
+  — Steve Jobs
+&lt;/cite&gt;
+
+&lt;!-- 嵌套引用 --&gt;
+&lt;blockquote class="blockquote blockquote-size-3" data-accent-color="iris"&gt;
+  Outer quote
+  &lt;blockquote class="blockquote blockquote-size-2" data-accent-color="blue"&gt;
+    Nested quote
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;</code></pre>
+    </section>
+  </main>
+</body>
+
+</html>

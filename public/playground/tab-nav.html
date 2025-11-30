@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Tab Nav</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris', activeNav: 'overview', activeSection: 'home', activeDoc: 'introduction' }"
+  :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span
+            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">TN</span>
+          <div>
+            <h1 class="text-5 font-semibold text-sand-12 leading-tight">Tab Nav Playground</h1>
+            <p class="text-2 text-sand-11">CSS-only navigation tabs</p>
+          </div>
+        </div>
+        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basic Example -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <div>
+        <h2 class="text-3 font-medium text-sand-12 mb-2">Basic Navigation</h2>
+        <p class="text-sm text-sand-11">Default size with active state indicator</p>
+      </div>
+
+      <div class="space-y-4">
+        <nav class="tab-nav">
+          <a href="#" class="tab-nav-link" :data-active="activeNav === 'overview' ? true : null"
+             @click.prevent="activeNav = 'overview'" data-text="Overview">Overview</a>
+          <a href="#" class="tab-nav-link" :data-active="activeNav === 'features' ? true : null"
+             @click.prevent="activeNav = 'features'" data-text="Features">Features</a>
+          <a href="#" class="tab-nav-link" :data-active="activeNav === 'pricing' ? true : null"
+             @click.prevent="activeNav = 'pricing'" data-text="Pricing">Pricing</a>
+          <a href="#" class="tab-nav-link" :data-active="activeNav === 'documentation' ? true : null"
+             @click.prevent="activeNav = 'documentation'" data-text="Documentation">Documentation</a>
+        </nav>
+
+        <div class="p-6 rounded-lg border border-sand-6 bg-sand-1">
+          <div x-show="activeNav === 'overview'">
+            <h3 class="font-semibold text-sand-12 mb-2">Overview</h3>
+            <p class="text-sm text-sand-11">Get an overview of the product and its capabilities.</p>
+          </div>
+          <div x-show="activeNav === 'features'">
+            <h3 class="font-semibold text-sand-12 mb-2">Features</h3>
+            <p class="text-sm text-sand-11">Explore all the features and functionality available.</p>
+          </div>
+          <div x-show="activeNav === 'pricing'">
+            <h3 class="font-semibold text-sand-12 mb-2">Pricing</h3>
+            <p class="text-sm text-sand-11">View pricing plans and choose the best option for you.</p>
+          </div>
+          <div x-show="activeNav === 'documentation'">
+            <h3 class="font-semibold text-sand-12 mb-2">Documentation</h3>
+            <p class="text-sm text-sand-11">Read the full documentation and integration guides.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Size Variants -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <div>
+        <h2 class="text-3 font-medium text-sand-12 mb-2">Size Variants</h2>
+        <p class="text-sm text-sand-11">Small, medium (default), and large sizes</p>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Small -->
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-11">Small</div>
+          <nav class="tab-nav tab-nav-sm">
+            <a href="#" class="tab-nav-link" data-active data-text="Projects">Projects</a>
+            <a href="#" class="tab-nav-link" data-text="Tasks">Tasks</a>
+            <a href="#" class="tab-nav-link" data-text="Reports">Reports</a>
+          </nav>
+        </div>
+
+        <!-- Medium (default) -->
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-11">Medium (default)</div>
+          <nav class="tab-nav">
+            <a href="#" class="tab-nav-link" data-active data-text="Projects">Projects</a>
+            <a href="#" class="tab-nav-link" data-text="Tasks">Tasks</a>
+            <a href="#" class="tab-nav-link" data-text="Reports">Reports</a>
+          </nav>
+        </div>
+
+        <!-- Large -->
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-11">Large</div>
+          <nav class="tab-nav tab-nav-lg">
+            <a href="#" class="tab-nav-link" data-active data-text="Projects">Projects</a>
+            <a href="#" class="tab-nav-link" data-text="Tasks">Tasks</a>
+            <a href="#" class="tab-nav-link" data-text="Reports">Reports</a>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- High Contrast -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <div>
+        <h2 class="text-3 font-medium text-sand-12 mb-2">High Contrast</h2>
+        <p class="text-sm text-sand-11">Enhanced contrast for the active indicator</p>
+      </div>
+
+      <div class="space-y-4">
+        <nav class="tab-nav tab-nav-high-contrast">
+          <a href="#" class="tab-nav-link" data-active data-text="Dashboard">Dashboard</a>
+          <a href="#" class="tab-nav-link" data-text="Analytics">Analytics</a>
+          <a href="#" class="tab-nav-link" data-text="Settings">Settings</a>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Justify Variants -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <div>
+        <h2 class="text-3 font-medium text-sand-12 mb-2">Justify Options</h2>
+        <p class="text-sm text-sand-11">Align navigation to start, center, or end</p>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Start (default) -->
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-11">Start (default)</div>
+          <nav class="tab-nav">
+            <a href="#" class="tab-nav-link" data-active data-text="Home">Home</a>
+            <a href="#" class="tab-nav-link" data-text="About">About</a>
+            <a href="#" class="tab-nav-link" data-text="Contact">Contact</a>
+          </nav>
+        </div>
+
+        <!-- Center -->
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-11">Center</div>
+          <nav class="tab-nav tab-nav-center">
+            <a href="#" class="tab-nav-link" data-active data-text="Home">Home</a>
+            <a href="#" class="tab-nav-link" data-text="About">About</a>
+            <a href="#" class="tab-nav-link" data-text="Contact">Contact</a>
+          </nav>
+        </div>
+
+        <!-- End -->
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-11">End</div>
+          <nav class="tab-nav tab-nav-end">
+            <a href="#" class="tab-nav-link" data-active data-text="Home">Home</a>
+            <a href="#" class="tab-nav-link" data-text="About">About</a>
+            <a href="#" class="tab-nav-link" data-text="Contact">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vertical Layout -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <div>
+        <h2 class="text-3 font-medium text-sand-12 mb-2">Vertical Layout</h2>
+        <p class="text-sm text-sand-11">Vertical navigation with right-side indicator</p>
+      </div>
+
+      <div class="flex gap-6">
+        <nav class="tab-nav tab-nav-vertical">
+          <a href="#" class="tab-nav-link" :data-active="activeSection === 'home' ? true : null"
+             @click.prevent="activeSection = 'home'" data-text="Home">Home</a>
+          <a href="#" class="tab-nav-link" :data-active="activeSection === 'profile' ? true : null"
+             @click.prevent="activeSection = 'profile'" data-text="Profile">Profile</a>
+          <a href="#" class="tab-nav-link" :data-active="activeSection === 'messages' ? true : null"
+             @click.prevent="activeSection = 'messages'" data-text="Messages">Messages</a>
+          <a href="#" class="tab-nav-link" :data-active="activeSection === 'notifications' ? true : null"
+             @click.prevent="activeSection = 'notifications'" data-text="Notifications">Notifications</a>
+          <a href="#" class="tab-nav-link" :data-active="activeSection === 'settings' ? true : null"
+             @click.prevent="activeSection = 'settings'" data-text="Settings">Settings</a>
+        </nav>
+
+        <div class="flex-1 p-6 rounded-lg border border-sand-6 bg-sand-1">
+          <div x-show="activeSection === 'home'">
+            <h3 class="font-semibold text-sand-12 mb-2">Home</h3>
+            <p class="text-sm text-sand-11">Welcome to your dashboard. View your recent activity and updates here.</p>
+          </div>
+          <div x-show="activeSection === 'profile'">
+            <h3 class="font-semibold text-sand-12 mb-2">Profile</h3>
+            <p class="text-sm text-sand-11">Manage your profile information and preferences.</p>
+          </div>
+          <div x-show="activeSection === 'messages'">
+            <h3 class="font-semibold text-sand-12 mb-2">Messages</h3>
+            <p class="text-sm text-sand-11">View and manage your messages and conversations.</p>
+          </div>
+          <div x-show="activeSection === 'notifications'">
+            <h3 class="font-semibold text-sand-12 mb-2">Notifications</h3>
+            <p class="text-sm text-sand-11">Stay updated with your latest notifications and alerts.</p>
+          </div>
+          <div x-show="activeSection === 'settings'">
+            <h3 class="font-semibold text-sand-12 mb-2">Settings</h3>
+            <p class="text-sm text-sand-11">Configure your account settings and preferences.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real-world Example: Documentation Navigation -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <div>
+        <h2 class="text-3 font-medium text-sand-12 mb-2">Real-world Example: Documentation Site</h2>
+        <p class="text-sm text-sand-11">A typical documentation navigation pattern</p>
+      </div>
+
+      <div class="rounded-lg border border-sand-6 overflow-hidden">
+        <!-- Top Nav -->
+        <div class="border-b border-sand-6 px-6 py-4 bg-white" :class="theme === 'dark' && 'bg-sand-1'">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2">
+                <div class="h-8 w-8 rounded-lg bg-accent-9"></div>
+                <span class="font-semibold text-sand-12">Lily UI</span>
+              </div>
+            </div>
+            <nav class="tab-nav" style="box-shadow: none;">
+              <a href="#" class="tab-nav-link" :data-active="activeDoc === 'introduction' ? true : null"
+                 @click.prevent="activeDoc = 'introduction'" data-text="Introduction">Introduction</a>
+              <a href="#" class="tab-nav-link" :data-active="activeDoc === 'components' ? true : null"
+                 @click.prevent="activeDoc = 'components'" data-text="Components">Components</a>
+              <a href="#" class="tab-nav-link" :data-active="activeDoc === 'api' ? true : null"
+                 @click.prevent="activeDoc = 'api'" data-text="API Reference">API Reference</a>
+              <a href="#" class="tab-nav-link" :data-active="activeDoc === 'examples' ? true : null"
+                 @click.prevent="activeDoc = 'examples'" data-text="Examples">Examples</a>
+            </nav>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="p-6 bg-sand-1">
+          <div x-show="activeDoc === 'introduction'">
+            <h3 class="text-lg font-semibold text-sand-12 mb-3">Getting Started</h3>
+            <p class="text-sm text-sand-11 mb-4">
+              Lily UI is a collection of accessible, high-quality components built with CSS and state machines.
+            </p>
+            <div class="rounded-lg bg-sand-3 border border-sand-6 p-4">
+              <code class="text-sm text-sand-12">npm install lily-ui</code>
+            </div>
+          </div>
+          <div x-show="activeDoc === 'components'">
+            <h3 class="text-lg font-semibold text-sand-12 mb-3">Component Library</h3>
+            <p class="text-sm text-sand-11 mb-4">
+              Browse our collection of ready-to-use components including buttons, inputs, dialogs, and more.
+            </p>
+            <div class="space-y-2">
+              <div class="p-3 rounded border border-sand-6 bg-white" :class="theme === 'dark' && 'bg-sand-2'">
+                <span class="text-sm font-medium text-sand-12">Button</span>
+              </div>
+              <div class="p-3 rounded border border-sand-6 bg-white" :class="theme === 'dark' && 'bg-sand-2'">
+                <span class="text-sm font-medium text-sand-12">Input</span>
+              </div>
+              <div class="p-3 rounded border border-sand-6 bg-white" :class="theme === 'dark' && 'bg-sand-2'">
+                <span class="text-sm font-medium text-sand-12">Dialog</span>
+              </div>
+            </div>
+          </div>
+          <div x-show="activeDoc === 'api'">
+            <h3 class="text-lg font-semibold text-sand-12 mb-3">API Reference</h3>
+            <p class="text-sm text-sand-11 mb-4">
+              Complete API documentation for all components and utilities.
+            </p>
+            <div class="rounded-lg bg-sand-3 border border-sand-6 p-4 font-mono text-xs">
+              <div class="text-sand-11">interface ComponentProps {</div>
+              <div class="text-sand-11 pl-4">variant?: 'solid' | 'soft' | 'outline';</div>
+              <div class="text-sand-11 pl-4">size?: 'sm' | 'md' | 'lg';</div>
+              <div class="text-sand-11">}</div>
+            </div>
+          </div>
+          <div x-show="activeDoc === 'examples'">
+            <h3 class="text-lg font-semibold text-sand-12 mb-3">Examples</h3>
+            <p class="text-sm text-sand-11 mb-4">
+              Explore practical examples and common patterns using Lily UI components.
+            </p>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-4 rounded-lg border border-sand-6 bg-white" :class="theme === 'dark' && 'bg-sand-2'">
+                <div class="text-sm font-medium text-sand-12 mb-1">Login Form</div>
+                <div class="text-xs text-sand-11">Authentication UI pattern</div>
+              </div>
+              <div class="p-4 rounded-lg border border-sand-6 bg-white" :class="theme === 'dark' && 'bg-sand-2'">
+                <div class="text-sm font-medium text-sand-12 mb-1">Dashboard</div>
+                <div class="text-xs text-sand-11">Data visualization layout</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- With Icons -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <div>
+        <h2 class="text-3 font-medium text-sand-12 mb-2">With Icons</h2>
+        <p class="text-sm text-sand-11">Navigation links with icon support</p>
+      </div>
+
+      <div class="space-y-4">
+        <nav class="tab-nav">
+          <a href="#" class="tab-nav-link" data-active data-text="Dashboard">
+            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="7" height="9" x="3" y="3" rx="1"/>
+              <rect width="7" height="5" x="14" y="3" rx="1"/>
+              <rect width="7" height="9" x="14" y="12" rx="1"/>
+              <rect width="7" height="5" x="3" y="16" rx="1"/>
+            </svg>
+            Dashboard
+          </a>
+          <a href="#" class="tab-nav-link" data-text="Users">
+            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Users
+          </a>
+          <a href="#" class="tab-nav-link" data-text="Reports">
+            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3v18h18"/>
+              <path d="m19 9-5 5-4-4-3 3"/>
+            </svg>
+            Reports
+          </a>
+          <a href="#" class="tab-nav-link" data-text="Settings">
+            <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            Settings
+          </a>
+        </nav>
+      </div>
+    </section>
+
+  </main>
+</body>
+
+</html>

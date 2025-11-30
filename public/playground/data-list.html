@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data List - Lily UI</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body class="min-h-screen bg-sand-1 text-sand-12 antialiased p-8" x-data="{
+  theme: 'light',
+  accent: 'iris',
+  size: '2',
+  orientation: 'horizontal',
+  toggleTheme() {
+    this.theme = this.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.classList.toggle('dark');
+  }
+}" :class="theme">
+
+  <!-- Header -->
+  <div class="max-w-6xl mx-auto mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 mb-2 inline-block">&larr;
+          Back to Home</a>
+        <h1 class="text-4xl font-bold text-sand-12">Data List</h1>
+        <p class="text-sand-11 mt-2">Displays sets of data using key-value pairs in a clean, semantic format.</p>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex flex-wrap gap-4 p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+      <!-- Theme Toggle -->
+      <button @click="toggleTheme"
+        class="px-4 py-2 rounded-md bg-sand-3 hover:bg-sand-4 border border-sand-6 text-sm font-medium transition-colors">
+        <span x-text="theme === 'light' ? '🌙 Dark' : '☀️ Light'"></span>
+      </button>
+
+      <!-- Accent Color -->
+      <div class="flex items-center gap-2">
+        <label class="text-sm font-medium text-sand-11">Accent:</label>
+        <select x-model="accent"
+          class="px-3 py-2 rounded-md bg-sand-3 border border-sand-6 text-sm focus:outline-none focus:ring-2 focus:ring-accent-8">
+          <option value="iris">Iris</option>
+          <option value="blue">Blue</option>
+          <option value="violet">Violet</option>
+          <option value="teal">Teal</option>
+          <option value="amber">Amber</option>
+          <option value="red">Red</option>
+          <option value="jade">Jade</option>
+        </select>
+      </div>
+
+      <!-- Size -->
+      <div class="flex items-center gap-2">
+        <label class="text-sm font-medium text-sand-11">Size:</label>
+        <select x-model="size"
+          class="px-3 py-2 rounded-md bg-sand-3 border border-sand-6 text-sm focus:outline-none focus:ring-2 focus:ring-accent-8">
+          <option value="1">Small (1)</option>
+          <option value="2">Medium (2)</option>
+          <option value="3">Large (3)</option>
+        </select>
+      </div>
+
+      <!-- Orientation -->
+      <div class="flex items-center gap-2">
+        <label class="text-sm font-medium text-sand-11">Orientation:</label>
+        <select x-model="orientation"
+          class="px-3 py-2 rounded-md bg-sand-3 border border-sand-6 text-sm focus:outline-none focus:ring-2 focus:ring-accent-8">
+          <option value="horizontal">Horizontal</option>
+          <option value="vertical">Vertical</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto space-y-12" :class="'accent-' + accent">
+
+    <!-- Basic Data List -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-sand-12">Basic Example</h2>
+      <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+        <dl class="data-list-root"
+          :class="'data-list-' + orientation + ' data-list-size-' + size">
+          <div class="data-list-item">
+            <dt class="data-list-label">Status</dt>
+            <dd class="data-list-value">
+              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-jade-3 text-jade-11 text-sm font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-jade-9"></span>
+                Active
+              </span>
+            </dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Name</dt>
+            <dd class="data-list-value">Vlad Moroz</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Email</dt>
+            <dd class="data-list-value">vlad@example.com</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">ID</dt>
+            <dd class="data-list-value">
+              <code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11 text-sm font-mono">u_12345</code>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- User Profile Example -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-sand-12">User Profile Information</h2>
+      <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+        <dl class="data-list-root"
+          :class="'data-list-' + orientation + ' data-list-size-' + size">
+          <div class="data-list-item">
+            <dt class="data-list-label">Full Name</dt>
+            <dd class="data-list-value font-medium">Alexandra Chen</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Username</dt>
+            <dd class="data-list-value">@alexchen</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Email Address</dt>
+            <dd class="data-list-value">alexandra.chen@example.com</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Phone Number</dt>
+            <dd class="data-list-value">+1 (555) 123-4567</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Location</dt>
+            <dd class="data-list-value">San Francisco, CA</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Member Since</dt>
+            <dd class="data-list-value">January 2023</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Account Type</dt>
+            <dd class="data-list-value">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-violet-3 text-violet-11 text-sm font-medium">
+                Premium
+              </span>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Order Details Example -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-sand-12">Order Details</h2>
+      <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+        <dl class="data-list-root"
+          :class="'data-list-' + orientation + ' data-list-size-' + size">
+          <div class="data-list-item">
+            <dt class="data-list-label">Order Number</dt>
+            <dd class="data-list-value">
+              <code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11 text-sm font-mono">#ORD-789456</code>
+            </dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Order Date</dt>
+            <dd class="data-list-value">November 30, 2025</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Status</dt>
+            <dd class="data-list-value">
+              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-3 text-blue-11 text-sm font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-9"></span>
+                In Transit
+              </span>
+            </dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Total Amount</dt>
+            <dd class="data-list-value font-semibold text-lg">$247.50</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Payment Method</dt>
+            <dd class="data-list-value">Visa ending in 4242</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Shipping Address</dt>
+            <dd class="data-list-value">
+              <div class="text-sm">
+                <div>123 Main Street</div>
+                <div>Apartment 4B</div>
+                <div>New York, NY 10001</div>
+              </div>
+            </dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Estimated Delivery</dt>
+            <dd class="data-list-value">December 3, 2025</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Settings Display Example -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-sand-12">Application Settings</h2>
+      <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+        <dl class="data-list-root"
+          :class="'data-list-' + orientation + ' data-list-size-' + size">
+          <div class="data-list-item">
+            <dt class="data-list-label">Language</dt>
+            <dd class="data-list-value">English (US)</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Timezone</dt>
+            <dd class="data-list-value">Pacific Time (PT)</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Date Format</dt>
+            <dd class="data-list-value">MM/DD/YYYY</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Notifications</dt>
+            <dd class="data-list-value">
+              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-jade-3 text-jade-11 text-sm font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-jade-9"></span>
+                Enabled
+              </span>
+            </dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">Two-Factor Auth</dt>
+            <dd class="data-list-value">
+              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-jade-3 text-jade-11 text-sm font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-jade-9"></span>
+                Active
+              </span>
+            </dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label">API Access</dt>
+            <dd class="data-list-value">
+              <code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11 text-xs font-mono">sk_live_abc123...</code>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- With Accent Color Labels -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-sand-12">With Accent Color Labels</h2>
+      <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+        <dl class="data-list-root"
+          :class="'data-list-' + orientation + ' data-list-size-' + size">
+          <div class="data-list-item">
+            <dt class="data-list-label" data-accent-color>Project Name</dt>
+            <dd class="data-list-value">Lily UI Component Library</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label" data-accent-color>Repository</dt>
+            <dd class="data-list-value">
+              <a href="#" class="text-accent-11 hover:text-accent-12 underline">github.com/lily-ui/lily-ui</a>
+            </dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label" data-accent-color>Version</dt>
+            <dd class="data-list-value">
+              <code class="px-1.5 py-0.5 rounded bg-accent-3 text-accent-11 text-sm font-mono">v1.0.0</code>
+            </dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label" data-accent-color>License</dt>
+            <dd class="data-list-value">MIT</dd>
+          </div>
+          <div class="data-list-item">
+            <dt class="data-list-label" data-accent-color>Last Updated</dt>
+            <dd class="data-list-value">November 30, 2025</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Different Alignments (Horizontal Only) -->
+    <section x-show="orientation === 'horizontal'">
+      <h2 class="text-2xl font-semibold mb-4 text-sand-12">Item Alignment Variations</h2>
+
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3 text-sand-11">Baseline (Default)</h3>
+          <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+            <dl class="data-list-root data-list-horizontal"
+              :class="'data-list-size-' + size">
+              <div class="data-list-item data-list-align-baseline">
+                <dt class="data-list-label">Label</dt>
+                <dd class="data-list-value">This is some text that might wrap to multiple lines when the container is narrow enough.</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3 text-sand-11">Start Aligned</h3>
+          <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+            <dl class="data-list-root data-list-horizontal"
+              :class="'data-list-size-' + size">
+              <div class="data-list-item data-list-align-start">
+                <dt class="data-list-label">Label</dt>
+                <dd class="data-list-value">This is some text that might wrap to multiple lines when the container is narrow enough.</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3 text-sand-11">Center Aligned</h3>
+          <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+            <dl class="data-list-root data-list-horizontal"
+              :class="'data-list-size-' + size">
+              <div class="data-list-item data-list-align-center">
+                <dt class="data-list-label">Label</dt>
+                <dd class="data-list-value">This is some text that might wrap to multiple lines when the container is narrow enough.</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Size Comparison -->
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-sand-12">Size Comparison</h2>
+
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-medium mb-3 text-sand-11">Size 1 (Small)</h3>
+          <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+            <dl class="data-list-root data-list-size-1"
+              :class="'data-list-' + orientation">
+              <div class="data-list-item">
+                <dt class="data-list-label">Name</dt>
+                <dd class="data-list-value">Small Size Example</dd>
+              </div>
+              <div class="data-list-item">
+                <dt class="data-list-label">Description</dt>
+                <dd class="data-list-value">Compact spacing for dense layouts</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3 text-sand-11">Size 2 (Medium - Default)</h3>
+          <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+            <dl class="data-list-root data-list-size-2"
+              :class="'data-list-' + orientation">
+              <div class="data-list-item">
+                <dt class="data-list-label">Name</dt>
+                <dd class="data-list-value">Medium Size Example</dd>
+              </div>
+              <div class="data-list-item">
+                <dt class="data-list-label">Description</dt>
+                <dd class="data-list-value">Balanced spacing for general use</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium mb-3 text-sand-11">Size 3 (Large)</h3>
+          <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 shadow-sm">
+            <dl class="data-list-root data-list-size-3"
+              :class="'data-list-' + orientation">
+              <div class="data-list-item">
+                <dt class="data-list-label">Name</dt>
+                <dd class="data-list-value">Large Size Example</dd>
+              </div>
+              <div class="data-list-item">
+                <dt class="data-list-label">Description</dt>
+                <dd class="data-list-value">Generous spacing for prominent displays</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Usage Guide -->
+    <section class="border-t border-sand-6 pt-8">
+      <h2 class="text-2xl font-semibold mb-4 text-sand-12">Usage Guide</h2>
+      <div class="prose prose-sm max-w-none">
+        <div class="p-6 bg-white dark:bg-sand-2 rounded-lg border border-sand-6 space-y-4">
+          <div>
+            <h3 class="font-semibold text-sand-12 mb-2">HTML Structure</h3>
+            <pre class="bg-sand-3 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;dl class="data-list-root data-list-horizontal data-list-size-2"&gt;
+  &lt;div class="data-list-item"&gt;
+    &lt;dt class="data-list-label"&gt;Label&lt;/dt&gt;
+    &lt;dd class="data-list-value"&gt;Value&lt;/dd&gt;
+  &lt;/div&gt;
+  &lt;!-- More items... --&gt;
+&lt;/dl&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-sand-12 mb-2">Available Classes</h3>
+            <ul class="space-y-2 text-sand-11">
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-root</code> - Container element (dl)</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-item</code> - Wrapper for each term-value pair (div)</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-label</code> - Term/label element (dt)</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-value</code> - Value/description element (dd)</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-sand-12 mb-2">Size Variants</h3>
+            <ul class="space-y-2 text-sand-11">
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-size-1</code> - Small size</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-size-2</code> - Medium size (default)</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-size-3</code> - Large size</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-sand-12 mb-2">Orientation</h3>
+            <ul class="space-y-2 text-sand-11">
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-horizontal</code> - Labels and values side by side (grid layout)</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-vertical</code> - Labels and values stacked (flex column)</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-sand-12 mb-2">Item Alignment (Horizontal only)</h3>
+            <ul class="space-y-2 text-sand-11">
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-align-baseline</code> - Baseline alignment (default)</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-align-start</code> - Start alignment</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-align-center</code> - Center alignment</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-align-end</code> - End alignment</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-align-stretch</code> - Stretch alignment</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-semibold text-sand-12 mb-2">Label Color</h3>
+            <ul class="space-y-2 text-sand-11">
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">data-accent-color</code> - Add this attribute to labels to use accent color</li>
+              <li><code class="px-1.5 py-0.5 rounded bg-sand-3 text-sand-11">.data-list-high-contrast</code> - High contrast label text</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+
+</html>

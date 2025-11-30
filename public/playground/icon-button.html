@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Icon Button</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="space-y-3 flex items-center justify-between">
+      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+        style="background: var(--sand-surface);">
+        <span
+          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">IB</span>
+        <div>
+          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Icon Button Playground</h1>
+          <p class="text-2 text-sand-11">纯 CSS 图标按钮组件</p>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">
+              Light
+            </button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">
+              Dark
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
+        <code>data-accent-color</code> 切换；组件可在自身容器覆写。
+      </p>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">尺寸变体</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Compact)</h3>
+          <div class="flex flex-wrap gap-3 items-center">
+            <button class="icon-button icon-button-size-1 icon-button-variant-solid" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18M6 6l12 12"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-1 icon-button-variant-soft" aria-label="Menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-1 icon-button-variant-ghost" aria-label="Settings">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Default)</h3>
+          <div class="flex flex-wrap gap-3 items-center">
+            <button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18M6 6l12 12"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-2 icon-button-variant-soft" aria-label="Menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-2 icon-button-variant-ghost" aria-label="Settings">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Large)</h3>
+          <div class="flex flex-wrap gap-3 items-center">
+            <button class="icon-button icon-button-size-3 icon-button-variant-solid" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18M6 6l12 12"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-3 icon-button-variant-ghost" aria-label="Settings">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 4 (Extra Large)</h3>
+          <div class="flex flex-wrap gap-3 items-center">
+            <button class="icon-button icon-button-size-4 icon-button-variant-solid" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18M6 6l12 12"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-4 icon-button-variant-soft" aria-label="Menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-4 icon-button-variant-ghost" aria-label="Settings">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">变体样式</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Classic</h3>
+          <div class="flex gap-3 items-center">
+            <button class="icon-button icon-button-size-2 icon-button-variant-classic" aria-label="Heart">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-2 icon-button-variant-classic" disabled aria-label="Heart">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Solid</h3>
+          <div class="flex gap-3 items-center">
+            <button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Star">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-2 icon-button-variant-solid" disabled aria-label="Star">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Soft</h3>
+          <div class="flex gap-3 items-center">
+            <button class="icon-button icon-button-size-2 icon-button-variant-soft" aria-label="Bookmark">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-2 icon-button-variant-soft" disabled aria-label="Bookmark">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Surface</h3>
+          <div class="flex gap-3 items-center">
+            <button class="icon-button icon-button-size-2 icon-button-variant-surface" aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-2 icon-button-variant-surface" disabled aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Outline</h3>
+          <div class="flex gap-3 items-center">
+            <button class="icon-button icon-button-size-2 icon-button-variant-outline" aria-label="Bell">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-2 icon-button-variant-outline" disabled aria-label="Bell">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Ghost</h3>
+          <div class="flex gap-3 items-center">
+            <button class="icon-button icon-button-size-2 icon-button-variant-ghost" aria-label="More">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+              </svg>
+            </button>
+            <button class="icon-button icon-button-size-2 icon-button-variant-ghost" disabled aria-label="More">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">加载状态</h2>
+
+      <div class="flex flex-wrap gap-4 items-center">
+        <button class="icon-button icon-button-size-2 icon-button-variant-solid" data-loading aria-label="Loading">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18M6 6l12 12"/>
+          </svg>
+          <span class="icon-button-spinner spinner spinner-size-2" style="color: var(--accent-contrast);">
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+          </span>
+        </button>
+
+        <button class="icon-button icon-button-size-2 icon-button-variant-soft" data-loading aria-label="Loading">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
+          </svg>
+          <span class="icon-button-spinner spinner spinner-size-2" style="color: var(--accent-11);">
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+          </span>
+        </button>
+
+        <button class="icon-button icon-button-size-3 icon-button-variant-classic" data-loading aria-label="Loading">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <span class="icon-button-spinner spinner spinner-size-2" style="color: var(--accent-contrast);">
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+            <span class="spinner-leaf"></span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">常用图标示例</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Close</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Menu</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Settings">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Settings</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Edit">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Edit</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Trash" data-accent-color="red">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Delete</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Plus">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="M12 5v14"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Add</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Download">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Download</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Upload">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Upload</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Copy">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Copy</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Share</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Filter">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Filter</span>
+        </div>
+
+        <div class="flex flex-col items-center gap-2">
+          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Refresh">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>
+            </svg>
+          </button>
+          <span class="text-xs text-sand-11">Refresh</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">颜色变体</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
+          <div class="space-y-3" :data-accent-color="color">
+            <h3 class="text-sm font-medium capitalize" :style="`color: var(--${color}-11)`" x-text="color"></h3>
+            <div class="flex gap-2">
+              <button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Star">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+              </button>
+              <button class="icon-button icon-button-size-2 icon-button-variant-soft" aria-label="Heart">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                </svg>
+              </button>
+              <button class="icon-button icon-button-size-2 icon-button-variant-outline" aria-label="Bookmark">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">高对比度</h2>
+
+      <div class="flex flex-wrap gap-4 items-center">
+        <button class="icon-button icon-button-size-2 icon-button-variant-solid icon-button-high-contrast" aria-label="Settings">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+
+        <button class="icon-button icon-button-size-2 icon-button-variant-soft icon-button-high-contrast" aria-label="Heart">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+          </svg>
+        </button>
+
+        <button class="icon-button icon-button-size-2 icon-button-variant-outline icon-button-high-contrast" aria-label="Star">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法 --&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Close"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- 不同尺寸 --&gt;
+&lt;button class="icon-button icon-button-size-1 icon-button-variant-solid" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+&lt;button class="icon-button icon-button-size-3 icon-button-variant-solid" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+&lt;button class="icon-button icon-button-size-4 icon-button-variant-solid" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- 不同变体 --&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-classic" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-soft" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-surface" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-outline" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-ghost" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- 禁用状态 --&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" disabled aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- 加载状态 --&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" data-loading aria-label="Loading"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+  &lt;span class="icon-button-spinner spinner spinner-size-2"&gt;
+    &lt;!-- 8个 spinner-leaf --&gt;
+  &lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- 高对比度 --&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid icon-button-high-contrast" aria-label="Icon"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- 自定义颜色 --&gt;
+&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" data-accent-color="red" aria-label="Delete"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+    </section>
+  </main>
+</body>
+
+</html>

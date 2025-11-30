@@ -1,0 +1,394 @@
+/* ========================================
+ * Icon Button Component
+ * ======================================== */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+  vertical-align: top;
+  font-family: var(--default-font-family);
+  font-style: normal;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.icon-button:disabled,
+.icon-button[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Icon Button loading state */
+.icon-button[data-loading] {
+  position: relative;
+}
+
+.icon-button[data-loading] > svg:not(.icon-button-spinner *) {
+  visibility: hidden;
+}
+
+.icon-button .icon-button-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.icon-button[data-loading] .icon-button-spinner {
+  display: block;
+}
+
+/* Icon Button sizes - square buttons */
+.icon-button:where(:not(.icon-button-variant-ghost)) {
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+}
+
+.icon-button-size-1 {
+  --icon-button-size: var(--space-5);
+  border-radius: max(var(--radius-1), var(--radius-full));
+}
+
+.icon-button-size-1 svg {
+  width: 14px;
+  height: 14px;
+}
+
+.icon-button-size-2 {
+  --icon-button-size: var(--space-6);
+  border-radius: max(var(--radius-2), var(--radius-full));
+}
+
+.icon-button-size-2 svg {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-button-size-3 {
+  --icon-button-size: var(--space-7);
+  border-radius: max(var(--radius-3), var(--radius-full));
+}
+
+.icon-button-size-3 svg {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-button-size-4 {
+  --icon-button-size: var(--space-8);
+  border-radius: max(var(--radius-4), var(--radius-full));
+}
+
+.icon-button-size-4 svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Icon Button ghost variant has padding instead of fixed size */
+.icon-button-variant-ghost {
+  width: auto;
+  height: auto;
+  box-sizing: content-box;
+}
+
+.icon-button-size-1.icon-button-variant-ghost {
+  padding: var(--space-1);
+}
+
+.icon-button-size-2.icon-button-variant-ghost {
+  padding: calc(var(--space-1) * 1.5);
+}
+
+.icon-button-size-3.icon-button-variant-ghost {
+  padding: var(--space-2);
+}
+
+.icon-button-size-4.icon-button-variant-ghost {
+  padding: var(--space-3);
+}
+
+/* Icon Button variants */
+
+/* Icon Button variant: classic */
+.icon-button-variant-classic {
+  background-color: var(--accent-9);
+  color: var(--accent-contrast);
+  position: relative;
+  z-index: 0;
+  background-image:
+    linear-gradient(to bottom, transparent 50%, var(--gray-a4)),
+    linear-gradient(to bottom, transparent 50%, var(--accent-9) 80%);
+  box-shadow:
+    inset 0 0 0 1px var(--gray-a4),
+    inset 0 -2px 1px var(--gray-a3),
+    inset 0 0 0 1px var(--accent-9),
+    inset 0 4px 2px -2px var(--white-a9),
+    inset 0 2px 1px -1px var(--white-a9);
+}
+
+.icon-button-variant-classic::after {
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+  pointer-events: none;
+  inset: 0;
+  z-index: -1;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  background-color: inherit;
+  background-image: linear-gradient(var(--black-a1), transparent, var(--white-a2));
+  box-shadow: inset 0 2px 3px -1px var(--white-a4);
+}
+
+@media (hover: hover) {
+  .icon-button-variant-classic:hover:not(:disabled):not([data-disabled]) {
+    &::after {
+      background-color: var(--accent-10);
+      background-image: linear-gradient(var(--black-a2) -15%, transparent, var(--white-a3));
+    }
+  }
+}
+
+.icon-button-variant-classic:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--accent-9);
+  background-image: linear-gradient(var(--black-a1), transparent);
+  box-shadow:
+    inset 0 4px 2px -2px var(--gray-a4),
+    inset 0 1px 1px var(--gray-a7),
+    inset 0 0 0 1px var(--gray-a5),
+    inset 0 0 0 1px var(--accent-9),
+    inset 0 3px 2px var(--gray-a3),
+    inset 0 0 0 1px var(--white-a7),
+    inset 0 -2px 1px var(--white-a5);
+}
+
+.icon-button-variant-classic:focus-visible {
+  outline: 2px solid var(--focus-8);
+  outline-offset: 2px;
+}
+
+.icon-button-variant-classic:disabled,
+.icon-button-variant-classic[data-disabled] {
+  color: var(--gray-a8);
+  background-color: var(--gray-2);
+  background-image: none;
+  box-shadow:
+    inset 0 0 0 1px var(--gray-a5),
+    inset 0 4px 2px -2px var(--gray-a2),
+    inset 0 1px 1px var(--gray-a5),
+    inset 0 -1px 1px var(--black-a3),
+    inset 0 0 0 1px var(--gray-a2);
+  filter: none;
+}
+
+.icon-button-variant-classic:disabled::after,
+.icon-button-variant-classic[data-disabled]::after {
+  box-shadow: none;
+  background-color: var(--gray-a2);
+  background-image: linear-gradient(var(--black-a1) -20%, transparent, var(--white-a1));
+}
+
+/* Icon Button variant: solid */
+.icon-button-variant-solid {
+  background-color: var(--accent-9);
+  color: var(--accent-contrast);
+}
+
+@media (hover: hover) {
+  .icon-button-variant-solid:hover:not(:disabled):not([data-disabled]) {
+    background-color: var(--accent-10);
+  }
+}
+
+.icon-button-variant-solid:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--accent-10);
+  filter: brightness(0.92) saturate(1.1);
+}
+
+.icon-button-variant-solid:focus-visible {
+  outline: 2px solid var(--focus-8);
+  outline-offset: 2px;
+}
+
+.icon-button-variant-solid:disabled,
+.icon-button-variant-solid[data-disabled] {
+  color: var(--gray-a8);
+  background-color: var(--gray-a3);
+  filter: none;
+}
+
+/* Icon Button variant: soft */
+.icon-button-variant-soft {
+  background-color: var(--accent-a3);
+  color: var(--accent-a11);
+}
+
+@media (hover: hover) {
+  .icon-button-variant-soft:hover:not(:disabled):not([data-disabled]) {
+    background-color: var(--accent-a4);
+  }
+}
+
+.icon-button-variant-soft:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--accent-a5);
+}
+
+.icon-button-variant-soft:focus-visible {
+  outline: 2px solid var(--accent-8);
+  outline-offset: -1px;
+}
+
+.icon-button-variant-soft:disabled,
+.icon-button-variant-soft[data-disabled] {
+  color: var(--gray-a8);
+  background-color: var(--gray-a3);
+}
+
+/* Icon Button variant: surface */
+.icon-button-variant-surface {
+  background-color: var(--accent-surface);
+  box-shadow: inset 0 0 0 1px var(--accent-a7);
+  color: var(--accent-a11);
+}
+
+@media (hover: hover) {
+  .icon-button-variant-surface:hover:not(:disabled):not([data-disabled]) {
+    box-shadow: inset 0 0 0 1px var(--accent-a8);
+  }
+}
+
+.icon-button-variant-surface:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--accent-a3);
+  box-shadow: inset 0 0 0 1px var(--accent-a8);
+}
+
+.icon-button-variant-surface:focus-visible {
+  outline: 2px solid var(--focus-8);
+  outline-offset: -1px;
+}
+
+.icon-button-variant-surface:disabled,
+.icon-button-variant-surface[data-disabled] {
+  color: var(--gray-a8);
+  box-shadow: inset 0 0 0 1px var(--gray-a6);
+  background-color: var(--gray-a2);
+}
+
+/* Icon Button variant: outline */
+.icon-button-variant-outline {
+  box-shadow: inset 0 0 0 1px var(--accent-a8);
+  color: var(--accent-a11);
+}
+
+@media (hover: hover) {
+  .icon-button-variant-outline:hover:not(:disabled):not([data-disabled]) {
+    background-color: var(--accent-a2);
+  }
+}
+
+.icon-button-variant-outline:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--accent-a3);
+}
+
+.icon-button-variant-outline:focus-visible {
+  outline: 2px solid var(--focus-8);
+  outline-offset: -1px;
+}
+
+.icon-button-variant-outline:disabled,
+.icon-button-variant-outline[data-disabled] {
+  color: var(--gray-a8);
+  box-shadow: inset 0 0 0 1px var(--gray-a7);
+  background-color: transparent;
+}
+
+/* Icon Button variant: ghost */
+.icon-button-variant-ghost {
+  color: var(--accent-a11);
+}
+
+@media (hover: hover) {
+  .icon-button-variant-ghost:hover:not(:disabled):not([data-disabled]) {
+    background-color: var(--accent-a3);
+  }
+}
+
+.icon-button-variant-ghost:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--accent-a4);
+}
+
+.icon-button-variant-ghost:focus-visible {
+  outline: 2px solid var(--focus-8);
+  outline-offset: -1px;
+}
+
+.icon-button-variant-ghost:disabled,
+.icon-button-variant-ghost[data-disabled] {
+  color: var(--gray-a8);
+  background-color: transparent;
+}
+
+/* Icon Button high contrast modifier */
+.icon-button.icon-button-high-contrast.icon-button-variant-classic {
+  background-color: var(--accent-12);
+  color: var(--gray-1);
+  background-image:
+    linear-gradient(to bottom, transparent 50%, var(--gray-a4)),
+    linear-gradient(to bottom, transparent 50%, var(--accent-12) 80%);
+  box-shadow:
+    inset 0 0 0 1px var(--gray-a4),
+    inset 0 -2px 1px var(--gray-a3),
+    inset 0 0 0 1px var(--accent-12),
+    inset 0 4px 2px -2px var(--white-a9),
+    inset 0 2px 1px -1px var(--white-a9);
+}
+
+.icon-button.icon-button-high-contrast.icon-button-variant-classic::after {
+  background-image: linear-gradient(var(--black-a3), transparent, var(--white-a2));
+}
+
+@media (hover: hover) {
+  .icon-button.icon-button-high-contrast.icon-button-variant-classic:hover:not(:disabled):not([data-disabled]) {
+    filter: contrast(0.88) saturate(1.1) brightness(1.1);
+  }
+
+  .icon-button.icon-button-high-contrast.icon-button-variant-classic:hover:not(:disabled):not([data-disabled])::after {
+    background-color: var(--accent-12);
+    background-image: linear-gradient(var(--black-a5), transparent, var(--white-a2));
+  }
+}
+
+.icon-button.icon-button-high-contrast.icon-button-variant-solid {
+  background-color: var(--accent-12);
+  color: var(--gray-1);
+}
+
+@media (hover: hover) {
+  .icon-button.icon-button-high-contrast.icon-button-variant-solid:hover:not(:disabled):not([data-disabled]) {
+    background-color: var(--accent-12);
+    filter: contrast(0.88) saturate(1.1) brightness(1.1);
+  }
+}
+
+.icon-button.icon-button-high-contrast.icon-button-variant-soft,
+.icon-button.icon-button-high-contrast.icon-button-variant-ghost {
+  color: var(--accent-12);
+}
+
+.icon-button.icon-button-high-contrast.icon-button-variant-surface {
+  color: var(--accent-12);
+}
+
+.icon-button.icon-button-high-contrast.icon-button-variant-outline {
+  box-shadow: inset 0 0 0 1px var(--accent-a7), inset 0 0 0 1px var(--gray-a11);
+  color: var(--accent-12);
+}

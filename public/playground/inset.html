@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Inset</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="space-y-3 flex items-center justify-between">
+      <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+        style="background: var(--sand-surface);">
+        <span
+          class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">IN</span>
+        <div>
+          <h1 class="text-5 font-semibold text-sand-12 leading-tight">Inset Playground</h1>
+          <p class="text-2 text-sand-11">边到边内容组件</p>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">
+              Light
+            </button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">
+              Dark
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+      <p class="text-xs text-sand-11">主题通过 <code>.dark</code> 切换，Accent 通过 <code>.accent-*</code> 或
+        <code>data-accent-color</code> 切换；组件可在自身容器覆写。
+      </p>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">基础用法</h2>
+
+      <div class="space-y-6">
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">边到边图片</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-6 shadow-sm" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <h4 class="text-lg font-semibold text-sand-12 mb-2">Card with Full Width Image</h4>
+            <p class="text-sm text-sand-11 mb-4">This image breaks out of the card's padding to reach the edges.</p>
+            <div class="inset inset-all inset-clip-border-box">
+              <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=800&h=400&fit=crop"
+                alt="Landscape" class="w-full h-48 object-cover">
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">底部边到边</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-6 shadow-sm" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <h4 class="text-lg font-semibold text-sand-12 mb-2">Card Header</h4>
+            <p class="text-sm text-sand-11 mb-4">Content above the image with normal padding.</p>
+            <div class="inset inset-bottom inset-clip-border-box">
+              <img src="https://images.unsplash.com/photo-1682687221038-404cb8830901?w=800&h=300&fit=crop"
+                alt="Mountain" class="w-full h-40 object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">侧边变体</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Top -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Top</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-6 shadow-sm" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <div class="inset inset-top inset-clip-border-box">
+              <img src="https://images.unsplash.com/photo-1682687220923-c58b9a4592ae?w=400&h=200&fit=crop"
+                alt="Nature" class="w-full h-32 object-cover">
+            </div>
+            <h4 class="text-sm font-semibold text-sand-12 mt-4">Top Inset</h4>
+            <p class="text-xs text-sand-11 mt-1">Image extends to top edges only</p>
+          </div>
+        </div>
+
+        <!-- Bottom -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Bottom</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-6 shadow-sm" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <h4 class="text-sm font-semibold text-sand-12 mb-1">Bottom Inset</h4>
+            <p class="text-xs text-sand-11 mb-4">Image extends to bottom edges only</p>
+            <div class="inset inset-bottom inset-clip-border-box">
+              <img src="https://images.unsplash.com/photo-1682687221038-404cb8830901?w=400&h=200&fit=crop"
+                alt="Sky" class="w-full h-32 object-cover">
+            </div>
+          </div>
+        </div>
+
+        <!-- Left -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Left</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-6 shadow-sm flex gap-4" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <div class="inset inset-left inset-clip-border-box w-24 flex-shrink-0">
+              <img src="https://images.unsplash.com/photo-1682687982501-1e58ab814714?w=200&h=300&fit=crop"
+                alt="Portrait" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-sand-12">Left Inset</h4>
+              <p class="text-xs text-sand-11 mt-1">Image extends to left edges</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Right</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-6 shadow-sm flex gap-4" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <div>
+              <h4 class="text-sm font-semibold text-sand-12">Right Inset</h4>
+              <p class="text-xs text-sand-11 mt-1">Image extends to right edges</p>
+            </div>
+            <div class="inset inset-right inset-clip-border-box w-24 flex-shrink-0">
+              <img src="https://images.unsplash.com/photo-1682687220945-922d38b5a761?w=200&h=300&fit=crop"
+                alt="Portrait" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+
+        <!-- X (horizontal) -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">X (Left + Right)</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-6 shadow-sm" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <h4 class="text-sm font-semibold text-sand-12 mb-2">X Inset</h4>
+            <div class="inset inset-x inset-clip-border-box">
+              <img src="https://images.unsplash.com/photo-1682687220795-796d3f6f7000?w=400&h=150&fit=crop"
+                alt="Wide" class="w-full h-24 object-cover">
+            </div>
+            <p class="text-xs text-sand-11 mt-2">Extends to left and right edges</p>
+          </div>
+        </div>
+
+        <!-- Y (vertical) -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Y (Top + Bottom)</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-6 shadow-sm flex gap-4" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <div class="inset inset-y inset-clip-border-box w-32 flex-shrink-0">
+              <img src="https://images.unsplash.com/photo-1682687982501-1e58ab814714?w=200&h=400&fit=crop"
+                alt="Tall" class="w-full h-48 object-cover">
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-sand-12">Y Inset</h4>
+              <p class="text-xs text-sand-11 mt-1">Extends to top and bottom edges</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">边到边分隔线</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">卡片中的分隔线</h3>
+          <div class="rounded-lg border border-sand-6 bg-white p-6 shadow-sm" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <h4 class="text-sm font-semibold text-sand-12">Section One</h4>
+            <p class="text-xs text-sand-11 mt-1">Content with normal padding</p>
+            <div class="inset inset-x inset-clip-border-box my-4">
+              <span class="separator separator-horizontal separator-size-4"></span>
+            </div>
+            <h4 class="text-sm font-semibold text-sand-12">Section Two</h4>
+            <p class="text-xs text-sand-11 mt-1">Separated by full-width line</p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">列表项分隔</h3>
+          <div class="rounded-lg border border-sand-6 bg-white overflow-hidden" style="
+            --inset-padding-top: 1rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <div class="px-6 py-4">
+              <p class="text-sm font-medium text-sand-12">List Item 1</p>
+              <p class="text-xs text-sand-11 mt-1">Description text</p>
+            </div>
+            <div class="inset inset-x inset-clip-border-box">
+              <span class="separator separator-horizontal separator-size-4"></span>
+            </div>
+            <div class="px-6 py-4">
+              <p class="text-sm font-medium text-sand-12">List Item 2</p>
+              <p class="text-xs text-sand-11 mt-1">Description text</p>
+            </div>
+            <div class="inset inset-x inset-clip-border-box">
+              <span class="separator separator-horizontal separator-size-4"></span>
+            </div>
+            <div class="px-6 py-4">
+              <p class="text-sm font-medium text-sand-12">List Item 3</p>
+              <p class="text-xs text-sand-11 mt-1">Description text</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium">真实场景示例</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Blog Post Card -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">博客文章卡片</h3>
+          <div class="rounded-lg border border-sand-6 bg-white shadow-lg overflow-hidden" style="
+            --inset-padding-top: 0;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <div class="inset inset-top inset-clip-border-box">
+              <img src="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=600&h=300&fit=crop"
+                alt="Blog header" class="w-full h-48 object-cover">
+            </div>
+            <div class="p-6">
+              <div class="inline-flex items-center gap-2 text-xs text-accent-11 mb-3">
+                <span class="inline-flex h-1.5 w-1.5 rounded-full bg-accent-9"></span>
+                Technology
+              </div>
+              <h4 class="text-lg font-semibold text-sand-12 mb-2">Building Modern Web Apps</h4>
+              <p class="text-sm text-sand-11 mb-4">Learn how to create beautiful, performant web applications with modern tools and techniques.</p>
+              <div class="flex items-center justify-between text-xs text-sand-11">
+                <span>5 min read</span>
+                <span>Dec 15, 2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">产品卡片</h3>
+          <div class="rounded-lg border border-sand-6 bg-white shadow-lg overflow-hidden" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <div class="p-6">
+              <h4 class="text-lg font-semibold text-sand-12 mb-2">Premium Headphones</h4>
+              <p class="text-sm text-sand-11 mb-4">High-quality wireless headphones with noise cancellation.</p>
+              <div class="inset inset-all inset-clip-border-box mb-4">
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=300&fit=crop"
+                  alt="Headphones" class="w-full h-40 object-cover">
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-2xl font-bold text-accent-11">$299</span>
+                <button class="px-4 py-2 bg-accent-9 text-white rounded-md text-sm font-medium hover:bg-accent-10 transition">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">个人资料卡片</h3>
+          <div class="rounded-lg border border-sand-6 bg-white shadow-lg overflow-hidden" style="
+            --inset-padding-top: 0;
+            --inset-padding-right: 1.5rem;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <div class="inset inset-top inset-clip-border-box relative">
+              <img src="https://images.unsplash.com/photo-1682687220566-5599dbbebf11?w=600&h=150&fit=crop"
+                alt="Cover" class="w-full h-24 object-cover">
+            </div>
+            <div class="p-6">
+              <div class="flex items-start gap-4 -mt-8 mb-4">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+                  alt="Avatar" class="w-16 h-16 rounded-full border-4 border-white shadow-lg object-cover">
+                <div class="flex-1 mt-6">
+                  <h4 class="text-lg font-semibold text-sand-12">John Doe</h4>
+                  <p class="text-sm text-sand-11">Product Designer</p>
+                </div>
+              </div>
+              <p class="text-sm text-sand-11 mb-4">Passionate about creating beautiful and functional user experiences.</p>
+              <div class="flex gap-2">
+                <button class="px-4 py-2 bg-accent-9 text-white rounded-md text-sm font-medium hover:bg-accent-10 transition">
+                  Follow
+                </button>
+                <button class="px-4 py-2 border border-sand-6 text-sand-12 rounded-md text-sm font-medium hover:bg-sand-3 transition">
+                  Message
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">活动卡片</h3>
+          <div class="rounded-lg border border-sand-6 bg-white shadow-lg overflow-hidden flex" style="
+            --inset-padding-top: 1.5rem;
+            --inset-padding-right: 0;
+            --inset-padding-bottom: 1.5rem;
+            --inset-padding-left: 1.5rem;
+            --inset-border-radius: 0.5rem;
+            --inset-border-width: 1px;
+          ">
+            <div class="p-6 flex-1">
+              <div class="inline-flex items-center gap-2 px-2 py-1 bg-accent-3 text-accent-11 rounded text-xs font-medium mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Dec 20, 2024
+              </div>
+              <h4 class="text-lg font-semibold text-sand-12 mb-2">Design Workshop</h4>
+              <p class="text-sm text-sand-11 mb-4">Join us for an interactive workshop on modern design principles.</p>
+              <div class="text-xs text-sand-11">
+                <p>Location: Online</p>
+                <p>Time: 2:00 PM - 5:00 PM</p>
+              </div>
+            </div>
+            <div class="inset inset-right inset-clip-border-box w-40 flex-shrink-0">
+              <img src="https://images.unsplash.com/photo-1682687220063-4742bd7fd538?w=300&h=400&fit=crop"
+                alt="Event" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
+      <h2 class="text-3 font-medium mb-4">代码示例</h2>
+      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基础边到边内容 --&gt;
+&lt;div class="rounded-lg border bg-white p-6" style="
+  --inset-padding-top: 1.5rem;
+  --inset-padding-right: 1.5rem;
+  --inset-padding-bottom: 1.5rem;
+  --inset-padding-left: 1.5rem;
+  --inset-border-radius: 0.5rem;
+  --inset-border-width: 1px;
+"&gt;
+  &lt;h3&gt;Card Title&lt;/h3&gt;
+  &lt;div class="inset inset-all inset-clip-border-box"&gt;
+    &lt;img src="..." alt="..." class="w-full h-48 object-cover"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- 顶部边到边 --&gt;
+&lt;div class="rounded-lg border bg-white p-6" style="
+  --inset-padding-top: 1.5rem;
+  --inset-padding-right: 1.5rem;
+  --inset-padding-bottom: 1.5rem;
+  --inset-padding-left: 1.5rem;
+  --inset-border-radius: 0.5rem;
+  --inset-border-width: 1px;
+"&gt;
+  &lt;div class="inset inset-top inset-clip-border-box"&gt;
+    &lt;img src="..." alt="..." class="w-full h-40 object-cover"&gt;
+  &lt;/div&gt;
+  &lt;h3 class="mt-4"&gt;Title&lt;/h3&gt;
+  &lt;p&gt;Content...&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- 水平边到边（左右） --&gt;
+&lt;div class="rounded-lg border bg-white p-6" style="
+  --inset-padding-top: 1.5rem;
+  --inset-padding-right: 1.5rem;
+  --inset-padding-bottom: 1.5rem;
+  --inset-padding-left: 1.5rem;
+  --inset-border-radius: 0.5rem;
+  --inset-border-width: 1px;
+"&gt;
+  &lt;h3&gt;Section 1&lt;/h3&gt;
+  &lt;div class="inset inset-x inset-clip-border-box"&gt;
+    &lt;span class="separator separator-horizontal separator-size-4"&gt;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;h3&gt;Section 2&lt;/h3&gt;
+&lt;/div&gt;
+
+&lt;!-- CSS 变量说明 --&gt;
+--inset-padding-top:     父容器的上内边距
+--inset-padding-right:   父容器的右内边距
+--inset-padding-bottom:  父容器的下内边距
+--inset-padding-left:    父容器的左内边距
+--inset-border-radius:   父容器的圆角半径
+--inset-border-width:    父容器的边框宽度
+
+&lt;!-- 侧边选项 --&gt;
+.inset-all      全部边（上下左右）
+.inset-x        水平边（左右）
+.inset-y        垂直边（上下）
+.inset-top      顶部
+.inset-bottom   底部
+.inset-left     左侧
+.inset-right    右侧
+
+&lt;!-- 裁剪模式 --&gt;
+.inset-clip-border-box   考虑边框宽度（默认）
+.inset-clip-padding-box  包含边框在内</code></pre>
+    </section>
+  </main>
+</body>
+
+</html>
