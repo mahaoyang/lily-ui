@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Accordion</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import createAccordion from "/public/machines/accordion.js";
+
+    window.Alpine = Alpine;
+    Alpine.data("accordionMachine", createAccordion);
+    Alpine.start();
+  </script>
+</head>
+
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span
+            class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">AC</span>
+          <div>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Accordion Playground</h1>
+            <p class="text-xs text-sand-11">可折叠的内容面板</p>
+          </div>
+        </div>
+        <p class="text-sm text-sand-11">启动：<code>bun run dev:all</code> / <code>./dev.sh</code>，再打开本页。</p>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Single (一次只展开一个)</h2>
+
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Default</div>
+        <div x-data="accordionMachine({ type: 'single', defaultValue: 'item-1' })" class="accordion-root max-w-lg">
+          <!-- Item 1 -->
+          <div class="accordion-item" x-bind="itemProps('item-1')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-1')"
+                      @click="toggle('item-1')">
+                <span>Is it accessible?</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-1')" x-bind="contentProps('item-1')">
+              <div class="accordion-content-inner">
+                Yes. It adheres to the WAI-ARIA design pattern.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="accordion-item" x-bind="itemProps('item-2')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-2')"
+                      @click="toggle('item-2')">
+                <span>Is it unstyled?</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-2')" x-bind="contentProps('item-2')">
+              <div class="accordion-content-inner">
+                Yes. It's unstyled by default, giving you freedom over the look and feel.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="accordion-item" x-bind="itemProps('item-3')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-3')"
+                      @click="toggle('item-3')">
+                <span>Can it be animated?</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-3')" x-bind="contentProps('item-3')">
+              <div class="accordion-content-inner">
+                Yes! You can animate the Accordion with CSS or JavaScript.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Multiple (可同时展开多个)</h2>
+
+      <div class="space-y-4">
+        <div x-data="accordionMachine({ type: 'multiple', defaultValue: ['item-1'] })" class="accordion-root max-w-lg">
+          <!-- Item 1 -->
+          <div class="accordion-item" x-bind="itemProps('item-1')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-1')"
+                      @click="toggle('item-1')">
+                <span>First section</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-1')" x-bind="contentProps('item-1')">
+              <div class="accordion-content-inner">
+                Content for the first section. You can open multiple sections at once.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="accordion-item" x-bind="itemProps('item-2')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-2')"
+                      @click="toggle('item-2')">
+                <span>Second section</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-2')" x-bind="contentProps('item-2')">
+              <div class="accordion-content-inner">
+                Content for the second section. Try opening both at once!
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="accordion-item" x-bind="itemProps('item-3')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-3')"
+                      @click="toggle('item-3')">
+                <span>Third section</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-3')" x-bind="contentProps('item-3')">
+              <div class="accordion-content-inner">
+                Content for the third section.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Bordered Variant</h2>
+
+      <div class="space-y-4">
+        <div x-data="accordionMachine({ type: 'single', defaultValue: 'item-1' })" class="accordion-root accordion-bordered max-w-lg">
+          <!-- Item 1 -->
+          <div class="accordion-item" x-bind="itemProps('item-1')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-1')"
+                      @click="toggle('item-1')">
+                <span>Bordered item one</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-1')" x-bind="contentProps('item-1')">
+              <div class="accordion-content-inner">
+                Each item has its own border and rounded corners.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="accordion-item" x-bind="itemProps('item-2')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-2')"
+                      @click="toggle('item-2')">
+                <span>Bordered item two</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-2')" x-bind="contentProps('item-2')">
+              <div class="accordion-content-inner">
+                Great for FAQ sections or separated content blocks.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="accordion-item" x-bind="itemProps('item-3')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-3')"
+                      @click="toggle('item-3')">
+                <span>Bordered item three</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-3')" x-bind="contentProps('item-3')">
+              <div class="accordion-content-inner">
+                Each card is visually separate from others.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Size Variants</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Size 1 -->
+        <div class="space-y-2">
+          <div class="text-xs font-medium text-sand-11">Size 1</div>
+          <div x-data="accordionMachine({ type: 'single', defaultValue: 'item-1' })" class="accordion-root accordion-size-1">
+            <div class="accordion-item" x-bind="itemProps('item-1')">
+              <h3 class="accordion-header">
+                <button type="button" class="accordion-trigger"
+                        x-bind="triggerProps('item-1')"
+                        @click="toggle('item-1')">
+                  <span>Small header</span>
+                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                  </svg>
+                </button>
+              </h3>
+              <div class="accordion-content" x-show="isOpen('item-1')" x-bind="contentProps('item-1')">
+                <div class="accordion-content-inner">Small content text.</div>
+              </div>
+            </div>
+            <div class="accordion-item" x-bind="itemProps('item-2')">
+              <h3 class="accordion-header">
+                <button type="button" class="accordion-trigger"
+                        x-bind="triggerProps('item-2')"
+                        @click="toggle('item-2')">
+                  <span>Another item</span>
+                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                  </svg>
+                </button>
+              </h3>
+              <div class="accordion-content" x-show="isOpen('item-2')" x-bind="contentProps('item-2')">
+                <div class="accordion-content-inner">More small content.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size 2 -->
+        <div class="space-y-2">
+          <div class="text-xs font-medium text-sand-11">Size 2 (Default)</div>
+          <div x-data="accordionMachine({ type: 'single', defaultValue: 'item-1' })" class="accordion-root accordion-size-2">
+            <div class="accordion-item" x-bind="itemProps('item-1')">
+              <h3 class="accordion-header">
+                <button type="button" class="accordion-trigger"
+                        x-bind="triggerProps('item-1')"
+                        @click="toggle('item-1')">
+                  <span>Medium header</span>
+                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                  </svg>
+                </button>
+              </h3>
+              <div class="accordion-content" x-show="isOpen('item-1')" x-bind="contentProps('item-1')">
+                <div class="accordion-content-inner">Medium content text.</div>
+              </div>
+            </div>
+            <div class="accordion-item" x-bind="itemProps('item-2')">
+              <h3 class="accordion-header">
+                <button type="button" class="accordion-trigger"
+                        x-bind="triggerProps('item-2')"
+                        @click="toggle('item-2')">
+                  <span>Another item</span>
+                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                  </svg>
+                </button>
+              </h3>
+              <div class="accordion-content" x-show="isOpen('item-2')" x-bind="contentProps('item-2')">
+                <div class="accordion-content-inner">More medium content.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size 3 -->
+        <div class="space-y-2">
+          <div class="text-xs font-medium text-sand-11">Size 3</div>
+          <div x-data="accordionMachine({ type: 'single', defaultValue: 'item-1' })" class="accordion-root accordion-size-3">
+            <div class="accordion-item" x-bind="itemProps('item-1')">
+              <h3 class="accordion-header">
+                <button type="button" class="accordion-trigger"
+                        x-bind="triggerProps('item-1')"
+                        @click="toggle('item-1')">
+                  <span>Large header</span>
+                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                  </svg>
+                </button>
+              </h3>
+              <div class="accordion-content" x-show="isOpen('item-1')" x-bind="contentProps('item-1')">
+                <div class="accordion-content-inner">Large content text.</div>
+              </div>
+            </div>
+            <div class="accordion-item" x-bind="itemProps('item-2')">
+              <h3 class="accordion-header">
+                <button type="button" class="accordion-trigger"
+                        x-bind="triggerProps('item-2')"
+                        @click="toggle('item-2')">
+                  <span>Another item</span>
+                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                  </svg>
+                </button>
+              </h3>
+              <div class="accordion-content" x-show="isOpen('item-2')" x-bind="contentProps('item-2')">
+                <div class="accordion-content-inner">More large content.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Non-collapsible (始终保持一个展开)</h2>
+
+      <div class="space-y-4">
+        <div class="text-sm text-sand-11">设置 collapsible: false，当前展开的项无法收起</div>
+        <div x-data="accordionMachine({ type: 'single', defaultValue: 'item-1', collapsible: false })" class="accordion-root max-w-lg">
+          <div class="accordion-item" x-bind="itemProps('item-1')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-1')"
+                      @click="toggle('item-1')">
+                <span>First item</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-1')" x-bind="contentProps('item-1')">
+              <div class="accordion-content-inner">
+                Try clicking this trigger again - it won't collapse. You must click another item.
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item" x-bind="itemProps('item-2')">
+            <h3 class="accordion-header">
+              <button type="button" class="accordion-trigger"
+                      x-bind="triggerProps('item-2')"
+                      @click="toggle('item-2')">
+                <span>Second item</span>
+                <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </h3>
+            <div class="accordion-content" x-show="isOpen('item-2')" x-bind="contentProps('item-2')">
+              <div class="accordion-content-inner">
+                Click here to switch. The first item will close.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>

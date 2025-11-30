@@ -5996,4 +5996,176 @@
   :where(.dark, .dark-theme) .switch-soft[data-disabled] {
     mix-blend-mode: screen;
   }
+
+  /* ========================================
+   * Accordion Component
+   * ======================================== */
+  .accordion-root {
+    --accordion-radius: var(--radius-3, 8px);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .accordion-item {
+    overflow: hidden;
+    border-bottom: 1px solid var(--sand-6);
+  }
+
+  .accordion-item:first-child {
+    border-top: 1px solid var(--sand-6);
+    border-top-left-radius: var(--accordion-radius);
+    border-top-right-radius: var(--accordion-radius);
+  }
+
+  .accordion-item:last-child {
+    border-bottom-left-radius: var(--accordion-radius);
+    border-bottom-right-radius: var(--accordion-radius);
+  }
+
+  /* Bordered variant */
+  .accordion-bordered .accordion-item {
+    border: 1px solid var(--sand-6);
+    border-radius: var(--accordion-radius);
+    margin-bottom: var(--space-2, 8px);
+  }
+
+  .accordion-bordered .accordion-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .accordion-header {
+    display: flex;
+  }
+
+  .accordion-trigger {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3, 12px);
+    padding: var(--space-3, 12px) var(--space-4, 16px);
+    font-size: var(--font-size-2, 0.875rem);
+    line-height: var(--line-height-2, 1.5);
+    font-weight: 500;
+    color: var(--sand-12);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 150ms ease;
+  }
+
+  .accordion-trigger:hover {
+    background-color: var(--sand-3);
+  }
+
+  .accordion-trigger:focus-visible {
+    outline: 2px solid var(--accent-8);
+    outline-offset: -2px;
+  }
+
+  .accordion-trigger[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .accordion-trigger[data-disabled]:hover {
+    background: transparent;
+  }
+
+  /* Chevron icon */
+  .accordion-chevron {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: var(--sand-11);
+    transition: transform 200ms cubic-bezier(0.87, 0, 0.13, 1);
+  }
+
+  .accordion-trigger[data-state="open"] .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Content area */
+  .accordion-content {
+    overflow: hidden;
+    font-size: var(--font-size-2, 0.875rem);
+    color: var(--sand-11);
+    background-color: var(--sand-2);
+  }
+
+  .accordion-content-inner {
+    padding: 0 var(--space-4, 16px) var(--space-4, 16px);
+  }
+
+  /* Animation */
+  @media (prefers-reduced-motion: no-preference) {
+    .accordion-content[data-state="open"] {
+      animation: accordion-slide-down 200ms cubic-bezier(0.87, 0, 0.13, 1);
+    }
+
+    .accordion-content[data-state="closed"] {
+      animation: accordion-slide-up 200ms cubic-bezier(0.87, 0, 0.13, 1);
+    }
+  }
+
+  @keyframes accordion-slide-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-slide-up {
+    from {
+      height: var(--accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  /* Size variants */
+  .accordion-size-1 .accordion-trigger {
+    padding: var(--space-2, 8px) var(--space-3, 12px);
+    font-size: var(--font-size-1, 0.75rem);
+  }
+
+  .accordion-size-1 .accordion-content-inner {
+    padding: 0 var(--space-3, 12px) var(--space-3, 12px);
+    font-size: var(--font-size-1, 0.75rem);
+  }
+
+  .accordion-size-2 .accordion-trigger {
+    padding: var(--space-3, 12px) var(--space-4, 16px);
+    font-size: var(--font-size-2, 0.875rem);
+  }
+
+  .accordion-size-2 .accordion-content-inner {
+    padding: 0 var(--space-4, 16px) var(--space-4, 16px);
+    font-size: var(--font-size-2, 0.875rem);
+  }
+
+  .accordion-size-3 .accordion-trigger {
+    padding: var(--space-4, 16px) var(--space-5, 20px);
+    font-size: var(--font-size-3, 1rem);
+  }
+
+  .accordion-size-3 .accordion-content-inner {
+    padding: 0 var(--space-5, 20px) var(--space-5, 20px);
+    font-size: var(--font-size-3, 1rem);
+  }
+
+  /* Ghost variant (no borders) */
+  .accordion-ghost .accordion-item {
+    border: none;
+    border-radius: 0;
+  }
+
+  .accordion-ghost .accordion-item:first-child {
+    border: none;
+  }
 }
