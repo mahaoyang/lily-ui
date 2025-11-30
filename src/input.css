@@ -5636,4 +5636,216 @@
     width: 2px;
     height: auto;
   }
+
+  /* ===================================================================
+   * Switch Component
+   * ===================================================================
+   * Toggleable switch with smooth animations.
+   * Preserves existing silky transition effects.
+   * ================================================================ */
+
+  .switch {
+    --switch-height: 24px;
+    --switch-width: calc(var(--switch-height) * 1.75);
+    --switch-thumb-inset: 2px;
+    --switch-thumb-size: calc(var(--switch-height) - var(--switch-thumb-inset) * 2);
+    --switch-thumb-translate: calc(var(--switch-width) - var(--switch-height));
+    --switch-border-radius: 9999px;
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: var(--switch-width);
+    height: var(--switch-height);
+    border-radius: var(--switch-border-radius);
+    border: 2px solid transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 140ms ease-in-out, box-shadow 140ms ease-in-out;
+  }
+
+  .switch:focus-visible {
+    outline: 2px solid var(--accent-8);
+    outline-offset: 2px;
+  }
+
+  .switch[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Switch Thumb */
+  .switch-thumb {
+    display: block;
+    width: var(--switch-thumb-size);
+    height: var(--switch-thumb-size);
+    border-radius: calc(var(--switch-border-radius) - var(--switch-thumb-inset));
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    /* Preserve silky smooth animation */
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1), width 150ms ease;
+    transform: translateX(var(--switch-thumb-inset));
+  }
+
+  .switch[data-state="checked"] .switch-thumb {
+    transform: translateX(calc(var(--switch-thumb-translate) + var(--switch-thumb-inset)));
+  }
+
+  /* Squish effect on active */
+  .switch:active:not([data-disabled]) .switch-thumb {
+    width: calc(var(--switch-thumb-size) + 4px);
+  }
+
+  .switch[data-state="checked"]:active:not([data-disabled]) .switch-thumb {
+    transform: translateX(calc(var(--switch-thumb-translate) + var(--switch-thumb-inset) - 4px));
+  }
+
+  /* Size Variants */
+  .switch-size-1 {
+    --switch-height: 16px;
+  }
+
+  .switch-size-2 {
+    --switch-height: 20px;
+  }
+
+  .switch-size-3 {
+    --switch-height: 24px;
+  }
+
+  /* ===== Surface Variant (Default) ===== */
+  .switch-surface {
+    background-color: var(--gray-a4);
+    box-shadow: inset 0 0 0 1px var(--gray-a5);
+  }
+
+  .switch-surface[data-state="checked"] {
+    background-color: var(--accent-9);
+    box-shadow: inset 0 0 0 1px var(--accent-10);
+  }
+
+  .switch-surface:active:not([data-disabled]) {
+    background-color: var(--gray-a5);
+  }
+
+  .switch-surface[data-state="checked"]:active:not([data-disabled]) {
+    filter: brightness(0.95) saturate(1.1);
+  }
+
+  .switch-surface .switch-thumb {
+    box-shadow: 0 0 1px 1px var(--black-a2), 0 1px 2px var(--black-a1), 0 2px 4px -1px var(--black-a1);
+  }
+
+  .switch-surface[data-state="checked"] .switch-thumb {
+    box-shadow: 0 1px 3px var(--black-a2), 0 2px 4px -1px var(--black-a1), 0 0 0 1px var(--accent-a4);
+  }
+
+  .switch-surface[data-disabled] {
+    background-color: var(--gray-a3);
+    box-shadow: inset 0 0 0 1px var(--gray-a3);
+  }
+
+  .switch-surface[data-disabled] .switch-thumb {
+    background-color: var(--gray-2);
+    box-shadow: 0 0 0 1px var(--gray-a2), 0 1px 3px var(--black-a1);
+  }
+
+  /* ===== Classic Variant ===== */
+  .switch-classic {
+    background-color: var(--gray-a4);
+    box-shadow: var(--shadow-1, 0 1px 3px rgba(0, 0, 0, 0.1));
+  }
+
+  .switch-classic[data-state="checked"] {
+    background-color: var(--accent-9);
+    box-shadow: inset 0 0 0 1px var(--gray-a3), inset 0 0 0 1px var(--accent-a4), inset 0 1.5px 2px 0 var(--black-a2);
+  }
+
+  .switch-classic:active:not([data-disabled]):not([data-state="checked"]) {
+    background-color: var(--gray-a5);
+  }
+
+  .switch-classic[data-state="checked"]:active:not([data-disabled]) {
+    filter: brightness(0.95) saturate(1.1);
+  }
+
+  .switch-classic .switch-thumb {
+    box-shadow: 0 1px 3px var(--black-a3), 0 2px 4px -1px var(--black-a1), 0 0 0 1px var(--black-a2);
+  }
+
+  .switch-classic[data-state="checked"] .switch-thumb {
+    box-shadow: 0 1px 3px var(--black-a2), 0 2px 4px -1px var(--black-a1), 0 0 0 1px var(--accent-a4);
+  }
+
+  .switch-classic[data-disabled] {
+    background-color: var(--gray-a5);
+    box-shadow: var(--shadow-1, 0 1px 3px rgba(0, 0, 0, 0.1));
+    opacity: 0.5;
+  }
+
+  .switch-classic[data-disabled] .switch-thumb {
+    background-color: var(--gray-2);
+    box-shadow: 0 0 0 1px var(--gray-a2), 0 1px 3px var(--black-a1);
+  }
+
+  /* ===== Soft Variant ===== */
+  .switch-soft {
+    background-color: var(--gray-a3);
+  }
+
+  .switch-soft[data-state="checked"] {
+    background-color: var(--accent-a5);
+  }
+
+  .switch-soft:active:not([data-disabled]) {
+    background-color: var(--gray-a4);
+  }
+
+  .switch-soft[data-state="checked"]:active:not([data-disabled]) {
+    background-color: var(--accent-a6);
+  }
+
+  .switch-soft .switch-thumb {
+    filter: saturate(0.45);
+    box-shadow: 0 0 0 1px var(--black-a1), 0 1px 3px var(--black-a1), 0 2px 4px -1px var(--black-a1);
+  }
+
+  .switch-soft[data-state="checked"] .switch-thumb {
+    filter: saturate(0.45);
+    box-shadow: 0 0 0 1px var(--black-a1), 0 1px 3px var(--black-a2), 0 1px 3px var(--accent-a3);
+  }
+
+  .switch-soft[data-disabled] {
+    background-color: var(--gray-a4);
+  }
+
+  .switch-soft[data-disabled] .switch-thumb {
+    filter: none;
+    background-color: var(--gray-2);
+    box-shadow: 0 0 0 1px var(--gray-a2), 0 1px 3px var(--black-a1);
+  }
+
+  /* ===== High Contrast ===== */
+  .switch-high-contrast.switch-surface[data-state="checked"],
+  .switch-high-contrast.switch-classic[data-state="checked"] {
+    background-color: var(--accent-12);
+  }
+
+  .switch-high-contrast.switch-soft[data-state="checked"] {
+    background-color: var(--accent-a8);
+  }
+
+  /* Dark mode adjustments */
+  :where(.dark) .switch-surface[data-state="checked"]:active:not([data-disabled]),
+  :where(.dark) .switch-classic[data-state="checked"]:active:not([data-disabled]) {
+    filter: brightness(1.08);
+  }
+
+  :where(.dark) .switch-surface[data-disabled],
+  :where(.dark) .switch-classic[data-disabled],
+  :where(.dark) .switch-soft[data-disabled] {
+    mix-blend-mode: screen;
+  }
 }
