@@ -1,12 +1,16 @@
 /**
  * Popover Machine
  *
- * 弹出框状态机
- * - 处理 open/close 状态
+ * 弹出框状态机 (Portal 模式)
+ * - 使用 x-teleport 渲染到 body，避免被父容器遮挡
+ * - 自动计算位置，支持 side 和 align 配置
+ * - 边缘检测，自动翻转位置
  * - 支持 ESC 键关闭
  * - 支持点击外部关闭
- * - 支持不同尺寸
  */
+
+export type Side = 'top' | 'right' | 'bottom' | 'left';
+export type Align = 'start' | 'center' | 'end';
 
 export interface PopoverOptions {
   /** 初始打开状态 */
@@ -17,6 +21,12 @@ export interface PopoverOptions {
   closeOnEscape?: boolean;
   /** 弹出框尺寸 */
   size?: '1' | '2' | '3' | '4';
+  /** 弹出方向 */
+  side?: Side;
+  /** 对齐方式 */
+  align?: Align;
+  /** 偏移量 (px) */
+  sideOffset?: number;
   /** 打开/关闭变化回调 */
   onOpenChange?: (open: boolean) => void;
 }
@@ -27,21 +37,126 @@ export function createPopover(options: PopoverOptions = {}) {
     closeOnOutsideClick = true,
     closeOnEscape = true,
     size = '2',
+    side = 'bottom',
+    align = 'start',
+    sideOffset = 8,
     onOpenChange,
   } = options;
 
   return {
     // 状态
     open: defaultOpen,
+    triggerEl: null as HTMLElement | null,
+    contentEl: null as HTMLElement | null,
+    position: { top: 0, left: 0 },
 
     // 配置
     size,
+    side,
+    align,
+    sideOffset,
+
+    // 初始化
+    init() {
+      // 监听窗口变化重新计算位置
+      const updateOnChange = () => {
+        if (this.open) this.updatePosition();
+      };
+      window.addEventListener('resize', updateOnChange);
+      window.addEventListener('scroll', updateOnChange, true);
+    },
+
+    // 计算位置
+    updatePosition() {
+      if (!this.triggerEl || !this.contentEl) return;
+
+      const triggerRect = this.triggerEl.getBoundingClientRect();
+      const contentRect = this.contentEl.getBoundingClientRect();
+      const viewport = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+
+      let top = 0;
+      let left = 0;
+      let actualSide = this.side;
+
+      // 计算主轴位置 (side)
+      const spaceAbove = triggerRect.top;
+      const spaceBelow = viewport.height - triggerRect.bottom;
+      const spaceLeft = triggerRect.left;
+      const spaceRight = viewport.width - triggerRect.right;
+
+      // 边缘检测和翻转
+      if (actualSide === 'bottom' && spaceBelow < contentRect.height + this.sideOffset && spaceAbove > spaceBelow) {
+        actualSide = 'top';
+      } else if (actualSide === 'top' && spaceAbove < contentRect.height + this.sideOffset && spaceBelow > spaceAbove) {
+        actualSide = 'bottom';
+      } else if (actualSide === 'right' && spaceRight < contentRect.width + this.sideOffset && spaceLeft > spaceRight) {
+        actualSide = 'left';
+      } else if (actualSide === 'left' && spaceLeft < contentRect.width + this.sideOffset && spaceRight > spaceLeft) {
+        actualSide = 'right';
+      }
+
+      // 根据 side 计算位置
+      switch (actualSide) {
+        case 'top':
+          top = triggerRect.top - contentRect.height - this.sideOffset;
+          break;
+        case 'bottom':
+          top = triggerRect.bottom + this.sideOffset;
+          break;
+        case 'left':
+          left = triggerRect.left - contentRect.width - this.sideOffset;
+          break;
+        case 'right':
+          left = triggerRect.right + this.sideOffset;
+          break;
+      }
+
+      // 计算交叉轴位置 (align)
+      if (actualSide === 'top' || actualSide === 'bottom') {
+        switch (this.align) {
+          case 'start':
+            left = triggerRect.left;
+            break;
+          case 'center':
+            left = triggerRect.left + (triggerRect.width - contentRect.width) / 2;
+            break;
+          case 'end':
+            left = triggerRect.right - contentRect.width;
+            break;
+        }
+      } else {
+        switch (this.align) {
+          case 'start':
+            top = triggerRect.top;
+            break;
+          case 'center':
+            top = triggerRect.top + (triggerRect.height - contentRect.height) / 2;
+            break;
+          case 'end':
+            top = triggerRect.bottom - contentRect.height;
+            break;
+        }
+      }
+
+      // 边界约束
+      left = Math.max(8, Math.min(left, viewport.width - contentRect.width - 8));
+      top = Math.max(8, Math.min(top, viewport.height - contentRect.height - 8));
+
+      this.position = { top, left };
+    },
 
     // 方法
     show() {
       if (!this.open) {
         this.open = true;
         onOpenChange?.(true);
+        // 下一帧更新位置
+        requestAnimationFrame(() => {
+          this.updatePosition();
+        });
       }
     },
 
@@ -67,6 +182,8 @@ export function createPopover(options: PopoverOptions = {}) {
         'aria-haspopup': 'dialog',
         'aria-expanded': this.open,
         '@click': 'toggle()',
+        'x-ref': 'trigger',
+        'x-init': 'triggerEl = $refs.trigger',
       };
     },
 
@@ -75,8 +192,11 @@ export function createPopover(options: PopoverOptions = {}) {
       return {
         role: 'dialog',
         tabindex: '-1',
+        'x-ref': 'content',
+        'x-init': 'contentEl = $refs.content',
         '@keydown.escape.window': closeOnEscape ? 'hide()' : undefined,
         '@click.outside': closeOnOutsideClick ? 'hide()' : undefined,
+        ':style': `{ position: 'fixed', top: position.top + 'px', left: position.left + 'px', zIndex: 9999 }`,
       };
     },
 
