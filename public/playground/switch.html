@@ -16,7 +16,7 @@
   </script>
 </head>
 
-<body class="min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
   x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
   :data-accent-color="accent">
   <main class="mx-auto max-w-5xl p-8 space-y-8">
@@ -302,68 +302,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Real-world Examples -->
-    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
-      <h2 class="text-3 font-medium">实际应用</h2>
-
-      <div class="max-w-md space-y-4">
-        <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">设置面板</h3>
-        <div class="rounded-lg border border-sand-6 divide-y divide-sand-6 bg-white">
-          <div x-data="switchMachine({ id: 'sw-wifi', defaultChecked: true })"
-            class="flex items-center justify-between p-4">
-            <div>
-              <div class="text-sm font-medium text-sand-12">Wi-Fi</div>
-              <div class="text-xs text-sand-11">连接到无线网络</div>
-            </div>
-            <button x-bind="switchProps()" type="button" class="switch switch-size-2 switch-surface"
-              :data-state="checked ? 'checked' : 'unchecked'" :data-disabled="disabled ? '' : null">
-              <span class="switch-thumb"></span>
-            </button>
-            <input x-bind="inputProps()" class="hidden" />
-          </div>
-
-          <div x-data="switchMachine({ id: 'sw-bluetooth' })" class="flex items-center justify-between p-4">
-            <div>
-              <div class="text-sm font-medium text-sand-12">蓝牙</div>
-              <div class="text-xs text-sand-11">连接蓝牙设备</div>
-            </div>
-            <button x-bind="switchProps()" type="button" class="switch switch-size-2 switch-surface"
-              :data-state="checked ? 'checked' : 'unchecked'" :data-disabled="disabled ? '' : null">
-              <span class="switch-thumb"></span>
-            </button>
-            <input x-bind="inputProps()" class="hidden" />
-          </div>
-
-          <div x-data="switchMachine({ id: 'sw-airplane' })" class="flex items-center justify-between p-4">
-            <div>
-              <div class="text-sm font-medium text-sand-12">飞行模式</div>
-              <div class="text-xs text-sand-11">关闭所有无线连接</div>
-            </div>
-            <button x-bind="switchProps()" type="button" class="switch switch-size-2 switch-surface"
-              :data-state="checked ? 'checked' : 'unchecked'" :data-disabled="disabled ? '' : null">
-              <span class="switch-thumb"></span>
-            </button>
-            <input x-bind="inputProps()" class="hidden" />
-          </div>
-
-          <div x-data="switchMachine({ id: 'sw-dark', defaultChecked: false })"
-            class="flex items-center justify-between p-4">
-            <div>
-              <div class="text-sm font-medium text-sand-12">深色模式</div>
-              <div class="text-xs text-sand-11">切换界面主题</div>
-            </div>
-            <button x-bind="switchProps()" type="button" class="switch switch-size-2 switch-surface"
-              :data-state="checked ? 'checked' : 'unchecked'" :data-disabled="disabled ? '' : null"
-              @click="theme = checked ? 'light' : 'dark'">
-              <span class="switch-thumb"></span>
-            </button>
-            <input x-bind="inputProps()" class="hidden" />
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Code Example -->
     <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-4" style="background: var(--sand-surface);">
       <h2 class="text-3 font-medium mb-4">代码示例</h2>
