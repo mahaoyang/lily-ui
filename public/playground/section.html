@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Section</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">SC</span>
+          <div>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Section Playground</h1>
+            <p class="text-xs text-sand-11">页面区段组件</p>
+          </div>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Section 组件</h2>
+
+      <!-- Size variants -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Size 变体</div>
+        <p class="text-xs text-sand-10">Section 组件提供不同大小的垂直内边距，用于分隔页面的不同区域。</p>
+
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">size="1" (py-4)</span>
+            <div class="bg-sand-3 rounded border border-sand-6">
+              <section class="py-4 px-4">
+                <div class="bg-accent-4 rounded p-4 border border-accent-6">
+                  <p class="text-xs text-sand-12">Section 内容区域</p>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">size="2" (py-8)</span>
+            <div class="bg-sand-3 rounded border border-sand-6">
+              <section class="py-8 px-4">
+                <div class="bg-accent-4 rounded p-4 border border-accent-6">
+                  <p class="text-xs text-sand-12">Section 内容区域</p>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">size="3" (py-12)</span>
+            <div class="bg-sand-3 rounded border border-sand-6">
+              <section class="py-12 px-4">
+                <div class="bg-accent-4 rounded p-4 border border-accent-6">
+                  <p class="text-xs text-sand-12">Section 内容区域</p>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">size="4" (py-16)</span>
+            <div class="bg-sand-3 rounded border border-sand-6">
+              <section class="py-16 px-4">
+                <div class="bg-accent-4 rounded p-4 border border-accent-6">
+                  <p class="text-xs text-sand-12">Section 内容区域</p>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- With different backgrounds -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">不同背景</div>
+        <div class="space-y-4">
+          <section class="py-8 px-6 bg-sand-1 rounded-lg border border-sand-6">
+            <h3 class="text-lg font-semibold text-sand-12 mb-2">浅色背景区段</h3>
+            <p class="text-sm text-sand-11">这是一个使用浅色背景的 Section 组件。</p>
+          </section>
+
+          <section class="py-8 px-6 bg-accent-3 rounded-lg border border-accent-6">
+            <h3 class="text-lg font-semibold text-sand-12 mb-2">主题色背景区段</h3>
+            <p class="text-sm text-sand-11">这是一个使用主题色背景的 Section 组件。</p>
+          </section>
+
+          <section class="py-8 px-6 bg-sand-12 rounded-lg">
+            <h3 class="text-lg font-semibold text-sand-1 mb-2">深色背景区段</h3>
+            <p class="text-sm text-sand-4">这是一个使用深色背景的 Section 组件。</p>
+          </section>
+        </div>
+      </div>
+
+      <!-- Practical Example - Landing Page -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">实际应用示例 - 着陆页</div>
+        <div class="-mx-6 bg-sand-1 rounded-lg border border-sand-6 overflow-hidden">
+
+          <!-- Hero Section -->
+          <section class="py-12 px-6 bg-gradient-to-b from-accent-3 to-sand-1">
+            <div class="max-w-2xl mx-auto text-center">
+              <h1 class="text-2xl font-bold text-sand-12 mb-3">构建更好的产品</h1>
+              <p class="text-sm text-sand-11 mb-6">使用我们的组件库，快速构建现代化的用户界面。</p>
+              <div class="flex justify-center gap-3">
+                <button class="px-4 py-2 text-sm font-medium rounded-md bg-accent-9 text-white">开始使用</button>
+                <button class="px-4 py-2 text-sm font-medium rounded-md border border-sand-6 text-sand-12">了解更多</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Features Section -->
+          <section class="py-10 px-6">
+            <div class="max-w-3xl mx-auto">
+              <h2 class="text-xl font-semibold text-sand-12 text-center mb-6">核心特性</h2>
+              <div class="grid grid-cols-3 gap-4">
+                <div class="p-4 bg-sand-2 rounded-lg border border-sand-5">
+                  <div class="w-8 h-8 rounded-full bg-accent-9 flex items-center justify-center text-white text-sm mb-3">1</div>
+                  <h3 class="font-medium text-sand-12 mb-1">易于使用</h3>
+                  <p class="text-xs text-sand-11">开箱即用的组件设计</p>
+                </div>
+                <div class="p-4 bg-sand-2 rounded-lg border border-sand-5">
+                  <div class="w-8 h-8 rounded-full bg-accent-9 flex items-center justify-center text-white text-sm mb-3">2</div>
+                  <h3 class="font-medium text-sand-12 mb-1">高度可定制</h3>
+                  <p class="text-xs text-sand-11">灵活的主题配置系统</p>
+                </div>
+                <div class="p-4 bg-sand-2 rounded-lg border border-sand-5">
+                  <div class="w-8 h-8 rounded-full bg-accent-9 flex items-center justify-center text-white text-sm mb-3">3</div>
+                  <h3 class="font-medium text-sand-12 mb-1">无障碍支持</h3>
+                  <p class="text-xs text-sand-11">符合 WCAG 标准</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CTA Section -->
+          <section class="py-10 px-6 bg-sand-3">
+            <div class="max-w-2xl mx-auto text-center">
+              <h2 class="text-xl font-semibold text-sand-12 mb-3">准备好开始了吗？</h2>
+              <p class="text-sm text-sand-11 mb-4">加入数千名开发者，一起构建下一代应用。</p>
+              <button class="px-6 py-2 text-sm font-medium rounded-md bg-sand-12 text-sand-1">免费试用</button>
+            </div>
+          </section>
+
+          <!-- Footer Section -->
+          <section class="py-6 px-6 border-t border-sand-6">
+            <div class="max-w-3xl mx-auto flex items-center justify-between">
+              <span class="text-xs text-sand-11">&copy; 2024 Lily UI. All rights reserved.</span>
+              <div class="flex gap-4 text-xs text-sand-11">
+                <a href="#" class="hover:text-sand-12">隐私政策</a>
+                <a href="#" class="hover:text-sand-12">服务条款</a>
+                <a href="#" class="hover:text-sand-12">联系我们</a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>

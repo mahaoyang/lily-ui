@@ -3,6 +3,10 @@
 
 @source "../public/**/*.{html,js,ts,jsx,tsx}";
 @source "./**/*.{html,js,ts,jsx,tsx}";
+@theme {
+  --radius-full: 9999px;
+}
+
 
 /* 引入 Radix 基础令牌 (black-a*, white-a*, shadows 等) */
 @import "../node_modules/@radix-ui/themes/tokens/base.css";
@@ -17,6 +21,7 @@
 @import "../node_modules/@radix-ui/themes/tokens/colors/jade.css";
 @import "../node_modules/@radix-ui/themes/tokens/colors/sand.css";
 @import "../node_modules/@radix-ui/themes/tokens/colors/gray.css";
+
 
 @layer base {
   html {
@@ -240,8 +245,78 @@
 }
 
 @layer components {
+
+  /* Theme - Root theme wrapper */
+  .rt-Theme {
+    background-color: var(--color-background);
+    color: var(--sand-12);
+    --color-background: var(--sand-2);
+    --color-panel: white;
+    --color-surface: var(--sand-1);
+    --color-overlay: var(--black-a6);
+  }
+  .rt-Theme.dark,
+  .dark .rt-Theme,
+  .rt-Theme[data-is-root-theme="true"].dark {
+    --color-background: var(--sand-1);
+    --color-panel: var(--sand-2);
+    --color-surface: var(--sand-2);
+    --color-overlay: var(--black-a8);
+  }
+  /* When rt-Theme is the root (on body), apply background */
+  .rt-Theme[data-is-root-theme="true"] {
+    min-height: 100vh;
+  }
+
+  /* ========== Layout Components ========== */
+
+  /* Box - Generic container */
+  .rt-Box {
+    box-sizing: border-box;
+  }
+
+  /* Flex - Flexbox container */
+  .rt-Flex {
+    display: flex;
+    box-sizing: border-box;
+  }
+
+  /* Grid - Grid container */
+  .rt-Grid {
+    display: grid;
+    box-sizing: border-box;
+  }
+
+  /* Container - Centered max-width container */
+  .rt-Container {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-px, 1rem);
+    padding-right: var(--container-px, 1rem);
+  }
+  .rt-Container[data-size="1"] { max-width: 448px; }
+  .rt-Container[data-size="2"] { max-width: 688px; }
+  .rt-Container[data-size="3"] { max-width: 880px; }
+  .rt-Container[data-size="4"] { max-width: 1136px; }
+
+  /* Section - Page section with background */
+  .rt-Section {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    background-color: var(--color-background, var(--sand-2));
+  }
+  /* Section sizes (padding) */
+  .rt-Section[data-size="1"] { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .rt-Section[data-size="2"] { padding-top: 3rem; padding-bottom: 3rem; }
+  .rt-Section[data-size="3"] { padding-top: 5rem; padding-bottom: 5rem; }
+  .rt-Section[data-size="4"] { padding-top: 7rem; padding-bottom: 7rem; }
+
+  /* ========== End Layout Components ========== */
+
   /* Sand colors */
-  .bg-sand-2 { background-color: var(--sand-2); }
+  .bg-sand-2 { background-color: var(--color-background, var(--sand-2)); }
   .bg-sand-3 { background-color: var(--sand-3); }
   .bg-sand-5 { background-color: var(--sand-5); }
   .bg-sand-8 { background-color: var(--sand-8); }
@@ -1459,6 +1534,15 @@
   }
 }
 @layer components {
+
+  /* Theme - Root theme wrapper */
+
+  /* ========== Layout Components ========== */
+
+  /* Box - Generic container */
+
+  /* Section - Page section with background */
+
   /* Scroll Area Component */
   .scroll-area-root {
     display: flex;
@@ -1568,20 +1652,14 @@
 }
 
 @layer components {
-  /* Select Component */
-  .select-trigger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    flex-shrink: 0;
-    user-select: none;
-    vertical-align: top;
-    box-sizing: border-box;
-    font-weight: 400;
-    text-align: start;
-    cursor: pointer;
-  }
+
+  /* Theme - Root theme wrapper */
+
+  /* ========== Layout Components ========== */
+
+  /* Box - Generic container */
+
+  /* Section - Page section with background */
   .select-trigger:focus-visible {
     outline: 2px solid var(--accent-8);
     outline-offset: -1px;
@@ -1690,7 +1768,7 @@
     z-index: 50;
   }
   .dark .select-content {
-    background-color: var(--sand-2);
+    background-color: var(--color-background, var(--sand-2));
   }
 
   .select-viewport {
@@ -1966,7 +2044,7 @@
   }
 
   .dark .toast-root {
-    background-color: var(--sand-2);
+    background-color: var(--color-background, var(--sand-2));
   }
 
   .toast-header {
@@ -2949,7 +3027,7 @@
   }
 
   .dark .dialog-content {
-    background-color: var(--sand-2);
+    background-color: var(--color-background, var(--sand-2));
   }
 
   /* Dialog sizes */
@@ -3134,7 +3212,7 @@
   }
 
   .dark .alert-dialog-content {
-    background-color: var(--sand-2);
+    background-color: var(--color-background, var(--sand-2));
   }
 
   /* Alert Dialog sizes */
@@ -3385,7 +3463,7 @@
   }
 
   .dark .dropdown-menu-content {
-    background-color: var(--sand-2);
+    background-color: var(--color-background, var(--sand-2));
   }
 
   .dropdown-menu-viewport {
@@ -3498,7 +3576,7 @@
   }
 
   .dark .popover-content {
-    background-color: var(--sand-2);
+    background-color: var(--color-background, var(--sand-2));
   }
 
   /* Popover sizes */
@@ -3538,7 +3616,7 @@
   }
 
   .dark .hover-card-content {
-    background-color: var(--sand-2);
+    background-color: var(--color-background, var(--sand-2));
   }
 
   /* Hover Card sizes */
@@ -3609,7 +3687,7 @@
   }
 
   .dark .context-menu-content {
-    background-color: var(--sand-2);
+    background-color: var(--color-background, var(--sand-2));
   }
 
   .context-menu-viewport {
@@ -4432,7 +4510,7 @@
    * ======================================== */
 
   /* Kbd Variables - 3D effect shadows */
-  :root {
+  :root, [data-radius] {
     /* prettier-ignore */
     --kbd-box-shadow:
       inset 0 -0.05em 0.5em var(--gray-a2),
@@ -5144,7 +5222,7 @@
   /* Active/tap highlight */
   @media (pointer: coarse) {
     .radio-card-item:where(:active:not(:focus-visible)) {
-      background-color: var(--sand-2);
+      background-color: var(--color-background, var(--sand-2));
     }
   }
 
@@ -5332,7 +5410,7 @@
   /* Active/tap highlight */
   @media (pointer: coarse) {
     .checkbox-card-item:where(:active:not(:focus-visible)) {
-      background-color: var(--sand-2);
+      background-color: var(--color-background, var(--sand-2));
     }
   }
 
@@ -6092,7 +6170,7 @@
     overflow: hidden;
     font-size: var(--font-size-2, 0.875rem);
     color: var(--sand-11);
-    background-color: var(--sand-2);
+    background-color: var(--color-background, var(--sand-2));
   }
 
   .accordion-content-inner {
@@ -6167,5 +6245,103 @@
 
   .accordion-ghost .accordion-item:first-child {
     border: none;
+  }
+}
+
+/* 覆盖 Tailwind 的 rounded-full，不受 Radix data-radius 影响 */
+@layer utilities {
+  .rounded-full {
+    border-radius: 9999px !important;
+  }
+}
+
+@layer components {
+  /* ========== Code Component ========== */
+
+  /* Inline Code */
+  .rt-Code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.875em;
+    line-height: 1.25;
+    letter-spacing: -0.007em;
+    padding: 0.2em 0.4em;
+    border-radius: var(--radius-1);
+    background-color: var(--accent-a3);
+    color: var(--accent-11);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* Ghost variant */
+  .rt-Code[data-variant="ghost"] {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  /* Outline variant */
+  .rt-Code[data-variant="outline"] {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--accent-a7);
+  }
+
+  /* Code Block wrapper */
+  .rt-CodeBlock {
+    position: relative;
+    border-radius: var(--radius-3);
+    background-color: var(--sand-2);
+    border: 1px solid var(--sand-6);
+    overflow: hidden;
+  }
+  .dark .rt-CodeBlock {
+    background-color: var(--sand-3);
+  }
+
+  .rt-CodeBlock pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  .rt-CodeBlock code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--sand-12);
+  }
+
+  /* Code block header (optional) */
+  .rt-CodeBlock-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--sand-6);
+    background-color: var(--sand-3);
+  }
+  .dark .rt-CodeBlock-header {
+    background-color: var(--sand-4);
+  }
+
+  .rt-CodeBlock-language {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--sand-11);
+    text-transform: uppercase;
+  }
+
+  /* Copy button */
+  .rt-CodeBlock-copy {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: var(--radius-2);
+    background-color: var(--sand-4);
+    color: var(--sand-11);
+    border: none;
+    cursor: pointer;
+    transition: all 150ms;
+  }
+  .rt-CodeBlock-copy:hover {
+    background-color: var(--sand-5);
+    color: var(--sand-12);
   }
 }

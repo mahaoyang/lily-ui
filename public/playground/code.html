@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Code</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <!-- Prism.js for syntax highlighting -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-tsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
+  <style>
+    /* Override Prism theme for Radix colors */
+    :not(pre) > code[class*="language-"],
+    pre[class*="language-"] {
+      background: var(--sand-2);
+      border: 1px solid var(--sand-6);
+      border-radius: var(--radius-3);
+    }
+    .dark :not(pre) > code[class*="language-"],
+    .dark pre[class*="language-"] {
+      background: var(--sand-3);
+      border-color: var(--sand-6);
+    }
+    code[class*="language-"],
+    pre[class*="language-"] {
+      color: var(--sand-12);
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    /* Token colors - Light theme */
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata { color: var(--sand-10); }
+    .token.punctuation { color: var(--sand-11); }
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
+    .token.deleted { color: var(--red-11); }
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted { color: var(--jade-11); }
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string { color: var(--amber-11); }
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword { color: var(--violet-11); }
+    .token.function,
+    .token.class-name { color: var(--blue-11); }
+    .token.regex,
+    .token.important,
+    .token.variable { color: var(--orange-11); }
+
+    /* Dark theme adjustments */
+    .dark .token.comment,
+    .dark .token.prolog,
+    .dark .token.doctype,
+    .dark .token.cdata { color: var(--sand-10); }
+    .dark .token.punctuation { color: var(--sand-11); }
+    .dark .token.property,
+    .dark .token.tag,
+    .dark .token.boolean,
+    .dark .token.number,
+    .dark .token.constant,
+    .dark .token.symbol,
+    .dark .token.deleted { color: var(--red-10); }
+    .dark .token.selector,
+    .dark .token.attr-name,
+    .dark .token.string,
+    .dark .token.char,
+    .dark .token.builtin,
+    .dark .token.inserted { color: var(--jade-10); }
+    .dark .token.operator,
+    .dark .token.entity,
+    .dark .token.url,
+    .dark .language-css .token.string,
+    .dark .style .token.string { color: var(--amber-10); }
+    .dark .token.atrule,
+    .dark .token.attr-value,
+    .dark .token.keyword { color: var(--violet-10); }
+    .dark .token.function,
+    .dark .token.class-name { color: var(--blue-10); }
+    .dark .token.regex,
+    .dark .token.important,
+    .dark .token.variable { color: var(--orange-10); }
+  </style>
+</head>
+
+<body data-scaling="100%" data-radius="medium"
+  class="rt-Theme radix-themes min-h-screen text-sand-12 transition-colors duration-300" data-is-root-theme="true"
+  x-data="{ theme: 'light', accent: 'iris' }"
+  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">&lt;/&gt;</span>
+          <div>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Code Playground</h1>
+            <p class="text-xs text-sand-11">代码与代码块组件</p>
+          </div>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'; setTimeout(() => Prism.highlightAll(), 10)">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'; setTimeout(() => Prism.highlightAll(), 10)">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Code 组件</h2>
+
+      <!-- Inline Code -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">内联代码 (Inline Code)</div>
+        <p class="text-sm text-sand-12">
+          使用 <code class="rt-Code">npm install</code> 安装依赖，然后运行 <code class="rt-Code">npm run dev</code> 启动开发服务器。
+        </p>
+        <p class="text-sm text-sand-12">
+          函数 <code class="rt-Code">useState()</code> 返回一个状态值和一个更新函数。
+        </p>
+      </div>
+
+      <!-- Code Block - JavaScript -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">JavaScript</div>
+        <pre class="!m-0"><code class="language-javascript">// React component example
+import { useState, useEffect } from 'react';
+
+function Counter({ initialCount = 0 }) {
+  const [count, setCount] = useState(initialCount);
+
+  useEffect(() => {
+    document.title = `Count: ${count}`;
+  }, [count]);
+
+  return (
+    &lt;button onClick={() => setCount(c => c + 1)}&gt;
+      Clicked {count} times
+    &lt;/button&gt;
+  );
+}
+
+export default Counter;</code></pre>
+      </div>
+
+      <!-- Code Block - TypeScript -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">TypeScript</div>
+        <pre class="!m-0"><code class="language-typescript">interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: 'admin' | 'user' | 'guest';
+}
+
+async function fetchUser(id: number): Promise&lt;User&gt; {
+  const response = await fetch(`/api/users/${id}`);
+  if (!response.ok) {
+    throw new Error('User not found');
+  }
+  return response.json();
+}
+
+const user: User = await fetchUser(123);
+console.log(user.name);</code></pre>
+      </div>
+
+      <!-- Code Block - JSX/TSX -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">JSX / React</div>
+        <pre class="!m-0"><code class="language-jsx">import { Button, Flex, Text } from '@radix-ui/themes';
+
+export function App() {
+  return (
+    &lt;Flex direction="column" gap="3"&gt;
+      &lt;Text size="5" weight="bold"&gt;
+        Welcome to Lily UI
+      &lt;/Text&gt;
+      &lt;Button variant="solid" color="iris"&gt;
+        Get Started
+      &lt;/Button&gt;
+    &lt;/Flex&gt;
+  );
+}</code></pre>
+      </div>
+
+      <!-- Code Block - CSS -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">CSS</div>
+        <pre class="!m-0"><code class="language-css">.rt-Button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-2);
+  font-weight: 500;
+  transition: all 150ms ease;
+}
+
+.rt-Button:hover {
+  background-color: var(--accent-10);
+  transform: translateY(-1px);
+}</code></pre>
+      </div>
+
+      <!-- Code Block - Bash -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Bash / Shell</div>
+        <pre class="!m-0"><code class="language-bash"># Install dependencies
+npm install @anthropic/lily-ui
+
+# Or with pnpm
+pnpm add @anthropic/lily-ui
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build</code></pre>
+      </div>
+
+      <!-- Code Block - JSON -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">JSON</div>
+        <pre class="!m-0"><code class="language-json">{
+  "name": "@anthropic/lily-ui",
+  "version": "1.0.0",
+  "description": "A modern component library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}</code></pre>
+      </div>
+
+      <!-- Inline Code Variants -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">内联代码变体</div>
+        <div class="flex flex-wrap gap-3 items-center">
+          <code class="rt-Code" data-variant="ghost">ghost</code>
+          <code class="rt-Code" data-variant="soft">soft (默认)</code>
+          <code class="rt-Code" data-variant="outline">outline</code>
+        </div>
+      </div>
+
+      <!-- Code with line numbers hint -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">带行号 (使用 CSS counter)</div>
+        <pre class="!m-0 line-numbers"><code class="language-javascript">function fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+// Calculate first 10 fibonacci numbers
+for (let i = 0; i < 10; i++) {
+  console.log(fibonacci(i));
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Re-highlight after page load
+    document.addEventListener('DOMContentLoaded', () => {
+      Prism.highlightAll();
+    });
+  </script>
+</body>
+
+</html>

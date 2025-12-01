@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Box</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">BX</span>
+          <div>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Box Playground</h1>
+            <p class="text-xs text-sand-11">通用容器组件</p>
+          </div>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Box 组件</h2>
+
+      <!-- Basic Box -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">基础 Box</div>
+        <p class="text-xs text-sand-10">Box 是一个通用的容器组件，可以用来包装任何内容。</p>
+        <div class="p-4 bg-accent-3 rounded-lg border border-accent-6">
+          <p class="text-sm text-sand-12">这是一个基础的 Box 容器</p>
+        </div>
+      </div>
+
+      <!-- Box with padding -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Padding 变体</div>
+        <div class="flex flex-wrap gap-4">
+          <div class="p-1 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">p-1</span>
+          </div>
+          <div class="p-2 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">p-2</span>
+          </div>
+          <div class="p-3 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">p-3</span>
+          </div>
+          <div class="p-4 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">p-4</span>
+          </div>
+          <div class="p-5 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">p-5</span>
+          </div>
+          <div class="p-6 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">p-6</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box as different elements -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">作为不同元素</div>
+        <p class="text-xs text-sand-10">Box 可以渲染为不同的 HTML 元素。</p>
+        <div class="space-y-3">
+          <div class="p-3 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">作为 div (默认)</span>
+          </div>
+          <span class="block p-3 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">作为 span</span>
+          </span>
+          <section class="p-3 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">作为 section</span>
+          </section>
+        </div>
+      </div>
+
+      <!-- Box with display -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Display 属性</div>
+        <div class="space-y-3">
+          <div class="block p-3 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">display: block</span>
+          </div>
+          <div class="inline-block p-3 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">display: inline-block</span>
+          </div>
+          <div class="inline p-3 bg-sand-3 rounded border border-sand-6">
+            <span class="text-xs text-sand-11">display: inline</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box with width/height -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">宽度和高度</div>
+        <div class="flex flex-wrap gap-4">
+          <div class="w-24 h-24 bg-accent-3 rounded border border-accent-6 flex items-center justify-center">
+            <span class="text-xs text-sand-11">w-24 h-24</span>
+          </div>
+          <div class="w-32 h-16 bg-accent-3 rounded border border-accent-6 flex items-center justify-center">
+            <span class="text-xs text-sand-11">w-32 h-16</span>
+          </div>
+          <div class="w-full max-w-xs h-12 bg-accent-3 rounded border border-accent-6 flex items-center justify-center">
+            <span class="text-xs text-sand-11">w-full max-w-xs h-12</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nested Boxes -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">嵌套 Box</div>
+        <div class="p-4 bg-sand-3 rounded-lg border border-sand-6">
+          <p class="text-xs text-sand-11 mb-3">外层 Box</p>
+          <div class="p-4 bg-accent-3 rounded border border-accent-6">
+            <p class="text-xs text-sand-11 mb-3">中层 Box</p>
+            <div class="p-4 bg-sand-1 rounded border border-sand-6">
+              <p class="text-xs text-sand-11">内层 Box</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>

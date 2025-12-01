@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Flex</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+</head>
+
+<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-2 text-sand-12 transition-colors duration-300"
+  x-data="{ theme: 'light', accent: 'iris' }" :class="(theme === 'dark' ? 'dark ' : '') + 'accent-' + accent"
+  :data-accent-color="accent">
+  <main class="mx-auto max-w-5xl p-8 space-y-8">
+    <header class="flex items-center justify-between">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-3 rounded-full border border-sand-6 px-4 py-2 shadow-sm backdrop-blur"
+          style="background: var(--sand-surface);">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent-5 text-accent-12 font-semibold">FL</span>
+          <div>
+            <h1 class="text-lg font-semibold text-sand-12 leading-tight">Flex Playground</h1>
+            <p class="text-xs text-sand-11">Flexbox 布局组件</p>
+          </div>
+        </div>
+      </div>
+      <a href="/public/playground/index.html" class="text-sm text-sand-11 hover:text-sand-12 underline">返回目录</a>
+    </header>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm backdrop-blur space-y-4"
+      style="background: var(--sand-surface);">
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">主题</div>
+          <div class="inline-flex rounded-lg border border-sand-6 bg-sand-2 p-1"
+            style="background: color-mix(in srgb, var(--sand-2) 70%, transparent);">
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'light' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'light'">Light</button>
+            <button type="button" class="px-3 py-1 text-sm rounded-md transition"
+              :class="theme === 'dark' ? 'bg-accent-4 text-accent-12 shadow-sm' : 'text-sand-11 hover:text-sand-12'"
+              @click="theme = 'dark'">Dark</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-sm font-medium text-sand-12">Accent</div>
+          <div class="flex flex-wrap gap-2">
+            <template x-for="color in ['iris','blue','violet','teal','amber','red','jade']" :key="color">
+              <button type="button" class="px-3 py-1 rounded-md border text-sm transition flex items-center gap-2"
+                :class="accent === color ? 'bg-accent-4 text-accent-12 border-accent-7 shadow-sm' : 'border-sand-6 text-sand-11 hover:text-sand-12'"
+                @click="accent = color">
+                <span class="inline-block h-2 w-2 rounded-full mr-2 align-middle"
+                  :style="`background: var(--${color}-9)`"></span>
+                <span class="capitalize" x-text="color"></span>
+              </button>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-8" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">Flex 组件</h2>
+
+      <!-- Direction -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Direction (方向)</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">row (默认)</span>
+            <div class="flex flex-row gap-2 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">column</span>
+            <div class="flex flex-col gap-2 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">row-reverse</span>
+            <div class="flex flex-row-reverse gap-2 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">column-reverse</span>
+            <div class="flex flex-col-reverse gap-2 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Align Items -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Align (对齐)</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">items-start</span>
+            <div class="flex items-start gap-2 p-3 bg-sand-3 rounded border border-sand-6 h-24">
+              <div class="w-10 h-10 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-10 h-16 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-10 h-8 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">items-center</span>
+            <div class="flex items-center gap-2 p-3 bg-sand-3 rounded border border-sand-6 h-24">
+              <div class="w-10 h-10 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-10 h-16 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-10 h-8 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">items-end</span>
+            <div class="flex items-end gap-2 p-3 bg-sand-3 rounded border border-sand-6 h-24">
+              <div class="w-10 h-10 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-10 h-16 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-10 h-8 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Justify Content -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Justify (主轴分布)</div>
+        <div class="space-y-3">
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">justify-start</span>
+            <div class="flex justify-start gap-2 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">justify-center</span>
+            <div class="flex justify-center gap-2 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">justify-end</span>
+            <div class="flex justify-end gap-2 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">justify-between</span>
+            <div class="flex justify-between p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-12 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gap -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Gap (间距)</div>
+        <div class="space-y-3">
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">gap-1</span>
+            <div class="flex gap-1 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">gap-2</span>
+            <div class="flex gap-2 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">gap-4</span>
+            <div class="flex gap-4 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">gap-6</span>
+            <div class="flex gap-6 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+              <div class="w-10 h-10 bg-accent-9 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wrap -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">Wrap (换行)</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">flex-nowrap (默认)</span>
+            <div class="flex flex-nowrap gap-2 p-3 bg-sand-3 rounded border border-sand-6 overflow-x-auto">
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs shrink-0">1</div>
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs shrink-0">2</div>
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs shrink-0">3</div>
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs shrink-0">4</div>
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs shrink-0">5</div>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs text-sand-10">flex-wrap</span>
+            <div class="flex flex-wrap gap-2 p-3 bg-sand-3 rounded border border-sand-6">
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">1</div>
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">2</div>
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">3</div>
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">4</div>
+              <div class="w-16 h-12 bg-accent-9 rounded flex items-center justify-center text-white text-xs">5</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Practical Example -->
+      <div class="space-y-4">
+        <div class="text-sm font-medium text-sand-11">实际应用示例</div>
+        <div class="p-4 bg-sand-3 rounded-lg border border-sand-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-accent-9 flex items-center justify-center text-white font-medium">A</div>
+              <div>
+                <div class="text-sm font-medium text-sand-12">用户名称</div>
+                <div class="text-xs text-sand-11">user@example.com</div>
+              </div>
+            </div>
+            <button class="px-3 py-1.5 text-xs font-medium rounded-md bg-accent-9 text-white">关注</button>
+          </div>
+          <div class="flex gap-4 text-xs text-sand-11">
+            <span><strong class="text-sand-12">128</strong> 粉丝</span>
+            <span><strong class="text-sand-12">256</strong> 关注</span>
+            <span><strong class="text-sand-12">64</strong> 帖子</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>
