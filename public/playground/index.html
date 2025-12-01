@@ -4,529 +4,296 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lily UI Playground</title>
+  <title>Lily UI - Component Library</title>
   <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    window.Alpine = Alpine;
+    Alpine.start();
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .hero-gradient {
+      background: linear-gradient(135deg, var(--accent-2) 0%, var(--sand-1) 50%, var(--accent-3) 100%);
+    }
+    .dark .hero-gradient {
+      background: linear-gradient(135deg, var(--accent-3) 0%, var(--sand-2) 50%, var(--accent-2) 100%);
+    }
+    .component-card {
+      display: block;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--sand-12);
+      background: var(--sand-1);
+      border: 1px solid var(--sand-5);
+      transition: all 0.15s ease;
+    }
+    .component-card:hover {
+      background: var(--accent-3);
+      border-color: var(--accent-7);
+      color: var(--accent-11);
+    }
+    .dark .component-card {
+      background: var(--sand-3);
+      border-color: var(--sand-6);
+    }
+    .dark .component-card:hover {
+      background: var(--accent-4);
+    }
+    .stat-box {
+      background: linear-gradient(135deg, var(--accent-9), var(--accent-10));
+      color: white;
+    }
+  </style>
 </head>
 
-<body data-scaling="100%" data-radius="medium" class="radix-themes min-h-screen bg-sand-1 text-sand-12 antialiased selection:bg-accent-4 selection:text-accent-11">
+<body data-scaling="100%" data-radius="medium"
+  class="radix-themes min-h-screen text-sand-12 antialiased"
+  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: 'iris' }"
+  x-init="$watch('theme', val => localStorage.setItem('theme', val))"
+  :class="[theme === 'dark' ? 'dark bg-sand-1' : 'bg-sand-2', 'accent-' + accent]"
+  :data-accent-color="accent">
 
-  <!-- Hero Section -->
-  <header class="relative overflow-hidden border-b border-sand-6 bg-white/50 backdrop-blur-xl">
-    <div class="absolute inset-0 bg-grid-sand-4/20 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
-    <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 relative z-10">
-      <div class="mx-auto max-w-2xl text-center">
-        <div
-          class="mb-6 inline-flex items-center gap-2 rounded-full border border-sand-6 bg-white/80 px-3 py-1 text-sm text-sand-11 shadow-sm backdrop-blur">
-          <span class="flex h-2 w-2 rounded-full bg-accent-9"></span>
-          Lily UI Playground
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 border-b border-sand-6 backdrop-blur-xl"
+    :class="theme === 'dark' ? 'bg-sand-2/90' : 'bg-white/90'">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="flex h-16 items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-accent-9 text-white font-bold text-lg shadow-lg shadow-accent-9/30">
+            L
+          </div>
+          <div class="flex flex-col">
+            <span class="text-base font-bold text-sand-12 leading-tight">Lily UI</span>
+            <span class="text-3xs text-sand-10">v0.1.0</span>
+          </div>
         </div>
-        <h1 class="text-4xl font-bold tracking-tight text-sand-12 sm:text-6xl mb-6">
-          Beautiful, accessible <br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent-9 to-accent-11">component
-            library</span>
-        </h1>
-        <p class="text-lg leading-8 text-sand-11 mb-8">
-          A collection of high-quality, unstyled components powered by state machines.
-          Built for accessibility, customizability, and developer experience.
-        </p>
-        <div class="flex items-center justify-center gap-4 text-sm text-sand-10">
-          <code class="rounded bg-sand-3 px-2 py-1 font-mono text-sand-11">bun run dev:all</code>
-          <span>to start development</span>
+
+        <!-- Center Stats -->
+        <div class="hidden md:flex items-center gap-6 text-sm">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-accent-11">40+</span>
+            <span class="text-sand-11">Components</span>
+          </div>
+          <div class="h-4 w-px bg-sand-6"></div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-accent-11">7</span>
+            <span class="text-sand-11">Themes</span>
+          </div>
+          <div class="h-4 w-px bg-sand-6"></div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-accent-11">A11y</span>
+            <span class="text-sand-11">Ready</span>
+          </div>
+        </div>
+
+        <!-- Right Controls -->
+        <div class="flex items-center gap-2">
+          <!-- Theme Colors -->
+          <div class="hidden sm:flex items-center gap-1 p-1 rounded-lg" :class="theme === 'dark' ? 'bg-sand-3' : 'bg-sand-3'">
+            <template x-for="color in ['iris','blue','violet','teal','jade','red']" :key="color">
+              <button type="button"
+                class="h-5 w-5 rounded-full transition-transform hover:scale-110"
+                :class="accent === color ? 'ring-2 ring-offset-2 ring-sand-12' : ''"
+                :style="'background: var(--' + color + '-9)'"
+                @click="accent = color">
+              </button>
+            </template>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button type="button"
+            class="flex h-9 w-9 items-center justify-center rounded-lg transition-colors"
+            :class="theme === 'dark' ? 'bg-sand-3 hover:bg-sand-4' : 'bg-sand-3 hover:bg-sand-4'"
+            @click="theme = theme === 'light' ? 'dark' : 'light'">
+            <svg x-show="theme === 'light'" class="h-5 w-5 text-sand-11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+            <svg x-show="theme === 'dark'" x-cloak class="h-5 w-5 text-sand-11" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+
+          <!-- GitHub -->
+          <a href="#" class="flex h-9 w-9 items-center justify-center rounded-lg transition-colors"
+            :class="theme === 'dark' ? 'bg-sand-3 hover:bg-sand-4' : 'bg-sand-3 hover:bg-sand-4'">
+            <svg class="h-5 w-5 text-sand-11" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
-  </header>
+  </nav>
 
-  <main class="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+  <!-- Hero -->
+  <section class="hero-gradient py-16 md:py-24">
+    <div class="mx-auto max-w-6xl px-4 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-accent-6 bg-accent-2 px-4 py-1.5 text-sm text-accent-11 mb-6">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-9 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-accent-9"></span>
+        </span>
+        State Machine Powered
+      </div>
+
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-sand-12 mb-4">
+        The most popular<br>
+        <span class="text-accent-11">component library</span>
+      </h1>
+
+      <p class="text-lg text-sand-11 max-w-xl mx-auto mb-8">
+        Accessible components with Alpine.js state machines.<br>
+        Semantic class names. Radix Themes design tokens.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 mb-8">
+        <div class="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium"
+          :class="theme === 'dark' ? 'bg-sand-3' : 'bg-white border border-sand-6'">
+          <span class="text-sand-11">Install:</span>
+          <code class="font-mono text-accent-11">bun add lily-ui</code>
+        </div>
+        <a href="#components" class="inline-flex items-center gap-2 rounded-lg bg-accent-9 px-4 py-2 text-sm font-medium text-white hover:bg-accent-10 transition-colors">
+          Browse Components
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path d="M19 9l-7 7-7-7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Feature Pills -->
+      <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
+        <span class="rounded-full bg-sand-3 px-3 py-1 text-sand-11">Tailwind CSS 4</span>
+        <span class="rounded-full bg-sand-3 px-3 py-1 text-sand-11">Alpine.js</span>
+        <span class="rounded-full bg-sand-3 px-3 py-1 text-sand-11">TypeScript</span>
+        <span class="rounded-full bg-sand-3 px-3 py-1 text-sand-11">WCAG 2.1</span>
+        <span class="rounded-full bg-sand-3 px-3 py-1 text-sand-11">Dark Mode</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Components Grid -->
+  <main id="components" class="mx-auto max-w-6xl px-4 py-12">
 
     <!-- Form Controls -->
-    <div class="mb-16">
-      <h2 class="text-2xl font-semibold text-sand-12 mb-8 flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-9">
-          <rect width="18" height="18" x="3" y="3" rx="2" />
-          <path d="M12 8v8" />
-          <path d="M8 12h8" />
-        </svg>
-        Form Controls
-      </h2>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-        <a href="/public/playground/switch.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Switch</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Form</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A control that allows the user to toggle between checked and not
-            checked.</p>
-        </a>
-
-        <a href="/public/playground/checkbox.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Checkbox</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Form</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A control that allows the user to toggle between checked and not
-            checked.</p>
-        </a>
-
-        <a href="/public/playground/checkbox-group.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Checkbox Group</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Form</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Multiple selection with grouped checkboxes and card-style layouts.</p>
-        </a>
-
-        <a href="/public/playground/checkbox-cards.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Checkbox Cards</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Form</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Card-style checkboxes for multiple selection with rich content support.</p>
-        </a>
-
-        <a href="/public/playground/radio.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Radio</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Form</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A standalone radio button with multiple sizes and visual variants.</p>
-        </a>
-
-        <a href="/public/playground/radio-cards.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Radio Cards</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Form</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Card-style radio buttons with rich content support and multiple layout options.</p>
-        </a>
-
-        <a href="/public/playground/input.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Input</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Form</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Displays a form input field or a component that looks like an
-            input field.</p>
-        </a>
-
-        <a href="/public/playground/slider.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Slider</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Form</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">An input where the user selects a value from within a given
-            range.</p>
-        </a>
-
-        <a href="/public/playground/tags.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Tags Input</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Form</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Render tags inside an input, followed by an actual text input.
-          </p>
-        </a>
-
+    <section class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Form Controls</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">10</span>
       </div>
-    </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/switch.html" class="component-card">Switch</a>
+        <a href="/public/playground/checkbox.html" class="component-card">Checkbox</a>
+        <a href="/public/playground/checkbox-group.html" class="component-card">Checkbox Group</a>
+        <a href="/public/playground/checkbox-cards.html" class="component-card">Checkbox Cards</a>
+        <a href="/public/playground/radio.html" class="component-card">Radio</a>
+        <a href="/public/playground/radio-cards.html" class="component-card">Radio Cards</a>
+        <a href="/public/playground/input.html" class="component-card">Input</a>
+        <a href="/public/playground/slider.html" class="component-card">Slider</a>
+        <a href="/public/playground/tags.html" class="component-card">Tags Input</a>
+        <a href="/public/playground/select.html" class="component-card">Select</a>
+      </div>
+    </section>
 
     <!-- Navigation -->
-    <div class="mb-16">
-      <h2 class="text-2xl font-semibold text-sand-12 mb-8 flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-9">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <polyline points="9 22 9 12 15 12 15 22" />
-        </svg>
-        Navigation
-      </h2>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-        <a href="/public/playground/tabs.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Tabs</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Nav</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A set of layered sections of content—known as tab panels—that are
-            displayed one at a time.</p>
-        </a>
-
-<a href="/public/playground/accordion.html"          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">          <div class="flex items-center justify-between">            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Accordion</h3>            <span              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Nav</span>          </div>          <p class="text-sm text-sand-11 line-clamp-2">Collapsible content panels for organizing information.</p>        </a>
-        <a href="/public/playground/scroll-area.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Scroll Area</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Nav</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Augments native scroll functionality for custom, cross-browser
-            styling.</p>
-        </a>
-
-
-        <a href="/public/playground/segmented-control.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Segmented Control</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Nav</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A set of radio buttons styled as a segmented control with smooth animated indicator.</p>
-        </a>
-
-        <a href="/public/playground/tab-nav.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Tab Nav</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Nav</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">CSS-only navigation tabs using standard anchor elements with active state indicators.</p>
-        </a>
-
+    <section class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Navigation</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">5</span>
       </div>
-    </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/tabs.html" class="component-card">Tabs</a>
+        <a href="/public/playground/accordion.html" class="component-card">Accordion</a>
+        <a href="/public/playground/scroll-area.html" class="component-card">Scroll Area</a>
+        <a href="/public/playground/segmented-control.html" class="component-card">Segmented Control</a>
+        <a href="/public/playground/tab-nav.html" class="component-card">Tab Nav</a>
+      </div>
+    </section>
+
     <!-- Layout & Display -->
-    <div class="mb-16">
-      <h2 class="text-2xl font-semibold text-sand-12 mb-8 flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-9">
-          <rect width="18" height="18" x="3" y="3" rx="2" />
-          <line x1="3" y1="9" x2="21" y2="9" />
-          <line x1="9" y1="21" x2="9" y2="9" />
-        </svg>
-        Layout & Display
-      </h2>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-        <a href="/public/playground/button.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Button</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Action</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Triggers an action or event, such as submitting a form or displaying a dialog.</p>
-        </a>
-
-        <a href="/public/playground/icon-button.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Icon Button</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Action</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A square button designed for icons, with all style variants and sizes.</p>
-        </a>
-
-        <a href="/public/playground/badge.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Badge</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Display</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A small badge to display status or notification count.</p>
-        </a>
-
-        <a href="/public/playground/avatar.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Avatar</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Display</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">An image element with a fallback for representing the user.</p>
-        </a>
-
-        <a href="/public/playground/spinner.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Spinner</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Loading</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A loading indicator with animated spinner.</p>
-        </a>
-
-        <a href="/public/playground/skeleton.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Skeleton</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Loading</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A placeholder skeleton for loading states.</p>
-        </a>
-
-        <a href="/public/playground/separator.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Separator</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Layout</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A divider that separates content areas.</p>
-        </a>
-
-        <a href="/public/playground/aspect-ratio.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Aspect Ratio</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Layout</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Maintains a consistent aspect ratio for child content.</p>
-        </a>
-
-        <a href="/public/playground/inset.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Inset</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Layout</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Edge-to-edge content with negative margins for breaking out of parent padding.</p>
-        </a>
-
+    <section class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Layout & Display</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">9</span>
       </div>
-    </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/button.html" class="component-card">Button</a>
+        <a href="/public/playground/icon-button.html" class="component-card">Icon Button</a>
+        <a href="/public/playground/badge.html" class="component-card">Badge</a>
+        <a href="/public/playground/avatar.html" class="component-card">Avatar</a>
+        <a href="/public/playground/spinner.html" class="component-card">Spinner</a>
+        <a href="/public/playground/skeleton.html" class="component-card">Skeleton</a>
+        <a href="/public/playground/separator.html" class="component-card">Separator</a>
+        <a href="/public/playground/aspect-ratio.html" class="component-card">Aspect Ratio</a>
+        <a href="/public/playground/inset.html" class="component-card">Inset</a>
+      </div>
+    </section>
 
     <!-- Data & Feedback -->
-    <div class="mb-16">
-      <h2 class="text-2xl font-semibold text-sand-12 mb-8 flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-9">
-          <path d="M12 20v-6M6 20V10M18 20V4" />
-        </svg>
-        Data & Feedback
-      </h2>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-        <a href="/public/playground/select.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Select</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Data</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Displays a list of options for the user to pick from—triggered by
-            a button.</p>
-        </a>
-
-        <a href="/public/playground/toast.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Toast</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Feedback</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A succinct message that is displayed temporarily.</p>
-        </a>
-
-        <a href="/public/playground/progress.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Progress</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Feedback</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Displays an indicator showing the completion progress of a task,
-            typically displayed as a progress bar.</p>
-        </a>
-
-        <a href="/public/playground/tri-switch.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Tri-state Switch</h3>
-            <span class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Toggle</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Off / Mixed / On 循环的三态开关，可自定义顺序。</p>
-        </a>
-
-        <a href="/public/playground/table.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Table</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Data</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Display data in rows and columns with sortable headers and interactive states.</p>
-        </a>
-
-        <a href="/public/playground/data-list.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Data List</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Data</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Displays sets of data using key-value pairs in a clean, semantic format.</p>
-        </a>
-
+    <section class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Data & Feedback</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">6</span>
       </div>
-    </div>
-
-    <!-- Communication -->
-    <div class="mb-16">
-      <h2 class="text-2xl font-semibold text-sand-12 mb-8 flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-9">
-          <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-        </svg>
-        Communication
-      </h2>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-        <a href="/public/playground/callout.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Callout</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Alert</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A short message to attract user's attention.</p>
-        </a>
-
-        <a href="/public/playground/kbd.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Kbd</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Typography</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Displays keyboard keys and shortcuts with 3D styling.</p>
-        </a>
-
-
-        <a href="/public/playground/typography.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Typography</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Typography</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Heading and Text components with full type scale.</p>
-        </a>
-
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/toast.html" class="component-card">Toast</a>
+        <a href="/public/playground/progress.html" class="component-card">Progress</a>
+        <a href="/public/playground/tri-switch.html" class="component-card">Tri-state Switch</a>
+        <a href="/public/playground/table.html" class="component-card">Table</a>
+        <a href="/public/playground/data-list.html" class="component-card">Data List</a>
       </div>
-    </div>
+    </section>
+
+    <!-- Typography -->
+    <section class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Typography</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">3</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/typography.html" class="component-card">Typography</a>
+        <a href="/public/playground/kbd.html" class="component-card">Kbd</a>
+        <a href="/public/playground/callout.html" class="component-card">Callout</a>
+      </div>
+    </section>
 
     <!-- Overlays -->
-    <div class="mb-16">
-      <h2 class="text-2xl font-semibold text-sand-12 mb-8 flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-9">
-          <rect width="18" height="18" x="3" y="3" rx="2" />
-          <path d="M9 3v18" />
-        </svg>
-        Overlays
-      </h2>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-        <a href="/public/playground/dialog.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Dialog</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Overlay</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A window overlaid on either the primary window or another dialog window.</p>
-        </a>
-        <a href="/public/playground/alert-dialog.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Alert Dialog</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Overlay</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A modal dialog that interrupts the user with important content and expects a response.</p>
-        </a>
-
-        <a href="/public/playground/tooltip.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Tooltip</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Overlay</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">A popup that displays information related to an element on hover or focus.</p>
-        </a>
-
-        <a href="/public/playground/dropdown-menu.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Dropdown Menu</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Overlay</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Displays a menu to the user—such as a set of actions or functions—triggered by a button.</p>
-        </a>
-
-        <a href="/public/playground/popover.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Popover</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Overlay</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Displays rich content in a portal, triggered by a button.</p>
-        </a>
-
-        <a href="/public/playground/hover-card.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Hover Card</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Overlay</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">For sighted users to preview content available behind a link.</p>
-        </a>
-
-        <a href="/public/playground/context-menu.html"
-          class="group relative flex flex-col gap-2 rounded-2xl border border-sand-6 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent-8 hover:shadow-md">
-          <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-sand-12 group-hover:text-accent-11 transition-colors">Context Menu</h3>
-            <span
-              class="inline-flex items-center rounded-full bg-sand-3 px-2 py-1 text-xs font-medium text-sand-11">Overlay</span>
-          </div>
-          <p class="text-sm text-sand-11 line-clamp-2">Displays a menu to the user — triggered by right-click.</p>
-        </a>
-
+    <section class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Overlays</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">7</span>
       </div>
-    </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/dialog.html" class="component-card">Dialog</a>
+        <a href="/public/playground/alert-dialog.html" class="component-card">Alert Dialog</a>
+        <a href="/public/playground/tooltip.html" class="component-card">Tooltip</a>
+        <a href="/public/playground/dropdown-menu.html" class="component-card">Dropdown Menu</a>
+        <a href="/public/playground/popover.html" class="component-card">Popover</a>
+        <a href="/public/playground/hover-card.html" class="component-card">Hover Card</a>
+        <a href="/public/playground/context-menu.html" class="component-card">Context Menu</a>
+      </div>
+    </section>
 
   </main>
 
-  <footer class="border-t border-sand-6 bg-white py-12">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
-      <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
-        <p class="text-sm text-sand-11">&copy; 2024 Lily UI. All rights reserved.</p>
-        <div class="flex gap-6">
-          <a href="#" class="text-sm font-semibold text-sand-11 hover:text-sand-12">GitHub</a>
-          <a href="#" class="text-sm font-semibold text-sand-11 hover:text-sand-12">Documentation</a>
+  <!-- Footer -->
+  <footer class="border-t border-sand-6 py-8" :class="theme === 'dark' ? 'bg-sand-2' : 'bg-white'">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-sm text-sand-11">
+          <span>Made with</span>
+          <svg class="h-4 w-4 text-red-9" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span>by Lily UI Team</span>
+        </div>
+        <div class="flex items-center gap-4 text-sm text-sand-11">
+          <a href="#" class="hover:text-sand-12 transition-colors">GitHub</a>
+          <a href="#" class="hover:text-sand-12 transition-colors">Documentation</a>
+          <a href="#" class="hover:text-sand-12 transition-colors">Changelog</a>
         </div>
       </div>
     </div>
