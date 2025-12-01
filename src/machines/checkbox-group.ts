@@ -69,7 +69,7 @@ export default function createCheckboxGroup(config: CheckboxGroupConfig = {}) {
     rootProps() {
       return {
         role: "group",
-        "data-disabled": this.disabled ? "" : undefined,
+        ...(this.disabled ? { "data-disabled": "" } : {}),
       };
     },
 
@@ -110,7 +110,7 @@ export default function createCheckboxGroup(config: CheckboxGroupConfig = {}) {
         for: itemId,
         "@click.prevent": () => this.toggle(value),
         "data-state": isChecked ? "checked" : "unchecked",
-        "data-disabled": this.disabled ? "" : undefined,
+        ...(this.disabled ? { "data-disabled": "" } : {}),
       };
     },
   };

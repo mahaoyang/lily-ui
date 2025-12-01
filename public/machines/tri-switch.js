@@ -29,7 +29,7 @@ function createTriSwitch(config = {}) {
         "aria-disabled": this.disabled ? "true" : undefined,
         tabindex: this.disabled ? "-1" : "0",
         "data-state": this.state,
-        "data-disabled": this.disabled ? "" : undefined,
+        ...this.disabled ? { "data-disabled": "" } : {},
         "@click": () => this.toggle(),
         "@keydown.space.prevent": () => this.toggle(),
         "@keydown.enter.prevent": () => this.toggle()
@@ -39,7 +39,7 @@ function createTriSwitch(config = {}) {
       return {
         "@click.prevent": () => this.toggle(),
         "data-state": this.state,
-        "data-disabled": this.disabled ? "" : undefined
+        ...this.disabled ? { "data-disabled": "" } : {}
       };
     }
   };

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation - Lily UI</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import { navbar } from "/public/playground/components/navbar.js";
+
+    // Scroll area for docs sidebar
+    function docsScrollArea() {
+      return {
+        showScrollbar: false,
+        thumbHeight: 0,
+        thumbTop: 0,
+        isDragging: false,
+        dragStartY: 0,
+        dragStartScrollTop: 0,
+
+        init() {
+          this.$nextTick(() => this.updateThumb());
+        },
+
+        updateThumb() {
+          const viewport = this.$refs.viewport;
+          if (!viewport) return;
+          const { scrollHeight, clientHeight, scrollTop } = viewport;
+          if (scrollHeight <= clientHeight) {
+            this.thumbHeight = 0;
+            return;
+          }
+          const ratio = clientHeight / scrollHeight;
+          this.thumbHeight = Math.max(ratio * clientHeight, 24);
+          this.thumbTop = (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - this.thumbHeight);
+        },
+
+        onScroll() { this.updateThumb(); },
+        onMouseEnter() { this.showScrollbar = true; },
+        onMouseLeave() { if (!this.isDragging) this.showScrollbar = false; },
+
+        clickTrack(event) {
+          const viewport = this.$refs.viewport;
+          const track = this.$refs.track;
+          if (!viewport || !track) return;
+          const rect = track.getBoundingClientRect();
+          const clickY = event.clientY - rect.top;
+          viewport.scrollTop = (clickY / rect.height) * (viewport.scrollHeight - viewport.clientHeight);
+        },
+
+        startDrag(event) {
+          this.isDragging = true;
+          this.dragStartY = event.clientY;
+          this.dragStartScrollTop = this.$refs.viewport.scrollTop;
+
+          const onMouseMove = (e) => {
+            if (!this.isDragging) return;
+            const viewport = this.$refs.viewport;
+            const track = this.$refs.track;
+            const deltaY = e.clientY - this.dragStartY;
+            const scrollRatio = deltaY / (track.clientHeight - this.thumbHeight);
+            viewport.scrollTop = this.dragStartScrollTop + scrollRatio * (viewport.scrollHeight - viewport.clientHeight);
+          };
+
+          const onMouseUp = () => {
+            this.isDragging = false;
+            if (!this.$el.matches(':hover')) this.showScrollbar = false;
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+          };
+
+          document.addEventListener('mousemove', onMouseMove);
+          document.addEventListener('mouseup', onMouseUp);
+        },
+
+        get thumbStyle() {
+          return `height: ${this.thumbHeight}px; top: ${this.thumbTop}px;`;
+        }
+      };
+    }
+
+    window.Alpine = Alpine;
+    Alpine.data('navbar', navbar);
+    Alpine.data('docsScrollArea', docsScrollArea);
+    Alpine.start();
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+
+    .sidebar-link {
+      display: block;
+      padding: 0.375rem 0.75rem;
+      border-radius: var(--radius-2);
+      font-size: 0.875rem;
+      color: var(--sand-11);
+      transition: all 0.15s ease;
+    }
+    .sidebar-link:hover {
+      color: var(--sand-12);
+      background: var(--sand-3);
+    }
+    .sidebar-link.active {
+      color: var(--accent-11);
+      background: var(--accent-3);
+      font-weight: 500;
+    }
+    .sidebar-section {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--sand-12);
+      padding: 0.5rem 0.75rem;
+      margin-top: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .sidebar-section:first-child {
+      margin-top: 0;
+    }
+
+    .prose h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--sand-12);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--sand-6);
+    }
+    .prose h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--sand-12);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .prose p {
+      color: var(--sand-11);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .prose code {
+      background: var(--sand-3);
+      padding: 0.125rem 0.375rem;
+      border-radius: var(--radius-1);
+      font-size: 0.875em;
+      color: var(--accent-11);
+    }
+    .prose pre {
+      background: var(--sand-2);
+      border: 1px solid var(--sand-6);
+      border-radius: var(--radius-3);
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .prose pre code {
+      background: transparent;
+      padding: 0;
+      color: var(--sand-12);
+    }
+    .prose ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .prose li {
+      color: var(--sand-11);
+      margin-bottom: 0.5rem;
+    }
+    .prose a {
+      color: var(--accent-11);
+      text-decoration: underline;
+    }
+    .prose a:hover {
+      color: var(--accent-12);
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 9999px;
+      background: var(--accent-9);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+
+    .card-link {
+      display: block;
+      padding: 1rem;
+      border-radius: var(--radius-3);
+      border: 1px solid var(--sand-6);
+      background: var(--sand-2);
+      transition: all 0.15s ease;
+    }
+    .card-link:hover {
+      border-color: var(--accent-7);
+      background: var(--accent-2);
+    }
+  </style>
+</head>
+
+<body data-scaling="100%" data-radius="medium"
+  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
+  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris', currentPage: 'getting-started' }"
+  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
+  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
+
+  <!-- Navbar -->
+  <nav x-data="navbar()"
+    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
+    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
+    <div class="px-4 sm:px-6">
+      <div class="flex h-14 items-center justify-between">
+        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
+              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
+            </svg>
+          </div>
+          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
+          <a href="/public/playground/docs.html" class="text-accent-11 font-semibold">Docs</a>
+          <a href="/public/playground/components.html" class="text-sand-11 hover:text-accent-11 transition-colors">Components</a>
+          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
+            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
+            <div role="radiogroup" aria-label="Accent Color"
+              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
+              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
+              <template x-for="(color, idx) in colors" :key="color">
+                <button type="button" class="h-4 w-4 rounded-full ease-out"
+                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
+                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
+                  @click="accent = color"></button>
+              </template>
+            </div>
+          </div>
+          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
+            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+            </svg>
+            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex pt-28">
+    <!-- Sidebar with ScrollArea -->
+    <aside class="fixed left-0 top-28 bottom-0 w-64 "
+      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'"
+      x-data="docsScrollArea()"
+      x-init="init()"
+      @mouseenter="onMouseEnter()"
+      @mouseleave="onMouseLeave()">
+      <div class="scroll-area-root h-full">
+        <div x-ref="viewport" class="scroll-area-viewport p-4" @scroll="onScroll()">
+
+      <div class="sidebar-section">Overview</div>
+      <a href="#" class="sidebar-link" :class="currentPage === 'getting-started' && 'active'" @click.prevent="currentPage = 'getting-started'">Getting started</a>
+      <a href="#" class="sidebar-link" :class="currentPage === 'styling' && 'active'" @click.prevent="currentPage = 'styling'">Styling</a>
+
+      <div class="sidebar-section">Theme</div>
+      <a href="#" class="sidebar-link" :class="currentPage === 'color' && 'active'" @click.prevent="currentPage = 'color'">Color</a>
+      <a href="#" class="sidebar-link" :class="currentPage === 'dark-mode' && 'active'" @click.prevent="currentPage = 'dark-mode'">Dark mode</a>
+      <a href="#" class="sidebar-link" :class="currentPage === 'typography' && 'active'" @click.prevent="currentPage = 'typography'">Typography</a>
+
+      <div class="sidebar-section">Layout</div>
+      <a href="/public/playground/box.html" class="sidebar-link">Box</a>
+      <a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
+      <a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
+      <a href="/public/playground/container.html" class="sidebar-link">Container</a>
+      <a href="/public/playground/section.html" class="sidebar-link">Section</a>
+
+      <div class="sidebar-section">Form Controls</div>
+      <a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
+      <a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
+      <a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
+      <a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
+      <a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
+      <a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
+      <a href="/public/playground/input.html" class="sidebar-link">Input</a>
+      <a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
+      <a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
+      <a href="/public/playground/select.html" class="sidebar-link">Select</a>
+
+      <div class="sidebar-section">Navigation</div>
+      <a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
+      <a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
+      <a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
+      <a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
+      <a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
+
+      <div class="sidebar-section">Display</div>
+      <a href="/public/playground/button.html" class="sidebar-link">Button</a>
+      <a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
+      <a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
+      <a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
+      <a href="/public/playground/card.html" class="sidebar-link">Card</a>
+      <a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
+      <a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
+      <a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
+      <a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
+      <a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
+
+      <div class="sidebar-section">Data & Feedback</div>
+      <a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
+      <a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
+      <a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
+      <a href="/public/playground/table.html" class="sidebar-link">Table</a>
+      <a href="/public/playground/data-list.html" class="sidebar-link">Data-list</a>
+
+      <div class="sidebar-section">Typography</div>
+      <a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
+      <a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
+      <a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
+      <a href="/public/playground/code.html" class="sidebar-link">Code</a>
+      <a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
+
+      <div class="sidebar-section">Overlays</div>
+      <a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
+      <a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
+      <a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
+      <a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
+      <a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
+      <a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
+      <a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
+
+        </div>
+        <!-- Scrollbar -->
+        <div x-ref="track"
+             class="scroll-area-scrollbar scroll-area-scrollbar-vertical scroll-area-scrollbar-size-1"
+             :data-visible="showScrollbar"
+             @mousedown.prevent="clickTrack($event)">
+          <div class="scroll-area-thumb"
+               :style="thumbStyle"
+               @mousedown.stop.prevent="startDrag($event)"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 ml-64 min-h-screen">
+      <div class="max-w-3xl mx-auto px-8 py-12">
+
+        <!-- Getting Started Page -->
+        <article x-show="currentPage === 'getting-started'" class="prose">
+          <h1 class="text-3xl font-bold text-sand-12 mb-2">Getting started</h1>
+          <p class="text-lg text-sand-11 mb-8">
+            Lily UI is a lightweight component library built with Alpine.js and Tailwind CSS,
+            inspired by <a href="https://www.radix-ui.com/themes" target="_blank">Radix Themes</a>.
+          </p>
+
+          <h2><span class="step-number">1</span>Install dependencies</h2>
+          <p>First, make sure you have Alpine.js and Tailwind CSS installed in your project.</p>
+          <pre><code>npm install alpinejs
+npm install -D tailwindcss</code></pre>
+
+          <h2><span class="step-number">2</span>Include the stylesheet</h2>
+          <p>Add the Lily UI stylesheet to your HTML head.</p>
+          <pre><code>&lt;link rel="stylesheet" href="/dist/output.css"&gt;</code></pre>
+
+          <h2><span class="step-number">3</span>Initialize Alpine.js</h2>
+          <p>Import and start Alpine.js in your page.</p>
+          <pre><code>&lt;script type="module"&gt;
+  import Alpine from 'alpinejs';
+  window.Alpine = Alpine;
+  Alpine.start();
+&lt;/script&gt;</code></pre>
+
+          <h2><span class="step-number">4</span>Add theme configuration</h2>
+          <p>Wrap your app with theme attributes on the body tag.</p>
+          <pre><code>&lt;body
+  data-scaling="100%"
+  data-radius="medium"
+  class="rt-Theme radix-themes"
+  data-accent-color="iris"&gt;
+  &lt;!-- Your content --&gt;
+&lt;/body&gt;</code></pre>
+
+          <h2>Next steps</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+            <a href="#" class="card-link" @click.prevent="currentPage = 'color'">
+              <div class="text-sm font-semibold text-sand-12 mb-1">Color</div>
+              <div class="text-xs text-sand-11">Learn about the color system</div>
+            </a>
+            <a href="#" class="card-link" @click.prevent="currentPage = 'dark-mode'">
+              <div class="text-sm font-semibold text-sand-12 mb-1">Dark mode</div>
+              <div class="text-xs text-sand-11">Add dark mode support</div>
+            </a>
+            <a href="/public/playground/components.html" class="card-link">
+              <div class="text-sm font-semibold text-sand-12 mb-1">Components</div>
+              <div class="text-xs text-sand-11">Browse all components</div>
+            </a>
+            <a href="#" class="card-link" @click.prevent="currentPage = 'styling'">
+              <div class="text-sm font-semibold text-sand-12 mb-1">Styling</div>
+              <div class="text-xs text-sand-11">Customize appearance</div>
+            </a>
+          </div>
+        </article>
+
+        <!-- Styling Page -->
+        <article x-show="currentPage === 'styling'" x-cloak class="prose">
+          <h1 class="text-3xl font-bold text-sand-12 mb-2">Styling</h1>
+          <p class="text-lg text-sand-11 mb-8">
+            Lily UI uses CSS custom properties and Tailwind CSS for flexible styling.
+          </p>
+
+          <h2>CSS Variables</h2>
+          <p>The theme uses Radix Colors for consistent color scales. Each color has 12 shades:</p>
+          <ul>
+            <li><code>--color-1</code> to <code>--color-3</code>: Backgrounds</li>
+            <li><code>--color-4</code> to <code>--color-6</code>: Interactive backgrounds</li>
+            <li><code>--color-7</code> to <code>--color-8</code>: Borders</li>
+            <li><code>--color-9</code> to <code>--color-10</code>: Solid colors</li>
+            <li><code>--color-11</code> to <code>--color-12</code>: Text</li>
+          </ul>
+
+          <h2>Tailwind Integration</h2>
+          <p>All Radix color scales are available as Tailwind classes:</p>
+          <pre><code>&lt;!-- Background --&gt;
+&lt;div class="bg-sand-2"&gt;...&lt;/div&gt;
+
+&lt;!-- Text --&gt;
+&lt;span class="text-accent-11"&gt;...&lt;/span&gt;
+
+&lt;!-- Border --&gt;
+&lt;div class="border border-sand-6"&gt;...&lt;/div&gt;</code></pre>
+
+          <h2>Customizing radius</h2>
+          <p>Set the <code>data-radius</code> attribute on body to change corner radius:</p>
+          <pre><code>&lt;body data-radius="none"&gt;   &lt;!-- Sharp corners --&gt;
+&lt;body data-radius="small"&gt;  &lt;!-- Subtle rounding --&gt;
+&lt;body data-radius="medium"&gt; &lt;!-- Default --&gt;
+&lt;body data-radius="large"&gt;  &lt;!-- More rounded --&gt;
+&lt;body data-radius="full"&gt;   &lt;!-- Fully rounded --&gt;</code></pre>
+        </article>
+
+        <!-- Color Page -->
+        <article x-show="currentPage === 'color'" x-cloak class="prose">
+          <h1 class="text-3xl font-bold text-sand-12 mb-2">Color</h1>
+          <p class="text-lg text-sand-11 mb-8">
+            Lily UI uses <a href="https://www.radix-ui.com/colors" target="_blank">Radix Colors</a>
+            for a comprehensive and accessible color system.
+          </p>
+
+          <h2>Accent colors</h2>
+          <p>Set the accent color using <code>data-accent-color</code> attribute:</p>
+          <pre><code>&lt;body data-accent-color="iris"&gt;   &lt;!-- Purple (default) --&gt;
+&lt;body data-accent-color="blue"&gt;   &lt;!-- Blue --&gt;
+&lt;body data-accent-color="violet"&gt; &lt;!-- Violet --&gt;
+&lt;body data-accent-color="teal"&gt;   &lt;!-- Teal --&gt;
+&lt;body data-accent-color="jade"&gt;   &lt;!-- Green --&gt;
+&lt;body data-accent-color="red"&gt;    &lt;!-- Red --&gt;</code></pre>
+
+          <h2>Color scales</h2>
+          <div class="grid grid-cols-6 gap-2 my-6">
+            <template x-for="i in 12">
+              <div class="aspect-square rounded" :style="'background: var(--accent-' + i + ')'"></div>
+            </template>
+          </div>
+          <p>Use accent colors with the <code>accent-</code> prefix in Tailwind classes:</p>
+          <pre><code>&lt;button class="bg-accent-9 text-white"&gt;Primary&lt;/button&gt;
+&lt;button class="bg-accent-3 text-accent-11"&gt;Secondary&lt;/button&gt;</code></pre>
+
+          <h2>Gray scale</h2>
+          <p>We use <code>sand</code> as the neutral gray scale for backgrounds and text:</p>
+          <div class="grid grid-cols-6 gap-2 my-6">
+            <template x-for="i in 12">
+              <div class="aspect-square rounded border border-sand-6" :style="'background: var(--sand-' + i + ')'"></div>
+            </template>
+          </div>
+        </article>
+
+        <!-- Dark Mode Page -->
+        <article x-show="currentPage === 'dark-mode'" x-cloak class="prose">
+          <h1 class="text-3xl font-bold text-sand-12 mb-2">Dark mode</h1>
+          <p class="text-lg text-sand-11 mb-8">
+            Enable dark mode by adding the <code>dark</code> class to your body element.
+          </p>
+
+          <h2>Basic usage</h2>
+          <p>Toggle dark mode by adding or removing the <code>dark</code> class:</p>
+          <pre><code>&lt;body class="dark"&gt;
+  &lt;!-- Dark mode enabled --&gt;
+&lt;/body&gt;</code></pre>
+
+          <h2>With Alpine.js</h2>
+          <p>Use Alpine.js to manage theme state:</p>
+          <pre><code>&lt;body
+  x-data="{ theme: 'light' }"
+  :class="theme === 'dark' ? 'dark' : ''"&gt;
+
+  &lt;button @click="theme = theme === 'light' ? 'dark' : 'light'"&gt;
+    Toggle theme
+  &lt;/button&gt;
+&lt;/body&gt;</code></pre>
+
+          <h2>Persist preference</h2>
+          <p>Save theme preference to localStorage:</p>
+          <pre><code>&lt;body
+  x-data="{ theme: localStorage.getItem('theme') || 'light' }"
+  x-init="$watch('theme', val =&gt; localStorage.setItem('theme', val))"
+  :class="theme === 'dark' ? 'dark' : ''"&gt;
+  ...
+&lt;/body&gt;</code></pre>
+
+          <h2>View Transitions</h2>
+          <p>Add smooth transitions when switching themes:</p>
+          <pre><code>function toggleTheme() {
+  if (document.startViewTransition) {
+    document.startViewTransition(() =&gt; {
+      theme = theme === 'light' ? 'dark' : 'light';
+    });
+  } else {
+    theme = theme === 'light' ? 'dark' : 'light';
+  }
+}</code></pre>
+        </article>
+
+        <!-- Typography Page -->
+        <article x-show="currentPage === 'typography'" x-cloak class="prose">
+          <h1 class="text-3xl font-bold text-sand-12 mb-2">Typography</h1>
+          <p class="text-lg text-sand-11 mb-8">
+            Typography utilities for consistent text styling.
+          </p>
+
+          <h2>Font sizes</h2>
+          <p>Use Tailwind's text size utilities with our color system:</p>
+          <pre><code>&lt;h1 class="text-4xl font-bold text-sand-12"&gt;Heading 1&lt;/h1&gt;
+&lt;h2 class="text-2xl font-semibold text-sand-12"&gt;Heading 2&lt;/h2&gt;
+&lt;p class="text-base text-sand-11"&gt;Body text&lt;/p&gt;
+&lt;small class="text-sm text-sand-10"&gt;Small text&lt;/small&gt;</code></pre>
+
+          <h2>Text colors</h2>
+          <ul>
+            <li><code>text-sand-12</code> - High contrast text (headings)</li>
+            <li><code>text-sand-11</code> - Body text</li>
+            <li><code>text-sand-10</code> - Muted text</li>
+            <li><code>text-accent-11</code> - Accent colored text</li>
+          </ul>
+
+          <h2>Font weight</h2>
+          <p>Recommended font weights:</p>
+          <ul>
+            <li><code>font-bold</code> (700) - Headings</li>
+            <li><code>font-semibold</code> (600) - Subheadings</li>
+            <li><code>font-medium</code> (500) - Labels, buttons</li>
+            <li><code>font-normal</code> (400) - Body text</li>
+          </ul>
+        </article>
+
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

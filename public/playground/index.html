@@ -10,7 +10,7 @@
     import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
     import createRadioGroup from "/public/machines/radio-group.js";
     window.Alpine = Alpine;
-    Alpine.data("colorRadio", () => createRadioGroup({ 
+    Alpine.data("colorRadio", () => createRadioGroup({
       name: 'accent-color',
       defaultValue: 'iris',
       onChange: (color) => { document.body.setAttribute('data-accent-color', color); }
@@ -26,12 +26,59 @@
       display: none !important;
     }
 
-    @keyframes fadeOutIn {
-      0% { opacity: 1; }
-      40% { opacity: 0; }
-      60% { opacity: 0; }
-      100% { opacity: 1; }
+    /* Smooth theme transition with View Transitions API */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 400ms;
+      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+    ::view-transition-old(root) {
+      animation-name: fade-out;
+    }
+
+    ::view-transition-new(root) {
+      animation-name: fade-in;
+    }
+
+    @keyframes fade-out {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOutIn {
+      0% {
+        opacity: 1;
+      }
+
+      40% {
+        opacity: 0;
+      }
+
+      60% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
     .animate-fade-out-in {
       animation: fadeOutIn 0.5s ease-out;
     }
@@ -60,6 +107,7 @@
       0% {
         transform: translateY(0);
       }
+
       100% {
         transform: translateY(-50%);
       }
@@ -69,6 +117,7 @@
       0% {
         transform: translateY(-50%);
       }
+
       100% {
         transform: translateY(0);
       }
@@ -86,16 +135,120 @@
       background: var(--sand-2);
       border-radius: var(--radius-3);
       border: 1px solid var(--sand-6);
-      padding: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
-/* Prism.js custom styles for Radix colors */    .hero-code pre[class*="language-"],    .hero-code code[class*="language-"] {      background: transparent;      border: none;      padding: 0;      margin: 0;      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;      font-size: 0.875rem;      line-height: 1.6;      color: var(--sand-11);    }    .hero-code code[class*="language-"],
+
+    .demo-card input,
+    .demo-card button {
+      box-sizing: border-box;
+      line-height: 1;
+      padding-top: 0;
+      padding-bottom: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dark .demo-card {
+      background: var(--sand-3);
+    }
+
+    /* Prism.js custom styles for Radix colors */
+    .hero-code pre[class*="language-"],
+    .hero-code code[class*="language-"] {
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--sand-11);
+    }
+
+    .hero-code code[class*="language-"],
     .hero-code pre[class*="language-"] {
       text-shadow: none !important;
     }
-    .hero-code .token.keyword { color: var(--violet-11); }    .hero-code .token.string { color: var(--jade-11); }    .hero-code .token.function { color: var(--blue-11); }    .hero-code .token.punctuation { color: var(--sand-10); }    .hero-code .token.operator { color: var(--sand-11); }    .hero-code .token.tag { color: var(--blue-11); }    .hero-code .token.attr-name { color: var(--violet-11); }    .hero-code .token.attr-value { color: var(--jade-11); }    .dark .hero-code .token.keyword { color: var(--violet-10); }    .dark .hero-code .token.string { color: var(--jade-10); }    .dark .hero-code .token.function { color: var(--blue-10); }    .dark .hero-code .token.tag { color: var(--blue-10); }    .dark .hero-code .token.attr-name { color: var(--violet-10); }    .dark .hero-code .token.attr-value { color: var(--jade-10); }
 
+    .hero-code .token.operator {
+      background: transparent !important;
+    }
+
+    .hero-code .token.keyword {
+      color: var(--violet-11);
+    }
+
+    .hero-code .token.string {
+      color: var(--jade-11);
+    }
+
+    .hero-code .token.function {
+      color: var(--blue-11);
+    }
+
+    .hero-code .token.punctuation {
+      color: var(--sand-10);
+    }
+
+    .hero-code .token.operator {
+      color: var(--sand-11);
+    }
+
+    .hero-code .token.tag {
+      color: var(--blue-11);
+    }
+
+    .hero-code .token.attr-name {
+      color: var(--violet-11);
+    }
+
+    .hero-code .token.attr-value {
+      color: var(--jade-11);
+    }
+
+    .dark .hero-code .token.keyword {
+      color: var(--violet-10);
+    }
+
+    .dark .hero-code .token.string {
+      color: var(--jade-10);
+    }
+
+    .dark .hero-code .token.function {
+      color: var(--blue-10);
+    }
+
+    .dark .hero-code .token.tag {
+      color: var(--blue-10);
+    }
+
+    .dark .hero-code .token.attr-name {
+      color: var(--violet-10);
+    }
+
+    .dark .hero-code .token.attr-value {
+      color: var(--jade-10);
+    }
   </style>
+
+  <script>
+    // Load shared scroll-cards-grid component
+    async function loadScrollCardsGrid() {
+      const el = document.querySelector('[data-component="scroll-cards-grid"]');
+      if (!el) return;
+      try {
+        const res = await fetch('/public/playground/components/scroll-cards-grid.html');
+        if (res.ok) {
+          el.outerHTML = await res.text();
+        }
+      } catch (e) {
+        console.error('Failed to load scroll-cards-grid', e);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', loadScrollCardsGrid);
+  </script>
 </head>
 
 <body data-scaling="100%" data-radius="medium"
@@ -106,15 +259,20 @@
 
   <!-- Navbar -->
   <nav
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
+    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
     :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
     <div class="px-4 sm:px-6">
       <div class="rt-Flex flex h-14 items-center justify-between">
         <!-- Logo -->
         <div class="rt-Flex flex items-center gap-3">
           <div
-            class="flex h-8 w-8 items-center justify-center rounded-full bg-accent-9 text-white font-bold text-base shadow-lg shadow-accent-9/30">
-            L
+            class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+              <path
+                d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z"
+                fill="currentColor" />
+              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
+            </svg>
           </div>
           <div class="flex flex-col">
             <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
@@ -123,17 +281,15 @@
 
         <!-- Center Stats -->
         <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="#" class="text-sand-11 hover:text-accent-11 transition-colors">Components</a>
-          <a href="#" class="text-sand-11 hover:text-accent-11 transition-colors">Themes</a>
-          <a href="#" class="text-sand-11 hover:text-accent-11 transition-colors">Resources</a>
-          <a href="#" class="text-sand-11 hover:text-accent-11 transition-colors">Pricing</a>
+          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
+        <a href="/public/playground/components.html" class="text-sand-11 hover:text-accent-11 transition-colors">Components</a>
+        <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
         </div>
 
         <!-- Right Controls -->
         <div class="flex items-center gap-2">
           <!-- Theme Colors - Radio Group (hover to expand) -->
-          <div class="relative hidden sm:block h-8 cursor-pointer"
-            x-data="{ 
+          <div class="relative hidden sm:block h-8 cursor-pointer" x-data="{ 
               ...colorRadio(), 
               expanded: false,
               animating: false,
@@ -149,22 +305,19 @@
                 setTimeout(() => { this.expanded = true; this.animating = false; }, 250);
               }
             }"
-            @mouseenter="clearTimeout(leaveTimer); clearTimeout(hoverTimer); hoverTimer = setTimeout(() => expand(), 100)" 
+            @mouseenter="clearTimeout(leaveTimer); clearTimeout(hoverTimer); hoverTimer = setTimeout(() => expand(), 100)"
             @mouseleave="clearTimeout(hoverTimer); leaveTimer = setTimeout(() => expanded = false, 100)"
             style="width: 140px;">
             <div role="radiogroup" aria-label="Accent Color"
               class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
               :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
               <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" x-bind="optionProps(color)"
-                  class="h-4 w-4 rounded-full ease-out"
-                  :class="[
+                <button type="button" x-bind="optionProps(color)" class="h-4 w-4 rounded-full ease-out" :class="[
                     value === color ? 'ring-2 ring-offset-1 ring-sand-12' : '',
                     expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (value === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')
                   ]"
                   :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (value === color ? getOffset(color) : 0)) + 'px)'"
-                  :aria-checked="value === color"
-                  @click="select(color); accent = color">
+                  :aria-checked="value === color" @click="select(color); accent = color">
                 </button>
               </template>
             </div>
@@ -173,7 +326,7 @@
           <!-- Theme Toggle -->
           <button type="button"
             class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12"
-            @click="theme = theme === 'light' ? 'dark' : 'light'">
+            @click="document.startViewTransition ? document.startViewTransition(() => theme = theme === 'light' ? 'dark' : 'light') : theme = theme === 'light' ? 'dark' : 'light'">
             <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
               stroke-width="2">
               <circle cx="12" cy="12" r="5" />
@@ -202,13 +355,15 @@
   <!-- Hero Section -->
   <section class="rt-Section relative overflow-hidden min-h-screen" data-size="3">
     <!-- Decorative pink shape on right -->
-    <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/3 w-[600px] h-[600px] opacity-30 pointer-events-none">
+    <div
+      class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/3 w-[600px] h-[600px] opacity-30 pointer-events-none">
       <svg viewBox="0 0 200 200" class="w-full h-full">
-        <path fill="#FF6B9D" d="M150,20 Q180,50 170,100 Q160,150 120,180 Q80,200 60,170 Q20,130 40,80 Q60,30 110,20 Q140,10 150,20 Z" />
+        <path fill="#FF6B9D"
+          d="M150,20 Q180,50 170,100 Q160,150 120,180 Q80,200 60,170 Q20,130 40,80 Q60,30 110,20 Q140,10 150,20 Z" />
       </svg>
     </div>
 
-    <div class="rt-Container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-32 pb-16">
+    <div class="rt-Container mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12 pt-32 pb-16">
       <div class="rt-Grid grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         <!-- Left Column -->
         <div class="rt-Box max-w-xl">
@@ -228,7 +383,8 @@
 
           <!-- Description -->
           <p class="text-base md:text-lg text-sand-11 leading-relaxed mb-6">
-            An open source component library optimized for fast development, easy maintenance, and accessibility. Just import and go—no configuration required.
+            An open source component library optimized for fast development, easy maintenance, and accessibility. Just
+            import and go—no configuration required.
           </p>
 
           <!-- Code Example Card -->
@@ -265,463 +421,44 @@ export default () =&gt; (
             </a>
           </div>
 
-          <!-- Live examples label -->
-          <div>
-            <h2 class="text-sm font-semibold text-sand-12 mb-3">Live examples</h2>
-            <div class="flex flex-wrap gap-2">
-              <span class="h-1 w-8 rounded-full bg-sand-12"></span>
-              <span class="h-1 w-6 rounded-full bg-sand-6"></span>
-              <span class="h-1 w-6 rounded-full bg-sand-6"></span>
-              <span class="h-1 w-6 rounded-full bg-sand-6"></span>
-              <span class="h-1 w-6 rounded-full bg-sand-6"></span>
-              <span class="h-1 w-6 rounded-full bg-sand-6"></span>
-              <span class="h-1 w-6 rounded-full bg-sand-6"></span>
+          <!-- Tech Stack & Credits -->
+          <div class="space-y-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-medium text-sand-11">Powered by</span>
+              <a href="https://alpinejs.dev" target="_blank" class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-sand-3 hover:bg-sand-4 transition-colors">
+                <svg class="w-4 h-4 text-[#77c1d2]" viewBox="0 0 256 256" fill="currentColor">
+                  <path d="M128 0L0 128l128 128 128-128L128 0zm0 54.4L201.6 128 128 201.6 54.4 128 128 54.4z"/>
+                </svg>
+                <span class="text-xs font-semibold text-sand-12">Alpine.js</span>
+              </a>
             </div>
+            <p class="text-xs text-sand-10 leading-relaxed">
+              Design system inspired by
+              <a href="https://www.radix-ui.com/themes" target="_blank" class="text-accent-11 hover:underline">Radix Themes</a>.
+              Rebuilt with Alpine.js + Tailwind CSS for lightweight reactivity.
+            </p>
           </div>
         </div>
 
-        <!-- Right Column: Scrolling Cards -->
+                <!-- Right Column: Scrolling Cards -->
         <div class="hidden lg:block relative h-[700px] overflow-hidden">
-          <div class="absolute inset-x-0 top-0 h-32 z-10 pointer-events-none" :class="theme === 'dark' ? 'bg-gradient-to-b from-sand-1 to-transparent' : 'bg-gradient-to-b from-sand-2 to-transparent'"></div>
-          <div class="absolute inset-x-0 bottom-0 h-32 z-10 pointer-events-none" :class="theme === 'dark' ? 'bg-gradient-to-t from-sand-1 to-transparent' : 'bg-gradient-to-t from-sand-2 to-transparent'"></div>
-
-          <div class="grid grid-cols-2 gap-4 absolute inset-0">
-            <!-- Column 1 - Scroll Up -->
-            <div class="flex flex-col gap-4 animate-scroll-up">
-              <!-- Your Team Card -->
-              <div class="demo-card">
-                <div class="mb-3">
-                  <h3 class="text-sm font-semibold text-sand-12">Your team</h3>
-                  <p class="text-xs text-sand-11">Invite and manage your team members.</p>
-                </div>
-                <div class="flex gap-2 mb-3">
-                  <input type="text" placeholder="Email address" class="min-w-0 flex-1 h-8 rounded-md border border-sand-6 bg-sand-2 px-3 text-xs">
-                  <button class="h-8 px-3 rounded-md bg-accent-9 text-white text-xs font-medium shrink-0">Invite</button>
-                </div>
-                <div class="space-y-2">
-                  <div class="flex items-center gap-2">
-                    <div class="h-7 w-7 rounded-full bg-violet-9 flex items-center justify-center text-white text-xs font-medium shrink-0">EL</div>
-                    <div class="flex-1 min-w-0">
-                      <div class="text-xs font-medium text-sand-12">Emmeline Labrie</div>
-                      <div class="text-[10px] text-sand-10 truncate">emmeline.labrie@example.com</div>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <div class="h-7 w-7 rounded-full bg-jade-9 flex items-center justify-center text-white text-xs font-medium shrink-0">ZW</div>
-                    <div class="flex-1 min-w-0">
-                      <div class="text-xs font-medium text-sand-12">Zac Wight</div>
-                      <div class="text-[10px] text-sand-10 truncate">zac.wight@example.com</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Sign Up Card -->
-              <div class="demo-card">
-                <h3 class="text-sm font-semibold text-sand-12 mb-3">Sign up</h3>
-                <div class="space-y-3">
-                  <div>
-                    <label class="text-xs text-sand-11 mb-1 block">Email address</label>
-                    <input type="email" placeholder="Enter your email" class="w-full h-8 rounded-md border border-sand-6 bg-sand-2 px-3 text-xs">
-                  </div>
-                  <div>
-                    <div class="flex justify-between items-center mb-1">
-                      <label class="text-xs text-sand-11">Password</label>
-                      <a href="#" class="text-xs text-accent-11 whitespace-nowrap">Forgot password?</a>
-                    </div>
-                    <input type="password" placeholder="Enter your password" class="w-full h-8 rounded-md border border-sand-6 bg-sand-2 px-3 text-xs">
-                  </div>
-                  <div class="flex gap-2">
-                    <button class="flex-1 h-8 rounded-md border border-sand-6 text-xs font-medium text-sand-12 whitespace-nowrap px-2">Create account</button>
-                    <button class="flex-1 h-8 rounded-md bg-accent-9 text-white text-xs font-medium whitespace-nowrap px-2">Sign in</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Notifications Card -->
-              <div class="demo-card">
-                <div class="mb-3">
-                  <h3 class="text-sm font-semibold text-sand-12">Notifications</h3>
-                  <p class="text-xs text-sand-11">Manage your notification settings.</p>
-                </div>
-                <div class="space-y-3">
-                  <div class="flex items-start justify-between">
-                    <div>
-                      <div class="text-xs font-medium text-sand-12">Comments</div>
-                      <div class="text-[10px] text-sand-10">Receive notifications when someone comments.</div>
-                    </div>
-                    <div class="flex gap-1">
-                      <span class="text-[10px] px-2 py-0.5 rounded bg-accent-9 text-white">Push</span>
-                      <span class="text-[10px] px-2 py-0.5 rounded bg-sand-4 text-sand-11">Email</span>
-                    </div>
-                  </div>
-                  <div class="flex items-start justify-between">
-                    <div>
-                      <div class="text-xs font-medium text-sand-12">Favorites</div>
-                      <div class="text-[10px] text-sand-10">Activity related to your favorited items.</div>
-                    </div>
-                    <div class="flex gap-1">
-                      <span class="text-[10px] px-2 py-0.5 rounded bg-accent-9 text-white">Push</span>
-                      <span class="text-[10px] px-2 py-0.5 rounded bg-accent-9 text-white">Email</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Pricing Card -->
-              <div class="demo-card">
-                <h3 class="text-sm font-semibold text-sand-12 mb-1">Pricing</h3>
-                <p class="text-xs text-sand-10 mb-3">No credit card required. 30-day trial.</p>
-                <div class="grid grid-cols-3 gap-2 text-center">
-                  <div class="p-2 rounded-lg border border-sand-6">
-                    <div class="text-[10px] text-sand-11 mb-1">Basic</div>
-                    <div class="text-sm font-bold text-sand-12">$0</div>
-                    <div class="text-[10px] text-sand-10">/mo</div>
-                  </div>
-                  <div class="p-2 rounded-lg border border-accent-7 bg-accent-2">
-                    <div class="text-[10px] text-accent-11 mb-1">Growth</div>
-                    <div class="text-sm font-bold text-sand-12">$49</div>
-                    <div class="text-[10px] text-sand-10">/mo</div>
-                  </div>
-                  <div class="p-2 rounded-lg border border-sand-6">
-                    <div class="text-[10px] text-sand-11 mb-1">Pro</div>
-                    <div class="text-sm font-bold text-sand-12">$99</div>
-                    <div class="text-[10px] text-sand-10">/mo</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Duplicate cards for seamless loop -->
-              <div class="demo-card">
-                <div class="mb-3">
-                  <h3 class="text-sm font-semibold text-sand-12">Your team</h3>
-                  <p class="text-xs text-sand-11">Invite and manage your team members.</p>
-                </div>
-                <div class="flex gap-2 mb-3">
-                  <input type="text" placeholder="Email address" class="min-w-0 flex-1 h-8 rounded-md border border-sand-6 bg-sand-2 px-3 text-xs">
-                  <button class="h-8 px-3 rounded-md bg-accent-9 text-white text-xs font-medium shrink-0">Invite</button>
-                </div>
-                <div class="space-y-2">
-                  <div class="flex items-center gap-2">
-                    <div class="h-7 w-7 rounded-full bg-violet-9 flex items-center justify-center text-white text-xs font-medium shrink-0">EL</div>
-                    <div class="flex-1 min-w-0">
-                      <div class="text-xs font-medium text-sand-12">Emmeline Labrie</div>
-                      <div class="text-[10px] text-sand-10 truncate">emmeline.labrie@example.com</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="demo-card">
-                <h3 class="text-sm font-semibold text-sand-12 mb-3">Sign up</h3>
-                <div class="space-y-3">
-                  <div>
-                    <label class="text-xs text-sand-11 mb-1 block">Email address</label>
-                    <input type="email" placeholder="Enter your email" class="w-full h-8 rounded-md border border-sand-6 bg-sand-2 px-3 text-xs">
-                  </div>
-                </div>
-              </div>
-
-              <div class="demo-card">
-                <div class="mb-3">
-                  <h3 class="text-sm font-semibold text-sand-12">Notifications</h3>
-                  <p class="text-xs text-sand-11">Manage your notification settings.</p>
-                </div>
-              </div>
-
-              <div class="demo-card">
-                <h3 class="text-sm font-semibold text-sand-12 mb-1">Pricing</h3>
-                <p class="text-xs text-sand-10 mb-3">No credit card required. 30-day trial.</p>
-              </div>
-            </div>
-
-            <!-- Column 2 - Scroll Down -->
-            <div class="flex flex-col gap-4 animate-scroll-down">
-              <!-- Financial Performance Card -->
-              <div class="demo-card">
-                <div class="mb-3">
-                  <h3 class="text-sm font-semibold text-sand-12">Financial performance</h3>
-                  <p class="text-xs text-sand-11">Review your company's KPIs.</p>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                  <div>
-                    <div class="flex items-center gap-1 mb-0.5">
-                      <span class="text-[10px] text-sand-11">MRR</span>
-                      <span class="text-[9px] px-1 rounded bg-jade-3 text-jade-11">↑ 3.2%</span>
-                    </div>
-                    <div class="text-lg font-bold text-sand-12">$350K</div>
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-1 mb-0.5">
-                      <span class="text-[10px] text-sand-11">OpEx</span>
-                      <span class="text-[9px] px-1 rounded bg-red-3 text-red-11">↑ 12.8%</span>
-                    </div>
-                    <div class="text-lg font-bold text-sand-12">$211K</div>
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-1 mb-0.5">
-                      <span class="text-[10px] text-sand-11">GPM</span>
-                      <span class="text-[9px] px-1 rounded bg-red-3 text-red-11">↓ 1.2%</span>
-                    </div>
-                    <div class="text-lg font-bold text-sand-12">44.6%</div>
-                  </div>
-                  <div>
-                    <div class="flex items-center gap-1 mb-0.5">
-                      <span class="text-[10px] text-sand-11">NPM</span>
-                      <span class="text-[9px] px-1 rounded bg-sand-4 text-sand-11">0.0%</span>
-                    </div>
-                    <div class="text-lg font-bold text-sand-12">9.1%</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Company Card -->
-              <div class="demo-card">
-                <div class="mb-3">
-                  <h3 class="text-sm font-semibold text-sand-12">Your company card</h3>
-                  <p class="text-xs text-sand-11">View and manage your corporate card.</p>
-                </div>
-                <div class="rounded-xl p-4 text-white relative overflow-hidden" style="background: linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #EC4899 100%);">
-                  <div class="text-sm font-medium mb-6">Sophie Johnson</div>
-                  <div class="flex items-center gap-2 mb-3">
-                    <span class="font-mono text-sm tracking-widest">4929 3840 8027 7246</span>
-                    <svg class="w-4 h-4 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>
-                  </div>
-                  <div class="flex gap-4 text-sm">
-                    <span>01 / 27</span>
-                    <span>•••</span>
-                  </div>
-                </div>
-                <div class="flex gap-2 mt-3">
-                  <button class="flex-1 h-7 rounded-md border border-sand-6 text-xs text-sand-11">Freeze</button>
-                  <button class="flex-1 h-7 rounded-md bg-sand-12 text-white text-xs">Done</button>
-                </div>
-              </div>
-
-              <!-- Invoice Paid Dialog -->
-              <div class="demo-card !pt-4 text-center">
-                <div class="w-10 h-10 bg-jade-3 border-2 border-jade-9 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <svg class="w-5 h-5 text-jade-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 class="text-sm font-semibold text-sand-12 mb-1">Invoice paid</h3>
-                <p class="text-[11px] text-sand-11 mb-3">You paid $17,975.30. A receipt was sent to accounting@example.com</p>
-                <div class="space-y-2">
-                  <button class="w-full h-7 rounded-md bg-accent-9 text-white text-xs font-medium">Next Invoice</button>
-                  <button class="w-full h-7 rounded-md border border-sand-6 text-xs text-sand-12">Done</button>
-                </div>
-              </div>
-
-              <!-- Recent Activity Card -->
-              <div class="demo-card">
-                <div class="flex items-center justify-between mb-3">
-                  <h3 class="text-sm font-semibold text-sand-12">Recent activity</h3>
-                  <div class="flex gap-1">
-                    <button class="p-1 rounded hover:bg-sand-3"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 4h18M3 12h18M3 20h18"/></svg></button>
-                  </div>
-                </div>
-                <p class="text-xs text-sand-11 mb-3">Review what has happened over the past days.</p>
-                <div class="space-y-2">
-                  <div class="flex items-center gap-2">
-                    <div class="h-6 w-6 rounded-full bg-blue-9 flex items-center justify-center text-white text-[10px] font-medium">DS</div>
-                    <div class="flex-1 min-w-0">
-                      <div class="text-xs text-sand-12"><span class="font-medium">Danilo Sousa</span> Approved invoice #3461</div>
-                    </div>
-                    <div class="text-[10px] text-sand-10">June 21</div>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <div class="h-6 w-6 rounded-full bg-orange-9 flex items-center justify-center text-white text-[10px] font-medium">ZA</div>
-                    <div class="flex-1 min-w-0">
-                      <div class="text-xs text-sand-12"><span class="font-medium">Zahra Ambessa</span> Purchased 15 office chairs</div>
-                    </div>
-                    <div class="text-[10px] text-sand-10">June 21</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- To-do Card -->
-              <div class="demo-card">
-                <div class="flex items-center justify-between mb-2">
-                  <h3 class="text-sm font-semibold text-sand-12">To-do</h3>
-                  <button class="text-sand-11 hover:text-sand-12"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 4v16m8-8H4"/></svg></button>
-                </div>
-                <p class="text-xs text-sand-11 mb-3">Stay on top of your daily tasks.</p>
-                <div class="space-y-2">
-                  <label class="flex items-center gap-2 text-xs">
-                    <input type="checkbox" class="rounded border-sand-6">
-                    <span class="text-sand-12">Respond to comment #384 from Travis Ross</span>
-                  </label>
-                  <label class="flex items-center gap-2 text-xs">
-                    <input type="checkbox" class="rounded border-sand-6">
-                    <span class="text-sand-12">Invite Acme Co. team to Slack</span>
-                  </label>
-                  <label class="flex items-center gap-2 text-xs">
-                    <input type="checkbox" checked class="rounded border-sand-6 bg-accent-9">
-                    <span class="text-sand-10 line-through">Close Q3 finances</span>
-                  </label>
-                </div>
-              </div>
-
-              <!-- Duplicate cards for seamless loop -->
-              <div class="demo-card">
-                <div class="mb-3">
-                  <h3 class="text-sm font-semibold text-sand-12">Financial performance</h3>
-                  <p class="text-xs text-sand-11">Review your company's KPIs.</p>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                  <div>
-                    <div class="flex items-center gap-1 mb-0.5">
-                      <span class="text-[10px] text-sand-11">MRR</span>
-                      <span class="text-[9px] px-1 rounded bg-jade-3 text-jade-11">↑ 3.2%</span>
-                    </div>
-                    <div class="text-lg font-bold text-sand-12">$350K</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="demo-card">
-                <div class="mb-3">
-                  <h3 class="text-sm font-semibold text-sand-12">Your company card</h3>
-                  <p class="text-xs text-sand-11">View and manage your corporate card.</p>
-                </div>
-                <div class="rounded-xl p-3 text-white" style="background: linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #EC4899 100%);">
-                  <div class="text-xs font-medium mb-3">Sophie Johnson</div>
-                  <div class="font-mono text-xs tracking-widest">4929 •••• •••• 7246</div>
-                </div>
-              </div>
-
-              <div class="demo-card !pt-4 text-center">
-                <div class="w-10 h-10 bg-jade-3 border-2 border-jade-9 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <svg class="w-5 h-5 text-jade-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 class="text-sm font-semibold text-sand-12 mb-1">Invoice paid</h3>
-              </div>
-
-              <div class="demo-card">
-                <h3 class="text-sm font-semibold text-sand-12">Recent activity</h3>
-              </div>
-
-              <div class="demo-card">
-                <h3 class="text-sm font-semibold text-sand-12">To-do</h3>
-              </div>
-            </div>
+          <!-- Gradient overlays -->
+          <div class="absolute inset-x-0 top-0 h-32 z-10 pointer-events-none"
+            :class="theme === 'dark' ? 'bg-gradient-to-b from-sand-1 to-transparent' : 'bg-gradient-to-b from-sand-2 to-transparent'">
           </div>
+          <div class="absolute inset-x-0 bottom-0 h-32 z-10 pointer-events-none"
+            :class="theme === 'dark' ? 'bg-gradient-to-t from-sand-1 to-transparent' : 'bg-gradient-to-t from-sand-2 to-transparent'">
+          </div>
+
+          <div data-component="scroll-cards-grid"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Components Grid Section -->
-  <main id="components" class="rt-Section rt-Container mx-auto max-w-6xl px-4 py-12" data-size="2">
-
-<!-- Layout -->    <section class="mb-12">      <div class="flex items-center gap-3 mb-4">        <h2 class="text-lg font-semibold text-sand-12">Layout</h2>        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">5</span>      </div>      <div class="rt-Grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">        <a href="/public/playground/box.html" class="component-card">Box</a>        <a href="/public/playground/flex.html" class="component-card">Flex</a>        <a href="/public/playground/grid.html" class="component-card">Grid</a>        <a href="/public/playground/container.html" class="component-card">Container</a>        <a href="/public/playground/section.html" class="component-card">Section</a>      </div>    </section>
-    <!-- Form Controls -->
-    <section class="mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <h2 class="text-lg font-semibold text-sand-12">Form Controls</h2>
-        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">10</span>
-      </div>
-      <div class="rt-Grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-        <a href="/public/playground/switch.html" class="component-card">Switch</a>
-        <a href="/public/playground/checkbox.html" class="component-card">Checkbox</a>
-        <a href="/public/playground/checkbox-group.html" class="component-card">Checkbox Group</a>
-        <a href="/public/playground/checkbox-cards.html" class="component-card">Checkbox Cards</a>
-        <a href="/public/playground/radio.html" class="component-card">Radio</a>
-        <a href="/public/playground/radio-cards.html" class="component-card">Radio Cards</a>
-        <a href="/public/playground/input.html" class="component-card">Input</a>
-        <a href="/public/playground/slider.html" class="component-card">Slider</a>
-        <a href="/public/playground/tags.html" class="component-card">Tags Input</a>
-        <a href="/public/playground/select.html" class="component-card">Select</a>
-      </div>
-    </section>
-
-    <!-- Navigation -->
-    <section class="mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <h2 class="text-lg font-semibold text-sand-12">Navigation</h2>
-        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">5</span>
-      </div>
-      <div class="rt-Grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-        <a href="/public/playground/tabs.html" class="component-card">Tabs</a>
-        <a href="/public/playground/accordion.html" class="component-card">Accordion</a>
-        <a href="/public/playground/scroll-area.html" class="component-card">Scroll Area</a>
-        <a href="/public/playground/segmented-control.html" class="component-card">Segmented Control</a>
-        <a href="/public/playground/tab-nav.html" class="component-card">Tab Nav</a>
-      </div>
-    </section>
-
-    <!-- Layout & Display -->
-    <section class="mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <h2 class="text-lg font-semibold text-sand-12">Layout & Display</h2>
-        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">9</span>
-      </div>
-      <div class="rt-Grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-        <a href="/public/playground/button.html" class="component-card">Button</a>
-        <a href="/public/playground/icon-button.html" class="component-card">Icon Button</a>
-        <a href="/public/playground/badge.html" class="component-card">Badge</a>
-        <a href="/public/playground/avatar.html" class="component-card">Avatar</a>
-        <a href="/public/playground/spinner.html" class="component-card">Spinner</a>
-        <a href="/public/playground/skeleton.html" class="component-card">Skeleton</a>
-        <a href="/public/playground/separator.html" class="component-card">Separator</a>
-        <a href="/public/playground/aspect-ratio.html" class="component-card">Aspect Ratio</a>
-        <a href="/public/playground/inset.html" class="component-card">Inset</a>
-      </div>
-    </section>
-
-    <!-- Data & Feedback -->
-    <section class="mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <h2 class="text-lg font-semibold text-sand-12">Data & Feedback</h2>
-        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">6</span>
-      </div>
-      <div class="rt-Grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-        <a href="/public/playground/toast.html" class="component-card">Toast</a>
-        <a href="/public/playground/progress.html" class="component-card">Progress</a>
-        <a href="/public/playground/tri-switch.html" class="component-card">Tri-state Switch</a>
-        <a href="/public/playground/table.html" class="component-card">Table</a>
-        <a href="/public/playground/data-list.html" class="component-card">Data List</a>
-      </div>
-    </section>
-
-    <!-- Typography -->
-    <section class="mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <h2 class="text-lg font-semibold text-sand-12">Typography</h2>
-        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">4</span>
-      </div>
-      <div class="rt-Grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-        <a href="/public/playground/typography.html" class="component-card">Typography</a>
-        <a href="/public/playground/kbd.html" class="component-card">Kbd</a>
-        <a href="/public/playground/callout.html" class="component-card">Callout</a>
-        <a href="/public/playground/code.html" class="component-card">Code</a>
-      </div>
-    </section>
-
-    <!-- Overlays -->
-    <section class="mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <h2 class="text-lg font-semibold text-sand-12">Overlays</h2>
-        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">7</span>
-      </div>
-      <div class="rt-Grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-        <a href="/public/playground/dialog.html" class="component-card">Dialog</a>
-        <a href="/public/playground/alert-dialog.html" class="component-card">Alert Dialog</a>
-        <a href="/public/playground/tooltip.html" class="component-card">Tooltip</a>
-        <a href="/public/playground/dropdown-menu.html" class="component-card">Dropdown Menu</a>
-        <a href="/public/playground/popover.html" class="component-card">Popover</a>
-        <a href="/public/playground/hover-card.html" class="component-card">Hover Card</a>
-        <a href="/public/playground/context-menu.html" class="component-card">Context Menu</a>
-      </div>
-    </section>
-
-  </main>
-
+  
   <!-- Footer -->
-  <footer class="rt-Section border-t border-sand-6 py-8" data-size="1" >
+  <footer class="rt-Section border-t border-sand-6 py-8" data-size="1">
     <div class="rt-Container mx-auto max-w-6xl px-4">
       <div class="rt-Flex flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="rt-Flex flex items-center gap-2 text-sm text-sand-11">
@@ -733,14 +470,14 @@ export default () =&gt; (
           <span>by Lily UI Team</span>
         </div>
         <div class="rt-Flex flex items-center gap-4 text-sm text-sand-11">
-          <a href="#" class="hover:text-sand-12 transition-colors">GitHub</a>
-          <a href="#" class="hover:text-sand-12 transition-colors">Documentation</a>
-          <a href="#" class="hover:text-sand-12 transition-colors">Changelog</a>
+          <a href="https://github.com" target="_blank" class="hover:text-sand-12 transition-colors">GitHub</a>
+          <a href="/public/playground/docs.html" class="hover:text-sand-12 transition-colors">Documentation</a>
+          <a href="/public/playground/components.html" class="hover:text-sand-12 transition-colors">Components</a>
         </div>
       </div>
     </div>
   </footer>
-<script>    document.addEventListener("DOMContentLoaded", () => Prism.highlightAll());  </script>
+  <script>    document.addEventListener("DOMContentLoaded", () => Prism.highlightAll());  </script>
 
 </body>
 

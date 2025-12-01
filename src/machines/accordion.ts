@@ -6,7 +6,7 @@ interface AccordionConfig {
   onChange?: (value: string | string[]) => void;
 }
 
-export default function createAccordion(config: AccordionConfig = {}) {
+export function accordionMachine(config: AccordionConfig = {}) {
   const {
     type = "single",
     defaultValue = type === "multiple" ? [] : "",
@@ -61,7 +61,7 @@ export default function createAccordion(config: AccordionConfig = {}) {
     itemProps(id: string) {
       return {
         "data-state": this.getState(id),
-        "data-disabled": this.disabled ? "" : undefined,
+        ...(this.disabled ? { "data-disabled": "" } : {}),
       };
     },
 
@@ -72,7 +72,7 @@ export default function createAccordion(config: AccordionConfig = {}) {
         "aria-expanded": this.isOpen(id).toString(),
         "aria-controls": `accordion-content-${id}`,
         "data-state": this.getState(id),
-        "data-disabled": this.disabled ? "" : undefined,
+        ...(this.disabled ? { "data-disabled": "" } : {}),
       };
     },
 

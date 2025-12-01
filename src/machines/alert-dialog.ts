@@ -69,12 +69,11 @@ export function createAlertDialog(options: AlertDialogOptions = {}) {
       if (this.loading) return;
 
       try {
-        this.loading = true;
-
         if (onConfirm) {
+          this.loading = true;
           await onConfirm();
         }
-
+        this.loading = false;
         this.hide();
       } catch (error) {
         // 如果回调抛出错误，保持对话框打开
@@ -87,12 +86,11 @@ export function createAlertDialog(options: AlertDialogOptions = {}) {
       if (this.loading) return;
 
       try {
-        this.loading = true;
-
         if (onCancel) {
+          this.loading = true;
           await onCancel();
         }
-
+        this.loading = false;
         this.hide();
       } catch (error) {
         console.error('Alert dialog cancel error:', error);

@@ -41,7 +41,7 @@ function createRadioGroup(config = {}) {
       return {
         "@click.prevent": () => this.select(id),
         "data-state": this.isChecked(id) ? "checked" : "unchecked",
-        "data-disabled": this.disabled ? "" : undefined
+        ...this.disabled ? { "data-disabled": "" } : {}
       };
     }
   };

@@ -66,7 +66,7 @@ function createCheckbox(config = {}) {
         for: config.id,
         "@click.prevent": () => this.toggle(),
         "data-state": this.state,
-        "data-disabled": this.disabled ? "" : undefined
+        ...this.disabled ? { "data-disabled": "" } : {}
       };
     }
   };

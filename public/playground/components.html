@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components - Lily UI</title>
+  <link rel="stylesheet" href="/dist/output.css">
+  <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import { navbar } from "/public/playground/components/navbar.js";
+    window.Alpine = Alpine;
+    Alpine.data('navbar', navbar);
+    Alpine.start();
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .component-card {
+      display: block;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-2);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--sand-12);
+      background: var(--sand-2);
+      border: 1px solid var(--sand-5);
+      transition: all 0.15s ease;
+    }
+    .component-card:hover {
+      background: var(--accent-3);
+      border-color: var(--accent-7);
+      color: var(--accent-11);
+    }
+  </style>
+</head>
+
+<body data-scaling="100%" data-radius="medium"
+  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
+  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
+  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
+  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
+
+  <!-- Navbar -->
+  <nav x-data="navbar()"
+    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
+    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
+    <div class="px-4 sm:px-6">
+      <div class="flex h-14 items-center justify-between">
+        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
+              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
+            </svg>
+          </div>
+          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
+          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
+          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
+          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
+            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
+            <div role="radiogroup" aria-label="Accent Color"
+              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
+              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
+              <template x-for="(color, idx) in colors" :key="color">
+                <button type="button" class="h-4 w-4 rounded-full ease-out"
+                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
+                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
+                  @click="accent = color"></button>
+              </template>
+            </div>
+          </div>
+          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
+            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+            </svg>
+            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="mx-auto max-w-6xl px-4 pt-28 pb-12">
+    <!-- Header -->
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-sand-12 mb-2">Components</h1>
+      <p class="text-sand-11">Explore all available UI components. Click any component to see live examples and usage.</p>
+    </div>
+
+    <!-- Layout -->
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Layout</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">5</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/box.html" class="component-card">Box</a>
+        <a href="/public/playground/flex.html" class="component-card">Flex</a>
+        <a href="/public/playground/grid.html" class="component-card">Grid</a>
+        <a href="/public/playground/container.html" class="component-card">Container</a>
+        <a href="/public/playground/section.html" class="component-card">Section</a>
+      </div>
+    </section>
+
+    <!-- Form Controls -->
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Form Controls</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">10</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/switch.html" class="component-card">Switch</a>
+        <a href="/public/playground/checkbox.html" class="component-card">Checkbox</a>
+        <a href="/public/playground/checkbox-group.html" class="component-card">Checkbox Group</a>
+        <a href="/public/playground/checkbox-cards.html" class="component-card">Checkbox Cards</a>
+        <a href="/public/playground/radio.html" class="component-card">Radio</a>
+        <a href="/public/playground/radio-cards.html" class="component-card">Radio Cards</a>
+        <a href="/public/playground/input.html" class="component-card">Input</a>
+        <a href="/public/playground/slider.html" class="component-card">Slider</a>
+        <a href="/public/playground/tags.html" class="component-card">Tags Input</a>
+        <a href="/public/playground/select.html" class="component-card">Select</a>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Navigation</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">5</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/tabs.html" class="component-card">Tabs</a>
+        <a href="/public/playground/accordion.html" class="component-card">Accordion</a>
+        <a href="/public/playground/scroll-area.html" class="component-card">Scroll Area</a>
+        <a href="/public/playground/segmented-control.html" class="component-card">Segmented Control</a>
+        <a href="/public/playground/tab-nav.html" class="component-card">Tab Nav</a>
+      </div>
+    </section>
+
+    <!-- Layout & Display -->
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Display</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">9</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/button.html" class="component-card">Button</a>
+        <a href="/public/playground/icon-button.html" class="component-card">Icon Button</a>
+        <a href="/public/playground/badge.html" class="component-card">Badge</a>
+        <a href="/public/playground/avatar.html" class="component-card">Avatar</a>
+        <a href="/public/playground/spinner.html" class="component-card">Spinner</a>
+        <a href="/public/playground/skeleton.html" class="component-card">Skeleton</a>
+        <a href="/public/playground/separator.html" class="component-card">Separator</a>
+        <a href="/public/playground/aspect-ratio.html" class="component-card">Aspect Ratio</a>
+        <a href="/public/playground/inset.html" class="component-card">Inset</a>
+      </div>
+    </section>
+
+    <!-- Data & Feedback -->
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Data & Feedback</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">5</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/toast.html" class="component-card">Toast</a>
+        <a href="/public/playground/progress.html" class="component-card">Progress</a>
+        <a href="/public/playground/tri-switch.html" class="component-card">Tri-state Switch</a>
+        <a href="/public/playground/table.html" class="component-card">Table</a>
+        <a href="/public/playground/data-list.html" class="component-card">Data List</a>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Typography</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">4</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/typography.html" class="component-card">Typography</a>
+        <a href="/public/playground/kbd.html" class="component-card">Kbd</a>
+        <a href="/public/playground/callout.html" class="component-card">Callout</a>
+        <a href="/public/playground/code.html" class="component-card">Code</a>
+      </div>
+    </section>
+
+    <!-- Overlays -->
+    <section class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-lg font-semibold text-sand-12">Overlays</h2>
+        <span class="rounded-full bg-accent-3 px-2 py-0.5 text-xs font-medium text-accent-11">7</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+        <a href="/public/playground/dialog.html" class="component-card">Dialog</a>
+        <a href="/public/playground/alert-dialog.html" class="component-card">Alert Dialog</a>
+        <a href="/public/playground/tooltip.html" class="component-card">Tooltip</a>
+        <a href="/public/playground/dropdown-menu.html" class="component-card">Dropdown Menu</a>
+        <a href="/public/playground/popover.html" class="component-card">Popover</a>
+        <a href="/public/playground/hover-card.html" class="component-card">Hover Card</a>
+        <a href="/public/playground/context-menu.html" class="component-card">Context Menu</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-sand-6 py-8">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-sm text-sand-11">
+          <span>Design inspired by</span>
+          <a href="https://www.radix-ui.com/themes" target="_blank" class="text-accent-11 hover:underline">Radix Themes</a>
+        </div>
+        <div class="flex items-center gap-4 text-sm text-sand-11">
+          <a href="https://github.com" target="_blank" class="hover:text-sand-12 transition-colors">GitHub</a>
+          <a href="/public/playground/docs.html" class="hover:text-sand-12 transition-colors">Documentation</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground - Scroll Cards</title>
+  <link rel="stylesheet" href="/dist/output.css">
+    <script type="module">
+    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import { navbar } from "/public/playground/components/navbar.js";
+    window.Alpine = Alpine;
+
+    // Register navbar component
+    Alpine.data('navbar', navbar);
+
+    // Start Alpine
+    Alpine.start();
+  </script>
+  <style>
+    @keyframes scroll-up {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-50%);
+      }
+    }
+
+    @keyframes scroll-down {
+      0% {
+        transform: translateY(-50%);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .animate-scroll-up {
+      animation: scroll-up 40s linear infinite;
+    }
+
+    .animate-scroll-down {
+      animation: scroll-down 40s linear infinite;
+    }
+
+    .demo-card {
+      background: var(--sand-2);
+      border-radius: var(--radius-3);
+      border: 1px solid var(--sand-6);
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .demo-card input,
+    .demo-card button {
+      box-sizing: border-box;
+      line-height: 1;
+      padding-top: 0;
+      padding-bottom: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dark .demo-card {
+      background: var(--sand-3);
+    }
+  
+    /* Embed mode - hide everything except the demo */
+    .embed-mode body {
+      background: transparent !important;
+      min-height: auto !important;
+    }
+    .embed-mode main {
+      padding: 0 !important;
+      max-width: none !important;
+    }
+    .embed-mode header,
+    .embed-mode section:first-of-type {
+      display: none !important;
+    }
+    .embed-mode section:last-of-type {
+      border: none !important;
+      padding: 0 !important;
+      background: transparent !important;
+    }
+    .embed-mode section:last-of-type > h2 {
+      display: none !important;
+    }
+    .embed-mode section:last-of-type > div {
+      border: none !important;
+      height: 100vh !important;
+    }
+/* Accent color utilities */
+    .text-accent-11 { color: var(--accent-11); }
+    .text-accent-12 { color: var(--accent-12); }
+    .bg-accent-2 { background-color: var(--accent-2); }
+    .bg-accent-4 { background-color: var(--accent-4); }
+    .bg-accent-5 { background-color: var(--accent-5); }
+    .bg-accent-9 { background-color: var(--accent-9); }
+    .border-accent-7 { border-color: var(--accent-7); }
+  </style>
+
+  <script>
+    // Load shared scroll-cards-grid component
+    async function loadScrollCardsGrid() {
+      const el = document.querySelector('[data-component="scroll-cards-grid"]');
+      if (!el) return;
+      try {
+        const res = await fetch('/public/playground/components/scroll-cards-grid.html');
+        if (res.ok) {
+          el.outerHTML = await res.text();
+        }
+      } catch (e) {
+        console.error('Failed to load scroll-cards-grid', e);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', loadScrollCardsGrid);
+  </script>
+</head>
+
+<body data-scaling="100%" data-radius="medium"
+  class="rt-Theme radix-themes min-h-screen text-sand-12 transition-colors duration-300" data-is-root-theme="true"
+  x-data="{ theme: 'light', accent: 'iris' }"
+  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]"
+  :data-accent-color="accent">
+  <!-- Navbar -->
+  <nav x-data="navbar()"
+    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
+    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
+    <div class="px-4 sm:px-6">
+      <div class="flex h-14 items-center justify-between">
+        <!-- Logo -->
+        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
+              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
+              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
+            </svg>
+          </div>
+          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
+        </a>
+
+        <!-- Center Nav Links -->
+        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
+          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
+        <a href="/public/playground/components.html" class="text-sand-11 hover:text-accent-11 transition-colors">Components</a>
+        <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
+        </div>
+
+        <!-- Right Controls -->
+        <div class="flex items-center gap-2">
+          <!-- Color Picker -->
+          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
+            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
+            <div role="radiogroup" aria-label="Accent Color"
+              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
+              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
+              <template x-for="(color, idx) in colors" :key="color">
+                <button type="button"
+                  class="h-4 w-4 rounded-full ease-out"
+                  :class="[
+                    accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '',
+                    expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')
+                  ]"
+                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
+                  :aria-checked="accent === color"
+                  @click="accent = color">
+                </button>
+              </template>
+            </div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button type="button"
+            class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12"
+            @click="toggleTheme()">
+            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5" />
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+            </svg>
+            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+
+          <!-- GitHub -->
+          <a href="https://github.com" target="_blank"
+            class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <main class="mx-auto max-w-5xl pt-28 px-8 pb-8 space-y-8">
+    <!-- Scrolling Cards Demo -->
+    <section class="rounded-lg border border-sand-7 p-6 shadow-sm space-y-6" style="background: var(--sand-surface);">
+      <h2 class="text-sm font-medium">循环滚动卡片</h2>
+
+      <div class="relative h-[700px] overflow-hidden rounded-lg border border-sand-6">
+        <!-- Top gradient -->
+        <div class="absolute inset-x-0 top-0 h-32 z-10 pointer-events-none"
+          :class="theme === 'dark' ? 'bg-gradient-to-b from-sand-1 to-transparent' : 'bg-gradient-to-b from-sand-2 to-transparent'">
+        </div>
+        <!-- Bottom gradient -->
+        <div class="absolute inset-x-0 bottom-0 h-32 z-10 pointer-events-none"
+          :class="theme === 'dark' ? 'bg-gradient-to-t from-sand-1 to-transparent' : 'bg-gradient-to-t from-sand-2 to-transparent'">
+        </div>
+
+        <div data-component="scroll-cards-grid"></div>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>

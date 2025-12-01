@@ -33,10 +33,11 @@ function createAlertDialog(options = {}) {
       if (this.loading)
         return;
       try {
-        this.loading = true;
         if (onConfirm) {
+          this.loading = true;
           await onConfirm();
         }
+        this.loading = false;
         this.hide();
       } catch (error) {
         console.error("Alert dialog confirm error:", error);
@@ -47,10 +48,11 @@ function createAlertDialog(options = {}) {
       if (this.loading)
         return;
       try {
-        this.loading = true;
         if (onCancel) {
+          this.loading = true;
           await onCancel();
         }
+        this.loading = false;
         this.hide();
       } catch (error) {
         console.error("Alert dialog cancel error:", error);
