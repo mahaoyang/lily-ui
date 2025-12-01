@@ -3362,7 +3362,7 @@
     z-index: 100;
     position: absolute;
     width: max-content;
-    max-width: 300px;
+    max-width: 60px;
     white-space: normal;
     box-shadow:
       0 10px 38px -10px rgba(22, 23, 24, 0.35),
