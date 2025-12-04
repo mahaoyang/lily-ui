@@ -25,7 +25,17 @@ export interface AlertDialogOptions {
   onCancel?: () => void | Promise<void>;
   /** 打开/关闭变化回调 */
   onOpenChange?: (open: boolean) => void;
+  /** 内容标题 id，用于 aria-labelledby */
+  labelId?: string;
+  /** 内容描述 id，用于 aria-describedby */
+  descriptionId?: string;
+  /** 对话框内容节点 id，用于 aria-controls 关联 */
+  id?: string;
 }
+
+let alertDialogIdCounter = 0;
+let bodyLockCount = 0;
+let previousBodyOverflow: string | null = null;
 
 export function createAlertDialog(options: AlertDialogOptions = {}) {
   const {
@@ -36,22 +46,38 @@ export function createAlertDialog(options: AlertDialogOptions = {}) {
     onConfirm,
     onCancel,
     onOpenChange,
+    labelId,
+    descriptionId,
+    id,
   } = options;
+  const contentId = id ?? `alert-dialog-${++alertDialogIdCounter}`;
 
   return {
     // 状态
     open: defaultOpen,
     loading: false, // 用于异步操作时的加载状态
+    lastActiveElement: null as HTMLElement | null,
 
     // 配置
     size,
     align,
 
     // 方法
+    init() {
+      if (this.open) {
+        this.lockBodyScroll();
+      }
+    },
+
     show() {
       if (!this.open) {
         this.open = true;
+        this.lastActiveElement = document.activeElement as HTMLElement | null;
         this.lockBodyScroll();
+        this.$nextTick?.(() => {
+          const content = (this as any)?.$refs?.content as HTMLElement | undefined;
+          content?.focus();
+        });
         onOpenChange?.(true);
       }
     },
@@ -61,6 +87,7 @@ export function createAlertDialog(options: AlertDialogOptions = {}) {
         this.open = false;
         this.loading = false;
         this.unlockBodyScroll();
+        this.lastActiveElement?.focus?.({ preventScroll: true });
         onOpenChange?.(false);
       }
     },
@@ -100,29 +127,42 @@ export function createAlertDialog(options: AlertDialogOptions = {}) {
 
     // 锁定 body 滚动
     lockBodyScroll() {
-      document.body.style.overflow = 'hidden';
+      if (bodyLockCount === 0) {
+        previousBodyOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      }
+      bodyLockCount += 1;
     },
 
     // 解锁 body 滚动
     unlockBodyScroll() {
-      document.body.style.overflow = '';
+      bodyLockCount = Math.max(0, bodyLockCount - 1);
+      if (bodyLockCount === 0) {
+        document.body.style.overflow = previousBodyOverflow ?? '';
+        previousBodyOverflow = null;
+      }
     },
 
     // Overlay 属性
     overlayProps() {
       return {
-        role: 'alertdialog',
-        'aria-modal': 'true',
         // Alert Dialog 不应该支持点击 overlay 关闭
         '@keydown.escape.window': closeOnEscape ? 'hide()' : undefined,
+        'data-state': this.open ? 'open' : 'closed',
       };
     },
 
     // Content 属性
     contentProps() {
       return {
-        role: 'document',
+        role: 'alertdialog',
+        'aria-modal': 'true',
+        'aria-labelledby': labelId,
+        'aria-describedby': descriptionId,
         tabindex: '-1',
+        'data-state': this.open ? 'open' : 'closed',
+        'x-ref': 'content',
+        id: contentId,
       };
     },
 
@@ -131,6 +171,7 @@ export function createAlertDialog(options: AlertDialogOptions = {}) {
       return {
         type: 'button',
         ':disabled': 'loading',
+        '@click': 'confirm()',
       };
     },
 
@@ -139,6 +180,18 @@ export function createAlertDialog(options: AlertDialogOptions = {}) {
       return {
         type: 'button',
         ':disabled': 'loading',
+        '@click': 'cancel()',
+      };
+    },
+
+    // Trigger 属性
+    triggerProps() {
+      return {
+        type: 'button',
+        'aria-haspopup': 'dialog',
+        'aria-expanded': this.open,
+        'aria-controls': contentId,
+        '@click': 'toggle()',
       };
     },
   };

@@ -1,14 +1,17 @@
 // src/machines/tooltip.ts
+var tooltipIdCounter = 0;
 function createTooltip(options = {}) {
   const {
     side = "top",
     delayDuration = 700,
     hideDelay = 0,
     sideOffset = 4,
+    id,
     onOpenChange
   } = options;
   let showTimer = null;
   let hideTimer = null;
+  const contentId = id ?? `tooltip-${++tooltipIdCounter}`;
   return {
     open: false,
     side,
@@ -74,12 +77,12 @@ function createTooltip(options = {}) {
     },
     triggerProps() {
       return {
-        "aria-describedby": this.open ? "tooltip-content" : undefined
+        "aria-describedby": this.open ? contentId : undefined
       };
     },
     contentProps() {
       return {
-        id: "tooltip-content",
+        id: contentId,
         role: "tooltip"
       };
     },

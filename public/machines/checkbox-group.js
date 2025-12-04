@@ -80,7 +80,6 @@ function createCheckboxGroup(config = {}) {
         name: this.name,
         value,
         checked: isChecked,
-        "aria-hidden": "true",
         tabindex: -1,
         "@change.prevent.stop": () => this.toggle(value)
       };

@@ -46,6 +46,8 @@ function createDropdownMenu(options = {}) {
         this.open = false;
         this.highlightedIndex = -1;
         onOpenChange?.(false);
+        const trigger = this?.$refs?.trigger;
+        trigger?.focus?.({ preventScroll: true });
       }
     },
     toggle() {
@@ -136,7 +138,8 @@ function createDropdownMenu(options = {}) {
         type: "button",
         "aria-haspopup": "menu",
         "aria-expanded": this.open,
-        "@click": "toggle()"
+        "@click": "toggle()",
+        "x-ref": "trigger"
       };
     },
     contentProps() {
@@ -144,7 +147,9 @@ function createDropdownMenu(options = {}) {
         role: "menu",
         tabindex: "-1",
         "@keydown": "handleKeyDown($event)",
-        "@click.outside": closeOnOutsideClick ? "hide()" : undefined
+        "@click.outside": closeOnOutsideClick ? "hide()" : undefined,
+        "@keydown.tab": "hide()",
+        "@keydown.shift.tab": "hide()"
       };
     },
     itemProps(value, disabled = false) {

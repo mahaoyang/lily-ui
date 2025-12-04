@@ -90,6 +90,9 @@ export function createDropdownMenu(options: DropdownMenuOptions = {}) {
         this.open = false;
         this.highlightedIndex = -1;
         onOpenChange?.(false);
+        // 关闭时归还焦点
+        const trigger = (this as any)?.$refs?.trigger as HTMLElement | undefined;
+        trigger?.focus?.({ preventScroll: true });
       }
     },
 
@@ -191,6 +194,7 @@ export function createDropdownMenu(options: DropdownMenuOptions = {}) {
         'aria-haspopup': 'menu',
         'aria-expanded': this.open,
         '@click': 'toggle()',
+        'x-ref': 'trigger',
       };
     },
 
@@ -201,6 +205,8 @@ export function createDropdownMenu(options: DropdownMenuOptions = {}) {
         tabindex: '-1',
         '@keydown': 'handleKeyDown($event)',
         '@click.outside': closeOnOutsideClick ? 'hide()' : undefined,
+        '@keydown.tab': 'hide()',
+        '@keydown.shift.tab': 'hide()',
       };
     },
 

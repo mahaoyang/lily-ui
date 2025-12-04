@@ -1,4 +1,5 @@
 // src/machines/select.ts
+var selectIdCounter = 0;
 function isGrouped(items) {
   return items.length > 0 && "options" in items[0];
 }
@@ -14,10 +15,16 @@ function createSelect(config) {
     defaultValue = "",
     placeholder = "Select...",
     disabled = false,
-    onChange
+    onChange,
+    id,
+    labelId
   } = config;
   const allOptions = flattenOptions(items);
   const enabledOptions = allOptions.filter((o) => !o.disabled);
+  const instanceId = id || `select-${++selectIdCounter}`;
+  const listboxId = `${instanceId}-listbox`;
+  const sanitize = (value) => value.replace(/[^a-zA-Z0-9_-]/g, "-");
+  const getOptionId = (value) => `${instanceId}-option-${sanitize(value)}`;
   return {
     open: false,
     value: defaultValue,
@@ -39,6 +46,10 @@ function createSelect(config) {
         return;
       this.open = true;
       this.highlightedValue = this.value || enabledOptions[0]?.value || "";
+      this.$nextTick?.(() => {
+        const content = this?.$refs?.content;
+        content?.focus();
+      });
     },
     closeMenu() {
       this.open = false;
@@ -132,13 +143,25 @@ function createSelect(config) {
     triggerProps() {
       return {
         role: "combobox",
-        "aria-haspopup": "listbox"
+        "aria-haspopup": "listbox",
+        "aria-expanded": this.open,
+        "aria-controls": listboxId,
+        "aria-activedescendant": this.open && this.highlightedValue ? getOptionId(this.highlightedValue) : undefined,
+        "aria-disabled": this.disabled || undefined,
+        "aria-labelledby": labelId,
+        "data-state": this.open ? "open" : "closed",
+        "data-placeholder": this.hasValue ? undefined : ""
       };
     },
     contentProps() {
       return {
         role: "listbox",
-        tabindex: -1
+        tabindex: -1,
+        id: listboxId,
+        "aria-labelledby": labelId,
+        "data-state": this.open ? "open" : "closed",
+        "x-ref": "content",
+        "@click.outside": "closeMenu()"
       };
     },
     itemProps(value) {
@@ -146,7 +169,10 @@ function createSelect(config) {
       const isDisabled = option?.disabled || false;
       return {
         role: "option",
-        "aria-disabled": isDisabled
+        "aria-disabled": isDisabled,
+        "aria-selected": this.isSelected(value),
+        id: getOptionId(value),
+        "data-state": this.isSelected(value) ? "checked" : "unchecked"
       };
     },
     isSelected(value) {

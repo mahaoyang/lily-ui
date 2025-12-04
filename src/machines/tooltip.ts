@@ -17,9 +17,13 @@ export interface TooltipOptions {
   hideDelay?: number;
   /** 距离触发元素的偏移量 (px) */
   sideOffset?: number;
+  /** tooltip 内容 id，未传时自动生成，确保实例唯一 */
+  id?: string;
   /** 打开/关闭变化回调 */
   onOpenChange?: (open: boolean) => void;
 }
+
+let tooltipIdCounter = 0;
 
 export function createTooltip(options: TooltipOptions = {}) {
   const {
@@ -27,11 +31,13 @@ export function createTooltip(options: TooltipOptions = {}) {
     delayDuration = 700,
     hideDelay = 0,
     sideOffset = 4,
+    id,
     onOpenChange,
   } = options;
 
   let showTimer: number | null = null;
   let hideTimer: number | null = null;
+  const contentId = id ?? `tooltip-${++tooltipIdCounter}`;
 
   return {
     // 状态
@@ -116,14 +122,14 @@ export function createTooltip(options: TooltipOptions = {}) {
     // Trigger 属性
     triggerProps() {
       return {
-        'aria-describedby': this.open ? 'tooltip-content' : undefined,
+        'aria-describedby': this.open ? contentId : undefined,
       };
     },
 
     // Content 属性
     contentProps() {
       return {
-        id: 'tooltip-content',
+        id: contentId,
         role: 'tooltip',
       };
     },

@@ -73,7 +73,6 @@ export default function createCheckbox(config: CheckboxConfig = {}) {
         type: "checkbox",
         name: config.name ?? config.id,
         checked: isChecked,
-        "aria-hidden": "true",
         tabindex: -1,
         "@change.prevent.stop": () => this.toggle(),
       };

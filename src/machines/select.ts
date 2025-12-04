@@ -17,7 +17,11 @@ interface SelectConfig {
   placeholder?: string;
   disabled?: boolean;
   onChange?: (value: string) => void;
+  id?: string;
+  labelId?: string;
 }
+
+let selectIdCounter = 0;
 
 function isGrouped(items: SelectItems): items is SelectGroup[] {
   return items.length > 0 && "options" in items[0];
@@ -37,10 +41,16 @@ export default function createSelect(config: SelectConfig) {
     placeholder = "Select...",
     disabled = false,
     onChange,
+    id,
+    labelId,
   } = config;
 
   const allOptions = flattenOptions(items);
   const enabledOptions = allOptions.filter((o) => !o.disabled);
+  const instanceId = id || `select-${++selectIdCounter}`;
+  const listboxId = `${instanceId}-listbox`;
+  const sanitize = (value: string) => value.replace(/[^a-zA-Z0-9_-]/g, "-");
+  const getOptionId = (value: string) => `${instanceId}-option-${sanitize(value)}`;
 
   return {
     // State
@@ -69,6 +79,10 @@ export default function createSelect(config: SelectConfig) {
       if (this.disabled) return;
       this.open = true;
       this.highlightedValue = this.value || enabledOptions[0]?.value || "";
+      this.$nextTick?.(() => {
+        const content = (this as any)?.$refs?.content as HTMLElement | undefined;
+        content?.focus();
+      });
     },
 
     closeMenu() {
@@ -184,6 +198,13 @@ export default function createSelect(config: SelectConfig) {
       return {
         role: "combobox",
         "aria-haspopup": "listbox",
+        "aria-expanded": this.open,
+        "aria-controls": listboxId,
+        "aria-activedescendant": this.open && this.highlightedValue ? getOptionId(this.highlightedValue) : undefined,
+        "aria-disabled": this.disabled || undefined,
+        "aria-labelledby": labelId,
+        "data-state": this.open ? "open" : "closed",
+        "data-placeholder": this.hasValue ? undefined : "",
       };
     },
 
@@ -191,6 +212,11 @@ export default function createSelect(config: SelectConfig) {
       return {
         role: "listbox",
         tabindex: -1,
+        id: listboxId,
+        "aria-labelledby": labelId,
+        "data-state": this.open ? "open" : "closed",
+        "x-ref": "content",
+        "@click.outside": "closeMenu()",
       };
     },
 
@@ -201,6 +227,9 @@ export default function createSelect(config: SelectConfig) {
       return {
         role: "option",
         "aria-disabled": isDisabled,
+        "aria-selected": this.isSelected(value),
+        id: getOptionId(value),
+        "data-state": this.isSelected(value) ? "checked" : "unchecked",
       };
     },
 

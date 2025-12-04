@@ -156,6 +156,7 @@ export function createPopover(options: PopoverOptions = {}) {
         // 等待 DOM 更新后计算位置（x-teleport 需要额外时间）
         this.$nextTick(() => {
           this.updatePosition();
+          this.contentEl?.focus?.();
         });
       }
     },
@@ -164,6 +165,7 @@ export function createPopover(options: PopoverOptions = {}) {
       if (this.open) {
         this.open = false;
         onOpenChange?.(false);
+        this.triggerEl?.focus?.({ preventScroll: true });
       }
     },
 
@@ -181,6 +183,7 @@ export function createPopover(options: PopoverOptions = {}) {
         type: 'button',
         'aria-haspopup': 'dialog',
         'aria-expanded': this.open,
+        'aria-controls': id,
         '@click': 'toggle()',
         'x-init': 'triggerEl = $el',
       };
@@ -191,6 +194,7 @@ export function createPopover(options: PopoverOptions = {}) {
       return {
         role: 'dialog',
         tabindex: '-1',
+        id,
         'x-effect': 'contentEl = $el; if (open) updatePosition()',
         '@keydown.escape.window': closeOnEscape ? 'hide()' : undefined,
         '@click.outside': closeOnOutsideClick ? 'hide()' : undefined,

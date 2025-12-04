@@ -101,6 +101,7 @@ function createPopover(options = {}) {
         onOpenChange?.(true);
         this.$nextTick(() => {
           this.updatePosition();
+          this.contentEl?.focus?.();
         });
       }
     },
@@ -108,6 +109,7 @@ function createPopover(options = {}) {
       if (this.open) {
         this.open = false;
         onOpenChange?.(false);
+        this.triggerEl?.focus?.({ preventScroll: true });
       }
     },
     toggle() {
@@ -122,6 +124,7 @@ function createPopover(options = {}) {
         type: "button",
         "aria-haspopup": "dialog",
         "aria-expanded": this.open,
+        "aria-controls": id,
         "@click": "toggle()",
         "x-init": "triggerEl = $el"
       };
@@ -130,6 +133,7 @@ function createPopover(options = {}) {
       return {
         role: "dialog",
         tabindex: "-1",
+        id,
         "x-effect": "contentEl = $el; if (open) updatePosition()",
         "@keydown.escape.window": closeOnEscape ? "hide()" : undefined,
         "@click.outside": closeOnOutsideClick ? "hide()" : undefined,

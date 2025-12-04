@@ -98,7 +98,6 @@ export default function createCheckboxGroup(config: CheckboxGroupConfig = {}) {
         name: this.name,
         value: value,
         checked: isChecked,
-        "aria-hidden": "true",
         tabindex: -1,
         "@change.prevent.stop": () => this.toggle(value),
       };

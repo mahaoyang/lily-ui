@@ -7,7 +7,7 @@
   <title>Lily UI - Component Library</title>
   <link rel="stylesheet" href="/dist/output.css">
   <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
+    import Alpine from "/vendor/alpine/alpine.esm.js";
     import createRadioGroup from "/public/machines/radio-group.js";
     window.Alpine = Alpine;
     Alpine.data("colorRadio", () => createRadioGroup({
@@ -17,10 +17,10 @@
     }));
     Alpine.start();
   </script>
-  <!-- Prism.js -->
-  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
+  <!-- Prism.js (本地引入以避免网络阻塞) -->
+  <link href="/vendor/prism/prism.min.css" rel="stylesheet">
+  <script src="/vendor/prism/prism.min.js"></script>
+  <script src="/vendor/prism/prism-jsx.min.js"></script>
   <style>
     [x-cloak] {
       display: none !important;
@@ -251,11 +251,12 @@
   </script>
 </head>
 
-<body data-scaling="100%" data-radius="medium"
+<body data-scaling="100%"
   class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased overflow-x-hidden" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: 'iris' }"
+  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: 'iris', variant: 'classic', tone: 'accent', radius: 'medium' }"
   x-init="$watch('theme', val => localStorage.setItem('theme', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
+  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent" :data-variant="variant"
+  :data-tone="tone" :data-radius="radius">
 
   <!-- Navbar -->
   <nav
@@ -421,6 +422,52 @@ export default () =&gt; (
             </a>
           </div>
 
+          <!-- Appearance controls -->
+          <div class="rounded-3 border border-sand-6 bg-sand-1/80 backdrop-blur-sm p-4 shadow-sm space-y-3"
+            :data-variant="variant" :data-tone="tone" :data-radius="radius">
+            <div class="flex flex-wrap gap-3">
+              <label class="flex items-center gap-2 text-sm text-sand-11">
+                Variant
+                <select x-model="variant" class="border border-sand-6 rounded-2 bg-white/70 px-2 py-1 text-sand-12">
+                  <option value="classic">Classic</option>
+                  <option value="solid">Solid</option>
+                  <option value="soft">Soft</option>
+                  <option value="surface">Surface</option>
+                  <option value="outline">Outline</option>
+                  <option value="ghost">Ghost</option>
+                </select>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-sand-11">
+                Tone
+                <select x-model="tone" class="border border-sand-6 rounded-2 bg-white/70 px-2 py-1 text-sand-12">
+                  <option value="accent">Accent</option>
+                  <option value="gray">Gray</option>
+                </select>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-sand-11">
+                Radius
+                <select x-model="radius" class="border border-sand-6 rounded-2 bg-white/70 px-2 py-1 text-sand-12">
+                  <option value="none">No radius</option>
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
+                  <option value="full">Full</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 pt-1">
+              <button type="button" class="ui-button">
+                Primary
+              </button>
+              <button type="button" class="ui-button" data-variant="outline">
+                Outline
+              </button>
+              <button type="button" class="ui-button" data-variant="ghost">
+                Ghost
+              </button>
+            </div>
+          </div>
+
           <!-- Tech Stack & Credits -->
           <div class="space-y-3">
             <div class="flex items-center gap-2">
@@ -477,7 +524,7 @@ export default () =&gt; (
       </div>
     </div>
   </footer>
-  <script>    document.addEventListener("DOMContentLoaded", () => Prism.highlightAll());  </script>
+  <script>    document.addEventListener("DOMContentLoaded", () => { if (window.Prism) { Prism.highlightAll(); } });  </script>
 
 </body>
 
