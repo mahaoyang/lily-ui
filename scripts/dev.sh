@@ -26,15 +26,15 @@ bun run dev:machines &
 MACH_PID=$!
 
 if command -v python3 >/dev/null 2>&1; then
-  echo "[dev] 启动静态服务 (python3) -> http://localhost:${SERVE_PORT}/playground.html"
+  echo "[dev] 启动静态服务 (python3) -> http://localhost:${SERVE_PORT}/public/playground/"
   python3 -m http.server "${SERVE_PORT}" --directory "$ROOT_DIR" >/dev/null 2>&1 &
   SERVE_PID=$!
 elif command -v python >/dev/null 2>&1; then
-  echo "[dev] 启动静态服务 (python) -> http://localhost:${SERVE_PORT}/playground.html"
+  echo "[dev] 启动静态服务 (python) -> http://localhost:${SERVE_PORT}/public/playground/"
   python -m http.server "${SERVE_PORT}" --directory "$ROOT_DIR" >/dev/null 2>&1 &
   SERVE_PID=$!
 elif command -v bunx >/dev/null 2>&1; then
-  echo "[dev] 启动静态服务 (bunx serve) -> http://localhost:${SERVE_PORT}/playground.html"
+  echo "[dev] 启动静态服务 (bunx serve) -> http://localhost:${SERVE_PORT}/public/playground/"
   bunx serve "$ROOT_DIR" --port "${SERVE_PORT}" >/dev/null 2>&1 &
   SERVE_PID=$!
 else

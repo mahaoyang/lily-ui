@@ -1,33 +1,105 @@
-# Lily UI / Tailwindix
+# Lily UI
 
-基于 Tailwind v4 + Radix 令牌的 Alpine 组件实验库，遵循 notice.txt 的「Logic-View Separation」：状态机写在 `src/machines/*.ts`，HTML 只做绑定。
+A component library based on [Radix Themes](https://radix-ui.com/themes) design tokens, reimplemented with **Alpine.js** and **Tailwind CSS**.
 
-## 结构
-- `src/input.css`：Tailwind 入口（含 Radix token 与主题变量）→ `dist/output.css`
-- `src/machines/*.ts`：组件状态机，打包到 `public/machines/*.js`
-- `public/playground/*.html`：按组件拆分的 Playground，`public/playground/index.html` 为目录
+## Features
 
-## 开发
+- **Alpine.js** for lightweight interactivity
+- **Tailwind CSS v4** for styling
+- **Radix Themes** design tokens (colors, spacing, typography, shadows)
+- **State machines** for complex component logic
+- **Accessible** components following WAI-ARIA patterns
+
+## Getting Started
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) (recommended) or Node.js
+
+### Installation
+
 ```bash
 bun install
-# 同时监听状态机 + 样式并启动静态服务（http://localhost:4173/playground.html）
-bun run dev:all
-
-# 仅样式 watch
-bun dev
-# 仅状态机 watch
-bun run dev:machines
 ```
 
-## 构建
+### Development
+
+Start the development server with hot reload:
+
 ```bash
-# 全量（生成 tailwind.config.js + 压缩 CSS）
-bun run build
-# 仅打包状态机
-bun run build:machines
-# 仅生成 Tailwind 配置（Radix 颜色变量）
-bun run build:config
+bun run dev:all
 ```
 
-## 预览
-构建后可 `bunx serve public` 或 `python -m http.server 8000`，然后访问 `/playground/*.html`。默认 accent 可通过 `data-accent-color` 或 `.accent-*` 切换，暗色模式用 `.dark`。
+This will:
+- Build and watch TypeScript state machines
+- Build and watch Tailwind CSS
+- Start a local server at http://localhost:4173/public/playground/
+
+### Build
+
+Build for production:
+
+```bash
+bun run build
+```
+
+## Project Structure
+
+```
+lily-ui/
+├── public/
+│   ├── playground/     # Component demos
+│   │   ├── index.html  # Component directory
+│   │   ├── button.html
+│   │   ├── dialog.html
+│   │   └── ...
+│   └── machines/       # Compiled JS state machines
+├── src/
+│   ├── input.css       # Tailwind entry point
+│   ├── styles/
+│   │   └── tokens/     # Radix design tokens
+│   └── machines/       # TypeScript state machines
+├── dist/
+│   └── output.css      # Compiled CSS
+├── scripts/
+│   └── dev.sh          # Development script
+├── tailwind.config.ts  # Tailwind configuration
+└── package.json
+```
+
+## Components
+
+### Layout
+- Box, Flex, Grid, Container
+
+### Typography
+- Text, Heading, Code
+
+### Forms
+- Button, Checkbox, Switch, TextField, Select, Slider
+
+### Feedback
+- Badge, Callout, Progress, Spinner
+
+### Overlay
+- Dialog, AlertDialog, DropdownMenu, Popover, Tooltip, HoverCard
+
+### Navigation
+- Tabs, Accordion
+
+### Data Display
+- Avatar, Card, Table, Separator
+
+## Design Tokens
+
+This library uses Radix Themes design tokens, providing:
+
+- **12-step color scales** for consistent color usage
+- **9-step spacing scale** for layout
+- **9-step typography scale** for text
+- **6-step shadow scale** for elevation
+- **6-step radius scale** for borders
+
+## License
+
+MIT - Based on [Radix Themes](https://github.com/radix-ui/themes) by WorkOS.

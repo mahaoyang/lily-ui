@@ -1,163 +1,129 @@
 // tailwind.config.ts
-import fs from "fs";
-import path from "path";
-
-// node_modules/tailwindcss/dist/plugin.mjs
-function g(i, n) {
-  return { handler: i, config: n };
-}
-g.withOptions = function(i, n = () => ({})) {
-  function t(o) {
-    return { handler: i(o), config: n(o) };
-  }
-  return t.__isOptionsFunction = true, t;
-};
-var u = g;
-
-// tailwind.config.ts
-var radixTokenRoot = path.join(process.cwd(), "node_modules", "@radix-ui", "themes", "tokens");
-function parseVarBlock(block) {
-  if (!block)
-    return {};
-  const vars = {};
-  const regex = /--([\w-]+):\s*([^;]+);/g;
-  let match;
-  while ((match = regex.exec(block)) !== null) {
-    vars[match[1]] = match[2].trim();
-  }
-  return vars;
-}
-function parseColorFile(filePath) {
-  const content = fs.readFileSync(filePath, "utf8");
-  const lightBlock = content.match(/:root,\s*\.light,\s*\.light-theme\s*{([\s\S]*?)}/);
-  const darkBlock = content.match(/\.dark,\s*\.dark-theme\s*{([\s\S]*?)}/);
-  const rootBlocks = Array.from(content.matchAll(/:root\s*{([\s\S]*?)}/g));
-  const light = parseVarBlock(lightBlock?.[1]);
-  const dark = parseVarBlock(darkBlock?.[1]);
-  const rootVars = rootBlocks.reduce((acc, match) => {
-    Object.assign(acc, parseVarBlock(match[1]));
-    return acc;
-  }, {});
-  return { light, dark, rootVars };
-}
-function loadRadixColorVars() {
-  const colorsDir = path.join(radixTokenRoot, "colors");
-  const lightVars = {};
-  const darkVars = {};
-  fs.readdirSync(colorsDir).forEach((file) => {
-    if (!file.endsWith(".css"))
-      return;
-    const { light, dark, rootVars } = parseColorFile(path.join(colorsDir, file));
-    Object.assign(lightVars, rootVars, light);
-    Object.assign(darkVars, rootVars, dark);
-  });
-  return { light: lightVars, dark: darkVars };
-}
-function buildPaletteSuffixMap(colorVarNames) {
-  const paletteMap = {};
-  colorVarNames.forEach((name) => {
-    const match = name.match(/^([a-zA-Z]+)-(.*)$/);
-    if (!match)
-      return;
-    const [, palette, suffix] = match;
-    if (!paletteMap[palette])
-      paletteMap[palette] = new Set;
-    paletteMap[palette].add(suffix);
-  });
-  return paletteMap;
-}
-function buildRadixColors(paletteSuffixMap, accentSuffixes) {
-  const colors = {};
-  Object.entries(paletteSuffixMap).forEach(([palette, suffixes]) => {
-    colors[palette] = {};
-    suffixes.forEach((suffix) => {
-      colors[palette][suffix] = "var(--" + palette + "-" + suffix + ")";
-    });
-  });
-  colors.accent = accentSuffixes.reduce((acc, suffix) => {
-    acc[suffix] = "var(--accent-" + suffix + ")";
-    return acc;
-  }, {});
-  colors.black = "#000000";
-  colors.white = "#ffffff";
-  return colors;
-}
-function buildAccentAliases(palette, paletteSuffixMap) {
-  const suffixes = Array.from(paletteSuffixMap[palette] ?? []);
-  const aliases = {};
-  suffixes.forEach((suffix) => {
-    aliases["--accent-" + suffix] = "var(--" + palette + "-" + suffix + ")";
-  });
-  return aliases;
-}
-var colorVars = loadRadixColorVars();
-var colorVarNames = Array.from(new Set([...Object.keys(colorVars.light), ...Object.keys(colorVars.dark)]));
-var paletteSuffixMap = buildPaletteSuffixMap(colorVarNames);
-var defaultAccent = paletteSuffixMap.iris ? "iris" : Object.keys(paletteSuffixMap)[0];
-var accentSuffixes = Array.from(paletteSuffixMap[defaultAccent] ?? []);
-var colors = buildRadixColors(paletteSuffixMap, accentSuffixes);
-var spacing = {};
-for (let i = 1;i <= 9; i++) {
-  spacing[i.toString()] = "var(--spacing-" + i + ")";
-}
-var fontSize = {
-  "4xs": ["var(--text-4xs)", { lineHeight: "var(--text-4xs--line-height)", letterSpacing: "var(--text-4xs--letter-spacing)" }],
-  "3xs": ["var(--text-3xs)", { lineHeight: "var(--text-3xs--line-height)", letterSpacing: "var(--text-3xs--letter-spacing)" }],
-  "2xs": ["var(--text-2xs)", { lineHeight: "var(--text-2xs--line-height)", letterSpacing: "var(--text-2xs--letter-spacing)" }],
-  xs: ["var(--text-xs)", { lineHeight: "var(--text-xs--line-height)", letterSpacing: "var(--text-xs--letter-spacing)" }],
-  sm: ["var(--text-sm)", { lineHeight: "var(--text-sm--line-height)", letterSpacing: "var(--text-sm--letter-spacing)" }],
-  base: ["var(--text-base)", { lineHeight: "var(--text-base--line-height)", letterSpacing: "var(--text-base--letter-spacing)" }],
-  lg: ["var(--text-lg)", { lineHeight: "var(--text-lg--line-height)", letterSpacing: "var(--text-lg--letter-spacing)" }],
-  xl: ["var(--text-xl)", { lineHeight: "var(--text-xl--line-height)", letterSpacing: "var(--text-xl--letter-spacing)" }],
-  "2xl": ["var(--text-2xl)", { lineHeight: "var(--text-2xl--line-height)", letterSpacing: "var(--text-2xl--letter-spacing)" }],
-  "3xl": ["var(--text-3xl)", { lineHeight: "var(--text-3xl--line-height)", letterSpacing: "var(--text-3xl--letter-spacing)" }],
-  "4xl": ["var(--text-4xl)", { lineHeight: "var(--text-4xl--line-height)", letterSpacing: "var(--text-4xl--letter-spacing)" }]
-};
-var lineHeight = {};
-for (let i = 1;i <= 9; i++) {
-  lineHeight[i.toString()] = "var(--leading-" + i + ")";
-}
-var letterSpacing = {};
-for (let i = 1;i <= 9; i++) {
-  letterSpacing[i.toString()] = "var(--tracking-" + i + ")";
-}
-var borderRadius = {
-  "1": "var(--radius-1)",
-  "2": "var(--radius-2)",
-  "3": "var(--radius-3)",
-  "4": "var(--radius-4)",
-  "5": "var(--radius-5)",
-  "6": "var(--radius-6)",
-  full: "9999px",
-  adaptive: "var(--radius-full)",
-  thumb: "var(--radius-thumb)"
-};
-var tailwind_config_default = {
-  content: ["./public/**/*.{html,js,ts,jsx,tsx}", "./src/**/*.{html,js,ts,jsx,tsx}"],
+var config = {
+  content: [
+    "./public/**/*.{html,js}",
+    "./src/**/*.{html,js,ts}"
+  ],
   theme: {
-    colors,
-    spacing,
-    fontSize,
-    lineHeight,
-    letterSpacing,
-    borderRadius
+    extend: {
+      colors: {
+        transparent: "transparent",
+        current: "currentColor",
+        black: "#000",
+        white: "#fff",
+        gray: {
+          1: "var(--gray-1)",
+          2: "var(--gray-2)",
+          3: "var(--gray-3)",
+          4: "var(--gray-4)",
+          5: "var(--gray-5)",
+          6: "var(--gray-6)",
+          7: "var(--gray-7)",
+          8: "var(--gray-8)",
+          9: "var(--gray-9)",
+          10: "var(--gray-10)",
+          11: "var(--gray-11)",
+          12: "var(--gray-12)",
+          a1: "var(--gray-a1)",
+          a2: "var(--gray-a2)",
+          a3: "var(--gray-a3)",
+          a4: "var(--gray-a4)",
+          a5: "var(--gray-a5)",
+          a6: "var(--gray-a6)",
+          a7: "var(--gray-a7)",
+          a8: "var(--gray-a8)",
+          a9: "var(--gray-a9)",
+          a10: "var(--gray-a10)",
+          a11: "var(--gray-a11)",
+          a12: "var(--gray-a12)"
+        },
+        accent: {
+          1: "var(--accent-1)",
+          2: "var(--accent-2)",
+          3: "var(--accent-3)",
+          4: "var(--accent-4)",
+          5: "var(--accent-5)",
+          6: "var(--accent-6)",
+          7: "var(--accent-7)",
+          8: "var(--accent-8)",
+          9: "var(--accent-9)",
+          10: "var(--accent-10)",
+          11: "var(--accent-11)",
+          12: "var(--accent-12)",
+          a1: "var(--accent-a1)",
+          a2: "var(--accent-a2)",
+          a3: "var(--accent-a3)",
+          a4: "var(--accent-a4)",
+          a5: "var(--accent-a5)",
+          a6: "var(--accent-a6)",
+          a7: "var(--accent-a7)",
+          a8: "var(--accent-a8)",
+          a9: "var(--accent-a9)",
+          a10: "var(--accent-a10)",
+          a11: "var(--accent-a11)",
+          a12: "var(--accent-a12)",
+          contrast: "var(--accent-contrast)",
+          surface: "var(--accent-surface)",
+          indicator: "var(--accent-indicator)",
+          track: "var(--accent-track)"
+        }
+      },
+      spacing: {
+        1: "var(--space-1)",
+        2: "var(--space-2)",
+        3: "var(--space-3)",
+        4: "var(--space-4)",
+        5: "var(--space-5)",
+        6: "var(--space-6)",
+        7: "var(--space-7)",
+        8: "var(--space-8)",
+        9: "var(--space-9)"
+      },
+      fontSize: {
+        1: ["var(--font-size-1)", { lineHeight: "var(--line-height-1)", letterSpacing: "var(--letter-spacing-1)" }],
+        2: ["var(--font-size-2)", { lineHeight: "var(--line-height-2)", letterSpacing: "var(--letter-spacing-2)" }],
+        3: ["var(--font-size-3)", { lineHeight: "var(--line-height-3)", letterSpacing: "var(--letter-spacing-3)" }],
+        4: ["var(--font-size-4)", { lineHeight: "var(--line-height-4)", letterSpacing: "var(--letter-spacing-4)" }],
+        5: ["var(--font-size-5)", { lineHeight: "var(--line-height-5)", letterSpacing: "var(--letter-spacing-5)" }],
+        6: ["var(--font-size-6)", { lineHeight: "var(--line-height-6)", letterSpacing: "var(--letter-spacing-6)" }],
+        7: ["var(--font-size-7)", { lineHeight: "var(--line-height-7)", letterSpacing: "var(--letter-spacing-7)" }],
+        8: ["var(--font-size-8)", { lineHeight: "var(--line-height-8)", letterSpacing: "var(--letter-spacing-8)" }],
+        9: ["var(--font-size-9)", { lineHeight: "var(--line-height-9)", letterSpacing: "var(--letter-spacing-9)" }]
+      },
+      borderRadius: {
+        1: "var(--radius-1)",
+        2: "var(--radius-2)",
+        3: "var(--radius-3)",
+        4: "var(--radius-4)",
+        5: "var(--radius-5)",
+        6: "var(--radius-6)",
+        full: "var(--radius-full)",
+        thumb: "var(--radius-thumb)"
+      },
+      fontWeight: {
+        light: "var(--font-weight-light)",
+        regular: "var(--font-weight-regular)",
+        medium: "var(--font-weight-medium)",
+        bold: "var(--font-weight-bold)"
+      },
+      boxShadow: {
+        1: "var(--shadow-1)",
+        2: "var(--shadow-2)",
+        3: "var(--shadow-3)",
+        4: "var(--shadow-4)",
+        5: "var(--shadow-5)",
+        6: "var(--shadow-6)"
+      },
+      fontFamily: {
+        sans: "var(--default-font-family)",
+        heading: "var(--heading-font-family)",
+        mono: "var(--code-font-family)"
+      }
+    }
   },
-  plugins: [
-    u(({ addBase }) => {
-      const accentSelectors = {};
-      Object.keys(paletteSuffixMap).forEach((palette) => {
-        const selector = '[data-accent-color="' + palette + '"], .accent-' + palette;
-        accentSelectors[selector] = buildAccentAliases(palette, paletteSuffixMap);
-      });
-      const defaultAccentAliases = buildAccentAliases(defaultAccent, paletteSuffixMap);
-      addBase({
-        ":root, .light, .light-theme": { ...colorVars.light, ...defaultAccentAliases },
-        ".dark, .dark-theme": { ...colorVars.light, ...colorVars.dark, ...defaultAccentAliases },
-        ...accentSelectors
-      });
-    })
-  ]
+  plugins: []
 };
+var tailwind_config_default = config;
 export {
   tailwind_config_default as default
 };

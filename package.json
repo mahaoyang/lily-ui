@@ -1,22 +1,23 @@
 {
   "name": "lily-ui",
+  "version": "1.0.0",
   "type": "module",
   "private": true,
   "scripts": {
-    "build:config": "bun build tailwind.config.ts --target node --outfile tailwind.config.js",
+    "dev": "bun run build:config && ./node_modules/.bin/tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --watch",
     "dev:machines": "rm -rf public/machines && bun build ./src/machines/*.ts --target browser --format esm --outdir public/machines --entry-naming [name].js --watch",
-    "build:machines": "rm -rf public/machines && bun build ./src/machines/*.ts --target browser --format esm --outdir public/machines --entry-naming [name].js",
     "dev:all": "bash scripts/dev.sh",
-    "dev": "bun run build:tokens && bun run build:config && tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --watch",
-    "build": "bun run build:tokens && bun run build:config && tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --minify",
-    "build:tokens": "node scripts/generate-tokens.cjs"
+    "build": "bun run build:config && ./node_modules/.bin/tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --minify",
+    "build:config": "bun build tailwind.config.ts --target node --outfile tailwind.config.js",
+    "build:machines": "rm -rf public/machines && bun build ./src/machines/*.ts --target browser --format esm --outdir public/machines --entry-naming [name].js"
   },
   "devDependencies": {
-    "@radix-ui/themes": "3.2.1",
     "@tailwindcss/cli": "4.1.17",
-    "tailwindcss": "4.1.17"
+    "tailwindcss": "4.1.17",
+    "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@radix-ui/colors": "^3.0.0",
     "alpinejs": "^3.15.2"
   }
 }

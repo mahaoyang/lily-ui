@@ -1,31 +1,46 @@
 // src/machines/tabs.ts
-function createTabs(config = {}) {
-  const { defaultValue = "tab-1" } = config;
+function createTabs(options = {}) {
+  const { defaultValue = "", orientation = "horizontal" } = options;
   return {
-    activeId: defaultValue,
-    select(id) {
-      this.activeId = id;
-      config.onChange?.(id);
+    value: defaultValue,
+    orientation,
+    isActive(tabValue) {
+      return this.value === tabValue;
     },
-    isActive(id) {
-      return this.activeId === id;
+    select(tabValue) {
+      this.value = tabValue;
     },
-    triggerProps(id) {
-      return {
-        role: "tab",
-        "aria-controls": `${id}-panel`,
-        id: `${id}-trigger`
-      };
+    selectNext(tabValues) {
+      const currentIndex = tabValues.indexOf(this.value);
+      const nextIndex = (currentIndex + 1) % tabValues.length;
+      this.value = tabValues[nextIndex];
     },
-    contentProps(id) {
-      return {
-        id: `${id}-panel`,
-        role: "tabpanel",
-        "aria-labelledby": `${id}-trigger`
-      };
+    selectPrevious(tabValues) {
+      const currentIndex = tabValues.indexOf(this.value);
+      const prevIndex = currentIndex <= 0 ? tabValues.length - 1 : currentIndex - 1;
+      this.value = tabValues[prevIndex];
+    },
+    selectFirst(tabValues) {
+      if (tabValues.length > 0) {
+        this.value = tabValues[0];
+      }
+    },
+    selectLast(tabValues) {
+      if (tabValues.length > 0) {
+        this.value = tabValues[tabValues.length - 1];
+      }
     }
   };
 }
+function tabs(options) {
+  return createTabs(options);
+}
+if (typeof window !== "undefined") {
+  window.tabs = tabs;
+}
+var tabs_default = tabs;
 export {
-  createTabs as default
+  tabs,
+  tabs_default as default,
+  createTabs
 };

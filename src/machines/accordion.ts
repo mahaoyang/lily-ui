@@ -1,89 +1,86 @@
-interface AccordionConfig {
-  type?: "single" | "multiple";
-  defaultValue?: string | string[];
-  collapsible?: boolean;
-  disabled?: boolean;
-  onChange?: (value: string | string[]) => void;
+/**
+ * Accordion State Machine
+ *
+ * A state machine for managing accordion/collapsible sections
+ * with support for single or multiple expanded items.
+ */
+
+export interface AccordionState {
+  type: 'single' | 'multiple';
+  value: string | string[];
+  collapsible: boolean;
 }
 
-export function accordionMachine(config: AccordionConfig = {}) {
-  const {
-    type = "single",
-    defaultValue = type === "multiple" ? [] : "",
-    collapsible = true,
-    disabled = false,
-  } = config;
+export interface AccordionActions {
+  isOpen(itemValue: string): boolean;
+  toggle(itemValue: string): void;
+  open(itemValue: string): void;
+  close(itemValue: string): void;
+}
+
+export function createAccordion(
+  options: {
+    type?: 'single' | 'multiple';
+    defaultValue?: string | string[];
+    collapsible?: boolean;
+  } = {}
+): AccordionState & AccordionActions {
+  const { type = 'single', defaultValue, collapsible = true } = options;
 
   return {
-    // For single type: string, for multiple type: string[]
-    value: defaultValue as string | string[],
-    disabled,
     type,
+    value: defaultValue ?? (type === 'single' ? '' : []),
     collapsible,
 
-    toggle(id: string) {
-      if (this.disabled) return;
+    isOpen(itemValue: string): boolean {
+      if (this.type === 'single') {
+        return this.value === itemValue;
+      }
+      return (this.value as string[]).includes(itemValue);
+    },
 
-      if (this.type === "multiple") {
-        const values = this.value as string[];
-        if (values.includes(id)) {
-          this.value = values.filter((v) => v !== id);
-        } else {
-          this.value = [...values, id];
+    toggle(itemValue: string): void {
+      if (this.isOpen(itemValue)) {
+        this.close(itemValue);
+      } else {
+        this.open(itemValue);
+      }
+    },
+
+    open(itemValue: string): void {
+      if (this.type === 'single') {
+        this.value = itemValue;
+      } else {
+        if (!(this.value as string[]).includes(itemValue)) {
+          this.value = [...(this.value as string[]), itemValue];
+        }
+      }
+    },
+
+    close(itemValue: string): void {
+      if (this.type === 'single') {
+        if (this.collapsible) {
+          this.value = '';
         }
       } else {
-        // Single mode
-        if (this.value === id) {
-          // Only allow closing if collapsible
-          if (this.collapsible) {
-            this.value = "";
-          }
-        } else {
-          this.value = id;
-        }
+        this.value = (this.value as string[]).filter(v => v !== itemValue);
       }
-
-      config.onChange?.(this.value);
-    },
-
-    isOpen(id: string): boolean {
-      if (this.type === "multiple") {
-        return (this.value as string[]).includes(id);
-      }
-      return this.value === id;
-    },
-
-    getState(id: string): "open" | "closed" {
-      return this.isOpen(id) ? "open" : "closed";
-    },
-
-    // Props for the item element
-    itemProps(id: string) {
-      return {
-        "data-state": this.getState(id),
-        ...(this.disabled ? { "data-disabled": "" } : {}),
-      };
-    },
-
-    // Props for the trigger button
-    triggerProps(id: string) {
-      return {
-        id: `accordion-trigger-${id}`,
-        "aria-expanded": this.isOpen(id).toString(),
-        "aria-controls": `accordion-content-${id}`,
-        "data-state": this.getState(id),
-        ...(this.disabled ? { "data-disabled": "" } : {}),
-      };
-    },
-
-    // Props for the content panel
-    contentProps(id: string) {
-      return {
-        id: `accordion-content-${id}`,
-        role: "region",
-        "aria-labelledby": `accordion-trigger-${id}`,
-        "data-state": this.getState(id),
-      };
-    },
+    }
   };
 }
+
+// Export for Alpine.js data registration
+export function accordion(options?: {
+  type?: 'single' | 'multiple';
+  defaultValue?: string | string[];
+  collapsible?: boolean;
+}) {
+  return createAccordion(options);
+}
+
+// Make available globally for Alpine.js
+if (typeof window !== 'undefined') {
+  (window as any).accordion = accordion;
+}
+
+export default accordion;

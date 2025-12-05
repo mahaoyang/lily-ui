@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium" data-scaling="100%">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text - Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .playground-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .playground-table th,
+    .playground-table td {
+      padding: var(--space-3);
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--gray-a5);
+    }
+    .playground-table th {
+      font-size: var(--font-size-2);
+      font-weight: var(--font-weight-medium);
+      color: var(--gray-11);
+    }
+    .section-title {
+      font-size: var(--font-size-5);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-12);
+      margin-bottom: var(--space-4);
+      margin-top: var(--space-6);
+    }
+    .row-header {
+      font-size: var(--font-size-2);
+      color: var(--gray-11);
+      font-weight: var(--font-weight-medium);
+    }
+  </style>
+</head>
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+      <h1 class="text-8 font-bold text-gray-12 mt-4">Text</h1>
+      <p class="text-3 text-gray-11 mt-2">Foundational text primitive with size, weight, and color options.</p>
+    </header>
+
+    <!-- Sizes -->
+    <section>
+      <h2 class="section-title">Sizes</h2>
+      <div class="overflow-x-auto">
+        <table class="playground-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Appearance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-header">size 1</td>
+              <td><span class="rt-Text rt-r-size-1">The quick brown fox jumps over the lazy dog.</span></td>
+            </tr>
+            <tr>
+              <td class="row-header">size 2</td>
+              <td><span class="rt-Text rt-r-size-2">The quick brown fox jumps over the lazy dog.</span></td>
+            </tr>
+            <tr>
+              <td class="row-header">size 3</td>
+              <td><span class="rt-Text rt-r-size-3">The quick brown fox jumps over the lazy dog.</span></td>
+            </tr>
+            <tr>
+              <td class="row-header">size 4</td>
+              <td><span class="rt-Text rt-r-size-4">The quick brown fox jumps over the lazy dog.</span></td>
+            </tr>
+            <tr>
+              <td class="row-header">size 5</td>
+              <td><span class="rt-Text rt-r-size-5">The quick brown fox jumps over the lazy dog.</span></td>
+            </tr>
+            <tr>
+              <td class="row-header">size 6</td>
+              <td><span class="rt-Text rt-r-size-6">The quick brown fox jumps over the lazy dog.</span></td>
+            </tr>
+            <tr>
+              <td class="row-header">size 7</td>
+              <td><span class="rt-Text rt-r-size-7">The quick brown fox jumps over the lazy dog.</span></td>
+            </tr>
+            <tr>
+              <td class="row-header">size 8</td>
+              <td><span class="rt-Text rt-r-size-8">The quick brown fox.</span></td>
+            </tr>
+            <tr>
+              <td class="row-header">size 9</td>
+              <td><span class="rt-Text rt-r-size-9">The quick brown fox.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Weight -->
+    <section>
+      <h2 class="section-title">Weight</h2>
+      <div class="space-y-3">
+        <p class="rt-Text rt-r-size-3" style="font-weight: var(--font-weight-light);">Light weight text</p>
+        <p class="rt-Text rt-r-size-3" style="font-weight: var(--font-weight-regular);">Regular weight text</p>
+        <p class="rt-Text rt-r-size-3" style="font-weight: var(--font-weight-medium);">Medium weight text</p>
+        <p class="rt-Text rt-r-size-3" style="font-weight: var(--font-weight-bold);">Bold weight text</p>
+      </div>
+    </section>
+
+    <!-- Accent Colors -->
+    <section>
+      <h2 class="section-title">Accent Colors</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <p class="rt-Text rt-r-size-3" data-accent-color="gray">Gray colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="tomato">Tomato colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="crimson">Crimson colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="pink">Pink colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="purple">Purple colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="violet">Violet colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="indigo">Indigo colored text</p>
+        </div>
+        <div class="space-y-2">
+          <p class="rt-Text rt-r-size-3" data-accent-color="blue">Blue colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="cyan">Cyan colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="teal">Teal colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="jade">Jade colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="green">Green colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="amber">Amber colored text</p>
+          <p class="rt-Text rt-r-size-3" data-accent-color="orange">Orange colored text</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- High Contrast -->
+    <section>
+      <h2 class="section-title">High Contrast</h2>
+      <div class="flex flex-wrap gap-4">
+        <p class="rt-Text rt-r-size-3" data-accent-color="indigo">Normal contrast</p>
+        <p class="rt-Text rt-r-size-3 rt-high-contrast" data-accent-color="indigo">High contrast</p>
+      </div>
+    </section>
+
+    <!-- As Different Elements -->
+    <section>
+      <h2 class="section-title">As Different Elements</h2>
+      <div class="space-y-3">
+        <p class="rt-Text rt-r-size-3">This is a paragraph element.</p>
+        <span class="rt-Text rt-r-size-3">This is a span element.</span>
+        <div class="rt-Text rt-r-size-3">This is a div element.</div>
+        <label class="rt-Text rt-r-size-2">This is a label element</label>
+      </div>
+    </section>
+
+    <!-- Usage Examples -->
+    <section>
+      <h2 class="section-title">Usage Examples</h2>
+      <div class="space-y-4">
+        <div class="p-4 rounded-3 bg-gray-2 border border-gray-6">
+          <p class="rt-Text rt-r-size-2 text-gray-11 mb-1">Caption text for an image</p>
+          <p class="rt-Text rt-r-size-3 text-gray-12">Primary body text with important information that users need to read.</p>
+          <p class="rt-Text rt-r-size-2 text-gray-11 mt-2">Secondary text that provides additional context.</p>
+        </div>
+
+        <div class="p-4 rounded-3 bg-gray-2 border border-gray-6 flex items-center gap-3">
+          <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Status:</span>
+          <span class="rt-Text rt-r-size-2" data-accent-color="grass">Active</span>
+          <span class="rt-Text rt-r-size-2 text-gray-11">•</span>
+          <span class="rt-Text rt-r-size-2 text-gray-11">Last updated 5 minutes ago</span>
+        </div>
+      </div>
+    </section>
+  </div>
+<script src="sidebar.js"></script>
+</body>
+</html>

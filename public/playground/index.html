@@ -1,531 +1,311 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" class="radix-themes" data-radius="medium">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lily UI - Component Library</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/vendor/alpine/alpine.esm.js";
-    import createRadioGroup from "/public/machines/radio-group.js";
-    window.Alpine = Alpine;
-    Alpine.data("colorRadio", () => createRadioGroup({
-      name: 'accent-color',
-      defaultValue: 'iris',
-      onChange: (color) => { document.body.setAttribute('data-accent-color', color); }
-    }));
-    Alpine.start();
-  </script>
-  <!-- Prism.js (本地引入以避免网络阻塞) -->
-  <link href="/vendor/prism/prism.min.css" rel="stylesheet">
-  <script src="/vendor/prism/prism.min.js"></script>
-  <script src="/vendor/prism/prism-jsx.min.js"></script>
+  <title>Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     [x-cloak] {
       display: none !important;
     }
-
-    /* Smooth theme transition with View Transitions API */
-    ::view-transition-old(root),
-    ::view-transition-new(root) {
-      animation-duration: 400ms;
-      animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    ::view-transition-old(root) {
-      animation-name: fade-out;
-    }
-
-    ::view-transition-new(root) {
-      animation-name: fade-in;
-    }
-
-    @keyframes fade-out {
-      from {
-        opacity: 1;
-      }
-
-      to {
-        opacity: 0;
-      }
-    }
-
-    @keyframes fade-in {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes fadeOutIn {
-      0% {
-        opacity: 1;
-      }
-
-      40% {
-        opacity: 0;
-      }
-
-      60% {
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 1;
-      }
-    }
-
-    .animate-fade-out-in {
-      animation: fadeOutIn 0.5s ease-out;
-    }
-
-    .component-card {
-      display: block;
-      padding: 0.75rem 1rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--sand-12);
-      background: var(--sand-2);
-      border: 1px solid var(--sand-5);
-      transition: all 0.15s ease;
-    }
-
-    .component-card:hover {
-      background: var(--accent-3);
-      border-color: var(--accent-7);
-      color: var(--accent-11);
-    }
-
-
-
-    @keyframes scroll-up {
-      0% {
-        transform: translateY(0);
-      }
-
-      100% {
-        transform: translateY(-50%);
-      }
-    }
-
-    @keyframes scroll-down {
-      0% {
-        transform: translateY(-50%);
-      }
-
-      100% {
-        transform: translateY(0);
-      }
-    }
-
-    .animate-scroll-up {
-      animation: scroll-up 40s linear infinite;
-    }
-
-    .animate-scroll-down {
-      animation: scroll-down 40s linear infinite;
-    }
-
-    .demo-card {
-      background: var(--sand-2);
-      border-radius: var(--radius-3);
-      border: 1px solid var(--sand-6);
-      padding: 16px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    .demo-card input,
-    .demo-card button {
-      box-sizing: border-box;
-      line-height: 1;
-      padding-top: 0;
-      padding-bottom: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .dark .demo-card {
-      background: var(--sand-3);
-    }
-
-    /* Prism.js custom styles for Radix colors */
-    .hero-code pre[class*="language-"],
-    .hero-code code[class*="language-"] {
-      background: transparent;
-      border: none;
-      padding: 0;
-      margin: 0;
-      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-      font-size: 0.875rem;
-      line-height: 1.6;
-      color: var(--sand-11);
-    }
-
-    .hero-code code[class*="language-"],
-    .hero-code pre[class*="language-"] {
-      text-shadow: none !important;
-    }
-
-    .hero-code .token.operator {
-      background: transparent !important;
-    }
-
-    .hero-code .token.keyword {
-      color: var(--violet-11);
-    }
-
-    .hero-code .token.string {
-      color: var(--jade-11);
-    }
-
-    .hero-code .token.function {
-      color: var(--blue-11);
-    }
-
-    .hero-code .token.punctuation {
-      color: var(--sand-10);
-    }
-
-    .hero-code .token.operator {
-      color: var(--sand-11);
-    }
-
-    .hero-code .token.tag {
-      color: var(--blue-11);
-    }
-
-    .hero-code .token.attr-name {
-      color: var(--violet-11);
-    }
-
-    .hero-code .token.attr-value {
-      color: var(--jade-11);
-    }
-
-    .dark .hero-code .token.keyword {
-      color: var(--violet-10);
-    }
-
-    .dark .hero-code .token.string {
-      color: var(--jade-10);
-    }
-
-    .dark .hero-code .token.function {
-      color: var(--blue-10);
-    }
-
-    .dark .hero-code .token.tag {
-      color: var(--blue-10);
-    }
-
-    .dark .hero-code .token.attr-name {
-      color: var(--violet-10);
-    }
-
-    .dark .hero-code .token.attr-value {
-      color: var(--jade-10);
-    }
   </style>
-
-  <script>
-    // Load shared scroll-cards-grid component
-    async function loadScrollCardsGrid() {
-      const el = document.querySelector('[data-component="scroll-cards-grid"]');
-      if (!el) return;
-      try {
-        const res = await fetch('/public/playground/components/scroll-cards-grid.html');
-        if (res.ok) {
-          el.outerHTML = await res.text();
-        }
-      } catch (e) {
-        console.error('Failed to load scroll-cards-grid', e);
-      }
-    }
-    document.addEventListener('DOMContentLoaded', loadScrollCardsGrid);
-  </script>
 </head>
 
-<body data-scaling="100%"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased overflow-x-hidden" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: 'iris', variant: 'classic', tone: 'accent', radius: 'medium' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent" :data-variant="variant"
-  :data-tone="tone" :data-radius="radius">
-
-  <!-- Navbar -->
-  <nav
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="rt-Flex flex h-14 items-center justify-between">
-        <!-- Logo -->
-        <div class="rt-Flex flex items-center gap-3">
-          <div
-            class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path
-                d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z"
-                fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-          </div>
+<body class="bg-gray-1 text-gray-12 min-h-screen" x-data="{ 
+       themeMode: localStorage.getItem('lily-theme') || 'system',
+       init() {
+         this.applyTheme();
+         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+           if (this.themeMode === 'system') this.applyTheme();
+         });
+       },
+       applyTheme() {
+         const html = document.documentElement;
+         html.classList.remove('light', 'dark');
+         if (this.themeMode === 'dark') {
+           html.classList.add('dark');
+         } else if (this.themeMode === 'light') {
+           html.classList.add('light');
+         }
+       },
+       setTheme(mode) {
+         this.themeMode = mode;
+         localStorage.setItem('lily-theme', mode);
+         this.applyTheme();
+       }
+     }">
+  <!-- Top Navigation Bar -->
+  <nav class="sticky top-0 z-50 bg-gray-1 border-b border-gray-6">
+    <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+      <!-- Logo & Title -->
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="flex items-center gap-2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="var(--accent-9)" />
+            <path d="M2 17L12 22L22 17" stroke="var(--accent-9)" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M2 12L12 17L22 12" stroke="var(--accent-9)" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <span class="text-3 font-semibold text-gray-12">Lily UI</span>
+        </a>
+        <div class="hidden md:flex items-center gap-1">
+          <a href="index.html"
+            class="px-3 py-1.5 rounded-2 text-2 text-accent-11 bg-accent-3 font-medium">Playground</a>
+          <a href="https://github.com"
+            class="px-3 py-1.5 rounded-2 text-2 text-gray-11 hover:text-gray-12 hover:bg-gray-3 transition-colors">Documentation</a>
         </div>
+      </div>
 
-        <!-- Center Stats -->
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-        <a href="/public/playground/components.html" class="text-sand-11 hover:text-accent-11 transition-colors">Components</a>
-        <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
-        </div>
-
-        <!-- Right Controls -->
-        <div class="flex items-center gap-2">
-          <!-- Theme Colors - Radio Group (hover to expand) -->
-          <div class="relative hidden sm:block h-8 cursor-pointer" x-data="{ 
-              ...colorRadio(), 
-              expanded: false,
-              animating: false,
-              hoverTimer: null,
-              leaveTimer: null,
-              colors: ['iris','blue','violet','teal','jade','red'],
-              getOffset(color) {
-                const selectedIdx = this.colors.indexOf(this.value);
-                return (this.colors.length - 1 - selectedIdx) * 20;
-              },
-              expand() {
-                this.animating = true;
-                setTimeout(() => { this.expanded = true; this.animating = false; }, 250);
-              }
-            }"
-            @mouseenter="clearTimeout(leaveTimer); clearTimeout(hoverTimer); hoverTimer = setTimeout(() => expand(), 100)"
-            @mouseleave="clearTimeout(hoverTimer); leaveTimer = setTimeout(() => expanded = false, 100)"
-            style="width: 140px;">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" x-bind="optionProps(color)" class="h-4 w-4 rounded-full ease-out" :class="[
-                    value === color ? 'ring-2 ring-offset-1 ring-sand-12' : '',
-                    expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (value === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')
-                  ]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (value === color ? getOffset(color) : 0)) + 'px)'"
-                  :aria-checked="value === color" @click="select(color); accent = color">
-                </button>
-              </template>
-            </div>
-          </div>
-
-          <!-- Theme Toggle -->
-          <button type="button"
-            class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12"
-            @click="document.startViewTransition ? document.startViewTransition(() => theme = theme === 'light' ? 'dark' : 'light') : theme = theme === 'light' ? 'dark' : 'light'">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-              stroke-width="2">
-              <circle cx="12" cy="12" r="5" />
+      <!-- Right Side -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Switcher -->
+        <div class="flex items-center gap-1 p-1 rounded-3 bg-gray-3">
+          <button @click="setTheme('light')" :class="themeMode === 'light' ? 'bg-gray-1 shadow-sm' : 'hover:bg-gray-4'"
+            class="p-1.5 rounded-2 text-gray-12 transition-all" title="Light">
+            <svg width="16" height="16" viewBox="0 0 15 15" fill="currentColor">
               <path
-                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-              stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                d="M7.5 0C7.77614 0 8 0.223858 8 0.5V2.5C8 2.77614 7.77614 3 7.5 3C7.22386 3 7 2.77614 7 2.5V0.5C7 0.223858 7.22386 0 7.5 0ZM2.1967 2.1967C2.39196 2.00144 2.70854 2.00144 2.90381 2.1967L4.31802 3.61091C4.51328 3.80617 4.51328 4.12276 4.31802 4.31802C4.12276 4.51328 3.80617 4.51328 3.61091 4.31802L2.1967 2.90381C2.00144 2.70854 2.00144 2.39196 2.1967 2.1967ZM0.5 7C0.223858 7 0 7.22386 0 7.5C0 7.77614 0.223858 8 0.5 8H2.5C2.77614 8 3 7.77614 3 7.5C3 7.22386 2.77614 7 2.5 7H0.5ZM2.1967 12.8033C2.00144 12.608 2.00144 12.2915 2.1967 12.0962L3.61091 10.682C3.80617 10.4867 4.12276 10.4867 4.31802 10.682C4.51328 10.8772 4.51328 11.1938 4.31802 11.3891L2.90381 12.8033C2.70854 12.9986 2.39196 12.9986 2.1967 12.8033ZM12.5 7C12.2239 7 12 7.22386 12 7.5C12 7.77614 12.2239 8 12.5 8H14.5C14.7761 8 15 7.77614 15 7.5C15 7.22386 14.7761 7 14.5 7H12.5ZM10.682 4.31802C10.4867 4.12276 10.4867 3.80617 10.682 3.61091L12.0962 2.1967C12.2915 2.00144 12.608 2.00144 12.8033 2.1967C12.9986 2.39196 12.9986 2.70854 12.8033 2.90381L11.3891 4.31802C11.1938 4.51328 10.8772 4.51328 10.682 4.31802ZM8 12.5C8 12.2239 7.77614 12 7.5 12C7.22386 12 7 12.2239 7 12.5V14.5C7 14.7761 7.22386 15 7.5 15C7.77614 15 8 14.7761 8 14.5V12.5ZM10.682 10.682C10.8772 10.4867 11.1938 10.4867 11.3891 10.682L12.8033 12.0962C12.9986 12.2915 12.9986 12.608 12.8033 12.8033C12.608 12.9986 12.2915 12.9986 12.0962 12.8033L10.682 11.3891C10.4867 11.1938 10.4867 10.8772 10.682 10.682ZM5.5 7.5C5.5 6.39543 6.39543 5.5 7.5 5.5C8.60457 5.5 9.5 6.39543 9.5 7.5C9.5 8.60457 8.60457 9.5 7.5 9.5C6.39543 9.5 5.5 8.60457 5.5 7.5ZM7.5 4.5C5.84315 4.5 4.5 5.84315 4.5 7.5C4.5 9.15685 5.84315 10.5 7.5 10.5C9.15685 10.5 10.5 9.15685 10.5 7.5C10.5 5.84315 9.15685 4.5 7.5 4.5Z">
+              </path>
             </svg>
           </button>
-
-          <!-- GitHub -->
-          <a href="#"
-            class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+          <button @click="setTheme('dark')" :class="themeMode === 'dark' ? 'bg-gray-1 shadow-sm' : 'hover:bg-gray-4'"
+            class="p-1.5 rounded-2 text-gray-12 transition-all" title="Dark">
+            <svg width="16" height="16" viewBox="0 0 15 15" fill="currentColor">
               <path
-                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                d="M2.89998 0.499976C2.89998 0.279062 2.72089 0.0999756 2.49998 0.0999756C2.27906 0.0999756 2.09998 0.279062 2.09998 0.499976V1.09998H1.49998C1.27906 1.09998 1.09998 1.27906 1.09998 1.49998C1.09998 1.72089 1.27906 1.89998 1.49998 1.89998H2.09998V2.49998C2.09998 2.72089 2.27906 2.89998 2.49998 2.89998C2.72089 2.89998 2.89998 2.72089 2.89998 2.49998V1.89998H3.49998C3.72089 1.89998 3.89998 1.72089 3.89998 1.49998C3.89998 1.27906 3.72089 1.09998 3.49998 1.09998H2.89998V0.499976ZM5.89998 3.49998C5.89998 3.27906 5.72089 3.09998 5.49998 3.09998C5.27906 3.09998 5.09998 3.27906 5.09998 3.49998V4.09998H4.49998C4.27906 4.09998 4.09998 4.27906 4.09998 4.49998C4.09998 4.72089 4.27906 4.89998 4.49998 4.89998H5.09998V5.49998C5.09998 5.72089 5.27906 5.89998 5.49998 5.89998C5.72089 5.89998 5.89998 5.72089 5.89998 5.49998V4.89998H6.49998C6.72089 4.89998 6.89998 4.72089 6.89998 4.49998C6.89998 4.27906 6.72089 4.09998 6.49998 4.09998H5.89998V3.49998ZM1.89998 6.49998C1.89998 6.27906 1.72089 6.09998 1.49998 6.09998C1.27906 6.09998 1.09998 6.27906 1.09998 6.49998V7.09998H0.499976C0.279062 7.09998 0.0999756 7.27906 0.0999756 7.49998C0.0999756 7.72089 0.279062 7.89998 0.499976 7.89998H1.09998V8.49998C1.09998 8.72089 1.27906 8.89998 1.49998 8.89998C1.72089 8.89998 1.89998 8.72089 1.89998 8.49998V7.89998H2.49998C2.72089 7.89998 2.89998 7.72089 2.89998 7.49998C2.89998 7.27906 2.72089 7.09998 2.49998 7.09998H1.89998V6.49998ZM8.54406 0.98184L8.24618 0.941586C8.03275 0.917676 7.90692 1.1655 8.02936 1.34194C8.17013 1.54479 8.29981 1.75592 8.41754 1.97445C8.91878 2.90485 9.20322 3.96932 9.20322 5.10022C9.20322 8.37201 6.82247 11.0878 3.69887 11.6097C3.45736 11.6502 3.20988 11.6772 2.96008 11.6906C2.74563 11.702 2.62729 11.9535 2.77721 12.1072C2.84551 12.1773 2.91535 12.2458 2.98667 12.3128L3.05883 12.3795L3.31883 12.6045L3.50684 12.7532L3.62796 12.8433L3.81491 12.9742L3.99079 13.089C4.11175 13.1651 4.23536 13.2374 4.36157 13.3059L4.62496 13.4412L4.88553 13.5607L5.18837 13.6828L5.43169 13.7686C5.56564 13.8128 5.70149 13.8529 5.83857 13.8885C5.94262 13.9155 6.04767 13.9401 6.15405 13.9622C6.27993 13.9883 6.40713 14.0109 6.53544 14.0298L6.85241 14.0685L7.11934 14.0892C7.24637 14.0965 7.37436 14.1002 7.50322 14.1002C11.1483 14.1002 14.1032 11.1453 14.1032 7.50023C14.1032 7.25044 14.0893 7.00389 14.0623 6.76131L14.0255 6.48407C13.991 6.26083 13.9453 6.04129 13.8891 5.82642C13.8213 5.56709 13.7382 5.31398 13.6409 5.06881L13.5279 4.80132L13.4507 4.63542L13.3766 4.48666C13.2178 4.17773 13.0353 3.88295 12.8312 3.60423L12.6782 3.40352L12.4793 3.16432L12.3157 2.98361L12.1961 2.85951L12.0355 2.70246L11.8134 2.50184L11.4925 2.24191L11.2483 2.06498L10.9562 1.87446L10.6346 1.68894L10.3073 1.52378L10.1938 1.47176L9.95488 1.3706L9.67791 1.2669L9.42566 1.1846L9.10075 1.09489L8.83599 1.03486L8.54406 0.98184Z">
+              </path>
             </svg>
-          </a>
+          </button>
+          <button @click="setTheme('system')"
+            :class="themeMode === 'system' ? 'bg-gray-1 shadow-sm' : 'hover:bg-gray-4'"
+            class="p-1.5 rounded-2 text-gray-12 transition-all" title="System">
+            <svg width="16" height="16" viewBox="0 0 15 15" fill="currentColor">
+              <path
+                d="M1 3.25C1 3.11193 1.11193 3 1.25 3H13.75C13.8881 3 14 3.11193 14 3.25V10.75C14 10.8881 13.8881 11 13.75 11H1.25C1.11193 11 1 10.8881 1 10.75V3.25ZM1.25 2C0.559644 2 0 2.55964 0 3.25V10.75C0 11.4404 0.559644 12 1.25 12H5.07341L4.82991 13.25H3.5C3.22386 13.25 3 13.4739 3 13.75C3 14.0261 3.22386 14.25 3.5 14.25H11.5C11.7761 14.25 12 14.0261 12 13.75C12 13.4739 11.7761 13.25 11.5 13.25H10.1701L9.92659 12H13.75C14.4404 12 15 11.4404 15 10.75V3.25C15 2.55964 14.4404 2 13.75 2H1.25ZM9.16909 12H5.83091L6.07441 13.25H8.92559L9.16909 12Z">
+              </path>
+            </svg>
+          </button>
         </div>
+
+        <!-- GitHub Link -->
+        <a href="https://github.com"
+          class="p-2 rounded-2 text-gray-11 hover:text-gray-12 hover:bg-gray-3 transition-colors" title="GitHub">
+          <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor">
+            <path
+              d="M7.49933 0.25C3.49635 0.25 0.25 3.49593 0.25 7.50024C0.25 10.703 2.32715 13.4206 5.2081 14.3797C5.57084 14.446 5.70302 14.2222 5.70302 14.0299C5.70302 13.8576 5.69679 13.4019 5.69323 12.797C3.67661 13.235 3.25112 11.825 3.25112 11.825C2.92132 10.9874 2.44599 10.7644 2.44599 10.7644C1.78773 10.3149 2.49584 10.3238 2.49584 10.3238C3.22353 10.375 3.60629 11.0711 3.60629 11.0711C4.25298 12.1788 5.30335 11.8588 5.71638 11.6732C5.78225 11.205 5.96962 10.8854 6.17658 10.7043C4.56675 10.5209 2.87415 9.89918 2.87415 7.12104C2.87415 6.32925 3.15677 5.68257 3.62053 5.17563C3.54576 4.99226 3.29697 4.25521 3.69174 3.25691C3.69174 3.25691 4.30015 3.06196 5.68522 3.99973C6.26337 3.83906 6.8838 3.75895 7.50022 3.75583C8.1162 3.75895 8.73619 3.83906 9.31523 3.99973C10.6994 3.06196 11.3069 3.25691 11.3069 3.25691C11.7026 4.25521 11.4538 4.99226 11.3795 5.17563C11.8441 5.68257 12.1245 6.32925 12.1245 7.12104C12.1245 9.9063 10.4292 10.5192 8.81452 10.6985C9.07444 10.9224 9.30633 11.3648 9.30633 12.0413C9.30633 13.0102 9.29742 13.7922 9.29742 14.0299C9.29742 14.2239 9.42828 14.4496 9.79591 14.3788C12.6746 13.4179 14.75 10.7025 14.75 7.50024C14.75 3.49593 11.5036 0.25 7.49933 0.25Z">
+            </path>
+          </svg>
+        </a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="rt-Section relative overflow-hidden min-h-screen" data-size="3">
-    <!-- Decorative pink shape on right -->
-    <div
-      class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/3 w-[600px] h-[600px] opacity-30 pointer-events-none">
-      <svg viewBox="0 0 200 200" class="w-full h-full">
-        <path fill="#FF6B9D"
-          d="M150,20 Q180,50 170,100 Q160,150 120,180 Q80,200 60,170 Q20,130 40,80 Q60,30 110,20 Q140,10 150,20 Z" />
-      </svg>
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <h1 class="text-8 font-bold text-gray-12">Playground</h1>
+      <p class="text-3 text-gray-11 mt-2">Alpine.js + Tailwind CSS component library based on Radix Themes</p>
+    </header>
+
+    <!-- Component Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <!-- Layout -->
+      <a href="box.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Layout</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Box</h3>
+      </a>
+      <a href="flex.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Layout</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Flex</h3>
+      </a>
+      <a href="grid.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Layout</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Grid</h3>
+      </a>
+      <a href="container.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Layout</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Container</h3>
+      </a>
+
+      <!-- Typography -->
+      <a href="text.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Typography</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Text</h3>
+      </a>
+      <a href="heading.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Typography</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Heading</h3>
+      </a>
+      <a href="code.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Typography</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Code</h3>
+      </a>
+      <a href="blockquote.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Typography</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Blockquote</h3>
+      </a>
+      <a href="link.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Typography</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Link</h3>
+      </a>
+      <a href="kbd.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Typography</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Kbd</h3>
+      </a>
+
+      <!-- Forms -->
+      <a href="button.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Button</h3>
+      </a>
+      <a href="icon-button.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Icon Button</h3>
+      </a>
+      <a href="checkbox.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Checkbox</h3>
+      </a>
+      <a href="switch.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Switch</h3>
+      </a>
+      <a href="text-field.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Text Field</h3>
+      </a>
+      <a href="select.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Select</h3>
+      </a>
+      <a href="slider.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Slider</h3>
+      </a>
+      <a href="radio-group.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Radio Group</h3>
+      </a>
+      <a href="text-area.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Text Area</h3>
+      </a>
+      <a href="segmented-control.html"
+        class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Forms</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Segmented Control</h3>
+      </a>
+
+      <!-- Feedback -->
+      <a href="badge.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Feedback</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Badge</h3>
+      </a>
+      <a href="callout.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Feedback</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Callout</h3>
+      </a>
+      <a href="progress.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Feedback</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Progress</h3>
+      </a>
+      <a href="spinner.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Feedback</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Spinner</h3>
+      </a>
+      <a href="skeleton.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Feedback</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Skeleton</h3>
+      </a>
+
+      <!-- Overlay -->
+      <a href="dialog.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Overlay</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Dialog</h3>
+      </a>
+      <a href="alert-dialog.html"
+        class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Overlay</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Alert Dialog</h3>
+      </a>
+      <a href="dropdown-menu.html"
+        class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Overlay</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Dropdown Menu</h3>
+      </a>
+      <a href="popover.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Overlay</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Popover</h3>
+      </a>
+      <a href="tooltip.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Overlay</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Tooltip</h3>
+      </a>
+      <a href="hover-card.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Overlay</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Hover Card</h3>
+      </a>
+      <a href="context-menu.html"
+        class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Overlay</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Context Menu</h3>
+      </a>
+
+      <!-- Navigation -->
+      <a href="tabs.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Navigation</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Tabs</h3>
+      </a>
+      <a href="accordion.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Navigation</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Accordion</h3>
+      </a>
+
+      <!-- Data Display -->
+      <a href="avatar.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Data Display</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Avatar</h3>
+      </a>
+      <a href="card.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Data Display</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Card</h3>
+      </a>
+      <a href="table.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Data Display</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Table</h3>
+      </a>
+      <a href="separator.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Data Display</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Separator</h3>
+      </a>
+      <a href="data-list.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Data Display</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Data List</h3>
+      </a>
+      <a href="scroll-area.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Data Display</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Scroll Area</h3>
+      </a>
+      <a href="section.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Layout</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Section</h3>
+      </a>
+      <a href="inset.html" class="p-4 rounded-3 bg-gray-2 hover:bg-gray-3 border border-gray-6 transition-colors">
+        <span class="text-2 text-gray-11">Layout</span>
+        <h3 class="text-3 font-medium text-gray-12 mt-1">Inset</h3>
+      </a>
     </div>
 
-    <div class="rt-Container mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12 pt-32 pb-16">
-      <div class="rt-Grid grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <!-- Left Column -->
-        <div class="rt-Box max-w-xl">
-          <!-- Badge -->
-          <a href="#"
-            class="inline-flex items-center gap-2 w-fit rounded-full border border-sand-6 bg-sand-1 px-4 py-1.5 text-sm text-sand-11 hover:bg-sand-2 transition-colors mb-6">
-            <span>Read about Lily UI 1.0</span>
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
-
-          <!-- Heading -->
-          <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-sand-12 leading-[1.1] tracking-tight mb-4">
-            Start building<br>your app now
-          </h1>
-
-          <!-- Description -->
-          <p class="text-base md:text-lg text-sand-11 leading-relaxed mb-6">
-            An open source component library optimized for fast development, easy maintenance, and accessibility. Just
-            import and go—no configuration required.
-          </p>
-
-          <!-- Code Example Card -->
-          <div class="hero-code mb-6 rounded-xl border border-sand-6 shadow-lg overflow-hidden">
-            <pre class="!m-0"><code class="language-jsx" style="display: block; padding: 1rem;">import "lily-ui/styles.css";
-import { Theme, Button } from "lily-ui";
-
-export default () =&gt; (
-  &lt;Theme&gt;
-    &lt;Button&gt;Hey 👋&lt;/Button&gt;
-  &lt;/Theme&gt;
-);</code></pre>
-          </div>
-
-          <!-- CTA Buttons -->
-          <div class="rt-Flex flex flex-wrap items-center gap-3 mb-8">
-            <a href="#components"
-              class="inline-flex items-center gap-2 rounded-full bg-sand-12 px-5 py-2.5 text-sm font-semibold text-sand-1 hover:bg-sand-11 transition-colors shadow-lg">
-              Get started
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
-            <a href="#components"
-              class="inline-flex items-center gap-2 rounded-full border border-sand-6 px-5 py-2.5 text-sm font-semibold text-sand-12 hover:bg-sand-2 transition-colors"
-              :class="theme === 'dark' ? 'bg-sand-3 hover:bg-sand-4' : 'bg-white hover:bg-sand-2'">
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <rect x="3" y="3" width="7" height="7" rx="1" />
-                <rect x="14" y="3" width="7" height="7" rx="1" />
-                <rect x="3" y="14" width="7" height="7" rx="1" />
-                <rect x="14" y="14" width="7" height="7" rx="1" />
-              </svg>
-              Playground
-            </a>
-          </div>
-
-          <!-- Appearance controls -->
-          <div class="rounded-3 border border-sand-6 bg-sand-1/80 backdrop-blur-sm p-4 shadow-sm space-y-3"
-            :data-variant="variant" :data-tone="tone" :data-radius="radius">
-            <div class="flex flex-wrap gap-3">
-              <label class="flex items-center gap-2 text-sm text-sand-11">
-                Variant
-                <select x-model="variant" class="border border-sand-6 rounded-2 bg-white/70 px-2 py-1 text-sand-12">
-                  <option value="classic">Classic</option>
-                  <option value="solid">Solid</option>
-                  <option value="soft">Soft</option>
-                  <option value="surface">Surface</option>
-                  <option value="outline">Outline</option>
-                  <option value="ghost">Ghost</option>
-                </select>
-              </label>
-              <label class="flex items-center gap-2 text-sm text-sand-11">
-                Tone
-                <select x-model="tone" class="border border-sand-6 rounded-2 bg-white/70 px-2 py-1 text-sand-12">
-                  <option value="accent">Accent</option>
-                  <option value="gray">Gray</option>
-                </select>
-              </label>
-              <label class="flex items-center gap-2 text-sm text-sand-11">
-                Radius
-                <select x-model="radius" class="border border-sand-6 rounded-2 bg-white/70 px-2 py-1 text-sand-12">
-                  <option value="none">No radius</option>
-                  <option value="small">Small</option>
-                  <option value="medium">Medium</option>
-                  <option value="large">Large</option>
-                  <option value="full">Full</option>
-                </select>
-              </label>
-            </div>
-            <div class="flex flex-wrap items-center gap-3 pt-1">
-              <button type="button" class="ui-button">
-                Primary
-              </button>
-              <button type="button" class="ui-button" data-variant="outline">
-                Outline
-              </button>
-              <button type="button" class="ui-button" data-variant="ghost">
-                Ghost
-              </button>
-            </div>
-          </div>
-
-          <!-- Tech Stack & Credits -->
-          <div class="space-y-3">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-medium text-sand-11">Powered by</span>
-              <a href="https://alpinejs.dev" target="_blank" class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-sand-3 hover:bg-sand-4 transition-colors">
-                <svg class="w-4 h-4 text-[#77c1d2]" viewBox="0 0 256 256" fill="currentColor">
-                  <path d="M128 0L0 128l128 128 128-128L128 0zm0 54.4L201.6 128 128 201.6 54.4 128 128 54.4z"/>
-                </svg>
-                <span class="text-xs font-semibold text-sand-12">Alpine.js</span>
-              </a>
-            </div>
-            <p class="text-xs text-sand-10 leading-relaxed">
-              Design system inspired by
-              <a href="https://www.radix-ui.com/themes" target="_blank" class="text-accent-11 hover:underline">Radix Themes</a>.
-              Rebuilt with Alpine.js + Tailwind CSS for lightweight reactivity.
-            </p>
-          </div>
-        </div>
-
-                <!-- Right Column: Scrolling Cards -->
-        <div class="hidden lg:block relative h-[700px] overflow-hidden">
-          <!-- Gradient overlays -->
-          <div class="absolute inset-x-0 top-0 h-32 z-10 pointer-events-none"
-            :class="theme === 'dark' ? 'bg-gradient-to-b from-sand-1 to-transparent' : 'bg-gradient-to-b from-sand-2 to-transparent'">
-          </div>
-          <div class="absolute inset-x-0 bottom-0 h-32 z-10 pointer-events-none"
-            :class="theme === 'dark' ? 'bg-gradient-to-t from-sand-1 to-transparent' : 'bg-gradient-to-t from-sand-2 to-transparent'">
-          </div>
-
-          <div data-component="scroll-cards-grid"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  
-  <!-- Footer -->
-  <footer class="rt-Section border-t border-sand-6 py-8" data-size="1">
-    <div class="rt-Container mx-auto max-w-6xl px-4">
-      <div class="rt-Flex flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="rt-Flex flex items-center gap-2 text-sm text-sand-11">
-          <span>Made with</span>
-          <svg class="h-4 w-4 text-red-9" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-          </svg>
-          <span>by Lily UI Team</span>
-        </div>
-        <div class="rt-Flex flex items-center gap-4 text-sm text-sand-11">
-          <a href="https://github.com" target="_blank" class="hover:text-sand-12 transition-colors">GitHub</a>
-          <a href="/public/playground/docs.html" class="hover:text-sand-12 transition-colors">Documentation</a>
-          <a href="/public/playground/components.html" class="hover:text-sand-12 transition-colors">Components</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <script>    document.addEventListener("DOMContentLoaded", () => { if (window.Prism) { Prism.highlightAll(); } });  </script>
-
+    <!-- Footer -->
+    <footer class="mt-12 pt-6 border-t border-gray-6 text-center text-gray-11 text-2">
+      <p>Based on <a href="https://radix-ui.com/themes" class="text-accent-11 hover:underline">Radix Themes</a></p>
+      <p class="mt-1">Alpine.js + Tailwind CSS implementation</p>
+    </footer>
+  </div>
 </body>
 
 </html>

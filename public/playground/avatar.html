@@ -1,285 +1,297 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+    data-scaling="100%">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Avatar - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.start();
-  </script>
-  <style>
-    [x-cloak] { display: none !important; }
-    .sidebar-link {
-      display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
-    }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
-    }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
-    }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .sidebar-section:first-child {
-      margin-top: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar - Lily UI Playground</title>
+    <link rel="stylesheet" href="../../dist/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .playground-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .playground-table th,
+        .playground-table td {
+            padding: var(--space-3);
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--gray-a5);
+        }
+
+        .playground-table th {
+            font-size: var(--font-size-2);
+            font-weight: var(--font-weight-medium);
+            color: var(--gray-11);
+        }
+
+        .section-title {
+            font-size: var(--font-size-5);
+            font-weight: var(--font-weight-bold);
+            color: var(--gray-12);
+            margin-bottom: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .row-header {
+            font-size: var(--font-size-2);
+            color: var(--gray-11);
+            font-weight: var(--font-weight-medium);
+        }
+    </style>
 </head>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
-
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
-          </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
-            </div>
-          </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link active">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+    <div class="max-w-6xl mx-auto p-6">
         <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Avatar</h1>
-          <p class="text-sand-11">Interactive examples and variations.</p>
-        </div>
+        <header class="mb-8">
+            <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+            <h1 class="text-8 font-bold text-gray-12 mt-4">Avatar</h1>
+            <p class="text-3 text-gray-11 mt-2">Profile picture, user initials or fallback icon.</p>
+        </header>
 
-        <!-- Demo Content -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-8" style="background: var(--sand-2);">
-          <h2 class="text-sm font-semibold text-sand-12">Examples</h2>
-<h2 class="text-sm font-medium">Avatar</h2>
+        <!-- Variants & Sizes -->
+        <section>
+            <h2 class="section-title">Variants & Sizes</h2>
+            <div class="overflow-x-auto">
+                <table class="playground-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>size 1</th>
+                            <th>size 2</th>
+                            <th>size 3</th>
+                            <th>size 4</th>
+                            <th>size 5</th>
+                            <th>+ high-contrast</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- solid -->
+                        <tr>
+                            <td class="row-header">solid</td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-solid rt-r-size-1">
+                                    <span class="rt-AvatarFallback rt-one-letter">A</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-solid rt-r-size-2">
+                                    <span class="rt-AvatarFallback rt-two-letters">AB</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-solid rt-r-size-3">
+                                    <span class="rt-AvatarFallback rt-two-letters">CD</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-solid rt-r-size-4">
+                                    <span class="rt-AvatarFallback rt-two-letters">EF</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-solid rt-r-size-5">
+                                    <span class="rt-AvatarFallback rt-two-letters">GH</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-solid rt-r-size-3 rt-high-contrast">
+                                    <span class="rt-AvatarFallback rt-two-letters">HC</span>
+                                </span>
+                            </td>
+                        </tr>
 
-      <!-- Sizes -->
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">尺寸 (1-9)</div>
-        <div class="flex flex-wrap items-end gap-4">
-          <span class="avatar-root avatar-size-1 avatar-variant-soft"><span class="avatar-fallback" data-letters="1">A</span></span>
-          <span class="avatar-root avatar-size-2 avatar-variant-soft"><span class="avatar-fallback" data-letters="2">AB</span></span>
-          <span class="avatar-root avatar-size-3 avatar-variant-soft"><span class="avatar-fallback" data-letters="1">C</span></span>
-          <span class="avatar-root avatar-size-4 avatar-variant-soft"><span class="avatar-fallback" data-letters="2">CD</span></span>
-          <span class="avatar-root avatar-size-5 avatar-variant-soft"><span class="avatar-fallback" data-letters="1">E</span></span>
-          <span class="avatar-root avatar-size-6 avatar-variant-soft"><span class="avatar-fallback" data-letters="2">EF</span></span>
-          <span class="avatar-root avatar-size-7 avatar-variant-soft"><span class="avatar-fallback" data-letters="1">G</span></span>
-          <span class="avatar-root avatar-size-8 avatar-variant-soft"><span class="avatar-fallback" data-letters="2">GH</span></span>
-          <span class="avatar-root avatar-size-9 avatar-variant-soft"><span class="avatar-fallback" data-letters="1">I</span></span>
-        </div>
-      </div>
-
-      <!-- Variants -->
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">变体</div>
-        <div class="flex flex-wrap items-center gap-6">
-          <div class="flex items-center gap-2">
-            <span class="avatar-root avatar-size-4 avatar-variant-solid"><span class="avatar-fallback" data-letters="1">S</span></span>
-            <span class="text-xs text-sand-11">solid</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="avatar-root avatar-size-4 avatar-variant-soft"><span class="avatar-fallback" data-letters="1">S</span></span>
-            <span class="text-xs text-sand-11">soft</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="avatar-root avatar-size-4 avatar-variant-solid avatar-high-contrast"><span class="avatar-fallback" data-letters="2">HC</span></span>
-            <span class="text-xs text-sand-11">solid + high-contrast</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="avatar-root avatar-size-4 avatar-variant-soft avatar-high-contrast"><span class="avatar-fallback" data-letters="2">HC</span></span>
-            <span class="text-xs text-sand-11">soft + high-contrast</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Colors -->
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">颜色</div>
-        <div class="flex flex-wrap gap-3">
-          <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
-            <div class="flex flex-col items-center gap-2" :data-accent-color="color">
-              <span class="avatar-root avatar-size-3 avatar-variant-solid">
-                <span class="avatar-fallback" data-letters="1" x-text="color.charAt(0).toUpperCase()"></span>
-              </span>
-              <span class="text-2xs text-sand-11 capitalize" x-text="color"></span>
+                        <!-- soft -->
+                        <tr>
+                            <td class="row-header">soft</td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-1">
+                                    <span class="rt-AvatarFallback rt-one-letter">A</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-2">
+                                    <span class="rt-AvatarFallback rt-two-letters">AB</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3">
+                                    <span class="rt-AvatarFallback rt-two-letters">CD</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-4">
+                                    <span class="rt-AvatarFallback rt-two-letters">EF</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-5">
+                                    <span class="rt-AvatarFallback rt-two-letters">GH</span>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3 rt-high-contrast">
+                                    <span class="rt-AvatarFallback rt-two-letters">HC</span>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-          </template>
-        </div>
-      </div>
-
-      <!-- With Image -->
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">带图片 (自动 Fallback)</div>
-        <div class="flex flex-wrap items-center gap-4">
-          <span class="avatar-root avatar-size-5 avatar-variant-soft" x-avatar>
-            <img class="avatar-image" src="https://i.pravatar.cc/150?img=1" alt="User">
-            <span class="avatar-fallback" data-avatar-fallback data-letters="1">U</span>
-          </span>
-          <span class="avatar-root avatar-size-5 avatar-variant-soft" x-avatar>
-            <img class="avatar-image" src="https://i.pravatar.cc/150?img=2" alt="User">
-            <span class="avatar-fallback" data-avatar-fallback data-letters="2">AB</span>
-          </span>
-          <span class="avatar-root avatar-size-5 avatar-variant-soft" x-avatar>
-            <img class="avatar-image" src="https://invalid-url.example/broken.jpg" alt="User">
-            <span class="avatar-fallback" data-avatar-fallback data-letters="1">F</span>
-          </span>
-          <span class="text-xs text-sand-11">← 最后一个图片失败，显示 fallback</span>
-        </div>
-      </div>
-
-      <!-- Radius -->
-      <div class="space-y-4">
-        <div class="text-sm font-medium text-sand-11">圆角</div>
-        <div class="flex flex-wrap items-center gap-4">
-          <span class="avatar-root avatar-size-4 avatar-variant-soft" data-radius="none"><span class="avatar-fallback" data-letters="1">N</span></span>
-          <span class="avatar-root avatar-size-4 avatar-variant-soft" data-radius="small"><span class="avatar-fallback" data-letters="1">S</span></span>
-          <span class="avatar-root avatar-size-4 avatar-variant-soft" data-radius="medium"><span class="avatar-fallback" data-letters="1">M</span></span>
-          <span class="avatar-root avatar-size-4 avatar-variant-soft" data-radius="large"><span class="avatar-fallback" data-letters="1">L</span></span>
-          <span class="avatar-root avatar-size-4 avatar-variant-soft" data-radius="full"><span class="avatar-fallback" data-letters="1">F</span></span>
-        </div>
-      </div>
         </section>
-      </div>
-    </main>
-  </div>
+
+        <!-- Accent Colors -->
+        <section>
+            <h2 class="section-title">Accent Colors</h2>
+            <p class="text-2 text-gray-11 mb-4">Soft avatars in different accent colors.</p>
+            <div class="flex flex-wrap gap-3">
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="tomato">
+                    <span class="rt-AvatarFallback rt-two-letters">TO</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="crimson">
+                    <span class="rt-AvatarFallback rt-two-letters">CR</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="pink">
+                    <span class="rt-AvatarFallback rt-two-letters">PK</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="purple">
+                    <span class="rt-AvatarFallback rt-two-letters">PU</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="violet">
+                    <span class="rt-AvatarFallback rt-two-letters">VI</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="indigo">
+                    <span class="rt-AvatarFallback rt-two-letters">IN</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="blue">
+                    <span class="rt-AvatarFallback rt-two-letters">BL</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="cyan">
+                    <span class="rt-AvatarFallback rt-two-letters">CY</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="teal">
+                    <span class="rt-AvatarFallback rt-two-letters">TE</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="jade">
+                    <span class="rt-AvatarFallback rt-two-letters">JA</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="green">
+                    <span class="rt-AvatarFallback rt-two-letters">GR</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="amber">
+                    <span class="rt-AvatarFallback rt-two-letters">AM</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="orange">
+                    <span class="rt-AvatarFallback rt-two-letters">OR</span>
+                </span>
+            </div>
+        </section>
+
+        <!-- With Images -->
+        <section>
+            <h2 class="section-title">With Images</h2>
+            <p class="text-2 text-gray-11 mb-4">Avatars with profile images.</p>
+            <div class="flex flex-wrap gap-3 items-center">
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-2">
+                    <img class="rt-AvatarImage"
+                        src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=64&h=64&fit=crop&crop=faces"
+                        alt="User avatar">
+                    <span class="rt-AvatarFallback rt-two-letters">JD</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3">
+                    <img class="rt-AvatarImage"
+                        src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=64&h=64&fit=crop&crop=faces"
+                        alt="User avatar">
+                    <span class="rt-AvatarFallback rt-two-letters">AB</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-4">
+                    <img class="rt-AvatarImage"
+                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=128&h=128&fit=crop&crop=faces"
+                        alt="User avatar">
+                    <span class="rt-AvatarFallback rt-two-letters">TW</span>
+                </span>
+                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-5">
+                    <img class="rt-AvatarImage"
+                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=128&h=128&fit=crop&crop=faces"
+                        alt="User avatar">
+                    <span class="rt-AvatarFallback rt-two-letters">MK</span>
+                </span>
+            </div>
+        </section>
+
+        <!-- Usage Examples -->
+        <section>
+            <h2 class="section-title">Usage Examples</h2>
+            <div class="space-y-6">
+                <!-- User list -->
+                <div class="p-4 rounded-3 bg-gray-2 border border-gray-6">
+                    <p class="text-2 text-gray-11 mb-3">User list</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="tomato">
+                                <span class="rt-AvatarFallback rt-two-letters">JD</span>
+                            </span>
+                            <div>
+                                <p class="text-2 font-medium text-gray-12">John Doe</p>
+                                <p class="text-1 text-gray-11">john@example.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="cyan">
+                                <span class="rt-AvatarFallback rt-two-letters">AS</span>
+                            </span>
+                            <div>
+                                <p class="text-2 font-medium text-gray-12">Alice Smith</p>
+                                <p class="text-1 text-gray-11">alice@example.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="rt-AvatarRoot rt-variant-soft rt-r-size-3" data-accent-color="jade">
+                                <span class="rt-AvatarFallback rt-two-letters">BW</span>
+                            </span>
+                            <div>
+                                <p class="text-2 font-medium text-gray-12">Bob Wilson</p>
+                                <p class="text-1 text-gray-11">bob@example.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Avatar group -->
+                <div class="p-4 rounded-3 bg-gray-2 border border-gray-6">
+                    <p class="text-2 text-gray-11 mb-3">Avatar group</p>
+                    <div class="flex -space-x-2">
+                        <span class="rt-AvatarRoot rt-variant-solid rt-r-size-3 ring-2 ring-gray-1"
+                            data-accent-color="tomato">
+                            <span class="rt-AvatarFallback rt-two-letters">JD</span>
+                        </span>
+                        <span class="rt-AvatarRoot rt-variant-solid rt-r-size-3 ring-2 ring-gray-1"
+                            data-accent-color="blue">
+                            <span class="rt-AvatarFallback rt-two-letters">AS</span>
+                        </span>
+                        <span class="rt-AvatarRoot rt-variant-solid rt-r-size-3 ring-2 ring-gray-1"
+                            data-accent-color="jade">
+                            <span class="rt-AvatarFallback rt-two-letters">BW</span>
+                        </span>
+                        <span class="rt-AvatarRoot rt-variant-solid rt-r-size-3 ring-2 ring-gray-1"
+                            data-accent-color="gray">
+                            <span class="rt-AvatarFallback rt-two-letters">+5</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+<script src="sidebar.js"></script>
 </body>
 
 </html>

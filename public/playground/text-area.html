@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+    data-scaling="100%">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Area - Lily UI Playground</title>
+    <link rel="stylesheet" href="../../dist/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .playground-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .playground-table th,
+        .playground-table td {
+            padding: var(--space-3);
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--gray-a5);
+        }
+
+        .playground-table th {
+            font-size: var(--font-size-2);
+            font-weight: var(--font-weight-medium);
+            color: var(--gray-11);
+        }
+
+        .section-title {
+            font-size: var(--font-size-5);
+            font-weight: var(--font-weight-bold);
+            color: var(--gray-12);
+            margin-bottom: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .row-header {
+            font-size: var(--font-size-2);
+            color: var(--gray-11);
+            font-weight: var(--font-weight-medium);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+    <div class="max-w-6xl mx-auto p-6">
+        <!-- Header -->
+        <header class="mb-8">
+            <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+            <h1 class="text-8 font-bold text-gray-12 mt-4">Text Area</h1>
+            <p class="text-3 text-gray-11 mt-2">Multi-line text input with Radix UI styling and variants.</p>
+        </header>
+
+        <!-- Variants & Sizes -->
+        <section>
+            <h2 class="section-title">Variants & Sizes</h2>
+            <div class="overflow-x-auto">
+                <table class="playground-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>size 1</th>
+                            <th>size 2</th>
+                            <th>size 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- surface -->
+                        <tr>
+                            <td class="row-header">surface</td>
+                            <td>
+                                <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-1" style="width: 200px;">
+                                    <textarea class="rt-TextAreaInput" placeholder="Write a reply…" rows="3"></textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-2" style="width: 240px;">
+                                    <textarea class="rt-TextAreaInput" placeholder="Write a reply…" rows="3"></textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-3" style="width: 280px;">
+                                    <textarea class="rt-TextAreaInput" placeholder="Write a reply…" rows="3"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- classic -->
+                        <tr>
+                            <td class="row-header">classic</td>
+                            <td>
+                                <div class="rt-TextAreaRoot rt-variant-classic rt-r-size-1" style="width: 200px;">
+                                    <textarea class="rt-TextAreaInput" placeholder="Write a reply…" rows="3"></textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rt-TextAreaRoot rt-variant-classic rt-r-size-2" style="width: 240px;">
+                                    <textarea class="rt-TextAreaInput" placeholder="Write a reply…" rows="3"></textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rt-TextAreaRoot rt-variant-classic rt-r-size-3" style="width: 280px;">
+                                    <textarea class="rt-TextAreaInput" placeholder="Write a reply…" rows="3"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- soft -->
+                        <tr>
+                            <td class="row-header">soft</td>
+                            <td>
+                                <div class="rt-TextAreaRoot rt-variant-soft rt-r-size-1" style="width: 200px;">
+                                    <textarea class="rt-TextAreaInput" placeholder="Write a reply…" rows="3"></textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rt-TextAreaRoot rt-variant-soft rt-r-size-2" style="width: 240px;">
+                                    <textarea class="rt-TextAreaInput" placeholder="Write a reply…" rows="3"></textarea>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rt-TextAreaRoot rt-variant-soft rt-r-size-3" style="width: 280px;">
+                                    <textarea class="rt-TextAreaInput" placeholder="Write a reply…" rows="3"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- States -->
+        <section>
+            <h2 class="section-title">States</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div>
+                    <p class="text-2 text-gray-11 mb-2">Default</p>
+                    <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-2" style="width: 100%;">
+                        <textarea class="rt-TextAreaInput" placeholder="Write something…" rows="3"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-2 text-gray-11 mb-2">Disabled</p>
+                    <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-2" style="width: 100%;">
+                        <textarea class="rt-TextAreaInput" placeholder="Disabled input" rows="3" disabled></textarea>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-2 text-gray-11 mb-2">Read-only</p>
+                    <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-2" style="width: 100%;">
+                        <textarea class="rt-TextAreaInput" rows="3"
+                            readonly>This content is read-only and cannot be edited.</textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- With Content -->
+        <section>
+            <h2 class="section-title">With Content</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <p class="text-2 text-gray-11 mb-2">Short content</p>
+                    <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-2" style="width: 100%;">
+                        <textarea class="rt-TextAreaInput" rows="3">Hello there!</textarea>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-2 text-gray-11 mb-2">Long content</p>
+                    <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-2" style="width: 100%;">
+                        <textarea class="rt-TextAreaInput"
+                            rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accent Colors -->
+        <section>
+            <h2 class="section-title">Accent Colors (Soft)</h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div data-accent-color="tomato">
+                    <div class="rt-TextAreaRoot rt-variant-soft rt-r-size-2" style="width: 100%;">
+                        <textarea class="rt-TextAreaInput" placeholder="Tomato accent…" rows="2"></textarea>
+                    </div>
+                </div>
+                <div data-accent-color="blue">
+                    <div class="rt-TextAreaRoot rt-variant-soft rt-r-size-2" style="width: 100%;">
+                        <textarea class="rt-TextAreaInput" placeholder="Blue accent…" rows="2"></textarea>
+                    </div>
+                </div>
+                <div data-accent-color="jade">
+                    <div class="rt-TextAreaRoot rt-variant-soft rt-r-size-2" style="width: 100%;">
+                        <textarea class="rt-TextAreaInput" placeholder="Jade accent…" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resizable -->
+        <section>
+            <h2 class="section-title">Resizable</h2>
+            <p class="text-2 text-gray-11 mb-4">Text areas can be made resizable by setting the resize property on the
+                root.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <p class="text-2 text-gray-11 mb-2">Vertical resize</p>
+                    <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-2" style="width: 100%; resize: vertical;">
+                        <textarea class="rt-TextAreaInput" placeholder="Drag the corner to resize vertically…"
+                            rows="3"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-2 text-gray-11 mb-2">Both directions</p>
+                    <div class="rt-TextAreaRoot rt-variant-surface rt-r-size-2" style="width: 100%; resize: both;">
+                        <textarea class="rt-TextAreaInput" placeholder="Drag to resize in any direction…"
+                            rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+<script src="sidebar.js"></script>
+</body>
+
+</html>

@@ -1,274 +1,687 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+  data-scaling="100%">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Button - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.start();
-  </script>
+  <title>Button - Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
-    [x-cloak] { display: none !important; }
-    .sidebar-link {
-      display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
+    [x-cloak] {
+      display: none !important;
     }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
+
+    .playground-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
     }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
+
+    .playground-table th,
+    .playground-table td {
+      padding: var(--space-3);
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--gray-a5);
     }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+
+    .playground-table th {
+      font-size: var(--font-size-2);
+      font-weight: var(--font-weight-medium);
+      color: var(--gray-11);
     }
-    .sidebar-section:first-child {
-      margin-top: 0;
+
+    .playground-table td {
+      white-space: nowrap;
+    }
+
+    .section-title {
+      font-size: var(--font-size-5);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-12);
+      margin-bottom: var(--space-4);
+      margin-top: var(--space-6);
+    }
+
+    .row-header {
+      font-size: var(--font-size-2);
+      color: var(--gray-11);
+      font-weight: var(--font-weight-medium);
     }
   </style>
 </head>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+      <h1 class="text-8 font-bold text-gray-12 mt-4">Button</h1>
+      <p class="text-3 text-gray-11 mt-2">Trigger actions or events with customizable button styles.</p>
+    </header>
 
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
+    <!-- Main variants/sizes table -->
+    <section>
+      <h2 class="section-title">Variants & Sizes</h2>
+      <div class="overflow-x-auto">
+        <table class="playground-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>size 1</th>
+              <th>size 2</th>
+              <th>size 3</th>
+              <th>size 4</th>
+              <th>+ high-contrast</th>
+              <th></th>
+              <th>gray</th>
+              <th>+ high-contrast</th>
+              <th></th>
+              <th>disabled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- classic variant -->
+            <tr>
+              <td class="row-header">classic</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-classic rt-r-size-1">Next <svg width="12"
+                    height="12" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-classic rt-r-size-2">Next <svg width="15"
+                    height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-classic rt-r-size-3">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-classic rt-r-size-4">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-classic rt-r-size-2 rt-high-contrast">Next
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-classic rt-r-size-2"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-classic rt-r-size-2 rt-high-contrast"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-classic rt-r-size-2" data-disabled>Next
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+            </tr>
+            <!-- solid variant -->
+            <tr>
+              <td class="row-header">solid</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-1">Next <svg width="12"
+                    height="12" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2">Next <svg width="15"
+                    height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-3">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-4">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2 rt-high-contrast">Next
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2 rt-high-contrast"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2" data-disabled>Next <svg
+                    width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+            </tr>
+            <!-- soft variant -->
+            <tr>
+              <td class="row-header">soft</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-1">Next <svg width="12"
+                    height="12" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2">Next <svg width="15"
+                    height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-3">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-4">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2 rt-high-contrast">Next
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2 rt-high-contrast"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2" data-disabled>Next <svg
+                    width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+            </tr>
+            <!-- surface variant -->
+            <tr>
+              <td class="row-header">surface</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-1">Next <svg width="12"
+                    height="12" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-2">Next <svg width="15"
+                    height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-3">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-4">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-2 rt-high-contrast">Next
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-2"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-2 rt-high-contrast"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-2" data-disabled>Next
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+            </tr>
+            <!-- outline variant -->
+            <tr>
+              <td class="row-header">outline</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-1">Next <svg width="12"
+                    height="12" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-2">Next <svg width="15"
+                    height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-3">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-4">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-2 rt-high-contrast">Next
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-2"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-2 rt-high-contrast"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-2" data-disabled>Next
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+            </tr>
+            <!-- ghost variant -->
+            <tr>
+              <td class="row-header">ghost</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-1">Next <svg width="12"
+                    height="12" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-2">Next <svg width="15"
+                    height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-3">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-4">Next <svg width="18"
+                    height="18" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-2 rt-high-contrast">Next
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-2"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-2 rt-high-contrast"
+                  data-accent-color="gray">Next <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+              <td></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-2" data-disabled>Next <svg
+                    width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+                    <path
+                      d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z">
+                    </path>
+                  </svg></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Colors section -->
+    <section>
+      <h2 class="section-title">All Colors</h2>
+      <p class="text-2 text-gray-11 mb-4">All accent colors with solid and soft variants:</p>
+
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Solid variants -->
+        <div>
+          <h3 class="text-3 font-medium text-gray-12 mb-3">Solid</h3>
+          <div class="flex flex-wrap gap-2">
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="gray">Gray</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="gold">Gold</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="bronze">Bronze</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="brown">Brown</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="yellow">Yellow</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="amber">Amber</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="orange">Orange</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="tomato">Tomato</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="red">Red</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="ruby">Ruby</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="crimson">Crimson</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="pink">Pink</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="plum">Plum</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="purple">Purple</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="violet">Violet</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="iris">Iris</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="indigo">Indigo</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="blue">Blue</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="cyan">Cyan</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="teal">Teal</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="jade">Jade</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="green">Green</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="grass">Grass</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="lime">Lime</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="mint">Mint</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+              data-accent-color="sky">Sky</button>
           </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
         </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
-            </div>
+
+        <!-- Soft variants -->
+        <div>
+          <h3 class="text-3 font-medium text-gray-12 mb-3">Soft</h3>
+          <div class="flex flex-wrap gap-2">
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="gray">Gray</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="gold">Gold</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="bronze">Bronze</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="brown">Brown</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="yellow">Yellow</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="amber">Amber</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="orange">Orange</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="tomato">Tomato</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="red">Red</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="ruby">Ruby</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="crimson">Crimson</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="pink">Pink</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="plum">Plum</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="purple">Purple</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="violet">Violet</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="iris">Iris</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="indigo">Indigo</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="blue">Blue</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="cyan">Cyan</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="teal">Teal</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="jade">Jade</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="green">Green</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="grass">Grass</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="lime">Lime</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="mint">Mint</button>
+            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+              data-accent-color="sky">Sky</button>
           </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
         </div>
       </div>
-    </div>
-  </nav>
+    </section>
 
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link active">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
+    <!-- Radius section -->
+    <section>
+      <h2 class="section-title">Radius</h2>
+      <p class="text-2 text-gray-11 mb-4">Radius can be set per instance:</p>
+      <div class="overflow-x-auto">
+        <table class="playground-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>size 1</th>
+              <th>size 2</th>
+              <th>size 3</th>
+              <th>size 4</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-header">none</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-1"
+                  data-radius="none">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                  data-radius="none">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-3"
+                  data-radius="none">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-4"
+                  data-radius="none">Button</button></td>
+            </tr>
+            <tr>
+              <td class="row-header">small</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-1"
+                  data-radius="small">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                  data-radius="small">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-3"
+                  data-radius="small">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-4"
+                  data-radius="small">Button</button></td>
+            </tr>
+            <tr>
+              <td class="row-header">medium</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-1"
+                  data-radius="medium">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                  data-radius="medium">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-3"
+                  data-radius="medium">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-4"
+                  data-radius="medium">Button</button></td>
+            </tr>
+            <tr>
+              <td class="row-header">large</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-1"
+                  data-radius="large">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                  data-radius="large">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-3"
+                  data-radius="large">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-4"
+                  data-radius="large">Button</button></td>
+            </tr>
+            <tr>
+              <td class="row-header">full</td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-1"
+                  data-radius="full">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                  data-radius="full">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-3"
+                  data-radius="full">Button</button></td>
+              <td><button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-4"
+                  data-radius="full">Button</button></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </aside>
+    </section>
 
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
-        <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Button</h1>
-          <p class="text-sand-11">Displays a button or a component that looks like a button.</p>
-        </div>
-
-        <!-- Demo Sections -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-8" style="background: var(--sand-2);">
-          <h2 class="text-sm font-semibold text-sand-12">Examples</h2>
-
-          <!-- Sizes -->
-          <div class="space-y-4">
-            <div class="text-sm font-medium text-sand-11">Sizes (1-4)</div>
-            <div class="flex flex-wrap items-center gap-3">
-              <button class="button button-size-1 button-variant-solid">Size 1</button>
-              <button class="button button-size-2 button-variant-solid">Size 2</button>
-              <button class="button button-size-3 button-variant-solid">Size 3</button>
-              <button class="button button-size-4 button-variant-solid">Size 4</button>
-            </div>
-          </div>
-
-          <!-- Variants -->
-          <div class="space-y-4">
-            <div class="text-sm font-medium text-sand-11">Variants</div>
-            <div class="flex flex-wrap items-center gap-3">
-              <button class="button button-size-2 button-variant-classic">Classic</button>
-              <button class="button button-size-2 button-variant-solid">Solid</button>
-              <button class="button button-size-2 button-variant-soft">Soft</button>
-              <button class="button button-size-2 button-variant-surface">Surface</button>
-              <button class="button button-size-2 button-variant-outline">Outline</button>
-              <button class="button button-size-2 button-variant-ghost">Ghost</button>
-            </div>
-          </div>
-
-          <!-- High contrast -->
-          <div class="space-y-4">
-            <div class="text-sm font-medium text-sand-11">High Contrast</div>
-            <div class="flex flex-wrap items-center gap-3">
-              <button class="button button-size-2 button-variant-solid button-high-contrast">Solid</button>
-              <button class="button button-size-2 button-variant-soft button-high-contrast">Soft</button>
-              <button class="button button-size-2 button-variant-surface button-high-contrast">Surface</button>
-              <button class="button button-size-2 button-variant-outline button-high-contrast">Outline</button>
-            </div>
-          </div>
-
-          <!-- Disabled -->
-          <div class="space-y-4">
-            <div class="text-sm font-medium text-sand-11">Disabled</div>
-            <div class="flex flex-wrap items-center gap-3">
-              <button class="button button-size-2 button-variant-solid" disabled>Disabled</button>
-              <button class="button button-size-2 button-variant-soft" disabled>Disabled</button>
-              <button class="button button-size-2 button-variant-outline" disabled>Disabled</button>
-            </div>
-          </div>
-
-          <!-- Loading -->
-          <div class="space-y-4">
-            <div class="text-sm font-medium text-sand-11">Loading</div>
-            <div class="flex flex-wrap items-center gap-3">
-              <button class="button button-size-2 button-variant-solid" data-loading>
-                <span class="button-text">Loading</span>
-                <span class="button-spinner spinner spinner-size-1" style="color: var(--accent-contrast);">
-                  <span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span>
-                  <span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span>
-                </span>
-              </button>
-              <button class="button button-size-2 button-variant-soft" data-loading>
-                <span class="button-text">Loading</span>
-                <span class="button-spinner spinner spinner-size-1" style="color: var(--accent-11);">
-                  <span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span>
-                  <span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span><span class="spinner-leaf"></span>
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Colors -->
-          <div class="space-y-4">
-            <div class="text-sm font-medium text-sand-11">Colors</div>
-            <div class="flex flex-wrap gap-2">
-              <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
-                <button class="button button-size-2 button-variant-solid" :data-accent-color="color" x-text="color"></button>
-              </template>
-            </div>
-          </div>
-        </section>
+    <!-- Loading state -->
+    <section>
+      <h2 class="section-title">Loading State</h2>
+      <p class="text-2 text-gray-11 mb-4">Buttons with loading state using Alpine.js:</p>
+      <div class="flex gap-3" x-data="{ loading: false }">
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2" :class="{ 'rt-loading': loading }"
+          @click="loading = true; setTimeout(() => loading = false, 2000)">
+          <span x-show="!loading">Click to load</span>
+          <span x-show="loading" x-cloak class="rt-Spinner rt-r-size-2"><svg viewBox="0 0 24 24" fill="none"
+              class="w-4 h-4 animate-spin">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.25" />
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            </svg></span>
+        </button>
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2" :class="{ 'rt-loading': loading }"
+          @click="loading = true; setTimeout(() => loading = false, 2000)">
+          <span x-show="!loading">Click to load</span>
+          <span x-show="loading" x-cloak class="rt-Spinner rt-r-size-2"><svg viewBox="0 0 24 24" fill="none"
+              class="w-4 h-4 animate-spin">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.25" />
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            </svg></span>
+        </button>
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-2"
+          :class="{ 'rt-loading': loading }" @click="loading = true; setTimeout(() => loading = false, 2000)">
+          <span x-show="!loading">Click to load</span>
+          <span x-show="loading" x-cloak class="rt-Spinner rt-r-size-2"><svg viewBox="0 0 24 24" fill="none"
+              class="w-4 h-4 animate-spin">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.25" />
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+            </svg></span>
+        </button>
       </div>
-    </main>
+    </section>
+
+    <!-- With Icons -->
+    <section>
+      <h2 class="section-title">With Icons</h2>
+      <div class="flex flex-wrap gap-3">
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+            <path
+              d="M7.5 0.875C5.49797 0.875 3.875 2.49797 3.875 4.5C3.875 6.15288 4.98124 7.54738 6.49373 7.98351C5.2997 8.12901 4.27557 8.55134 3.50407 9.31167C2.52216 10.2794 2.02502 11.72 2.02502 13.5999C2.02502 13.8623 2.23769 14.0749 2.50002 14.0749C2.76236 14.0749 2.97502 13.8623 2.97502 13.5999C2.97502 11.8799 3.42786 10.7206 4.17091 9.9883C4.91536 9.25463 6.02674 8.87499 7.49995 8.87499C8.97317 8.87499 10.0846 9.25463 10.8291 9.98831C11.5721 10.7206 12.025 11.8799 12.025 13.5999C12.025 13.8623 12.2376 14.0749 12.5 14.0749C12.7623 14.0749 12.975 13.8623 12.975 13.5999C12.975 11.72 12.4778 10.2794 11.4959 9.31166C10.7244 8.55135 9.70025 8.12903 8.50625 7.98352C10.0187 7.5474 11.125 6.15289 11.125 4.5C11.125 2.49797 9.50203 0.875 7.5 0.875ZM4.825 4.5C4.825 3.02264 6.02264 1.825 7.5 1.825C8.97736 1.825 10.175 3.02264 10.175 4.5C10.175 5.97736 8.97736 7.175 7.5 7.175C6.02264 7.175 4.825 5.97736 4.825 4.5Z">
+            </path>
+          </svg>
+          Profile
+        </button>
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+            <path
+              d="M7.07095 0.650238C6.67391 0.650238 6.32977 0.925096 6.24198 1.31231L6.0039 2.36247C5.6249 2.47269 5.26335 2.62363 4.92436 2.81013L4.01335 2.23585C3.67748 2.02413 3.23978 2.07312 2.95903 2.35386L2.35294 2.95996C2.0722 3.2407 2.0232 3.6784 2.23493 4.01427L2.80942 4.92561C2.62307 5.2645 2.47227 5.62594 2.36216 6.00481L1.31209 6.24287C0.924883 6.33065 0.650024 6.6748 0.650024 7.07183V7.92897C0.650024 8.32601 0.924883 8.67015 1.31209 8.75794L2.36228 8.99603C2.47246 9.375 2.62335 9.73652 2.80979 10.0755L2.2354 10.9867C2.02367 11.3225 2.07267 11.7602 2.35341 12.041L2.95951 12.6471C3.24025 12.9278 3.67795 12.9768 4.01382 12.7651L4.92506 12.1907C5.26384 12.377 5.62516 12.5278 6.0039 12.6379L6.24198 13.6881C6.32977 14.0753 6.67391 14.3502 7.07095 14.3502H7.92809C8.32512 14.3502 8.66927 14.0753 8.75765 13.6881L8.99565 12.638C9.37458 12.5278 9.73601 12.377 10.0749 12.1907L10.9861 12.7651C11.322 12.9768 11.7597 12.9278 12.0404 12.6471L12.6465 12.041C12.9273 11.7602 12.9763 11.3225 12.7645 10.9867L12.1902 10.0755C12.3766 9.73652 12.5275 9.375 12.6377 8.99603L13.6879 8.75794C14.0751 8.67015 14.35 8.32601 14.35 7.92897V7.07183C14.35 6.6748 14.0751 6.33065 13.6879 6.24287L12.6378 6.00481C12.5277 5.62594 12.3769 5.2645 12.1906 4.92561L12.7651 4.01427C12.9768 3.6784 12.9278 3.2407 12.6471 2.95996L12.041 2.35386C11.7602 2.07312 11.3225 2.02413 10.9867 2.23585L10.0756 2.81013C9.73665 2.62363 9.37511 2.47269 8.99611 2.36247L8.75765 1.31231C8.66927 0.925096 8.32512 0.650238 7.92809 0.650238H7.07095Z">
+            </path>
+          </svg>
+          Settings
+        </button>
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-outline rt-r-size-2">
+          Download
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor">
+            <path
+              d="M7.50005 1.04999C7.74858 1.04999 7.95005 1.25146 7.95005 1.49999V8.41359L10.1819 6.18179C10.3576 6.00605 10.6425 6.00605 10.8182 6.18179C10.994 6.35753 10.994 6.64245 10.8182 6.81819L7.81825 9.81819C7.64251 9.99392 7.35759 9.99392 7.18185 9.81819L4.18185 6.81819C4.00611 6.64245 4.00611 6.35753 4.18185 6.18179C4.35759 6.00605 4.64251 6.00605 4.81825 6.18179L7.05005 8.41359V1.49999C7.05005 1.25146 7.25152 1.04999 7.50005 1.04999ZM2.5 10C2.77614 10 3 10.2239 3 10.5V12C3 12.5523 3.44772 13 4 13H11C11.5523 13 12 12.5523 12 12V10.5C12 10.2239 12.2239 10 12.5 10C12.7761 10 13 10.2239 13 10.5V12C13 13.1046 12.1046 14 11 14H4C2.89543 14 2 13.1046 2 12V10.5C2 10.2239 2.22386 10 2.5 10Z">
+            </path>
+          </svg>
+        </button>
+      </div>
+    </section>
+
   </div>
 </body>
+<script src="sidebar.js"></script>
 
 </html>

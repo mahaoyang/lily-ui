@@ -1,512 +1,253 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+    data-scaling="100%">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Context Menu - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    import { contextMenu } from "/public/machines/context-menu.js";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Menu - Lily UI Playground</title>
+    <link rel="stylesheet" href="../../dist/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
 
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.data('contextMenu', contextMenu);
-    Alpine.start();
-  </script>
-  <style>
-    [x-cloak] { display: none !important; }
-    .sidebar-link {
-      display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
-    }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
-    }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
-    }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .sidebar-section:first-child {
-      margin-top: 0;
-    }
-  </style>
+        .section-title {
+            font-size: var(--font-size-5);
+            font-weight: var(--font-weight-bold);
+            color: var(--gray-12);
+            margin-bottom: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .context-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            border: 2px dashed var(--gray-6);
+            border-radius: var(--radius-3);
+            background: var(--gray-2);
+            position: relative;
+        }
+
+        .context-menu {
+            position: fixed;
+            z-index: 50;
+            min-width: 180px;
+            background-color: var(--color-panel-solid);
+            box-shadow: var(--shadow-5);
+            border-radius: var(--radius-4);
+            padding: var(--space-2);
+        }
+    </style>
 </head>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
-
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
-          </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
-            </div>
-          </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link active">Context Menu</a>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+    <div class="max-w-6xl mx-auto p-6">
         <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Context Menu</h1>
-          <p class="text-sand-11">Interactive examples and variations.</p>
-        </div>
+        <header class="mb-8">
+            <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+            <h1 class="text-8 font-bold text-gray-12 mt-4">Context Menu</h1>
+            <p class="text-3 text-gray-11 mt-2">Right-click menu with items, separators, shortcuts, and nested actions.
+            </p>
+        </header>
 
-        <!-- Demo Content -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-8" style="background: var(--sand-2);">
-          <h2 class="text-sm font-semibold text-sand-12">Examples</h2>
-<h2 class="text-2xl font-semibold text-sand-12">Basic Example</h2>
-      <div class="bg-white rounded-lg p-8 shadow-sm border border-sand-6">
-
-        <div
-          x-data="contextMenu()"
-          @contextmenu.prevent="handleContextMenu($event)"
-          @keydown.escape="handleKeydown($event)"
-          class="border-2 border-dashed border-sand-6 rounded-lg p-12 text-center cursor-context-menu hover:border-accent-7 hover:bg-sand-1 transition-colors">
-          <p class="text-sand-11">Right-click anywhere in this area</p>
-          <p class="text-sm text-sand-10 mt-2">Try opening the context menu</p>
-
-          <!-- Context Menu -->
-          <div
-            x-show="open"
-            x-transition:enter="transition ease-out duration-150"
-            x-transition:enter-start="opacity-0 transform scale-95"
-            x-transition:enter-end="opacity-100 transform scale-100"
-            x-transition:leave="transition ease-in duration-100"
-            x-transition:leave-start="opacity-100 transform scale-100"
-            x-transition:leave-end="opacity-0 transform scale-95"
-            :style="getMenuStyles()"
-            class="context-menu-content context-menu-size-2"
-            :data-state="open ? 'open' : 'closed'"
-            data-context-menu
-            style="display: none;">
-
-            <div class="context-menu-viewport">
-
-              <div class="context-menu-item" @click="close()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-                  <polyline points="16 6 12 2 8 6"></polyline>
-                  <line x1="12" y1="2" x2="12" y2="15"></line>
-                </svg>
-                Back
-              </div>
-
-              <div class="context-menu-item" @click="close()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="9 14 4 9 9 4"></polyline>
-                  <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
-                </svg>
-                Forward
-                <span class="context-menu-shortcut">Ctrl+]</span>
-              </div>
-
-              <div class="context-menu-item" @click="close()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                </svg>
-                Reload
-                <span class="context-menu-shortcut">Ctrl+R</span>
-              </div>
-
-              <div class="context-menu-separator"></div>
-
-              <div class="context-menu-label">More Tools</div>
-
-              <div class="context-menu-item" @click="close()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
-                  <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
-                </svg>
-                Save Page As...
-                <span class="context-menu-shortcut">Ctrl+S</span>
-              </div>
-
-              <div class="context-menu-item" @click="close()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
-                </svg>
-                Create Shortcut...
-              </div>
-
-              <div class="context-menu-item" @click="close()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                  <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                  <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                </svg>
-                Name Window...
-              </div>
-
-              <div class="context-menu-separator"></div>
-
-              <div class="context-menu-item" @click="close()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
-                  <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
-                </svg>
-                Developer Tools
-              </div>
-
+        <!-- Interactive Demo -->
+        <section x-data="{ 
+      open: false, 
+      x: 0, 
+      y: 0,
+      handleContext(e) {
+        e.preventDefault();
+        this.x = e.clientX;
+        this.y = e.clientY;
+        this.open = true;
+      }
+    }">
+            <h2 class="section-title">Right-Click Demo</h2>
+            <div class="context-area" @contextmenu="handleContext($event)" @click="open = false">
+                <span class="text-2 text-gray-11">Right-click here to open context menu</span>
             </div>
-          </div>
-        </div>
 
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12">With Checkboxes</h2>
-      <div class="bg-white rounded-lg p-8 shadow-sm border border-sand-6">
-
-        <div
-          x-data="{
-            ...contextMenu(),
-            showBookmarks: true,
-            showFullUrls: false,
-            showPeople: true,
-            toggleBookmarks() { this.showBookmarks = !this.showBookmarks; },
-            toggleFullUrls() { this.showFullUrls = !this.showFullUrls; },
-            togglePeople() { this.showPeople = !this.showPeople; }
-          }"
-          @contextmenu.prevent="handleContextMenu($event)"
-          @keydown.escape="handleKeydown($event)"
-          class="border-2 border-dashed border-sand-6 rounded-lg p-12 text-center cursor-context-menu hover:border-accent-7 hover:bg-sand-1 transition-colors">
-          <p class="text-sand-11">Right-click to toggle view options</p>
-
-          <!-- Context Menu -->
-          <div
-            x-show="open"
-            x-transition
-            :style="getMenuStyles()"
-            class="context-menu-content context-menu-size-2"
-            :data-state="open ? 'open' : 'closed'"
-            data-context-menu
-            style="display: none;">
-
-            <div class="context-menu-viewport">
-
-              <div class="context-menu-label">View Options</div>
-
-              <div class="context-menu-item" @click="toggleBookmarks()">
-                <div class="context-menu-item-indicator">
-                  <svg x-show="showBookmarks" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
+            <!-- Context Menu -->
+            <div x-show="open" x-cloak @click.away="open = false" @keydown.escape.window="open = false"
+                class="context-menu rt-BaseMenuContent rt-ContextMenuContent rt-variant-solid rt-r-size-2"
+                :style="{ left: x + 'px', top: y + 'px' }">
+                <div class="rt-BaseMenuViewport">
+                    <div class="rt-BaseMenuItem" @click="open = false">
+                        <span class="rt-BaseMenuItemIndicator"></span>
+                        Back
+                        <span class="rt-BaseMenuShortcut">⌘[</span>
+                    </div>
+                    <div class="rt-BaseMenuItem" data-disabled>
+                        <span class="rt-BaseMenuItemIndicator"></span>
+                        Forward
+                        <span class="rt-BaseMenuShortcut">⌘]</span>
+                    </div>
+                    <div class="rt-BaseMenuItem" @click="open = false">
+                        <span class="rt-BaseMenuItemIndicator"></span>
+                        Reload
+                        <span class="rt-BaseMenuShortcut">⌘R</span>
+                    </div>
+                    <div class="rt-BaseMenuSeparator"></div>
+                    <div class="rt-BaseMenuItem" @click="open = false">
+                        <span class="rt-BaseMenuItemIndicator"></span>
+                        Save Page As...
+                        <span class="rt-BaseMenuShortcut">⌘S</span>
+                    </div>
+                    <div class="rt-BaseMenuItem" @click="open = false">
+                        <span class="rt-BaseMenuItemIndicator"></span>
+                        Print...
+                        <span class="rt-BaseMenuShortcut">⌘P</span>
+                    </div>
+                    <div class="rt-BaseMenuSeparator"></div>
+                    <div class="rt-BaseMenuItem" @click="open = false">
+                        <span class="rt-BaseMenuItemIndicator"></span>
+                        View Page Source
+                    </div>
+                    <div class="rt-BaseMenuItem" @click="open = false">
+                        <span class="rt-BaseMenuItemIndicator"></span>
+                        Inspect Element
+                        <span class="rt-BaseMenuShortcut">⌘⌥I</span>
+                    </div>
                 </div>
-                Show Bookmarks Bar
-                <span class="context-menu-shortcut">Ctrl+B</span>
-              </div>
-
-              <div class="context-menu-item" @click="toggleFullUrls()">
-                <div class="context-menu-item-indicator">
-                  <svg x-show="showFullUrls" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                </div>
-                Show Full URLs
-              </div>
-
-              <div class="context-menu-item" @click="togglePeople()">
-                <div class="context-menu-item-indicator">
-                  <svg x-show="showPeople" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                </div>
-                Show People Names
-              </div>
-
-              <div class="context-menu-separator"></div>
-
-              <div class="context-menu-item" @click="close()">
-                Exit
-              </div>
-
             </div>
-          </div>
-        </div>
-
-        <!-- Status Display -->
-        <div x-data="{ showBookmarks: true, showFullUrls: false, showPeople: true }" class="mt-4 p-4 bg-sand-1 rounded-lg">
-          <p class="text-sm text-sand-11 mb-2">Current Options:</p>
-          <div class="flex flex-wrap gap-2">
-            <span x-show="showBookmarks" class="badge badge-size-1 badge-variant-soft">Bookmarks</span>
-            <span x-show="showFullUrls" class="badge badge-size-1 badge-variant-soft">Full URLs</span>
-            <span x-show="showPeople" class="badge badge-size-1 badge-variant-soft">People Names</span>
-          </div>
-        </div>
-
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12">Size Variants</h2>
-      <div class="bg-white rounded-lg p-8 shadow-sm border border-sand-6">
-
-        <div class="grid grid-cols-2 gap-6">
-
-          <!-- Size 1 -->
-          <div
-            x-data="contextMenu()"
-            @contextmenu.prevent="handleContextMenu($event)"
-            @keydown.escape="handleKeydown($event)"
-            class="border-2 border-dashed border-sand-6 rounded-lg p-8 text-center cursor-context-menu hover:border-accent-7 hover:bg-sand-1 transition-colors">
-            <p class="text-sm text-sand-11">Size 1 (Compact)</p>
-
-            <div
-              x-show="open"
-              x-transition
-              :style="getMenuStyles()"
-              class="context-menu-content context-menu-size-1"
-              :data-state="open ? 'open' : 'closed'"
-              data-context-menu
-              style="display: none;">
-
-              <div class="context-menu-viewport">
-                <div class="context-menu-item" @click="close()">Cut</div>
-                <div class="context-menu-item" @click="close()">Copy</div>
-                <div class="context-menu-item" @click="close()">Paste</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Size 2 -->
-          <div
-            x-data="contextMenu()"
-            @contextmenu.prevent="handleContextMenu($event)"
-            @keydown.escape="handleKeydown($event)"
-            class="border-2 border-dashed border-sand-6 rounded-lg p-8 text-center cursor-context-menu hover:border-accent-7 hover:bg-sand-1 transition-colors">
-            <p class="text-sm text-sand-11">Size 2 (Default)</p>
-
-            <div
-              x-show="open"
-              x-transition
-              :style="getMenuStyles()"
-              class="context-menu-content context-menu-size-2"
-              :data-state="open ? 'open' : 'closed'"
-              data-context-menu
-              style="display: none;">
-
-              <div class="context-menu-viewport">
-                <div class="context-menu-item" @click="close()">Cut</div>
-                <div class="context-menu-item" @click="close()">Copy</div>
-                <div class="context-menu-item" @click="close()">Paste</div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12">Soft Variant</h2>
-      <div class="bg-white rounded-lg p-8 shadow-sm border border-sand-6">
-
-        <div
-          x-data="contextMenu()"
-          @contextmenu.prevent="handleContextMenu($event)"
-          @keydown.escape="handleKeydown($event)"
-          class="border-2 border-dashed border-sand-6 rounded-lg p-12 text-center cursor-context-menu hover:border-accent-7 hover:bg-sand-1 transition-colors">
-          <p class="text-sand-11">Right-click for soft variant menu</p>
-
-          <div
-            x-show="open"
-            x-transition
-            :style="getMenuStyles()"
-            class="context-menu-content context-menu-size-2 context-menu-variant-soft"
-            :data-state="open ? 'open' : 'closed'"
-            data-context-menu
-            style="display: none;">
-
-            <div class="context-menu-viewport">
-              <div class="context-menu-label">File</div>
-              <div class="context-menu-item" @click="close()">New Tab</div>
-              <div class="context-menu-item" @click="close()">New Window</div>
-              <div class="context-menu-separator"></div>
-              <div class="context-menu-item" @click="close()">Share</div>
-              <div class="context-menu-item" @click="close()">Print</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12">Disabled Items</h2>
-      <div class="bg-white rounded-lg p-8 shadow-sm border border-sand-6">
-
-        <div
-          x-data="contextMenu()"
-          @contextmenu.prevent="handleContextMenu($event)"
-          @keydown.escape="handleKeydown($event)"
-          class="border-2 border-dashed border-sand-6 rounded-lg p-12 text-center cursor-context-menu hover:border-accent-7 hover:bg-sand-1 transition-colors">
-          <p class="text-sand-11">Some items are disabled</p>
-
-          <div
-            x-show="open"
-            x-transition
-            :style="getMenuStyles()"
-            class="context-menu-content context-menu-size-2"
-            :data-state="open ? 'open' : 'closed'"
-            data-context-menu
-            style="display: none;">
-
-            <div class="context-menu-viewport">
-              <div class="context-menu-item" @click="close()">Undo</div>
-              <div class="context-menu-item" @click="close()">Redo</div>
-              <div class="context-menu-separator"></div>
-              <div class="context-menu-item" @click="close()">Cut</div>
-              <div class="context-menu-item" @click="close()">Copy</div>
-              <div class="context-menu-item" data-disabled>Paste</div>
-              <div class="context-menu-separator"></div>
-              <div class="context-menu-item" data-disabled>Delete</div>
-              <div class="context-menu-item" @click="close()">Select All</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
         </section>
-      </div>
-    </main>
-  </div>
+
+        <!-- Static Examples -->
+        <section>
+            <h2 class="section-title">Menu Styles</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Solid Variant -->
+                <div>
+                    <p class="text-2 text-gray-11 mb-3">Solid (default)</p>
+                    <div class="inline-block rt-BaseMenuContent rt-ContextMenuContent rt-variant-solid rt-r-size-2"
+                        style="position: relative;">
+                        <div class="rt-BaseMenuViewport">
+                            <div class="rt-BaseMenuItem" data-highlighted>
+                                <span class="rt-BaseMenuItemIndicator"></span>
+                                Cut
+                                <span class="rt-BaseMenuShortcut">⌘X</span>
+                            </div>
+                            <div class="rt-BaseMenuItem">
+                                <span class="rt-BaseMenuItemIndicator"></span>
+                                Copy
+                                <span class="rt-BaseMenuShortcut">⌘C</span>
+                            </div>
+                            <div class="rt-BaseMenuItem">
+                                <span class="rt-BaseMenuItemIndicator"></span>
+                                Paste
+                                <span class="rt-BaseMenuShortcut">⌘V</span>
+                            </div>
+                            <div class="rt-BaseMenuSeparator"></div>
+                            <div class="rt-BaseMenuItem" data-accent-color="crimson">
+                                <span class="rt-BaseMenuItemIndicator"></span>
+                                Delete
+                                <span class="rt-BaseMenuShortcut">⌫</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soft Variant -->
+                <div>
+                    <p class="text-2 text-gray-11 mb-3">Soft</p>
+                    <div class="inline-block rt-BaseMenuContent rt-ContextMenuContent rt-variant-soft rt-r-size-2"
+                        style="position: relative;">
+                        <div class="rt-BaseMenuViewport">
+                            <div class="rt-BaseMenuItem" data-highlighted>
+                                <span class="rt-BaseMenuItemIndicator"></span>
+                                Cut
+                                <span class="rt-BaseMenuShortcut">⌘X</span>
+                            </div>
+                            <div class="rt-BaseMenuItem">
+                                <span class="rt-BaseMenuItemIndicator"></span>
+                                Copy
+                                <span class="rt-BaseMenuShortcut">⌘C</span>
+                            </div>
+                            <div class="rt-BaseMenuItem">
+                                <span class="rt-BaseMenuItemIndicator"></span>
+                                Paste
+                                <span class="rt-BaseMenuShortcut">⌘V</span>
+                            </div>
+                            <div class="rt-BaseMenuSeparator"></div>
+                            <div class="rt-BaseMenuItem" data-accent-color="crimson">
+                                <span class="rt-BaseMenuItemIndicator"></span>
+                                Delete
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sizes -->
+        <section>
+            <h2 class="section-title">Sizes</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <p class="text-2 text-gray-11 mb-3">Size 1</p>
+                    <div class="inline-block rt-BaseMenuContent rt-ContextMenuContent rt-variant-solid rt-r-size-1"
+                        style="position: relative;">
+                        <div class="rt-BaseMenuViewport">
+                            <div class="rt-BaseMenuItem">New File</div>
+                            <div class="rt-BaseMenuItem">New Folder</div>
+                            <div class="rt-BaseMenuSeparator"></div>
+                            <div class="rt-BaseMenuItem">Download</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-2 text-gray-11 mb-3">Size 2</p>
+                    <div class="inline-block rt-BaseMenuContent rt-ContextMenuContent rt-variant-solid rt-r-size-2"
+                        style="position: relative;">
+                        <div class="rt-BaseMenuViewport">
+                            <div class="rt-BaseMenuItem">New File</div>
+                            <div class="rt-BaseMenuItem">New Folder</div>
+                            <div class="rt-BaseMenuSeparator"></div>
+                            <div class="rt-BaseMenuItem">Download</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- With Checkboxes -->
+        <section>
+            <h2 class="section-title">With Checkboxes</h2>
+            <div class="inline-block rt-BaseMenuContent rt-ContextMenuContent rt-variant-solid rt-r-size-2"
+                style="position: relative;" x-data="{ showGrid: true, showRulers: false }">
+                <div class="rt-BaseMenuViewport">
+                    <div class="rt-BaseMenuLabel">View Options</div>
+                    <div class="rt-BaseMenuCheckboxItem rt-BaseMenuItem" @click="showGrid = !showGrid">
+                        <span class="rt-BaseMenuItemIndicator" :data-state="showGrid ? 'checked' : 'unchecked'">
+                            <svg x-show="showGrid" class="rt-BaseMenuItemIndicatorIcon" viewBox="0 0 15 15"
+                                fill="currentColor">
+                                <path
+                                    d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z">
+                                </path>
+                            </svg>
+                        </span>
+                        Show Grid
+                    </div>
+                    <div class="rt-BaseMenuCheckboxItem rt-BaseMenuItem" @click="showRulers = !showRulers">
+                        <span class="rt-BaseMenuItemIndicator" :data-state="showRulers ? 'checked' : 'unchecked'">
+                            <svg x-show="showRulers" class="rt-BaseMenuItemIndicatorIcon" viewBox="0 0 15 15"
+                                fill="currentColor">
+                                <path
+                                    d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z">
+                                </path>
+                            </svg>
+                        </span>
+                        Show Rulers
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+<script src="sidebar.js"></script>
 </body>
 
 </html>

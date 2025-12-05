@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium" data-scaling="100%">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Field - Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .playground-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .playground-table th,
+    .playground-table td {
+      padding: var(--space-3);
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--gray-a5);
+    }
+    .playground-table th {
+      font-size: var(--font-size-2);
+      font-weight: var(--font-weight-medium);
+      color: var(--gray-11);
+    }
+    .playground-table td {
+      white-space: nowrap;
+    }
+    .section-title {
+      font-size: var(--font-size-5);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-12);
+      margin-bottom: var(--space-4);
+      margin-top: var(--space-6);
+    }
+    .row-header {
+      font-size: var(--font-size-2);
+      color: var(--gray-11);
+      font-weight: var(--font-weight-medium);
+    }
+  </style>
+</head>
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+      <h1 class="text-8 font-bold text-gray-12 mt-4">Text Field</h1>
+      <p class="text-3 text-gray-11 mt-2">Single-line inputs with slots for leading/trailing content.</p>
+    </header>
+
+    <!-- Variants & Sizes -->
+    <section>
+      <h2 class="section-title">Variants & Sizes</h2>
+      <div class="overflow-x-auto">
+        <table class="playground-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>size 1</th>
+              <th>size 2</th>
+              <th>size 3</th>
+              <th></th>
+              <th>disabled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- surface variant -->
+            <tr>
+              <td class="row-header">surface</td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-1">
+                  <input class="rt-reset rt-TextFieldInput" type="email" placeholder="you@example.com">
+                  <span class="rt-TextFieldSlot">
+                    <svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M1.5 3C1.5 2.17157 2.17157 1.5 3 1.5H12C12.8284 1.5 13.5 2.17157 13.5 3V12C13.5 12.8284 12.8284 13.5 12 13.5H3C2.17157 13.5 1.5 12.8284 1.5 12V3ZM3 2.5C2.72386 2.5 2.5 2.72386 2.5 3V3.03597L7.10317 6.67171C7.34437 6.8612 7.65581 6.8612 7.89699 6.67173L12.5 3.03609V3C12.5 2.72386 12.2761 2.5 12 2.5H3ZM12.5 4.26497L8.14391 7.62711C7.76284 7.92384 7.23734 7.92383 6.85628 7.62709L2.5 4.26482V12C2.5 12.2761 2.72386 12.5 3 12.5H12C12.2761 12.5 12.5 12.2761 12.5 12V4.26497Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-2">
+                  <input class="rt-reset rt-TextFieldInput" type="email" placeholder="you@example.com">
+                  <span class="rt-TextFieldSlot">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M1.5 3C1.5 2.17157 2.17157 1.5 3 1.5H12C12.8284 1.5 13.5 2.17157 13.5 3V12C13.5 12.8284 12.8284 13.5 12 13.5H3C2.17157 13.5 1.5 12.8284 1.5 12V3ZM3 2.5C2.72386 2.5 2.5 2.72386 2.5 3V3.03597L7.10317 6.67171C7.34437 6.8612 7.65581 6.8612 7.89699 6.67173L12.5 3.03609V3C12.5 2.72386 12.2761 2.5 12 2.5H3ZM12.5 4.26497L8.14391 7.62711C7.76284 7.92384 7.23734 7.92383 6.85628 7.62709L2.5 4.26482V12C2.5 12.2761 2.72386 12.5 3 12.5H12C12.2761 12.5 12.5 12.2761 12.5 12V4.26497Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-3">
+                  <input class="rt-reset rt-TextFieldInput" type="email" placeholder="you@example.com">
+                  <span class="rt-TextFieldSlot">
+                    <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M1.5 3C1.5 2.17157 2.17157 1.5 3 1.5H12C12.8284 1.5 13.5 2.17157 13.5 3V12C13.5 12.8284 12.8284 13.5 12 13.5H3C2.17157 13.5 1.5 12.8284 1.5 12V3ZM3 2.5C2.72386 2.5 2.5 2.72386 2.5 3V3.03597L7.10317 6.67171C7.34437 6.8612 7.65581 6.8612 7.89699 6.67173L12.5 3.03609V3C12.5 2.72386 12.2761 2.5 12 2.5H3ZM12.5 4.26497L8.14391 7.62711C7.76284 7.92384 7.23734 7.92383 6.85628 7.62709L2.5 4.26482V12C2.5 12.2761 2.72386 12.5 3 12.5H12C12.2761 12.5 12.5 12.2761 12.5 12V4.26497Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+              <td></td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-2">
+                  <input class="rt-reset rt-TextFieldInput" type="email" placeholder="Disabled" disabled>
+                  <span class="rt-TextFieldSlot">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M1.5 3C1.5 2.17157 2.17157 1.5 3 1.5H12C12.8284 1.5 13.5 2.17157 13.5 3V12C13.5 12.8284 12.8284 13.5 12 13.5H3C2.17157 13.5 1.5 12.8284 1.5 12V3ZM3 2.5C2.72386 2.5 2.5 2.72386 2.5 3V3.03597L7.10317 6.67171C7.34437 6.8612 7.65581 6.8612 7.89699 6.67173L12.5 3.03609V3C12.5 2.72386 12.2761 2.5 12 2.5H3ZM12.5 4.26497L8.14391 7.62711C7.76284 7.92384 7.23734 7.92383 6.85628 7.62709L2.5 4.26482V12C2.5 12.2761 2.72386 12.5 3 12.5H12C12.2761 12.5 12.5 12.2761 12.5 12V4.26497Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+            </tr>
+
+            <!-- classic variant -->
+            <tr>
+              <td class="row-header">classic</td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-classic rt-r-size-1">
+                  <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Search">
+                  <span class="rt-TextFieldSlot">
+                    <svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M6.5 2.5a4 4 0 100 8 4 4 0 000-8Zm0-1c2.7614 0 5 2.2386 5 5 0 1.1634-.397 2.2324-1.0581 3.0783l3.2398 3.2398-0.7072.7072-3.2398-3.2398C8.7324 11.103 7.6634 11.5 6.5 11.5c-2.7614 0-5-2.2386-5-5s2.2386-5 5-5Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-classic rt-r-size-2">
+                  <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Search">
+                  <span class="rt-TextFieldSlot">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M6.5 2.5a4 4 0 100 8 4 4 0 000-8Zm0-1c2.7614 0 5 2.2386 5 5 0 1.1634-.397 2.2324-1.0581 3.0783l3.2398 3.2398-0.7072.7072-3.2398-3.2398C8.7324 11.103 7.6634 11.5 6.5 11.5c-2.7614 0-5-2.2386-5-5s2.2386-5 5-5Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-classic rt-r-size-3">
+                  <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Search">
+                  <span class="rt-TextFieldSlot">
+                    <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M6.5 2.5a4 4 0 100 8 4 4 0 000-8Zm0-1c2.7614 0 5 2.2386 5 5 0 1.1634-.397 2.2324-1.0581 3.0783l3.2398 3.2398-0.7072.7072-3.2398-3.2398C8.7324 11.103 7.6634 11.5 6.5 11.5c-2.7614 0-5-2.2386-5-5s2.2386-5 5-5Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+              <td></td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-classic rt-r-size-2">
+                  <input class="rt-reset rt-TextFieldInput" type="text" value="Read only" readonly>
+                  <span class="rt-TextFieldSlot">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M6.5 2.5a4 4 0 100 8 4 4 0 000-8Zm0-1c2.7614 0 5 2.2386 5 5 0 1.1634-.397 2.2324-1.0581 3.0783l3.2398 3.2398-0.7072.7072-3.2398-3.2398C8.7324 11.103 7.6634 11.5 6.5 11.5c-2.7614 0-5-2.2386-5-5s2.2386-5 5-5Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+            </tr>
+
+            <!-- soft variant -->
+            <tr>
+              <td class="row-header">soft</td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-soft rt-r-size-1">
+                  <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Label">
+                  <span class="rt-TextFieldSlot">
+                    <svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1C4.18629 1 1.5 3.68629 1.5 7C1.5 10.3137 4.18629 13 7.5 13C10.8137 13 13.5 10.3137 13.5 7C13.5 3.68629 10.8137 1 7.5 1ZM2.5 7C2.5 4.23858 4.73858 2 7.5 2C10.2614 2 12.5 4.23858 12.5 7C12.5 9.76142 10.2614 12 7.5 12C4.73858 12 2.5 9.76142 2.5 7Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-soft rt-r-size-2">
+                  <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Label">
+                  <span class="rt-TextFieldSlot">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1C4.18629 1 1.5 3.68629 1.5 7C1.5 10.3137 4.18629 13 7.5 13C10.8137 13 13.5 10.3137 13.5 7C13.5 3.68629 10.8137 1 7.5 1ZM2.5 7C2.5 4.23858 4.73858 2 7.5 2C10.2614 2 12.5 4.23858 12.5 7C12.5 9.76142 10.2614 12 7.5 12C4.73858 12 2.5 9.76142 2.5 7Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-soft rt-r-size-3">
+                  <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Label">
+                  <span class="rt-TextFieldSlot">
+                    <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1C4.18629 1 1.5 3.68629 1.5 7C1.5 10.3137 4.18629 13 7.5 13C10.8137 13 13.5 10.3137 13.5 7C13.5 3.68629 10.8137 1 7.5 1ZM2.5 7C2.5 4.23858 4.73858 2 7.5 2C10.2614 2 12.5 4.23858 12.5 7C12.5 9.76142 10.2614 12 7.5 12C4.73858 12 2.5 9.76142 2.5 7Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+              <td></td>
+              <td>
+                <div class="rt-TextFieldRoot rt-variant-soft rt-r-size-2" data-disabled>
+                  <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Disabled" disabled>
+                  <span class="rt-TextFieldSlot">
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1C4.18629 1 1.5 3.68629 1.5 7C1.5 10.3137 4.18629 13 7.5 13C10.8137 13 13.5 10.3137 13.5 7C13.5 3.68629 10.8137 1 7.5 1ZM2.5 7C2.5 4.23858 4.73858 2 7.5 2C10.2614 2 12.5 4.23858 12.5 7C12.5 9.76142 10.2614 12 7.5 12C4.73858 12 2.5 9.76142 2.5 7Z"></path></svg>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Slots & Icons -->
+    <section>
+      <h2 class="section-title">Slots & Icons</h2>
+      <div class="space-y-4">
+        <div class="flex flex-col gap-2">
+          <p class="text-2 text-gray-11">Left + right slots</p>
+          <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-2">
+            <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Search docs">
+            <span class="rt-TextFieldSlot">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M6.5 2.5a4 4 0 100 8 4 4 0 000-8Zm0-1c2.7614 0 5 2.2386 5 5 0 1.1634-.397 2.2324-1.0581 3.0783l3.2398 3.2398-0.7072.7072-3.2398-3.2398C8.7324 11.103 7.6634 11.5 6.5 11.5c-2.7614 0-5-2.2386-5-5s2.2386-5 5-5Z"></path></svg>
+            </span>
+            <span class="rt-TextFieldSlot" data-side="right">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M3.5 7C3.22386 7 3 7.22386 3 7.5C3 7.77614 3.22386 8 3.5 8H11.5C11.7761 8 12 7.77614 12 7.5C12 7.22386 11.7761 7 11.5 7H3.5Z"></path></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <p class="text-2 text-gray-11">Prefix & suffix text</p>
+          <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-2">
+            <input class="rt-reset rt-TextFieldInput" type="text" placeholder="99.00">
+            <span class="rt-TextFieldSlot">$</span>
+            <span class="rt-TextFieldSlot" data-side="right">USD</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <p class="text-2 text-gray-11">Action on the right</p>
+          <div class="rt-TextFieldRoot rt-variant-classic rt-r-size-2">
+            <input class="rt-reset rt-TextFieldInput" type="password" placeholder="Password">
+            <span class="rt-TextFieldSlot" data-side="right">
+              <button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-1" type="button">Show</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Colors -->
+    <section>
+      <h2 class="section-title">Accent Colors (soft)</h2>
+      <p class="text-2 text-gray-11 mb-3">Soft variant picks up accent palettes.</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div class="rt-TextFieldRoot rt-variant-soft rt-r-size-2" data-accent-color="tomato">
+          <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Tomato accent">
+          <span class="rt-TextFieldSlot">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1C4.18629 1 1.5 3.68629 1.5 7C1.5 10.3137 4.18629 13 7.5 13C10.8137 13 13.5 10.3137 13.5 7C13.5 3.68629 10.8137 1 7.5 1Z"></path></svg>
+          </span>
+        </div>
+        <div class="rt-TextFieldRoot rt-variant-soft rt-r-size-2" data-accent-color="blue">
+          <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Blue accent">
+          <span class="rt-TextFieldSlot">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1C4.18629 1 1.5 3.68629 1.5 7C1.5 10.3137 4.18629 13 7.5 13C10.8137 13 13.5 10.3137 13.5 7C13.5 3.68629 10.8137 1 7.5 1Z"></path></svg>
+          </span>
+        </div>
+        <div class="rt-TextFieldRoot rt-variant-soft rt-r-size-2" data-accent-color="jade">
+          <input class="rt-reset rt-TextFieldInput" type="text" placeholder="Jade accent">
+          <span class="rt-TextFieldSlot">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1C4.18629 1 1.5 3.68629 1.5 7C1.5 10.3137 4.18629 13 7.5 13C10.8137 13 13.5 10.3137 13.5 7C13.5 3.68629 10.8137 1 7.5 1Z"></path></svg>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Types & States -->
+    <section>
+      <h2 class="section-title">Types & States</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <p class="text-2 text-gray-11">Native date/time/number</p>
+          <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-2">
+            <input class="rt-reset rt-TextFieldInput" type="date" value="2025-01-15">
+          </div>
+          <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-2">
+            <input class="rt-reset rt-TextFieldInput" type="time" value="09:30">
+          </div>
+          <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-2">
+            <input class="rt-reset rt-TextFieldInput" type="number" value="42">
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <p class="text-2 text-gray-11">Disabled & read-only</p>
+          <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-2">
+            <input class="rt-reset rt-TextFieldInput" type="text" value="Disabled" disabled>
+          </div>
+          <div class="rt-TextFieldRoot rt-variant-surface rt-r-size-2">
+            <input class="rt-reset rt-TextFieldInput" type="text" value="Read only" readonly>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+<script src="sidebar.js"></script>
+</body>
+</html>

@@ -1,418 +1,270 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium" data-scaling="100%">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slider - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    import { sliderMachine } from "/public/machines/slider.js";
-
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.data('sliderMachine', sliderMachine);
-    Alpine.start();
-  </script>
+  <title>Slider - Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     [x-cloak] { display: none !important; }
-    .sidebar-link {
-      display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
+    .playground-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
     }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
+    .playground-table th,
+    .playground-table td {
+      padding: var(--space-3);
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--gray-a5);
     }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
+    .playground-table th {
+      font-size: var(--font-size-2);
+      font-weight: var(--font-weight-medium);
+      color: var(--gray-11);
     }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .playground-table td {
+      white-space: nowrap;
     }
-    .sidebar-section:first-child {
-      margin-top: 0;
+    .section-title {
+      font-size: var(--font-size-5);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-12);
+      margin-bottom: var(--space-4);
+      margin-top: var(--space-6);
+    }
+    .row-header {
+      font-size: var(--font-size-2);
+      color: var(--gray-11);
+      font-weight: var(--font-weight-medium);
+    }
+    .slider-row {
+      min-width: 240px;
     }
   </style>
 </head>
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+      <h1 class="text-8 font-bold text-gray-12 mt-4">Slider</h1>
+      <p class="text-3 text-gray-11 mt-2">Numeric selection along a track with variants, sizes, and orientations.</p>
+    </header>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
+    <!-- Variants & Sizes -->
+    <section>
+      <h2 class="section-title">Variants & Sizes</h2>
+      <div class="overflow-x-auto">
+        <table class="playground-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="slider-row">size 1</th>
+              <th class="slider-row">size 2</th>
+              <th class="slider-row">size 3</th>
+              <th></th>
+              <th class="slider-row">disabled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- surface -->
+            <tr>
+              <td class="row-header">surface</td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-surface rt-r-size-1" data-orientation="horizontal">
+                  <div class="rt-SliderTrack">
+                    <div class="rt-SliderRange" style="width: 40%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" style="left: 40%;"></span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-surface rt-r-size-2" data-orientation="horizontal">
+                  <div class="rt-SliderTrack">
+                    <div class="rt-SliderRange" style="width: 55%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" style="left: 55%;"></span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-surface rt-r-size-3" data-orientation="horizontal">
+                  <div class="rt-SliderTrack">
+                    <div class="rt-SliderRange" style="width: 70%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" style="left: 70%;"></span>
+                </div>
+              </td>
+              <td></td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-surface rt-r-size-2" data-orientation="horizontal" data-disabled>
+                  <div class="rt-SliderTrack" data-disabled>
+                    <div class="rt-SliderRange" data-disabled style="width: 45%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" data-disabled style="left: 45%;"></span>
+                </div>
+              </td>
+            </tr>
 
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
-          </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
-            </div>
-          </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
-        </div>
+            <!-- classic -->
+            <tr>
+              <td class="row-header">classic</td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-classic rt-r-size-1" data-orientation="horizontal">
+                  <div class="rt-SliderTrack">
+                    <div class="rt-SliderRange" style="width: 30%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" style="left: 30%;"></span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-classic rt-r-size-2" data-orientation="horizontal">
+                  <div class="rt-SliderTrack">
+                    <div class="rt-SliderRange" style="width: 50%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" style="left: 50%;"></span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-classic rt-r-size-3" data-orientation="horizontal">
+                  <div class="rt-SliderTrack">
+                    <div class="rt-SliderRange" style="width: 80%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" style="left: 80%;"></span>
+                </div>
+              </td>
+              <td></td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-classic rt-r-size-2" data-orientation="horizontal" data-disabled>
+                  <div class="rt-SliderTrack" data-disabled>
+                    <div class="rt-SliderRange" data-disabled style="width: 60%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" data-disabled style="left: 60%;"></span>
+                </div>
+              </td>
+            </tr>
+
+            <!-- soft -->
+            <tr>
+              <td class="row-header">soft</td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-soft rt-r-size-1" data-orientation="horizontal">
+                  <div class="rt-SliderTrack">
+                    <div class="rt-SliderRange" style="width: 20%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" style="left: 20%;"></span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-soft rt-r-size-2" data-orientation="horizontal">
+                  <div class="rt-SliderTrack">
+                    <div class="rt-SliderRange" style="width: 45%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" style="left: 45%;"></span>
+                </div>
+              </td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-soft rt-r-size-3" data-orientation="horizontal">
+                  <div class="rt-SliderTrack">
+                    <div class="rt-SliderRange" style="width: 65%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" style="left: 65%;"></span>
+                </div>
+              </td>
+              <td></td>
+              <td>
+                <div class="rt-SliderRoot rt-variant-soft rt-r-size-2" data-orientation="horizontal" data-disabled>
+                  <div class="rt-SliderTrack" data-disabled>
+                    <div class="rt-SliderRange" data-disabled style="width: 35%;"></div>
+                  </div>
+                  <span class="rt-SliderThumb" data-disabled style="left: 35%;"></span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-  </nav>
+    </section>
 
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link active">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
-        <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Slider</h1>
-          <p class="text-sand-11">Interactive examples and variations.</p>
-        </div>
-
-        <!-- Demo Content -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-8" style="background: var(--sand-2);">
-          <h2 class="text-sm font-semibold text-sand-12">Examples</h2>
-<div class="space-y-3">
-        <div class="text-sm font-medium text-sand-11">Surface (Default)</div>
-        <div x-data="sliderMachine({ defaultValue: 40, min: 0, max: 100, step: 1 })">
-          <div class="relative h-5 flex items-center select-none touch-none" x-ref="track"
-               @mousedown.prevent="handlePointer($event, true)"
-               @touchstart.passive="handlePointer($event, true)"
-               @mousemove.window="dragging && handlePointer($event)"
-               @touchmove.window.passive="dragging && handlePointer($event)"
-               @mouseup.window="endDrag()"
-               @touchend.window="endDrag()">
-            <!-- Track -->
-            <div class="relative h-2 w-full rounded-full bg-sand-5">
-              <!-- Range (filled part) -->
-              <div class="absolute inset-y-0 left-0 rounded-full bg-accent-9" :style="`width: ${percentage}%`"></div>
-            </div>
-            <!-- Thumb -->
-            <div class="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.1)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
-                 :style="`left: ${percentage}%`"
-                 tabindex="0"
-                 @keydown.left.prevent="setValue(value - step)"
-                 @keydown.right.prevent="setValue(value + step)"
-                 @keydown.down.prevent="setValue(value - step)"
-                 @keydown.up.prevent="setValue(value + step)"></div>
-          </div>
-          <div class="flex justify-between text-xs text-sand-11 mt-2">
-            <span x-text="min"></span>
-            <span class="text-sand-12 font-medium" x-text="value"></span>
-            <span x-text="max"></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Classic variant -->
-      <div class="space-y-3">
-        <div class="text-sm font-medium text-sand-11">Classic</div>
-        <div x-data="sliderMachine({ defaultValue: 60, min: 0, max: 100, step: 1 })">
-          <div class="relative h-5 flex items-center select-none touch-none" x-ref="track"
-               @mousedown.prevent="handlePointer($event, true)"
-               @touchstart.passive="handlePointer($event, true)"
-               @mousemove.window="dragging && handlePointer($event)"
-               @touchmove.window.passive="dragging && handlePointer($event)"
-               @mouseup.window="endDrag()"
-               @touchend.window="endDrag()">
-            <div class="relative h-2 w-full rounded-full bg-sand-5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]">
-              <div class="absolute inset-y-0 left-0 rounded-full bg-accent-9 shadow-[inset_0_1px_1px_rgba(0,0,0,0.1)]" :style="`width: ${percentage}%`"></div>
-            </div>
-            <div class="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.1)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
-                 :style="`left: ${percentage}%`"
-                 tabindex="0"
-                 @keydown.left.prevent="setValue(value - step)"
-                 @keydown.right.prevent="setValue(value + step)"
-                 @keydown.down.prevent="setValue(value - step)"
-                 @keydown.up.prevent="setValue(value + step)"></div>
-          </div>
-          <div class="flex justify-between text-xs text-sand-11 mt-2">
-            <span x-text="min"></span>
-            <span class="text-sand-12 font-medium" x-text="value"></span>
-            <span x-text="max"></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Soft variant -->
-      <div class="space-y-3">
-        <div class="text-sm font-medium text-sand-11">Soft</div>
-        <div x-data="sliderMachine({ defaultValue: 30, min: 0, max: 100, step: 1 })">
-          <div class="relative h-5 flex items-center select-none touch-none" x-ref="track"
-               @mousedown.prevent="handlePointer($event, true)"
-               @touchstart.passive="handlePointer($event, true)"
-               @mousemove.window="dragging && handlePointer($event)"
-               @touchmove.window.passive="dragging && handlePointer($event)"
-               @mouseup.window="endDrag()"
-               @touchend.window="endDrag()">
-            <div class="relative h-2 w-full rounded-full bg-sand-a4">
-              <div class="absolute inset-y-0 left-0 rounded-full bg-accent-6" :style="`width: ${percentage}%`"></div>
-            </div>
-            <div class="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.08)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
-                 :style="`left: ${percentage}%`"
-                 tabindex="0"
-                 @keydown.left.prevent="setValue(value - step)"
-                 @keydown.right.prevent="setValue(value + step)"
-                 @keydown.down.prevent="setValue(value - step)"
-                 @keydown.up.prevent="setValue(value + step)"></div>
-          </div>
-          <div class="flex justify-between text-xs text-sand-11 mt-2">
-            <span x-text="min"></span>
-            <span class="text-sand-12 font-medium" x-text="value"></span>
-            <span x-text="max"></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- High contrast -->
-      <div class="space-y-3">
-        <div class="text-sm font-medium text-sand-11">High Contrast</div>
-        <div x-data="sliderMachine({ defaultValue: 75, min: 0, max: 100, step: 1 })">
-          <div class="relative h-5 flex items-center select-none touch-none" x-ref="track"
-               @mousedown.prevent="handlePointer($event, true)"
-               @touchstart.passive="handlePointer($event, true)"
-               @mousemove.window="dragging && handlePointer($event)"
-               @touchmove.window.passive="dragging && handlePointer($event)"
-               @mouseup.window="endDrag()"
-               @touchend.window="endDrag()">
-            <div class="relative h-2 w-full rounded-full bg-sand-5">
-              <div class="absolute inset-y-0 left-0 rounded-full bg-accent-12" :style="`width: ${percentage}%`"></div>
-            </div>
-            <div class="absolute w-4 h-4 bg-white rounded-full shadow-[0_0_0_1px_rgba(0,0,0,0.15),0_2px_4px_rgba(0,0,0,0.15)] cursor-pointer -translate-x-1/2 focus:outline-none focus:ring-2 focus:ring-accent-8 focus:ring-offset-2"
-                 :style="`left: ${percentage}%`"
-                 tabindex="0"
-                 @keydown.left.prevent="setValue(value - step)"
-                 @keydown.right.prevent="setValue(value + step)"
-                 @keydown.down.prevent="setValue(value - step)"
-                 @keydown.up.prevent="setValue(value + step)"></div>
-          </div>
-          <div class="flex justify-between text-xs text-sand-11 mt-2">
-            <span x-text="min"></span>
-            <span class="text-sand-12 font-medium" x-text="value"></span>
-            <span x-text="max"></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sizes -->
-      <div class="space-y-3">
-        <div class="text-sm font-medium text-sand-11">Sizes</div>
-          <h2 class="text-sm font-medium">Stepper</h2>
-
-      <div class="space-y-8">
-        <!-- 主推样式：输入框风格 -->
+    <!-- Orientation & Range -->
+    <section>
+      <h2 class="section-title">Orientation & Range</h2>
+      <div class="grid md:grid-cols-2 gap-6">
         <div class="space-y-3">
-          <div class="text-sm font-medium text-sand-11">Default</div>
-          <div class="flex flex-wrap gap-6">
-            <div x-data="stepperMachine({ defaultValue: 1, min: 0, max: 99, step: 1 })">
-              <div class="inline-flex items-center h-9 rounded-md border border-accent-7 bg-sand-1 overflow-hidden transition-shadow focus-within:border-transparent focus-within:shadow-[0_0_0_1px_var(--accent-8),0_2px_6px_color-mix(in_srgb,var(--accent-8)_25%,transparent)]">
-                <button @click="dec()" :disabled="value <= 0"
-                        class="flex items-center justify-center w-9 h-full text-accent-11 hover:bg-accent-3 active:bg-accent-4 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
-                </button>
-                <input x-model.number="value" type="text"
-                       class="w-12 h-full text-center bg-transparent text-sand-12 font-medium outline-none border-x border-accent-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                <button @click="inc()" :disabled="value >= 99"
-                        class="flex items-center justify-center w-9 h-full text-accent-11 hover:bg-accent-3 active:bg-accent-4 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
-                </button>
-              </div>
+          <p class="text-2 text-gray-11">Horizontal (range)</p>
+          <div class="rt-SliderRoot rt-variant-surface rt-r-size-2" data-orientation="horizontal">
+            <div class="rt-SliderTrack">
+              <div class="rt-SliderRange" style="left: 20%; width: 50%;"></div>
             </div>
-
-            <!-- Size small -->
-            <div x-data="stepperMachine({ defaultValue: 5, min: 0, max: 99, step: 1 })">
-              <div class="inline-flex items-center h-7 rounded border border-accent-7 bg-sand-1 overflow-hidden text-xs transition-shadow focus-within:border-transparent focus-within:shadow-[0_0_0_1px_var(--accent-8),0_2px_6px_color-mix(in_srgb,var(--accent-8)_25%,transparent)]">
-                <button @click="dec()" :disabled="value <= 0"
-                        class="flex items-center justify-center w-7 h-full text-accent-11 hover:bg-accent-3 active:bg-accent-4 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
-                </button>
-                <input x-model.number="value" type="text"
-                       class="w-8 h-full text-center bg-transparent text-sand-12 font-medium outline-none border-x border-accent-7 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                <button @click="inc()" :disabled="value >= 99"
-                        class="flex items-center justify-center w-7 h-full text-accent-11 hover:bg-accent-3 active:bg-accent-4 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
-                </button>
+            <span class="rt-SliderThumb" style="left: 20%;"></span>
+            <span class="rt-SliderThumb" style="left: 70%;"></span>
+          </div>
+        </div>
+        <div class="space-y-3 flex md:items-center gap-4">
+          <div class="flex-1">
+            <p class="text-2 text-gray-11 mb-3">Vertical</p>
+            <div class="flex gap-4">
+              <div class="rt-SliderRoot rt-variant-surface rt-r-size-2" data-orientation="vertical" style="height: 160px;">
+                <div class="rt-SliderTrack">
+                  <div class="rt-SliderRange" style="bottom: 0; height: 60%;"></div>
+                </div>
+                <span class="rt-SliderThumb" style="bottom: 60%;"></span>
+              </div>
+              <div class="rt-SliderRoot rt-variant-soft rt-r-size-2" data-orientation="vertical" style="height: 160px;" data-accent-color="tomato">
+                <div class="rt-SliderTrack">
+                  <div class="rt-SliderRange" style="bottom: 0; height: 35%;"></div>
+                </div>
+                <span class="rt-SliderThumb" style="bottom: 35%;"></span>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Ghost 风格 -->
-        <div class="space-y-3">
-          <div class="text-sm font-medium text-sand-11">Ghost</div>
-          <div x-data="stepperMachine({ defaultValue: 3, min: 0, max: 99, step: 1 })">
-            <div class="inline-flex items-center gap-2">
-              <button @click="dec()" :disabled="value <= 0"
-                      class="flex items-center justify-center w-7 h-7 rounded text-sand-11 hover:text-sand-12 hover:bg-sand-4 active:bg-sand-5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
-              </button>
-              <span class="w-8 text-center text-sand-12 font-semibold tabular-nums" x-text="value"></span>
-              <button @click="inc()" :disabled="value >= 99"
-                      class="flex items-center justify-center w-7 h-7 rounded text-sand-11 hover:text-sand-12 hover:bg-sand-4 active:bg-sand-5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
-              </button>
-            </div>
+    <!-- Accent Colors -->
+    <section>
+      <h2 class="section-title">Accent Colors</h2>
+      <p class="text-2 text-gray-11 mb-3">Soft sliders inherit accent palettes.</p>
+      <div class="flex flex-wrap gap-4">
+        <div class="rt-SliderRoot rt-variant-soft rt-r-size-2" data-orientation="horizontal" data-accent-color="tomato" style="min-width: 220px;">
+          <div class="rt-SliderTrack">
+            <div class="rt-SliderRange" style="width: 40%;"></div>
           </div>
+          <span class="rt-SliderThumb" style="left: 40%;"></span>
         </div>
-
-        <!-- 带标签 -->
-        <div class="space-y-3">
-          <div class="text-sm font-medium text-sand-11">With Label</div>
-          <div x-data="stepperMachine({ defaultValue: 2, min: 1, max: 10, step: 1 })" class="inline-flex items-center gap-4">
-            <label class="text-sand-11">Quantity</label>
-            <div class="inline-flex items-center h-8 rounded-md border border-sand-6 bg-sand-2 overflow-hidden">
-              <button @click="dec()" :disabled="value <= 1"
-                      class="flex items-center justify-center w-8 h-full text-sand-11 hover:text-sand-12 hover:bg-sand-4 active:bg-sand-5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
-              </button>
-              <span class="w-10 text-center text-sand-12 font-medium tabular-nums border-x border-sand-6" x-text="value"></span>
-              <button @click="inc()" :disabled="value >= 10"
-                      class="flex items-center justify-center w-8 h-full text-sand-11 hover:text-sand-12 hover:bg-sand-4 active:bg-sand-5 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
-              </button>
-            </div>
+        <div class="rt-SliderRoot rt-variant-soft rt-r-size-2" data-orientation="horizontal" data-accent-color="blue" style="min-width: 220px;">
+          <div class="rt-SliderTrack">
+            <div class="rt-SliderRange" style="width: 55%;"></div>
           </div>
+          <span class="rt-SliderThumb" style="left: 55%;"></span>
         </div>
-
-        <!-- Disabled -->
-        <div class="space-y-3">
-          <div class="text-sm font-medium text-sand-11">Disabled</div>
-          <div x-data="stepperMachine({ defaultValue: 5, min: 0, max: 99, step: 1, disabled: true })">
-            <div class="inline-flex items-center h-9 rounded-md border border-sand-6 bg-sand-3 overflow-hidden opacity-50">
-              <button disabled class="flex items-center justify-center w-9 h-full text-sand-9 cursor-not-allowed">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 12H6"/></svg>
-              </button>
-              <span class="w-12 h-full flex items-center justify-center text-sand-9 font-medium border-x border-sand-6" x-text="value"></span>
-              <button disabled class="flex items-center justify-center w-9 h-full text-sand-9 cursor-not-allowed">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 6v12m6-6H6"/></svg>
-              </button>
-            </div>
+        <div class="rt-SliderRoot rt-variant-soft rt-r-size-2" data-orientation="horizontal" data-accent-color="jade" style="min-width: 220px;">
+          <div class="rt-SliderTrack">
+            <div class="rt-SliderRange" style="width: 25%;"></div>
           </div>
+          <span class="rt-SliderThumb" style="left: 25%;"></span>
         </div>
       </div>
-        </section>
+    </section>
+
+    <!-- States -->
+    <section>
+      <h2 class="section-title">States</h2>
+      <div class="space-y-3">
+        <div class="rt-SliderRoot rt-variant-surface rt-r-size-2" data-orientation="horizontal" x-data="{ value: 30 }">
+          <div class="rt-SliderTrack">
+            <div class="rt-SliderRange" :style="`width: ${value}%`"></div>
+          </div>
+          <span class="rt-SliderThumb" :style="`left: ${value}%`"></span>
+        </div>
+        <div class="text-2 text-gray-11" x-text="`Value: ${value}%`"></div>
       </div>
-    </main>
+    </section>
+
   </div>
+<script src="sidebar.js"></script>
 </body>
-
 </html>

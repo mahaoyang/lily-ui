@@ -1,523 +1,272 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+    data-scaling="100%">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hover Card - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    import { hoverCard } from "/public/machines/hover-card.js";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Card - Lily UI Playground</title>
+    <link rel="stylesheet" href="../../dist/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
 
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.data('hoverCard', hoverCard);
-    Alpine.start();
-  </script>
-  <style>
-    [x-cloak] { display: none !important; }
-    .sidebar-link {
-      display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
-    }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
-    }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
-    }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .sidebar-section:first-child {
-      margin-top: 0;
-    }
-  </style>
+        .section-title {
+            font-size: var(--font-size-5);
+            font-weight: var(--font-weight-bold);
+            color: var(--gray-12);
+            margin-bottom: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .hover-card-trigger {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hover-card-content {
+            position: absolute;
+            z-index: 20;
+            min-width: 280px;
+            background-color: var(--color-panel-solid);
+            box-shadow: var(--shadow-5);
+            border-radius: var(--radius-4);
+            padding: var(--space-4);
+            opacity: 0;
+            transform: translateY(4px) scale(0.98);
+            transition: opacity 150ms cubic-bezier(0.16, 1, 0.3, 1), transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .hover-card-content[data-open="true"] {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .hover-card-content[data-side="top"] {
+            bottom: calc(100% + var(--space-2));
+            left: 50%;
+            transform: translate(-50%, 4px) scale(0.98);
+        }
+
+        .hover-card-content[data-side="top"][data-open="true"] {
+            transform: translate(-50%, 0) scale(1);
+        }
+
+        .hover-card-content[data-side="bottom"] {
+            top: calc(100% + var(--space-2));
+            left: 0;
+        }
+    </style>
 </head>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
-
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
-          </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
-            </div>
-          </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link active">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+    <div class="max-w-6xl mx-auto p-6">
         <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Hover Card</h1>
-          <p class="text-sand-11">Interactive examples and variations.</p>
-        </div>
+        <header class="mb-8">
+            <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+            <h1 class="text-8 font-bold text-gray-12 mt-4">Hover Card</h1>
+            <p class="text-3 text-gray-11 mt-2">Preview content on hover without clicking.</p>
+        </header>
 
-        <!-- Demo Content -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-8" style="background: var(--sand-2);">
-          <h2 class="text-sm font-semibold text-sand-12">Examples</h2>
-<h2 class="text-2xl font-semibold text-sand-12">Basic Example</h2>
-      <div class="bg-white rounded-lg p-8 shadow-sm border border-sand-6">
-
-        <div class="flex items-center gap-4">
-          <p class="text-sand-11">
-            Hover over the
-            <span
-              x-data="hoverCard({ openDelay: 700, closeDelay: 300 })"
-              class="relative inline-block">
-              <a
-                href="#"
-                class="font-semibold text-accent-11 underline decoration-dotted underline-offset-4 hover:text-accent-12"
-                @mouseenter="handleTriggerEnter()"
-                @mouseleave="handleTriggerLeave()">
-                @radix-ui
-              </a>
-
-              <!-- Hover Card Content -->
-              <div
-                x-show="open"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 transform -translate-y-2"
-                x-transition:enter-end="opacity-100 transform translate-y-0"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                @mouseenter="handleContentEnter()"
-                @mouseleave="handleContentLeave()"
-                class="hover-card-content hover-card-size-2 absolute left-0 top-full mt-2 w-80"
-                :data-state="open ? 'open' : 'closed'"
-                data-side="bottom"
-                style="display: none;">
-
-                <div class="flex gap-4">
-                  <div class="avatar-root avatar-size-5 avatar-variant-solid flex-shrink-0">
-                    <img
-                      src="https://pbs.twimg.com/profile_images/1337055608613253126/r_eiMp2H_400x400.png"
-                      alt="Radix UI"
-                      class="avatar-image">
-                  </div>
-                  <div class="flex-1 space-y-2">
-                    <div>
-                      <p class="font-semibold text-sand-12">Radix</p>
-                      <p class="text-sm text-sand-11">@radix-ui</p>
+        <!-- Basic -->
+        <section>
+            <h2 class="section-title">Basic</h2>
+            <p class="text-2 text-gray-11 mb-4">Hover over the trigger to reveal content.</p>
+            <div x-data="{ open: false }">
+                <div class="hover-card-trigger" @mouseenter="open = true" @mouseleave="open = false"
+                    @focus="open = true" @blur="open = false">
+                    <a href="#" class="text-2 text-accent-11 hover:text-accent-12 underline">@radix_ui</a>
+                    <div class="hover-card-content" data-side="bottom" :data-open="open">
+                        <div class="flex gap-4">
+                            <span class="rt-AvatarRoot rt-variant-soft rt-r-size-4" data-accent-color="blue">
+                                <span class="rt-AvatarFallback rt-two-letters">RX</span>
+                            </span>
+                            <div class="flex-1">
+                                <p class="text-3 font-medium text-gray-12">Radix</p>
+                                <p class="text-2 text-gray-11">@radix_ui</p>
+                                <p class="text-2 text-gray-11 mt-2">Components, icons, colors, and templates for
+                                    building high-quality, accessible UI.</p>
+                                <div class="flex gap-4 mt-3">
+                                    <span class="text-2 text-gray-11"><span class="font-medium text-gray-12">2.1K</span>
+                                        Following</span>
+                                    <span class="text-2 text-gray-11"><span
+                                            class="font-medium text-gray-12">25.6K</span> Followers</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <p class="text-sm text-sand-11 leading-relaxed">
-                      Components, icons, and colors for building high‑quality, accessible UI.
-                    </p>
-                    <div class="flex gap-4 text-sm">
-                      <div>
-                        <span class="font-semibold text-sand-12">2,900</span>
-                        <span class="text-sand-11">Following</span>
-                      </div>
-                      <div>
-                        <span class="font-semibold text-sand-12">9,000</span>
-                        <span class="text-sand-11">Followers</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </span>
-            link to see more information.
-          </p>
-        </div>
-
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12">Size Variants</h2>
-      <div class="bg-white rounded-lg p-8 shadow-sm border border-sand-6">
-
-        <div class="flex flex-wrap gap-8">
-
-          <!-- Size 1 -->
-          <div x-data="hoverCard()" class="relative inline-block">
-            <button
-              @mouseenter="handleTriggerEnter()"
-              @mouseleave="handleTriggerLeave()"
-              class="button button-variant-soft button-size-2">
-              Size 1 (Compact)
-            </button>
-
-            <div
-              x-show="open"
-              x-transition
-              @mouseenter="handleContentEnter()"
-              @mouseleave="handleContentLeave()"
-              class="hover-card-content hover-card-size-1 absolute left-0 top-full mt-2 w-64"
-              :data-state="open ? 'open' : 'closed'"
-              data-side="bottom"
-              style="display: none;">
-              <p class="text-sm text-sand-11">This is a compact hover card with size-1 styling.</p>
             </div>
-          </div>
-
-          <!-- Size 2 -->
-          <div x-data="hoverCard()" class="relative inline-block">
-            <button
-              @mouseenter="handleTriggerEnter()"
-              @mouseleave="handleTriggerLeave()"
-              class="button button-variant-soft button-size-2">
-              Size 2 (Default)
-            </button>
-
-            <div
-              x-show="open"
-              x-transition
-              @mouseenter="handleContentEnter()"
-              @mouseleave="handleContentLeave()"
-              class="hover-card-content hover-card-size-2 absolute left-0 top-full mt-2 w-64"
-              :data-state="open ? 'open' : 'closed'"
-              data-side="bottom"
-              style="display: none;">
-              <p class="text-sm text-sand-11">This is a default hover card with size-2 styling.</p>
-            </div>
-          </div>
-
-          <!-- Size 3 -->
-          <div x-data="hoverCard()" class="relative inline-block">
-            <button
-              @mouseenter="handleTriggerEnter()"
-              @mouseleave="handleTriggerLeave()"
-              class="button button-variant-soft button-size-2">
-              Size 3 (Large)
-            </button>
-
-            <div
-              x-show="open"
-              x-transition
-              @mouseenter="handleContentEnter()"
-              @mouseleave="handleContentLeave()"
-              class="hover-card-content hover-card-size-3 absolute left-0 top-full mt-2 w-64"
-              :data-state="open ? 'open' : 'closed'"
-              data-side="bottom"
-              style="display: none;">
-              <p class="text-base text-sand-11">This is a large hover card with size-3 styling.</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12">Custom Delays</h2>
-      <div class="bg-white rounded-lg p-8 shadow-sm border border-sand-6">
-
-        <div class="flex flex-wrap gap-8">
-
-          <!-- Instant -->
-          <div x-data="hoverCard({ openDelay: 0, closeDelay: 0 })" class="relative inline-block">
-            <button
-              @mouseenter="handleTriggerEnter()"
-              @mouseleave="handleTriggerLeave()"
-              class="button button-variant-outline button-size-2">
-              Instant
-            </button>
-
-            <div
-              x-show="open"
-              x-transition
-              @mouseenter="handleContentEnter()"
-              @mouseleave="handleContentLeave()"
-              class="hover-card-content hover-card-size-2 absolute left-0 top-full mt-2 w-48"
-              :data-state="open ? 'open' : 'closed'"
-              style="display: none;">
-              <p class="text-sm text-sand-11">Opens immediately!</p>
-            </div>
-          </div>
-
-          <!-- Fast -->
-          <div x-data="hoverCard({ openDelay: 200, closeDelay: 100 })" class="relative inline-block">
-            <button
-              @mouseenter="handleTriggerEnter()"
-              @mouseleave="handleTriggerLeave()"
-              class="button button-variant-outline button-size-2">
-              Fast (200ms)
-            </button>
-
-            <div
-              x-show="open"
-              x-transition
-              @mouseenter="handleContentEnter()"
-              @mouseleave="handleContentLeave()"
-              class="hover-card-content hover-card-size-2 absolute left-0 top-full mt-2 w-48"
-              :data-state="open ? 'open' : 'closed'"
-              style="display: none;">
-              <p class="text-sm text-sand-11">Opens after 200ms</p>
-            </div>
-          </div>
-
-          <!-- Slow -->
-          <div x-data="hoverCard({ openDelay: 1000, closeDelay: 500 })" class="relative inline-block">
-            <button
-              @mouseenter="handleTriggerEnter()"
-              @mouseleave="handleTriggerLeave()"
-              class="button button-variant-outline button-size-2">
-              Slow (1000ms)
-            </button>
-
-            <div
-              x-show="open"
-              x-transition
-              @mouseenter="handleContentEnter()"
-              @mouseleave="handleContentLeave()"
-              class="hover-card-content hover-card-size-2 absolute left-0 top-full mt-2 w-48"
-              :data-state="open ? 'open' : 'closed'"
-              style="display: none;">
-              <p class="text-sm text-sand-11">Opens after 1 second</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12">Rich Content</h2>
-      <div class="bg-white rounded-lg p-8 shadow-sm border border-sand-6">
-
-        <div class="grid grid-cols-2 gap-8">
-
-          <!-- Product Card -->
-          <div x-data="hoverCard()" class="relative">
-            <div
-              @mouseenter="handleTriggerEnter()"
-              @mouseleave="handleTriggerLeave()"
-              class="border border-sand-6 rounded-lg p-4 cursor-pointer hover:border-accent-8 transition-colors">
-              <h3 class="font-semibold text-sand-12 mb-1">Premium Package</h3>
-              <p class="text-sm text-sand-11">Hover for details</p>
-            </div>
-
-            <div
-              x-show="open"
-              x-transition
-              @mouseenter="handleContentEnter()"
-              @mouseleave="handleContentLeave()"
-              class="hover-card-content hover-card-size-2 absolute left-0 top-full mt-2 w-80"
-              :data-state="open ? 'open' : 'closed'"
-              style="display: none;">
-              <div class="space-y-3">
-                <div>
-                  <h4 class="font-semibold text-sand-12 mb-1">Premium Package</h4>
-                  <p class="text-sm text-sand-11">Everything you need to get started</p>
-                </div>
-                <ul class="space-y-1 text-sm text-sand-11">
-                  <li class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-jade-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Unlimited projects
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-jade-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Priority support
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-jade-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Advanced analytics
-                  </li>
-                </ul>
-                <div class="pt-2 border-t border-sand-6">
-                  <p class="text-2xl font-bold text-sand-12">$29<span class="text-sm font-normal text-sand-11">/month</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- User Profile -->
-          <div x-data="hoverCard()" class="relative">
-            <div
-              @mouseenter="handleTriggerEnter()"
-              @mouseleave="handleTriggerLeave()"
-              class="border border-sand-6 rounded-lg p-4 cursor-pointer hover:border-accent-8 transition-colors">
-              <div class="flex items-center gap-3">
-                <div class="avatar-root avatar-size-3 avatar-variant-soft">
-                  <div class="avatar-fallback" data-letters="2">JD</div>
-                </div>
-                <div>
-                  <p class="font-semibold text-sand-12">John Doe</p>
-                  <p class="text-sm text-sand-11">@johndoe</p>
-                </div>
-              </div>
-            </div>
-
-            <div
-              x-show="open"
-              x-transition
-              @mouseenter="handleContentEnter()"
-              @mouseleave="handleContentLeave()"
-              class="hover-card-content hover-card-size-2 absolute left-0 top-full mt-2 w-80"
-              :data-state="open ? 'open' : 'closed'"
-              style="display: none;">
-              <div class="space-y-3">
-                <div class="flex items-start gap-3">
-                  <div class="avatar-root avatar-size-5 avatar-variant-solid">
-                    <div class="avatar-fallback" data-letters="2">JD</div>
-                  </div>
-                  <div class="flex-1">
-                    <p class="font-semibold text-sand-12">John Doe</p>
-                    <p class="text-sm text-sand-11">@johndoe</p>
-                  </div>
-                  <button class="button button-variant-soft button-size-1">Follow</button>
-                </div>
-                <p class="text-sm text-sand-11">
-                  Senior Product Designer passionate about creating beautiful and accessible user experiences.
-                </p>
-                <div class="flex gap-4 text-sm">
-                  <div>
-                    <span class="font-semibold text-sand-12">1,234</span>
-                    <span class="text-sand-11">Following</span>
-                  </div>
-                  <div>
-                    <span class="font-semibold text-sand-12">5,678</span>
-                    <span class="text-sand-11">Followers</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
         </section>
-      </div>
-    </main>
-  </div>
+
+        <!-- Profile Cards -->
+        <section>
+            <h2 class="section-title">Profile Cards</h2>
+            <p class="text-2 text-gray-11 mb-4">Common use case for user profiles.</p>
+            <div class="flex flex-wrap gap-6">
+                <div x-data="{ open: false }">
+                    <div class="hover-card-trigger" @mouseenter="open = true" @mouseleave="open = false">
+                        <button class="flex items-center gap-2 p-2 rounded-2 hover:bg-gray-3 transition-colors">
+                            <span class="rt-AvatarRoot rt-variant-soft rt-r-size-2" data-accent-color="tomato">
+                                <span class="rt-AvatarFallback rt-two-letters">JD</span>
+                            </span>
+                            <span class="text-2 font-medium text-gray-12">John Doe</span>
+                        </button>
+                        <div class="hover-card-content" data-side="bottom" :data-open="open">
+                            <div class="flex gap-4 mb-3">
+                                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-5" data-accent-color="tomato">
+                                    <span class="rt-AvatarFallback rt-two-letters">JD</span>
+                                </span>
+                                <div>
+                                    <p class="text-3 font-medium text-gray-12">John Doe</p>
+                                    <p class="text-2 text-gray-11">Software Engineer</p>
+                                </div>
+                            </div>
+                            <p class="text-2 text-gray-11 mb-3">Building great products with TypeScript and React. Open
+                                source enthusiast.</p>
+                            <div class="flex gap-2">
+                                <button
+                                    class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-1">Follow</button>
+                                <button
+                                    class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-1">Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div x-data="{ open: false }">
+                    <div class="hover-card-trigger" @mouseenter="open = true" @mouseleave="open = false">
+                        <button class="flex items-center gap-2 p-2 rounded-2 hover:bg-gray-3 transition-colors">
+                            <span class="rt-AvatarRoot rt-variant-soft rt-r-size-2" data-accent-color="cyan">
+                                <span class="rt-AvatarFallback rt-two-letters">AS</span>
+                            </span>
+                            <span class="text-2 font-medium text-gray-12">Alice Smith</span>
+                        </button>
+                        <div class="hover-card-content" data-side="bottom" :data-open="open">
+                            <div class="flex gap-4 mb-3">
+                                <span class="rt-AvatarRoot rt-variant-soft rt-r-size-5" data-accent-color="cyan">
+                                    <span class="rt-AvatarFallback rt-two-letters">AS</span>
+                                </span>
+                                <div>
+                                    <p class="text-3 font-medium text-gray-12">Alice Smith</p>
+                                    <p class="text-2 text-gray-11">Product Designer</p>
+                                </div>
+                            </div>
+                            <p class="text-2 text-gray-11 mb-3">Designing beautiful and usable interfaces. Currently at
+                                Acme Inc.</p>
+                            <div class="flex gap-2">
+                                <button
+                                    class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-1">Follow</button>
+                                <button
+                                    class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-1">Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Link Preview -->
+        <section>
+            <h2 class="section-title">Link Preview</h2>
+            <p class="text-2 text-gray-11 mb-4">Preview link destinations before clicking.</p>
+            <div class="rt-Text rt-r-size-3 text-gray-12">
+                Check out the
+                <span x-data="{ open: false }">
+                    <span class="hover-card-trigger inline" @mouseenter="open = true" @mouseleave="open = false">
+                        <a href="#" class="text-accent-11 hover:text-accent-12 underline">documentation</a>
+                        <div class="hover-card-content" data-side="bottom" :data-open="open">
+                            <p class="text-2 font-medium text-gray-12 mb-1">Radix Themes Documentation</p>
+                            <p class="text-2 text-gray-11 mb-2">Comprehensive guide to building with Radix Themes
+                                components.</p>
+                            <p class="text-1 text-accent-11">radix-ui.com/themes/docs</p>
+                        </div>
+                    </span>
+                </span>
+                to learn more about the components.
+            </div>
+        </section>
+
+        <!-- With Image -->
+        <section>
+            <h2 class="section-title">With Image</h2>
+            <p class="text-2 text-gray-11 mb-4">Include images in hover cards for richer previews.</p>
+            <div x-data="{ open: false }">
+                <div class="hover-card-trigger" @mouseenter="open = true" @mouseleave="open = false">
+                    <a href="#" class="text-2 text-accent-11 hover:text-accent-12 underline">View project details</a>
+                    <div class="hover-card-content" data-side="bottom" :data-open="open" style="min-width: 320px;">
+                        <div
+                            class="aspect-video bg-gray-4 rounded-2 mb-3 flex items-center justify-center text-gray-10">
+                            Project Preview
+                        </div>
+                        <p class="text-3 font-medium text-gray-12 mb-1">Dashboard Redesign</p>
+                        <p class="text-2 text-gray-11 mb-2">A complete overhaul of the analytics dashboard with new
+                            visualizations and improved UX.</p>
+                        <div class="flex items-center gap-2">
+                            <span class="rt-Badge rt-variant-soft rt-r-size-1" data-accent-color="blue">Design</span>
+                            <span class="rt-Badge rt-variant-soft rt-r-size-1" data-accent-color="jade">In
+                                Progress</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Usage in Lists -->
+        <section>
+            <h2 class="section-title">Usage in Lists</h2>
+            <p class="text-2 text-gray-11 mb-4">Hover cards work well for providing quick info in data tables or lists.
+            </p>
+            <div class="rt-Card rt-variant-surface rt-r-size-2">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div x-data="{ open: false }" class="hover-card-trigger" @mouseenter="open = true"
+                            @mouseleave="open = false">
+                            <span class="text-2 font-medium text-gray-12 cursor-pointer hover:text-accent-11">Project
+                                Alpha</span>
+                            <div class="hover-card-content" data-side="bottom" :data-open="open">
+                                <p class="text-2 font-medium text-gray-12 mb-1">Project Alpha</p>
+                                <p class="text-2 text-gray-11 mb-2">Main product development. Started Jan 2024.</p>
+                                <p class="text-1 text-gray-11">Team: Engineering</p>
+                            </div>
+                        </div>
+                        <span class="rt-Badge rt-variant-soft rt-r-size-1" data-accent-color="grass">Active</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div x-data="{ open: false }" class="hover-card-trigger" @mouseenter="open = true"
+                            @mouseleave="open = false">
+                            <span class="text-2 font-medium text-gray-12 cursor-pointer hover:text-accent-11">Project
+                                Beta</span>
+                            <div class="hover-card-content" data-side="bottom" :data-open="open">
+                                <p class="text-2 font-medium text-gray-12 mb-1">Project Beta</p>
+                                <p class="text-2 text-gray-11 mb-2">Experimental features. Started Mar 2024.</p>
+                                <p class="text-1 text-gray-11">Team: Research</p>
+                            </div>
+                        </div>
+                        <span class="rt-Badge rt-variant-soft rt-r-size-1" data-accent-color="amber">Review</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div x-data="{ open: false }" class="hover-card-trigger" @mouseenter="open = true"
+                            @mouseleave="open = false">
+                            <span class="text-2 font-medium text-gray-12 cursor-pointer hover:text-accent-11">Project
+                                Gamma</span>
+                            <div class="hover-card-content" data-side="bottom" :data-open="open">
+                                <p class="text-2 font-medium text-gray-12 mb-1">Project Gamma</p>
+                                <p class="text-2 text-gray-11 mb-2">Internal tools. Completed Dec 2023.</p>
+                                <p class="text-1 text-gray-11">Team: Platform</p>
+                            </div>
+                        </div>
+                        <span class="rt-Badge rt-variant-soft rt-r-size-1" data-accent-color="gray">Archived</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+<script src="sidebar.js"></script>
 </body>
 
 </html>

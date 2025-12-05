@@ -1,336 +1,407 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+  data-scaling="100%">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accordion - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    import { accordionMachine } from "/public/machines/accordion.js";
-
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.data('accordionMachine', accordionMachine);
-    Alpine.start();
-  </script>
+  <title>Accordion - Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
-    [x-cloak] { display: none !important; }
-    .sidebar-link {
-      display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
+    [x-cloak] {
+      display: none !important;
     }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
+
+    .playground-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
     }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
+
+    .playground-table th,
+    .playground-table td {
+      padding: var(--space-3);
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--gray-a5);
     }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+
+    .playground-table th {
+      font-size: var(--font-size-2);
+      font-weight: var(--font-weight-medium);
+      color: var(--gray-11);
     }
-    .sidebar-section:first-child {
-      margin-top: 0;
+
+    .section-title {
+      font-size: var(--font-size-5);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-12);
+      margin-bottom: var(--space-4);
+      margin-top: var(--space-6);
+    }
+
+    .row-header {
+      font-size: var(--font-size-2);
+      color: var(--gray-11);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* Accordion styles */
+    .rt-AccordionRoot {
+      border-radius: var(--radius-3);
+      overflow: hidden;
+    }
+
+    .rt-AccordionRoot.rt-variant-surface {
+      border: 1px solid var(--gray-6);
+    }
+
+    .rt-AccordionRoot.rt-variant-ghost {
+      border: none;
+    }
+
+    .rt-AccordionItem {
+      border-bottom: 1px solid var(--gray-6);
+    }
+
+    .rt-AccordionItem:last-child {
+      border-bottom: none;
+    }
+
+    .rt-AccordionTrigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: background-color 150ms;
+    }
+
+    .rt-AccordionTrigger:hover {
+      background-color: var(--gray-a3);
+    }
+
+    .rt-AccordionTrigger[data-state="open"] {
+      background-color: var(--gray-a2);
+    }
+
+    .rt-AccordionChevron {
+      transition: transform 200ms cubic-bezier(0.87, 0, 0.13, 1);
+    }
+
+    .rt-AccordionTrigger[data-state="open"] .rt-AccordionChevron {
+      transform: rotate(180deg);
+    }
+
+    .rt-AccordionContent {
+      overflow: hidden;
+    }
+
+    .rt-AccordionContentInner {
+      padding: var(--space-3) var(--space-4);
+      padding-top: 0;
+    }
+
+    /* Animation */
+    @keyframes accordion-down {
+      from {
+        height: 0;
+      }
+
+      to {
+        height: var(--radix-accordion-content-height);
+      }
+    }
+
+    @keyframes accordion-up {
+      from {
+        height: var(--radix-accordion-content-height);
+      }
+
+      to {
+        height: 0;
+      }
     }
   </style>
 </head>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+      <h1 class="text-8 font-bold text-gray-12 mt-4">Accordion</h1>
+      <p class="text-3 text-gray-11 mt-2">Vertically stacked interactive headings that reveal content.</p>
+    </header>
 
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
-          </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
-            </div>
-          </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    <!-- Single (Default) -->
+    <section>
+      <h2 class="section-title">Single (Default)</h2>
+      <p class="text-2 text-gray-11 mb-4">Only one item can be open at a time.</p>
+      <div class="rt-AccordionRoot rt-variant-surface" x-data="{ openItem: 'item-1' }">
+        <div class="rt-AccordionItem">
+          <button class="rt-AccordionTrigger" :data-state="openItem === 'item-1' ? 'open' : 'closed'"
+            @click="openItem = openItem === 'item-1' ? '' : 'item-1'" :aria-expanded="openItem === 'item-1'">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Is it accessible?</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
             </svg>
           </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          <div class="rt-AccordionContent" x-show="openItem === 'item-1'" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11">Yes. It adheres to the WAI-ARIA design pattern.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rt-AccordionItem">
+          <button class="rt-AccordionTrigger" :data-state="openItem === 'item-2' ? 'open' : 'closed'"
+            @click="openItem = openItem === 'item-2' ? '' : 'item-2'" :aria-expanded="openItem === 'item-2'">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Is it styled?</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
             </svg>
-          </a>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItem === 'item-2'" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11">Yes. It comes with default styles that match Radix Themes.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rt-AccordionItem">
+          <button class="rt-AccordionTrigger" :data-state="openItem === 'item-3' ? 'open' : 'closed'"
+            @click="openItem = openItem === 'item-3' ? '' : 'item-3'" :aria-expanded="openItem === 'item-3'">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Is it animated?</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItem === 'item-3'" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11">Yes! You can animate the accordion with Alpine.js transitions.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </section>
 
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link active">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
-        <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Accordion</h1>
-          <p class="text-sand-11">A vertically stacked set of interactive headings that reveal content.</p>
+    <!-- Multiple -->
+    <section>
+      <h2 class="section-title">Multiple</h2>
+      <p class="text-2 text-gray-11 mb-4">Multiple items can be open simultaneously.</p>
+      <div class="rt-AccordionRoot rt-variant-surface" x-data="{ openItems: ['faq-1'] }">
+        <div class="rt-AccordionItem">
+          <button class="rt-AccordionTrigger" :data-state="openItems.includes('faq-1') ? 'open' : 'closed'"
+            @click="openItems.includes('faq-1') ? openItems = openItems.filter(i => i !== 'faq-1') : openItems.push('faq-1')"
+            :aria-expanded="openItems.includes('faq-1')">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Can I open multiple items?</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItems.includes('faq-1')" x-collapse>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11">Yes! This accordion allows multiple items to be open at the
+                same time.</p>
+            </div>
+          </div>
         </div>
-
-        <!-- Single Type -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-6 mb-8" style="background: var(--sand-2);">
-          <h2 class="text-base font-semibold text-sand-12">Single (一次只展开一个)</h2>
-
-          <div x-data="accordionMachine({ type: 'single', defaultValue: 'item-1' })" class="accordion-root max-w-lg">
-            <div class="accordion-item" :data-state="value === 'item-1' ? 'open' : 'closed'">
-              <h3 class="accordion-header">
-                <button type="button" class="accordion-trigger"
-                        :data-state="value === 'item-1' ? 'open' : 'closed'"
-                        :aria-expanded="value === 'item-1'"
-                        @click="toggle('item-1')">
-                  <span>Is it accessible?</span>
-                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
-                  </svg>
-                </button>
-              </h3>
-              <div class="accordion-content" :data-state="value === 'item-1' ? 'open' : 'closed'">
-                <div class="accordion-content-inner"><div>Yes. It adheres to the WAI-ARIA design pattern.</div></div>
-              </div>
-            </div>
-
-            <div class="accordion-item" :data-state="value === 'item-2' ? 'open' : 'closed'">
-              <h3 class="accordion-header">
-                <button type="button" class="accordion-trigger"
-                        :data-state="value === 'item-2' ? 'open' : 'closed'"
-                        :aria-expanded="value === 'item-2'"
-                        @click="toggle('item-2')">
-                  <span>Is it unstyled?</span>
-                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
-                  </svg>
-                </button>
-              </h3>
-              <div class="accordion-content" :data-state="value === 'item-2' ? 'open' : 'closed'">
-                <div class="accordion-content-inner"><div>Yes. It's unstyled by default, giving you freedom over the look and feel.</div></div>
-              </div>
-            </div>
-
-            <div class="accordion-item" :data-state="value === 'item-3' ? 'open' : 'closed'">
-              <h3 class="accordion-header">
-                <button type="button" class="accordion-trigger"
-                        :data-state="value === 'item-3' ? 'open' : 'closed'"
-                        :aria-expanded="value === 'item-3'"
-                        @click="toggle('item-3')">
-                  <span>Can it be animated?</span>
-                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
-                  </svg>
-                </button>
-              </h3>
-              <div class="accordion-content" :data-state="value === 'item-3' ? 'open' : 'closed'">
-                <div class="accordion-content-inner"><div>Yes! You can animate the Accordion with CSS or JavaScript.</div></div>
-              </div>
+        <div class="rt-AccordionItem">
+          <button class="rt-AccordionTrigger" :data-state="openItems.includes('faq-2') ? 'open' : 'closed'"
+            @click="openItems.includes('faq-2') ? openItems = openItems.filter(i => i !== 'faq-2') : openItems.push('faq-2')"
+            :aria-expanded="openItems.includes('faq-2')">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">How do I use Alpine.js?</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItems.includes('faq-2')" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11">Alpine.js uses the x-data directive to define component state
+                and x-show/x-collapse for animations.</p>
             </div>
           </div>
-        </section>
-
-        <!-- Multiple Type -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-6 mb-8" style="background: var(--sand-2);">
-          <h2 class="text-base font-semibold text-sand-12">Multiple (可同时展开多个)</h2>
-
-          <div x-data="accordionMachine({ type: 'multiple', defaultValue: ['item-1'] })" class="accordion-root max-w-lg">
-            <div class="accordion-item" :data-state="value.includes('item-1') ? 'open' : 'closed'">
-              <h3 class="accordion-header">
-                <button type="button" class="accordion-trigger"
-                        :data-state="value.includes('item-1') ? 'open' : 'closed'"
-                        :aria-expanded="value.includes('item-1')"
-                        @click="toggle('item-1')">
-                  <span>First section</span>
-                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
-                  </svg>
-                </button>
-              </h3>
-              <div class="accordion-content" :data-state="value.includes('item-1') ? 'open' : 'closed'">
-                <div class="accordion-content-inner"><div>Content for the first section. You can open multiple sections at once.</div></div>
-              </div>
-            </div>
-
-            <div class="accordion-item" :data-state="value.includes('item-2') ? 'open' : 'closed'">
-              <h3 class="accordion-header">
-                <button type="button" class="accordion-trigger"
-                        :data-state="value.includes('item-2') ? 'open' : 'closed'"
-                        :aria-expanded="value.includes('item-2')"
-                        @click="toggle('item-2')">
-                  <span>Second section</span>
-                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
-                  </svg>
-                </button>
-              </h3>
-              <div class="accordion-content" :data-state="value.includes('item-2') ? 'open' : 'closed'">
-                <div class="accordion-content-inner"><div>Content for the second section. Try opening both at once!</div></div>
-              </div>
+        </div>
+        <div class="rt-AccordionItem">
+          <button class="rt-AccordionTrigger" :data-state="openItems.includes('faq-3') ? 'open' : 'closed'"
+            @click="openItems.includes('faq-3') ? openItems = openItems.filter(i => i !== 'faq-3') : openItems.push('faq-3')"
+            :aria-expanded="openItems.includes('faq-3')">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">What about Tailwind CSS?</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItems.includes('faq-3')" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11">Tailwind CSS provides utility classes for styling. We've
+                configured it to use Radix design tokens.</p>
             </div>
           </div>
-        </section>
-
-        <!-- Bordered Variant -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-6" style="background: var(--sand-2);">
-          <h2 class="text-base font-semibold text-sand-12">Bordered Variant</h2>
-
-          <div x-data="accordionMachine({ type: 'single', defaultValue: 'item-1' })" class="accordion-root accordion-bordered max-w-lg">
-            <div class="accordion-item" :data-state="value === 'item-1' ? 'open' : 'closed'">
-              <h3 class="accordion-header">
-                <button type="button" class="accordion-trigger"
-                        :data-state="value === 'item-1' ? 'open' : 'closed'"
-                        :aria-expanded="value === 'item-1'"
-                        @click="toggle('item-1')">
-                  <span>Bordered item one</span>
-                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
-                  </svg>
-                </button>
-              </h3>
-              <div class="accordion-content" :data-state="value === 'item-1' ? 'open' : 'closed'">
-                <div class="accordion-content-inner"><div>Each item has its own border and rounded corners.</div></div>
-              </div>
-            </div>
-
-            <div class="accordion-item" :data-state="value === 'item-2' ? 'open' : 'closed'">
-              <h3 class="accordion-header">
-                <button type="button" class="accordion-trigger"
-                        :data-state="value === 'item-2' ? 'open' : 'closed'"
-                        :aria-expanded="value === 'item-2'"
-                        @click="toggle('item-2')">
-                  <span>Bordered item two</span>
-                  <svg class="accordion-chevron" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
-                  </svg>
-                </button>
-              </h3>
-              <div class="accordion-content" :data-state="value === 'item-2' ? 'open' : 'closed'">
-                <div class="accordion-content-inner"><div>Great for FAQ sections or separated content blocks.</div></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
+        </div>
       </div>
-    </main>
+    </section>
+
+    <!-- Ghost Variant -->
+    <section>
+      <h2 class="section-title">Ghost Variant</h2>
+      <p class="text-2 text-gray-11 mb-4">Borderless variant for subtle presentation.</p>
+      <div class="rt-AccordionRoot rt-variant-ghost" x-data="{ openItem: '' }">
+        <div class="rt-AccordionItem" style="border-bottom: none;">
+          <button class="rt-AccordionTrigger rounded-2" :data-state="openItem === 'ghost-1' ? 'open' : 'closed'"
+            @click="openItem = openItem === 'ghost-1' ? '' : 'ghost-1'" :aria-expanded="openItem === 'ghost-1'">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Getting Started</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItem === 'ghost-1'" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11">Install the package and add the CSS to your project to get
+                started.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rt-AccordionItem" style="border-bottom: none;">
+          <button class="rt-AccordionTrigger rounded-2" :data-state="openItem === 'ghost-2' ? 'open' : 'closed'"
+            @click="openItem = openItem === 'ghost-2' ? '' : 'ghost-2'" :aria-expanded="openItem === 'ghost-2'">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Components</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItem === 'ghost-2'" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11">Browse through our collection of accessible, customizable
+                components.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rt-AccordionItem" style="border-bottom: none;">
+          <button class="rt-AccordionTrigger rounded-2" :data-state="openItem === 'ghost-3' ? 'open' : 'closed'"
+            @click="openItem = openItem === 'ghost-3' ? '' : 'ghost-3'" :aria-expanded="openItem === 'ghost-3'">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Theming</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItem === 'ghost-3'" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11">Customize colors, typography, and spacing with Radix design
+                tokens.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- With Rich Content -->
+    <section>
+      <h2 class="section-title">Rich Content</h2>
+      <p class="text-2 text-gray-11 mb-4">Accordions can contain any content, including forms and actions.</p>
+      <div class="rt-AccordionRoot rt-variant-surface" x-data="{ openItem: 'profile' }">
+        <div class="rt-AccordionItem">
+          <button class="rt-AccordionTrigger" :data-state="openItem === 'profile' ? 'open' : 'closed'"
+            @click="openItem = openItem === 'profile' ? '' : 'profile'" :aria-expanded="openItem === 'profile'">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Edit Profile</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItem === 'profile'" x-collapse>
+            <div class="rt-AccordionContentInner space-y-3">
+              <div>
+                <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Name</label>
+                <input type="text"
+                  class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full max-w-sm"
+                  value="John Doe">
+              </div>
+              <div>
+                <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Email</label>
+                <input type="email"
+                  class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full max-w-sm"
+                  value="john@example.com">
+              </div>
+              <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2">Save</button>
+            </div>
+          </div>
+        </div>
+        <div class="rt-AccordionItem">
+          <button class="rt-AccordionTrigger" :data-state="openItem === 'notifications' ? 'open' : 'closed'"
+            @click="openItem = openItem === 'notifications' ? '' : 'notifications'"
+            :aria-expanded="openItem === 'notifications'">
+            <span class="rt-Text rt-r-size-2 font-medium text-gray-12">Notification Settings</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItem === 'notifications'" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner space-y-2">
+              <label class="flex items-center gap-3">
+                <input type="checkbox" checked class="w-4 h-4 rounded accent-accent-9">
+                <span class="rt-Text rt-r-size-2 text-gray-12">Email notifications</span>
+              </label>
+              <label class="flex items-center gap-3">
+                <input type="checkbox" class="w-4 h-4 rounded accent-accent-9">
+                <span class="rt-Text rt-r-size-2 text-gray-12">Push notifications</span>
+              </label>
+              <label class="flex items-center gap-3">
+                <input type="checkbox" checked class="w-4 h-4 rounded accent-accent-9">
+                <span class="rt-Text rt-r-size-2 text-gray-12">Weekly digest</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="rt-AccordionItem">
+          <button class="rt-AccordionTrigger" :data-state="openItem === 'danger' ? 'open' : 'closed'"
+            @click="openItem = openItem === 'danger' ? '' : 'danger'" :aria-expanded="openItem === 'danger'">
+            <span class="rt-Text rt-r-size-2 font-medium" data-accent-color="tomato">Danger Zone</span>
+            <svg class="rt-AccordionChevron" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
+                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="rt-AccordionContent" x-show="openItem === 'danger'" x-collapse x-cloak>
+            <div class="rt-AccordionContentInner">
+              <p class="rt-Text rt-r-size-2 text-gray-11 mb-3">Deleting your account is permanent and cannot be undone.
+              </p>
+              <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                data-accent-color="tomato">Delete Account</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
+<script src="sidebar.js"></script>
 </body>
 
 </html>

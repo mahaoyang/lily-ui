@@ -1,71 +1,52 @@
 // src/machines/accordion.ts
-function accordionMachine(config = {}) {
-  const {
-    type = "single",
-    defaultValue = type === "multiple" ? [] : "",
-    collapsible = true,
-    disabled = false
-  } = config;
+function createAccordion(options = {}) {
+  const { type = "single", defaultValue, collapsible = true } = options;
   return {
-    value: defaultValue,
-    disabled,
     type,
+    value: defaultValue ?? (type === "single" ? "" : []),
     collapsible,
-    toggle(id) {
-      if (this.disabled)
-        return;
-      if (this.type === "multiple") {
-        const values = this.value;
-        if (values.includes(id)) {
-          this.value = values.filter((v) => v !== id);
-        } else {
-          this.value = [...values, id];
+    isOpen(itemValue) {
+      if (this.type === "single") {
+        return this.value === itemValue;
+      }
+      return this.value.includes(itemValue);
+    },
+    toggle(itemValue) {
+      if (this.isOpen(itemValue)) {
+        this.close(itemValue);
+      } else {
+        this.open(itemValue);
+      }
+    },
+    open(itemValue) {
+      if (this.type === "single") {
+        this.value = itemValue;
+      } else {
+        if (!this.value.includes(itemValue)) {
+          this.value = [...this.value, itemValue];
+        }
+      }
+    },
+    close(itemValue) {
+      if (this.type === "single") {
+        if (this.collapsible) {
+          this.value = "";
         }
       } else {
-        if (this.value === id) {
-          if (this.collapsible) {
-            this.value = "";
-          }
-        } else {
-          this.value = id;
-        }
+        this.value = this.value.filter((v) => v !== itemValue);
       }
-      config.onChange?.(this.value);
-    },
-    isOpen(id) {
-      if (this.type === "multiple") {
-        return this.value.includes(id);
-      }
-      return this.value === id;
-    },
-    getState(id) {
-      return this.isOpen(id) ? "open" : "closed";
-    },
-    itemProps(id) {
-      return {
-        "data-state": this.getState(id),
-        ...this.disabled ? { "data-disabled": "" } : {}
-      };
-    },
-    triggerProps(id) {
-      return {
-        id: `accordion-trigger-${id}`,
-        "aria-expanded": this.isOpen(id).toString(),
-        "aria-controls": `accordion-content-${id}`,
-        "data-state": this.getState(id),
-        ...this.disabled ? { "data-disabled": "" } : {}
-      };
-    },
-    contentProps(id) {
-      return {
-        id: `accordion-content-${id}`,
-        role: "region",
-        "aria-labelledby": `accordion-trigger-${id}`,
-        "data-state": this.getState(id)
-      };
     }
   };
 }
+function accordion(options) {
+  return createAccordion(options);
+}
+if (typeof window !== "undefined") {
+  window.accordion = accordion;
+}
+var accordion_default = accordion;
 export {
-  accordionMachine
+  accordion_default as default,
+  createAccordion,
+  accordion
 };

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+    data-scaling="100%">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heading - Lily UI Playground</title>
+    <link rel="stylesheet" href="../../dist/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .playground-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .playground-table th,
+        .playground-table td {
+            padding: var(--space-3);
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--gray-a5);
+        }
+
+        .playground-table th {
+            font-size: var(--font-size-2);
+            font-weight: var(--font-weight-medium);
+            color: var(--gray-11);
+        }
+
+        .section-title {
+            font-size: var(--font-size-5);
+            font-weight: var(--font-weight-bold);
+            color: var(--gray-12);
+            margin-bottom: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .row-header {
+            font-size: var(--font-size-2);
+            color: var(--gray-11);
+            font-weight: var(--font-weight-medium);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+    <div class="max-w-6xl mx-auto p-6">
+        <!-- Header -->
+        <header class="mb-8">
+            <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+            <h1 class="text-8 font-bold text-gray-12 mt-4">Heading</h1>
+            <p class="text-3 text-gray-11 mt-2">Semantic heading elements with consistent sizing and styling.</p>
+        </header>
+
+        <!-- Sizes -->
+        <section>
+            <h2 class="section-title">Sizes</h2>
+            <div class="overflow-x-auto">
+                <table class="playground-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Appearance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-header">size 1</td>
+                            <td>
+                                <h1 class="rt-Heading rt-r-size-1">The quick brown fox jumps over the lazy dog</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">size 2</td>
+                            <td>
+                                <h2 class="rt-Heading rt-r-size-2">The quick brown fox jumps over the lazy dog</h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">size 3</td>
+                            <td>
+                                <h3 class="rt-Heading rt-r-size-3">The quick brown fox jumps over the lazy dog</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">size 4</td>
+                            <td>
+                                <h4 class="rt-Heading rt-r-size-4">The quick brown fox jumps over the lazy dog</h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">size 5</td>
+                            <td>
+                                <h5 class="rt-Heading rt-r-size-5">The quick brown fox jumps over the lazy dog</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">size 6</td>
+                            <td>
+                                <h6 class="rt-Heading rt-r-size-6">The quick brown fox jumps over the lazy dog</h6>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">size 7</td>
+                            <td>
+                                <h1 class="rt-Heading rt-r-size-7">The quick brown fox</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">size 8</td>
+                            <td>
+                                <h1 class="rt-Heading rt-r-size-8">The quick brown fox</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">size 9</td>
+                            <td>
+                                <h1 class="rt-Heading rt-r-size-9">The quick brown fox</h1>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Accent Colors -->
+        <section>
+            <h2 class="section-title">Accent Colors</h2>
+            <div class="space-y-3">
+                <h3 class="rt-Heading rt-r-size-5" data-accent-color="tomato">Tomato heading</h3>
+                <h3 class="rt-Heading rt-r-size-5" data-accent-color="violet">Violet heading</h3>
+                <h3 class="rt-Heading rt-r-size-5" data-accent-color="indigo">Indigo heading</h3>
+                <h3 class="rt-Heading rt-r-size-5" data-accent-color="cyan">Cyan heading</h3>
+                <h3 class="rt-Heading rt-r-size-5" data-accent-color="jade">Jade heading</h3>
+            </div>
+        </section>
+
+        <!-- High Contrast -->
+        <section>
+            <h2 class="section-title">High Contrast</h2>
+            <div class="space-y-3">
+                <h3 class="rt-Heading rt-r-size-5" data-accent-color="indigo">Normal contrast heading</h3>
+                <h3 class="rt-Heading rt-r-size-5 rt-high-contrast" data-accent-color="indigo">High contrast heading
+                </h3>
+            </div>
+        </section>
+
+        <!-- With Text -->
+        <section>
+            <h2 class="section-title">With Text</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="rt-Heading rt-r-size-6 mb-2">Getting Started</h3>
+                    <p class="rt-Text rt-r-size-3 text-gray-11">Learn how to set up your development environment and
+                        create your first component.</p>
+                </div>
+                <div>
+                    <h3 class="rt-Heading rt-r-size-5 mb-2">Installation</h3>
+                    <p class="rt-Text rt-r-size-2 text-gray-11">Install the package using your preferred package
+                        manager.</p>
+                </div>
+                <div>
+                    <h4 class="rt-Heading rt-r-size-4 mb-1">Quick tip</h4>
+                    <p class="rt-Text rt-r-size-2 text-gray-11">Use semantic HTML elements for better accessibility.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Header Example -->
+        <section>
+            <h2 class="section-title">Page Header Example</h2>
+            <div class="p-6 rounded-4 bg-gray-2 border border-gray-6">
+                <h1 class="rt-Heading rt-r-size-8 mb-2">Dashboard</h1>
+                <p class="rt-Text rt-r-size-3 text-gray-11">Welcome back! Here's an overview of your activity.</p>
+            </div>
+        </section>
+    </div>
+<script src="sidebar.js"></script>
+</body>
+
+</html>

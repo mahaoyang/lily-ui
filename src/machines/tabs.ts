@@ -1,38 +1,81 @@
-interface TabConfig {
-  defaultValue?: string;
-  onChange?: (id: string) => void;
+/**
+ * Tabs State Machine
+ *
+ * A state machine for managing tabbed interface state
+ * with keyboard navigation support.
+ */
+
+export interface TabsState {
+  value: string;
+  orientation: 'horizontal' | 'vertical';
 }
 
-export default function createTabs(config: TabConfig = {}) {
-  const { defaultValue = "tab-1" } = config;
+export interface TabsActions {
+  isActive(tabValue: string): boolean;
+  select(tabValue: string): void;
+  selectNext(tabValues: string[]): void;
+  selectPrevious(tabValues: string[]): void;
+  selectFirst(tabValues: string[]): void;
+  selectLast(tabValues: string[]): void;
+}
+
+export function createTabs(
+  options: {
+    defaultValue?: string;
+    orientation?: 'horizontal' | 'vertical';
+  } = {}
+): TabsState & TabsActions {
+  const { defaultValue = '', orientation = 'horizontal' } = options;
 
   return {
-    activeId: defaultValue,
+    value: defaultValue,
+    orientation,
 
-    select(id: string) {
-      this.activeId = id;
-      config.onChange?.(id);
+    isActive(tabValue: string): boolean {
+      return this.value === tabValue;
     },
 
-    isActive(id: string) {
-      return this.activeId === id;
+    select(tabValue: string): void {
+      this.value = tabValue;
     },
 
-    // 返回静态属性，动态属性由 HTML 层绑定
-    triggerProps(id: string) {
-      return {
-        role: "tab",
-        "aria-controls": `${id}-panel`,
-        id: `${id}-trigger`,
-      };
+    selectNext(tabValues: string[]): void {
+      const currentIndex = tabValues.indexOf(this.value);
+      const nextIndex = (currentIndex + 1) % tabValues.length;
+      this.value = tabValues[nextIndex];
     },
 
-    contentProps(id: string) {
-      return {
-        id: `${id}-panel`,
-        role: "tabpanel",
-        "aria-labelledby": `${id}-trigger`,
-      };
+    selectPrevious(tabValues: string[]): void {
+      const currentIndex = tabValues.indexOf(this.value);
+      const prevIndex = currentIndex <= 0 ? tabValues.length - 1 : currentIndex - 1;
+      this.value = tabValues[prevIndex];
     },
+
+    selectFirst(tabValues: string[]): void {
+      if (tabValues.length > 0) {
+        this.value = tabValues[0];
+      }
+    },
+
+    selectLast(tabValues: string[]): void {
+      if (tabValues.length > 0) {
+        this.value = tabValues[tabValues.length - 1];
+      }
+    }
   };
 }
+
+// Export for Alpine.js data registration
+export function tabs(options?: {
+  defaultValue?: string;
+  orientation?: 'horizontal' | 'vertical';
+}) {
+  return createTabs(options);
+}
+
+// Make available globally for Alpine.js
+if (typeof window !== 'undefined') {
+  (window as any).tabs = tabs;
+}
+
+export default tabs;

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+    data-scaling="100%">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link - Lily UI Playground</title>
+    <link rel="stylesheet" href="../../dist/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .section-title {
+            font-size: var(--font-size-5);
+            font-weight: var(--font-weight-bold);
+            color: var(--gray-12);
+            margin-bottom: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .playground-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .playground-table th,
+        .playground-table td {
+            padding: var(--space-3);
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--gray-a5);
+        }
+
+        .playground-table th {
+            font-size: var(--font-size-2);
+            font-weight: var(--font-weight-medium);
+            color: var(--gray-11);
+        }
+
+        .row-header {
+            font-size: var(--font-size-2);
+            color: var(--gray-11);
+            font-weight: var(--font-weight-medium);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+    <div class="max-w-6xl mx-auto p-6">
+        <!-- Header -->
+        <header class="mb-8">
+            <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+            <h1 class="text-8 font-bold text-gray-12 mt-4">Link</h1>
+            <p class="text-3 text-gray-11 mt-2">Semantic hyperlinks with configurable underline behavior.</p>
+        </header>
+
+        <!-- Underline Variants -->
+        <section>
+            <h2 class="section-title">Underline Variants</h2>
+            <div class="overflow-x-auto">
+                <table class="playground-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Example</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="row-header">auto</td>
+                            <td>
+                                <a href="#" class="rt-Link rt-underline-auto">Learn more about our services</a>
+                            </td>
+                            <td class="text-2 text-gray-11">Shows underline on hover (default)</td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">hover</td>
+                            <td>
+                                <a href="#" class="rt-Link rt-underline-hover">View documentation</a>
+                            </td>
+                            <td class="text-2 text-gray-11">Underline only on hover</td>
+                        </tr>
+                        <tr>
+                            <td class="row-header">always</td>
+                            <td>
+                                <a href="#" class="rt-Link rt-underline-always">Terms of Service</a>
+                            </td>
+                            <td class="text-2 text-gray-11">Always shows underline</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- In Context -->
+        <section>
+            <h2 class="section-title">In Context</h2>
+            <div class="space-y-4 max-w-2xl">
+                <p class="text-3">
+                    Welcome to our platform! By signing up, you agree to our
+                    <a href="#" class="rt-Link rt-underline-always">Terms of Service</a> and
+                    <a href="#" class="rt-Link rt-underline-always">Privacy Policy</a>.
+                    If you have questions, please <a href="#" class="rt-Link rt-underline-auto">contact support</a>.
+                </p>
+                <p class="text-2 text-gray-11">
+                    For more information, visit our <a href="#" class="rt-Link rt-underline-hover">help center</a>
+                    or read the <a href="#" class="rt-Link rt-underline-hover">FAQ section</a>.
+                </p>
+            </div>
+        </section>
+
+        <!-- Accent Colors -->
+        <section>
+            <h2 class="section-title">Accent Colors</h2>
+            <div class="flex flex-wrap gap-6">
+                <div data-accent-color="indigo">
+                    <a href="#" class="rt-Link rt-underline-always">Indigo link</a>
+                </div>
+                <div data-accent-color="crimson">
+                    <a href="#" class="rt-Link rt-underline-always">Crimson link</a>
+                </div>
+                <div data-accent-color="jade">
+                    <a href="#" class="rt-Link rt-underline-always">Jade link</a>
+                </div>
+                <div data-accent-color="amber">
+                    <a href="#" class="rt-Link rt-underline-always">Amber link</a>
+                </div>
+                <div data-accent-color="blue">
+                    <a href="#" class="rt-Link rt-underline-always">Blue link</a>
+                </div>
+                <div data-accent-color="plum">
+                    <a href="#" class="rt-Link rt-underline-always">Plum link</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- High Contrast -->
+        <section>
+            <h2 class="section-title">High Contrast</h2>
+            <div class="space-y-3">
+                <p class="text-3">
+                    <a href="#" class="rt-Link rt-underline-auto rt-high-contrast">High contrast link</a> vs
+                    <a href="#" class="rt-Link rt-underline-auto">Normal link</a>
+                </p>
+                <p class="text-2 text-gray-11">High contrast links have better visibility and always show underline.</p>
+            </div>
+        </section>
+
+        <!-- With Icons -->
+        <section>
+            <h2 class="section-title">With Icons</h2>
+            <div class="space-y-3">
+                <p>
+                    <a href="#" class="rt-Link rt-underline-hover inline-flex items-center gap-1">
+                        Open in new tab
+                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3 2C2.44772 2 2 2.44772 2 3V12C2 12.5523 2.44772 13 3 13H12C12.5523 13 13 12.5523 13 12V8.5C13 8.22386 12.7761 8 12.5 8C12.2239 8 12 8.22386 12 8.5V12H3V3H6.5C6.77614 3 7 2.77614 7 2.5C7 2.22386 6.77614 2 6.5 2H3ZM12.8536 2.14645C12.9015 2.19439 12.9377 2.24964 12.9621 2.30861C12.9861 2.36669 12.9996 2.4303 13 2.497L13 2.5V2.50049V5.5C13 5.77614 12.7761 6 12.5 6C12.2239 6 12 5.77614 12 5.5V3.70711L6.85355 8.85355C6.65829 9.04882 6.34171 9.04882 6.14645 8.85355C5.95118 8.65829 5.95118 8.34171 6.14645 8.14645L11.2929 3H9.5C9.22386 3 9 2.77614 9 2.5C9 2.22386 9.22386 2 9.5 2H12.4999H12.5C12.5678 2 12.6324 2.01349 12.6914 2.03794C12.7504 2.06234 12.8056 2.09851 12.8536 2.14645Z"
+                                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </p>
+                <p>
+                    <a href="#" class="rt-Link rt-underline-hover inline-flex items-center gap-1">
+                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7.5 11C4.80285 11 2.52952 9.62184 1.09622 7.50001C2.52952 5.37816 4.80285 4 7.5 4C10.1971 4 12.4705 5.37816 13.9038 7.50001C12.4705 9.62183 10.1971 11 7.5 11ZM7.5 3C4.30786 3 1.65639 4.70638 0.0760002 7.23501C-0.0253338 7.39715 -0.0253334 7.60288 0.0760014 7.76501C1.65639 10.2936 4.30786 12 7.5 12C10.6921 12 13.3436 10.2936 14.924 7.76501C15.0253 7.60288 15.0253 7.39715 14.924 7.23501C13.3436 4.70638 10.6921 3 7.5 3ZM7.5 9.5C8.60457 9.5 9.5 8.60457 9.5 7.5C9.5 6.39543 8.60457 5.5 7.5 5.5C6.39543 5.5 5.5 6.39543 5.5 7.5C5.5 8.60457 6.39543 9.5 7.5 9.5Z"
+                                fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                        View details
+                    </a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Disabled State -->
+        <section>
+            <h2 class="section-title">Disabled State</h2>
+            <p>
+                <a class="rt-Link rt-underline-always" data-disabled style="pointer-events: none; opacity: 0.5;">
+                    This link is disabled
+                </a>
+            </p>
+        </section>
+    </div>
+<script src="sidebar.js"></script>
+</body>
+
+</html>

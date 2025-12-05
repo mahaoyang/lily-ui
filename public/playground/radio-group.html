@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+    data-scaling="100%">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Group - Lily UI Playground</title>
+    <link rel="stylesheet" href="../../dist/output.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .playground-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .playground-table th,
+        .playground-table td {
+            padding: var(--space-3);
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--gray-a5);
+        }
+
+        .playground-table th {
+            font-size: var(--font-size-2);
+            font-weight: var(--font-weight-medium);
+            color: var(--gray-11);
+        }
+
+        .playground-table td {
+            white-space: nowrap;
+        }
+
+        .section-title {
+            font-size: var(--font-size-5);
+            font-weight: var(--font-weight-bold);
+            color: var(--gray-12);
+            margin-bottom: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .row-header {
+            font-size: var(--font-size-2);
+            color: var(--gray-11);
+            font-weight: var(--font-weight-medium);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+    <div class="max-w-6xl mx-auto p-6">
+        <!-- Header -->
+        <header class="mb-8">
+            <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+            <h1 class="text-8 font-bold text-gray-12 mt-4">Radio Group</h1>
+            <p class="text-3 text-gray-11 mt-2">Selection controls with single choice, matching Radix UI styles.</p>
+        </header>
+
+        <!-- Variants & Sizes -->
+        <section>
+            <h2 class="section-title">Variants & Sizes</h2>
+            <div class="overflow-x-auto">
+                <table class="playground-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>size 1</th>
+                            <th>size 2</th>
+                            <th>size 3</th>
+                            <th>+ high-contrast</th>
+                            <th>gray</th>
+                            <th>disabled</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- surface -->
+                        <tr>
+                            <td class="row-header">surface</td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="false" data-state="unchecked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-1"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-3"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2 rt-high-contrast"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    data-accent-color="gray"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="false" data-state="unchecked" disabled
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2"></button>
+                            </td>
+                        </tr>
+
+                        <!-- classic -->
+                        <tr>
+                            <td class="row-header">classic</td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="false" data-state="unchecked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-classic rt-r-size-1"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-classic rt-r-size-2"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-classic rt-r-size-3"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-classic rt-r-size-2 rt-high-contrast"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    data-accent-color="gray"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-classic rt-r-size-2"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="false" data-state="unchecked" disabled
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-classic rt-r-size-2"></button>
+                            </td>
+                        </tr>
+
+                        <!-- soft -->
+                        <tr>
+                            <td class="row-header">soft</td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="false" data-state="unchecked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-soft rt-r-size-1"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-soft rt-r-size-2"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-soft rt-r-size-3"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-soft rt-r-size-2 rt-high-contrast"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="true" data-state="checked"
+                                    data-accent-color="gray"
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-soft rt-r-size-2"></button>
+                            </td>
+                            <td>
+                                <button type="button" role="radio" aria-checked="false" data-state="unchecked" disabled
+                                    class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-soft rt-r-size-2"></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Interactive Radio Group -->
+        <section>
+            <h2 class="section-title">Interactive Radio Group</h2>
+            <div class="space-y-6" x-data="{ selected: 'option2' }">
+                <div class="rt-RadioGroupRoot space-y-3">
+                    <label class="rt-RadioGroupItem flex items-center gap-3 cursor-pointer">
+                        <button type="button" role="radio"
+                            class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2"
+                            :aria-checked="selected === 'option1'"
+                            :data-state="selected === 'option1' ? 'checked' : 'unchecked'"
+                            @click="selected = 'option1'"></button>
+                        <span class="rt-RadioGroupItemInner text-2">Default option</span>
+                    </label>
+                    <label class="rt-RadioGroupItem flex items-center gap-3 cursor-pointer">
+                        <button type="button" role="radio"
+                            class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2"
+                            :aria-checked="selected === 'option2'"
+                            :data-state="selected === 'option2' ? 'checked' : 'unchecked'"
+                            @click="selected = 'option2'"></button>
+                        <span class="rt-RadioGroupItemInner text-2">Comfortable option</span>
+                    </label>
+                    <label class="rt-RadioGroupItem flex items-center gap-3 cursor-pointer">
+                        <button type="button" role="radio"
+                            class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2"
+                            :aria-checked="selected === 'option3'"
+                            :data-state="selected === 'option3' ? 'checked' : 'unchecked'"
+                            @click="selected = 'option3'"></button>
+                        <span class="rt-RadioGroupItemInner text-2">Compact option</span>
+                    </label>
+                </div>
+                <p class="text-2 text-gray-11">Selected: <span class="text-gray-12 font-medium"
+                        x-text="selected"></span></p>
+            </div>
+        </section>
+
+        <!-- Accent Colors -->
+        <section>
+            <h2 class="section-title">Accent Colors</h2>
+            <p class="text-2 text-gray-11 mb-4">Soft radio buttons in multiple accent colors.</p>
+            <div class="flex flex-wrap gap-6">
+                <template x-data x-for="color in ['tomato', 'blue', 'jade', 'amber', 'plum', 'crimson']">
+                    <div :data-accent-color="color" class="flex items-center gap-2">
+                        <button type="button" role="radio" aria-checked="true" data-state="checked"
+                            class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-soft rt-r-size-2"></button>
+                        <span class="text-2 capitalize" x-text="color"></span>
+                    </div>
+                </template>
+            </div>
+        </section>
+
+        <!-- With Card Style -->
+        <section>
+            <h2 class="section-title">Horizontal Layout</h2>
+            <div x-data="{ theme: 'light' }" class="flex gap-4">
+                <label
+                    class="flex items-center gap-2 px-4 py-3 rounded-3 bg-gray-2 border border-gray-6 cursor-pointer hover:bg-gray-3 transition-colors"
+                    :class="theme === 'light' && 'border-accent-8 bg-accent-2'">
+                    <button type="button" role="radio"
+                        class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2"
+                        :aria-checked="theme === 'light'" :data-state="theme === 'light' ? 'checked' : 'unchecked'"
+                        @click="theme = 'light'"></button>
+                    <span class="text-2">Light</span>
+                </label>
+                <label
+                    class="flex items-center gap-2 px-4 py-3 rounded-3 bg-gray-2 border border-gray-6 cursor-pointer hover:bg-gray-3 transition-colors"
+                    :class="theme === 'dark' && 'border-accent-8 bg-accent-2'">
+                    <button type="button" role="radio"
+                        class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2"
+                        :aria-checked="theme === 'dark'" :data-state="theme === 'dark' ? 'checked' : 'unchecked'"
+                        @click="theme = 'dark'"></button>
+                    <span class="text-2">Dark</span>
+                </label>
+                <label
+                    class="flex items-center gap-2 px-4 py-3 rounded-3 bg-gray-2 border border-gray-6 cursor-pointer hover:bg-gray-3 transition-colors"
+                    :class="theme === 'system' && 'border-accent-8 bg-accent-2'">
+                    <button type="button" role="radio"
+                        class="rt-reset rt-BaseRadioRoot rt-RadioGroupItemRadio rt-variant-surface rt-r-size-2"
+                        :aria-checked="theme === 'system'" :data-state="theme === 'system' ? 'checked' : 'unchecked'"
+                        @click="theme = 'system'"></button>
+                    <span class="text-2">System</span>
+                </label>
+            </div>
+        </section>
+    </div>
+<script src="sidebar.js"></script>
+</body>
+
+</html>

@@ -1,456 +1,355 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium"
+  data-scaling="100%">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dialog - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    import { createDialog } from "/public/machines/dialog.js";
-    
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.data('createDialog', createDialog);
-    Alpine.start();
-  </script>
+  <title>Dialog - Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
-    [x-cloak] { display: none !important; }
-    .sidebar-link {
-      display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
+    [x-cloak] {
+      display: none !important;
     }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
+
+    .playground-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
     }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
+
+    .playground-table th,
+    .playground-table td {
+      padding: var(--space-3);
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--gray-a5);
     }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+
+    .playground-table th {
+      font-size: var(--font-size-2);
+      font-weight: var(--font-weight-medium);
+      color: var(--gray-11);
     }
-    .sidebar-section:first-child {
-      margin-top: 0;
+
+    .section-title {
+      font-size: var(--font-size-5);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-12);
+      margin-bottom: var(--space-4);
+      margin-top: var(--space-6);
+    }
+
+    .row-header {
+      font-size: var(--font-size-2);
+      color: var(--gray-11);
+      font-weight: var(--font-weight-medium);
     }
   </style>
 </head>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+      <h1 class="text-8 font-bold text-gray-12 mt-4">Dialog</h1>
+      <p class="text-3 text-gray-11 mt-2">Modal dialog for focused interactions requiring user input.</p>
+    </header>
 
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
-          </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
+    <!-- Sizes -->
+    <section>
+      <h2 class="section-title">Sizes</h2>
+      <div class="overflow-x-auto">
+        <table class="playground-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-header">size 1</td>
+              <td>
+                <div x-data="{ open: false }">
+                  <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2" @click="open = true">Open
+                    size 1</button>
+                  <div class="rt-BaseDialogOverlay" :data-state="open ? 'open' : 'closed'" x-show="open" x-cloak
+                    @click.self="open = false" style="position: fixed; inset: 0; z-index: 50;">
+                    <div class="rt-BaseDialogScroll">
+                      <div class="rt-BaseDialogScrollPadding">
+                        <div class="rt-BaseDialogContent rt-r-size-1" style="max-width: 400px;">
+                          <h2 class="rt-Heading rt-r-size-4 mb-2">Edit profile</h2>
+                          <p class="rt-Text rt-r-size-2 text-gray-11 mb-4">Make changes to your profile.</p>
+                          <div class="mb-3">
+                            <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Name</label>
+                            <input type="text"
+                              class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-1 w-full"
+                              value="John Doe">
+                          </div>
+                          <div class="flex justify-end gap-3 mt-4">
+                            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-1"
+                              @click="open = false">Cancel</button>
+                            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-1"
+                              @click="open = false">Save</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="row-header">size 2</td>
+              <td>
+                <div x-data="{ open: false }">
+                  <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2" @click="open = true">Open
+                    size 2</button>
+                  <div class="rt-BaseDialogOverlay" :data-state="open ? 'open' : 'closed'" x-show="open" x-cloak
+                    @click.self="open = false" style="position: fixed; inset: 0; z-index: 50;">
+                    <div class="rt-BaseDialogScroll">
+                      <div class="rt-BaseDialogScrollPadding">
+                        <div class="rt-BaseDialogContent rt-r-size-2" style="max-width: 450px;">
+                          <h2 class="rt-Heading rt-r-size-5 mb-2">Edit profile</h2>
+                          <p class="rt-Text rt-r-size-2 text-gray-11 mb-4">Make changes to your profile here.</p>
+                          <div class="mb-3">
+                            <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Name</label>
+                            <input type="text"
+                              class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full"
+                              value="John Doe">
+                          </div>
+                          <div class="flex justify-end gap-3 mt-4">
+                            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+                              @click="open = false">Cancel</button>
+                            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                              @click="open = false">Save changes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="row-header">size 3</td>
+              <td>
+                <div x-data="{ open: false }">
+                  <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2" @click="open = true">Open
+                    size 3</button>
+                  <div class="rt-BaseDialogOverlay" :data-state="open ? 'open' : 'closed'" x-show="open" x-cloak
+                    @click.self="open = false" style="position: fixed; inset: 0; z-index: 50;">
+                    <div class="rt-BaseDialogScroll">
+                      <div class="rt-BaseDialogScrollPadding">
+                        <div class="rt-BaseDialogContent rt-r-size-3" style="max-width: 500px;">
+                          <h2 class="rt-Heading rt-r-size-5 mb-2">Edit profile</h2>
+                          <p class="rt-Text rt-r-size-2 text-gray-11 mb-4">Make changes to your profile information
+                            below.</p>
+                          <div class="mb-3">
+                            <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Name</label>
+                            <input type="text"
+                              class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full"
+                              value="John Doe">
+                          </div>
+                          <div class="mb-3">
+                            <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Email</label>
+                            <input type="email"
+                              class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full"
+                              value="john@example.com">
+                          </div>
+                          <div class="flex justify-end gap-3 mt-4">
+                            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+                              @click="open = false">Cancel</button>
+                            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                              @click="open = false">Save changes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="row-header">size 4</td>
+              <td>
+                <div x-data="{ open: false }">
+                  <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2" @click="open = true">Open
+                    size 4</button>
+                  <div class="rt-BaseDialogOverlay" :data-state="open ? 'open' : 'closed'" x-show="open" x-cloak
+                    @click.self="open = false" style="position: fixed; inset: 0; z-index: 50;">
+                    <div class="rt-BaseDialogScroll">
+                      <div class="rt-BaseDialogScrollPadding">
+                        <div class="rt-BaseDialogContent rt-r-size-4" style="max-width: 600px;">
+                          <h2 class="rt-Heading rt-r-size-6 mb-2">Edit profile</h2>
+                          <p class="rt-Text rt-r-size-2 text-gray-11 mb-4">Update your profile settings and preferences
+                            below.</p>
+                          <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                              <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">First name</label>
+                              <input type="text"
+                                class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full"
+                                value="John">
+                            </div>
+                            <div>
+                              <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Last name</label>
+                              <input type="text"
+                                class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full"
+                                value="Doe">
+                            </div>
+                          </div>
+                          <div class="mb-3">
+                            <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Email</label>
+                            <input type="email"
+                              class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full"
+                              value="john@example.com">
+                          </div>
+                          <div class="flex justify-end gap-3 mt-4">
+                            <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+                              @click="open = false">Cancel</button>
+                            <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                              @click="open = false">Save changes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Scrollable content -->
+    <section>
+      <h2 class="section-title">Scrollable Content</h2>
+      <p class="text-2 text-gray-11 mb-4">Dialog content automatically scrolls when it exceeds the viewport.</p>
+      <div x-data="{ open: false }">
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2" @click="open = true">Open
+          scrollable dialog</button>
+        <div class="rt-BaseDialogOverlay" :data-state="open ? 'open' : 'closed'" x-show="open" x-cloak
+          @click.self="open = false" style="position: fixed; inset: 0; z-index: 50;">
+          <div class="rt-BaseDialogScroll">
+            <div class="rt-BaseDialogScrollPadding">
+              <div class="rt-BaseDialogContent rt-r-size-3" style="max-width: 500px;">
+                <h2 class="rt-Heading rt-r-size-5 mb-2">Terms of Service</h2>
+                <p class="rt-Text rt-r-size-2 text-gray-11 mb-4">Please read and accept our terms of service.</p>
+                <div class="space-y-4 max-h-64 overflow-y-auto pr-2">
+                  <p class="rt-Text rt-r-size-2 text-gray-11">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <p class="rt-Text rt-r-size-2 text-gray-11">Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  <p class="rt-Text rt-r-size-2 text-gray-11">Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur.</p>
+                  <p class="rt-Text rt-r-size-2 text-gray-11">Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
+                  <p class="rt-Text rt-r-size-2 text-gray-11">Sed ut perspiciatis unde omnis iste natus error sit
+                    voluptatem accusantium doloremque laudantium.</p>
+                  <p class="rt-Text rt-r-size-2 text-gray-11">Totam rem aperiam, eaque ipsa quae ab illo inventore
+                    veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+                <div class="flex justify-end gap-3 mt-4">
+                  <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+                    @click="open = false">Decline</button>
+                  <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                    @click="open = false">Accept</button>
+                </div>
+              </div>
             </div>
           </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
         </div>
       </div>
-    </div>
-  </nav>
+    </section>
 
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link active">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
-        <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Dialog</h1>
-          <p class="text-sand-11">Interactive examples and variations.</p>
-        </div>
-
-        <!-- Demo Content -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-8" style="background: var(--sand-2);">
-          <h2 class="text-sm font-semibold text-sand-12">Examples</h2>
-<h2 class="text-2xl font-semibold text-sand-12 mb-4">Basic Dialog</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6" x-data="createDialog()">
-        <button
-          @click="show()"
-          class="button button-variant-solid button-size-2 bg-accent-9 text-white px-4 py-2 rounded-md hover:bg-accent-10 transition-colors">
-          Open Dialog
-        </button>
-
-        <!-- Dialog Overlay -->
-        <div
-          x-show="open"
-          x-bind="overlayProps()"
-          :data-state="open ? 'open' : 'closed'"
-          class="dialog-overlay"
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in duration-150"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0">
-
-          <div class="dialog-scroll">
-            <div class="dialog-scroll-padding" :data-align="align">
-              <!-- Dialog Content -->
-              <div
-                x-bind="contentProps()"
-                :data-state="open ? 'open' : 'closed'"
-                :class="'dialog-content dialog-size-' + size"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95">
-
-                <!-- Close Button -->
-                <button
-                  @click="hide()"
-                  x-bind="closeProps()"
-                  class="dialog-close">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 4L4 12M4 4l8 8" />
-                  </svg>
-                </button>
-
-                <!-- Dialog Title -->
-                <h2 class="dialog-title">Edit Profile</h2>
-
-                <!-- Dialog Description -->
-                <p class="dialog-description">
-                  Make changes to your profile here. Click save when you're done.
-                </p>
-
-                <!-- Dialog Body -->
+    <!-- With form -->
+    <section>
+      <h2 class="section-title">With Form</h2>
+      <p class="text-2 text-gray-11 mb-4">Dialogs are commonly used for forms and data entry.</p>
+      <div x-data="{ open: false }">
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2" @click="open = true">Create new
+          project</button>
+        <div class="rt-BaseDialogOverlay" :data-state="open ? 'open' : 'closed'" x-show="open" x-cloak
+          @click.self="open = false" style="position: fixed; inset: 0; z-index: 50;">
+          <div class="rt-BaseDialogScroll">
+            <div class="rt-BaseDialogScrollPadding">
+              <div class="rt-BaseDialogContent rt-r-size-3" style="max-width: 480px;">
+                <h2 class="rt-Heading rt-r-size-5 mb-1">Create project</h2>
+                <p class="rt-Text rt-r-size-2 text-gray-11 mb-4">Add a new project to your workspace.</p>
                 <div class="space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-sand-11 mb-1">Name</label>
-                    <input type="text" value="John Doe" class="w-full px-3 py-2 bg-sand-2 border border-sand-7 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-8">
+                    <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Project name</label>
+                    <input type="text" class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full"
+                      placeholder="My awesome project">
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-sand-11 mb-1">Username</label>
-                    <input type="text" value="@johndoe" class="w-full px-3 py-2 bg-sand-2 border border-sand-7 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-8">
+                    <label class="rt-Text rt-r-size-2 font-medium text-gray-12 mb-1 block">Description</label>
+                    <textarea class="rt-reset rt-TextFieldRoot rt-TextFieldInput rt-variant-surface rt-r-size-2 w-full" rows="3"
+                      placeholder="What is this project about?"></textarea>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="checkbox" id="public" class="w-4 h-4 rounded accent-accent-9">
+                    <label for="public" class="rt-Text rt-r-size-2 text-gray-12">Make this project public</label>
                   </div>
                 </div>
-
-                <!-- Dialog Footer -->
-                <div class="flex justify-end gap-3 mt-6">
-                  <button
-                    @click="hide()"
-                    class="px-4 py-2 text-sand-11 hover:text-sand-12 hover:bg-sand-3 rounded-md transition-colors">
-                    Cancel
-                  </button>
-                  <button
-                    @click="hide()"
-                    class="button button-variant-solid button-size-2 bg-accent-9 text-white px-4 py-2 rounded-md hover:bg-accent-10 transition-colors">
-                    Save Changes
-                  </button>
+                <div class="flex justify-end gap-3 mt-5">
+                  <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+                    @click="open = false">Cancel</button>
+                  <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                    @click="open = false">Create project</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-          <h2 class="text-2xl font-semibold text-sand-12 mb-4">Sizes</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6">
-        <div class="flex flex-wrap gap-3">
-          <!-- Size 1 -->
-          <div x-data="createDialog({ size: '1' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Size 1 (Small)
-            </button>
+    </section>
 
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="dialog-scroll">
-                <div class="dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'dialog-content dialog-size-' + size">
-
-                    <button @click="hide()" x-bind="closeProps()" class="dialog-close">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 4L4 12M4 4l8 8" />
-                      </svg>
-                    </button>
-
-                    <h2 class="dialog-title text-lg">Small Dialog</h2>
-                    <p class="dialog-description text-sm">This is a small dialog with size 1.</p>
-
-                    <div class="flex justify-end gap-2 mt-4">
-                      <button @click="hide()" class="px-3 py-1.5 text-sm bg-accent-9 text-white rounded-md">OK</button>
-                    </div>
+    <!-- Accent colors -->
+    <section>
+      <h2 class="section-title">Accent Colors</h2>
+      <p class="text-2 text-gray-11 mb-4">Use different accent colors for different contexts.</p>
+      <div class="flex flex-wrap gap-3">
+        <div x-data="{ open: false }">
+          <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2" data-accent-color="tomato"
+            @click="open = true">Delete dialog</button>
+          <div class="rt-BaseDialogOverlay" :data-state="open ? 'open' : 'closed'" x-show="open" x-cloak
+            @click.self="open = false" style="position: fixed; inset: 0; z-index: 50;">
+            <div class="rt-BaseDialogScroll">
+              <div class="rt-BaseDialogScrollPadding">
+                <div class="rt-BaseDialogContent rt-r-size-2" data-accent-color="tomato" style="max-width: 400px;">
+                  <h2 class="rt-Heading rt-r-size-5 mb-2">Delete file</h2>
+                  <p class="rt-Text rt-r-size-2 text-gray-11 mb-4">Are you sure you want to delete this file? This
+                    action cannot be undone.</p>
+                  <div class="flex justify-end gap-3">
+                    <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2"
+                      @click="open = false">Cancel</button>
+                    <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                      data-accent-color="tomato" @click="open = false">Delete</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Size 2 -->
-          <div x-data="createDialog({ size: '2' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Size 2 (Medium)
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="dialog-scroll">
-                <div class="dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'dialog-content dialog-size-' + size">
-
-                    <button @click="hide()" x-bind="closeProps()" class="dialog-close">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 4L4 12M4 4l8 8" />
-                      </svg>
-                    </button>
-
-                    <h2 class="dialog-title">Medium Dialog</h2>
-                    <p class="dialog-description">This is a medium dialog with size 2.</p>
-
-                    <div class="flex justify-end gap-2 mt-4">
-                      <button @click="hide()" class="px-4 py-2 bg-accent-9 text-white rounded-md">OK</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Size 3 (Default) -->
-          <div x-data="createDialog({ size: '3' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Size 3 (Large)
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="dialog-scroll">
-                <div class="dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'dialog-content dialog-size-' + size">
-
-                    <button @click="hide()" x-bind="closeProps()" class="dialog-close">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 4L4 12M4 4l8 8" />
-                      </svg>
-                    </button>
-
-                    <h2 class="dialog-title">Large Dialog</h2>
-                    <p class="dialog-description">This is a large dialog with size 3 (default size).</p>
-
-                    <div class="flex justify-end gap-2 mt-4">
-                      <button @click="hide()" class="px-4 py-2 bg-accent-9 text-white rounded-md">OK</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Size 4 -->
-          <div x-data="createDialog({ size: '4' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Size 4 (Extra Large)
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="dialog-scroll">
-                <div class="dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'dialog-content dialog-size-' + size">
-
-                    <button @click="hide()" x-bind="closeProps()" class="dialog-close">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 4L4 12M4 4l8 8" />
-                      </svg>
-                    </button>
-
-                    <h2 class="dialog-title">Extra Large Dialog</h2>
-                    <p class="dialog-description">This is an extra large dialog with size 4.</p>
-
-                    <div class="flex justify-end gap-2 mt-4">
-                      <button @click="hide()" class="px-4 py-2 bg-accent-9 text-white rounded-md">OK</button>
-                    </div>
+        <div x-data="{ open: false }">
+          <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2" data-accent-color="jade"
+            @click="open = true">Success dialog</button>
+          <div class="rt-BaseDialogOverlay" :data-state="open ? 'open' : 'closed'" x-show="open" x-cloak
+            @click.self="open = false" style="position: fixed; inset: 0; z-index: 50;">
+            <div class="rt-BaseDialogScroll">
+              <div class="rt-BaseDialogScrollPadding">
+                <div class="rt-BaseDialogContent rt-r-size-2" style="max-width: 400px;">
+                  <h2 class="rt-Heading rt-r-size-5 mb-2" data-accent-color="jade">Success!</h2>
+                  <p class="rt-Text rt-r-size-2 text-gray-11 mb-4">Your changes have been saved successfully.</p>
+                  <div class="flex justify-end">
+                    <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                      data-accent-color="jade" @click="open = false">Done</button>
                   </div>
                 </div>
               </div>
@@ -458,139 +357,9 @@
           </div>
         </div>
       </div>
-          <h2 class="text-2xl font-semibold text-sand-12 mb-4">Alignment</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6">
-        <div class="flex flex-wrap gap-3">
-          <!-- Center Aligned -->
-          <div x-data="createDialog({ align: 'center' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Center (Default)
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="dialog-scroll">
-                <div class="dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'dialog-content dialog-size-' + size">
-
-                    <button @click="hide()" x-bind="closeProps()" class="dialog-close">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 4L4 12M4 4l8 8" />
-                      </svg>
-                    </button>
-
-                    <h2 class="dialog-title">Center Aligned</h2>
-                    <p class="dialog-description">This dialog is vertically centered in the viewport.</p>
-
-                    <div class="flex justify-end gap-2 mt-4">
-                      <button @click="hide()" class="px-4 py-2 bg-accent-9 text-white rounded-md">Close</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Start Aligned -->
-          <div x-data="createDialog({ align: 'start' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Start (Top)
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="dialog-scroll">
-                <div class="dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'dialog-content dialog-size-' + size">
-
-                    <button @click="hide()" x-bind="closeProps()" class="dialog-close">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 4L4 12M4 4l8 8" />
-                      </svg>
-                    </button>
-
-                    <h2 class="dialog-title">Top Aligned</h2>
-                    <p class="dialog-description">This dialog is aligned to the top of the viewport.</p>
-
-                    <div class="flex justify-end gap-2 mt-4">
-                      <button @click="hide()" class="px-4 py-2 bg-accent-9 text-white rounded-md">Close</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12 mb-4">Features</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6">
-        <ul class="space-y-2 text-sand-11">
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>ESC to close</strong> - Press ESC key to close the dialog</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Click overlay to close</strong> - Click outside the dialog to dismiss it</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Body scroll lock</strong> - Automatically locks body scroll when dialog is open</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Smooth animations</strong> - Fade and scale animations for elegant transitions</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Accessible</strong> - Proper ARIA attributes and keyboard navigation</span>
-          </li>
-        </ul>
-      </div>
-        </section>
-      </div>
-    </main>
+    </section>
   </div>
+<script src="sidebar.js"></script>
 </body>
 
 </html>

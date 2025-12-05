@@ -1,481 +1,132 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium" data-scaling="100%">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dropdown Menu - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    import { createDropdownMenu } from "/public/machines/dropdown-menu.js";
-    
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.data('createDropdownMenu', createDropdownMenu);
-    Alpine.start();
-  </script>
+  <title>Dropdown Menu - Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     [x-cloak] { display: none !important; }
-    .sidebar-link {
-      display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
+    .section-title {
+      font-size: var(--font-size-5);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-12);
+      margin-bottom: var(--space-4);
+      margin-top: var(--space-6);
     }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
+    .dropdown {
+      position: relative;
+      display: inline-flex;
     }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
+    .menu {
+      position: absolute;
+      z-index: 30;
+      min-width: 220px;
+      background-color: var(--color-panel-solid);
+      box-shadow: var(--shadow-5);
+      border-radius: var(--radius-4);
+      padding: var(--space-2);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 120ms cubic-bezier(0.16, 1, 0.3, 1), transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
     }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .menu[data-open="true"] {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
-    .sidebar-section:first-child {
-      margin-top: 0;
-    }
+    .menu[data-side="bottom"] { top: calc(100% + var(--space-2)); left: 0; }
   </style>
 </head>
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+      <h1 class="text-8 font-bold text-gray-12 mt-4">Dropdown Menu</h1>
+      <p class="text-3 text-gray-11 mt-2">Menu sheets with labels, separators, shortcuts, and nested actions.</p>
+    </header>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
-
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
-          </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
+    <!-- Basic menu -->
+    <section x-data="{ open: false }">
+      <h2 class="section-title">Basic</h2>
+      <div class="dropdown">
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-2" @click="open = !open">Options</button>
+        <div class="menu rt-BaseMenuContent rt-variant-solid rt-r-size-2" data-side="bottom" :data-open="open" @click.away="open = false">
+          <div class="rt-BaseMenuViewport">
+            <div class="rt-BaseMenuLabel">General</div>
+            <div class="rt-BaseMenuItem">
+              <span class="rt-BaseMenuItemIndicator"></span>
+              Profile
+              <span class="rt-BaseMenuShortcut">⌘P</span>
             </div>
-          </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link active">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
-        <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Dropdown Menu</h1>
-          <p class="text-sand-11">Interactive examples and variations.</p>
-        </div>
-
-        <!-- Demo Content -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-8" style="background: var(--sand-2);">
-          <h2 class="text-sm font-semibold text-sand-12">Examples</h2>
-<h2 class="text-2xl font-semibold mb-4">Basic Example</h2>
-      <div class="p-6 bg-white rounded-lg border border-sand-6">
-        <div x-data="createDropdownMenu()" class="relative inline-block">
-          <!-- Trigger Button -->
-          <button
-            x-bind="triggerProps()"
-            class="button button-variant-soft button-size-2 accent-blue gap-1"
-          >
-            <span>Actions</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              :class="{ 'rotate-180': open }"
-              class="transition-transform"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-
-          <!-- Menu Content -->
-          <div
-            x-show="open"
-            x-ref="content"
-            x-bind="contentProps()"
-            x-transition:enter="transition ease-out duration-100"
-            x-transition:enter-start="opacity-0 scale-95"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-75"
-            x-transition:leave-start="opacity-100 scale-100"
-            x-transition:leave-end="opacity-0 scale-95"
-            class="dropdown-menu-content dropdown-menu-size-2 dropdown-menu-variant-solid"
-            :class="`dropdown-menu-size-${size} dropdown-menu-variant-${variant}`"
-            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
-          >
-            <div class="dropdown-menu-viewport">
-              <div
-                x-bind="itemProps('new')"
-                class="dropdown-menu-item"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="12" y1="18" x2="12" y2="12"></line>
-                  <line x1="9" y1="15" x2="15" y2="15"></line>
-                </svg>
-                New File
-                <span class="dropdown-menu-shortcut">⌘N</span>
-              </div>
-
-              <div
-                x-bind="itemProps('open')"
-                class="dropdown-menu-item"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                </svg>
-                Open File
-                <span class="dropdown-menu-shortcut">⌘O</span>
-              </div>
-
-              <div
-                x-bind="itemProps('save')"
-                class="dropdown-menu-item"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                  <polyline points="7 3 7 8 15 8"></polyline>
-                </svg>
-                Save
-                <span class="dropdown-menu-shortcut">⌘S</span>
-              </div>
-
-              <div class="dropdown-menu-separator"></div>
-
-              <div class="dropdown-menu-label">More</div>
-
-              <div
-                x-bind="itemProps('print')"
-                class="dropdown-menu-item"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="6 9 6 2 18 2 18 9"></polyline>
-                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-                  <rect x="6" y="14" width="12" height="8"></rect>
-                </svg>
-                Print
-                <span class="dropdown-menu-shortcut">⌘P</span>
-              </div>
-
-              <div class="dropdown-menu-separator"></div>
-
-              <div
-                x-bind="itemProps('quit', false)"
-                class="dropdown-menu-item"
-                data-accent-color="red"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                  <polyline points="16 17 21 12 16 7"></polyline>
-                  <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-                Quit
-                <span class="dropdown-menu-shortcut">⌘Q</span>
-              </div>
+            <div class="rt-BaseMenuItem">
+              <span class="rt-BaseMenuItemIndicator"></span>
+              Billing
+              <span class="rt-BaseMenuShortcut">⌘B</span>
+            </div>
+            <div class="rt-BaseMenuSeparator"></div>
+            <div class="rt-BaseMenuItem">
+              <span class="rt-BaseMenuItemIndicator"></span>
+              Settings
+              <span class="rt-BaseMenuShortcut">⌘,</span>
+            </div>
+            <div class="rt-BaseMenuItem" data-disabled>
+              <span class="rt-BaseMenuItemIndicator"></span>
+              Disabled item
             </div>
           </div>
         </div>
       </div>
-          <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
-      <div class="p-6 bg-white rounded-lg border border-sand-6 flex flex-wrap gap-4">
-        <!-- Size 1 -->
-        <div x-data="createDropdownMenu({ size: '1' })" class="relative inline-block">
-          <button
-            x-bind="triggerProps()"
-            class="button button-variant-surface button-size-1"
-          >
-            Size 1
-          </button>
-          <div
-            x-show="open"
-            x-ref="content"
-            x-bind="contentProps()"
-            x-transition
-            class="dropdown-menu-content dropdown-menu-size-1"
-            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
-          >
-            <div class="dropdown-menu-viewport">
-              <div x-bind="itemProps('item1')" class="dropdown-menu-item">Item 1</div>
-              <div x-bind="itemProps('item2')" class="dropdown-menu-item">Item 2</div>
-              <div x-bind="itemProps('item3')" class="dropdown-menu-item">Item 3</div>
-            </div>
-          </div>
-        </div>
+    </section>
 
-        <!-- Size 2 -->
-        <div x-data="createDropdownMenu({ size: '2' })" class="relative inline-block">
-          <button
-            x-bind="triggerProps()"
-            class="button button-variant-surface button-size-2"
-          >
-            Size 2
-          </button>
-          <div
-            x-show="open"
-            x-ref="content"
-            x-bind="contentProps()"
-            x-transition
-            class="dropdown-menu-content dropdown-menu-size-2"
-            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
-          >
-            <div class="dropdown-menu-viewport">
-              <div x-bind="itemProps('item1')" class="dropdown-menu-item">Item 1</div>
-              <div x-bind="itemProps('item2')" class="dropdown-menu-item">Item 2</div>
-              <div x-bind="itemProps('item3')" class="dropdown-menu-item">Item 3</div>
+    <!-- With indicators -->
+    <section x-data="{ open: false }">
+      <h2 class="section-title">Checkboxes & Radios</h2>
+      <div class="dropdown">
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-surface rt-r-size-2" @click="open = !open">Toggle items</button>
+        <div class="menu rt-BaseMenuContent rt-variant-soft rt-r-size-2" data-side="bottom" :data-open="open" @click.away="open = false">
+          <div class="rt-BaseMenuViewport">
+            <div class="rt-BaseMenuLabel">Appearance</div>
+            <div class="rt-BaseMenuCheckboxItem rt-BaseMenuItem" x-data="{ checked: true }" @click="checked = !checked">
+              <span class="rt-BaseMenuItemIndicator" :data-state="checked ? 'checked' : 'unchecked'">
+                <svg class="rt-BaseMenuItemIndicatorIcon" viewBox="0 0 15 15" fill="currentColor"><path d="M6.50005 10.2929L3.35359 7.14645L4.06069 6.43934L6.50005 8.87868L11.4394 3.93934L12.1465 4.64645L6.50005 10.2929Z"></path></svg>
+              </span>
+              Show sidebar
             </div>
-          </div>
-        </div>
-      </div>
-          <h2 class="text-2xl font-semibold mb-4">Variants</h2>
-      <div class="p-6 bg-white rounded-lg border border-sand-6 flex flex-wrap gap-4">
-        <!-- Solid Variant -->
-        <div x-data="createDropdownMenu({ variant: 'solid' })" class="relative inline-block">
-          <button
-            x-bind="triggerProps()"
-            class="button button-variant-soft button-size-2 accent-blue"
-          >
-            Solid
-          </button>
-          <div
-            x-show="open"
-            x-ref="content"
-            x-bind="contentProps()"
-            x-transition
-            class="dropdown-menu-content dropdown-menu-size-2 dropdown-menu-variant-solid"
-            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
-          >
-            <div class="dropdown-menu-viewport">
-              <div x-bind="itemProps('cut')" class="dropdown-menu-item">Cut</div>
-              <div x-bind="itemProps('copy')" class="dropdown-menu-item">Copy</div>
-              <div x-bind="itemProps('paste')" class="dropdown-menu-item">Paste</div>
+            <div class="rt-BaseMenuCheckboxItem rt-BaseMenuItem" x-data="{ checked: false }" @click="checked = !checked">
+              <span class="rt-BaseMenuItemIndicator" :data-state="checked ? 'checked' : 'unchecked'">
+                <svg class="rt-BaseMenuItemIndicatorIcon" viewBox="0 0 15 15" fill="currentColor"><path d="M6.50005 10.2929L3.35359 7.14645L4.06069 6.43934L6.50005 8.87868L11.4394 3.93934L12.1465 4.64645L6.50005 10.2929Z"></path></svg>
+              </span>
+              Use high-contrast
             </div>
-          </div>
-        </div>
 
-        <!-- Soft Variant -->
-        <div x-data="createDropdownMenu({ variant: 'soft' })" class="relative inline-block">
-          <button
-            x-bind="triggerProps()"
-            class="button button-variant-soft button-size-2 accent-violet"
-          >
-            Soft
-          </button>
-          <div
-            x-show="open"
-            x-ref="content"
-            x-bind="contentProps()"
-            x-transition
-            class="dropdown-menu-content dropdown-menu-size-2 dropdown-menu-variant-soft"
-            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
-          >
-            <div class="dropdown-menu-viewport">
-              <div x-bind="itemProps('cut')" class="dropdown-menu-item">Cut</div>
-              <div x-bind="itemProps('copy')" class="dropdown-menu-item">Copy</div>
-              <div x-bind="itemProps('paste')" class="dropdown-menu-item">Paste</div>
+            <div class="rt-BaseMenuLabel">Theme</div>
+            <div class="rt-BaseMenuRadioItem rt-BaseMenuItem" x-data="{ selected: 'system' }" @click="selected = 'light'">
+              <span class="rt-BaseMenuItemIndicator" :data-state="selected === 'light' ? 'checked' : 'unchecked'">
+                <svg class="rt-BaseMenuItemIndicatorIcon" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 1c.2761 0 .5.22386.5.5V3.5c0 .27614-.2239.5-.5.5-.27614 0-.5-.22386-.5-.5V1.5C7 1.22386 7.22386 1 7.5 1Zm0 10c.2761 0 .5.2239.5.5V13.5c0 .2761-.2239.5-.5.5-.27614 0-.5-.2239-.5-.5V11.5c0-.2761.22386-.5.5-.5Zm7-4c0 .2761-.2239.5-.5.5H12.5c-.2761 0-.5-.2239-.5-.5 0-.27614.2239-.5.5-.5H14.5c.2761 0 .5.22386.5.5ZM3 7.5c0 .2761-.22386.5-.5.5H1.5c-.27614 0-.5-.2239-.5-.5 0-.27614.22386-.5.5-.5H2.5c.27614 0 .5.22386.5.5Zm9.5962-5.59619c.1952-.19526.5118-.19526.707-.00001.1953.19526.1953.51185 0 .70711l-1.4142 1.41421c-.1953.19526-.5119.19526-.7071 0-.1953-.19526-.1953-.51185 0-.70711ZM4.81802 11.182c.19526-.1953.51184-.1953.7071 0l1.41421 1.4143c.19526.1952.19526.5118 0 .707-.19526.1953-.51184.1953-.7071 0Zm8.8991 1.4142c.1952-.1953.5118-.1953.707 0 .1953.1952.1953.5118 0 .707l-1.4143 1.4143c-.1952.1953-.5118.1953-.7071 0-.1953-.1952-.1953-.5118 0-.707ZM4.81802 4.81802c.19526.19526.19526.51184 0 .7071L3.40381 6.93943c-.19526.19527-.51184.19527-.7071 0-.19526-.19527-.19526-.51184 0-.7071Z"></path></svg>
+              </span>
+              Light
+            </div>
+            <div class="rt-BaseMenuRadioItem rt-BaseMenuItem" x-data="{ selected: 'system' }" @click="selected = 'dark'">
+              <span class="rt-BaseMenuItemIndicator" :data-state="selected === 'dark' ? 'checked' : 'unchecked'">
+                <svg class="rt-BaseMenuItemIndicatorIcon" viewBox="0 0 15 15" fill="currentColor"><path d="M6.92174 0.910771C7.17957 0.743013 7.51814 0.764418 7.7532 0.965712C9.23343 2.22969 10.1 4.20735 10.1 6.25C10.1 9.70277 7.30277 12.5 3.85 12.5C2.51792 12.5 1.27793 12.091 0.25 11.395C0.00434862 11.2263 -0.0805544 10.9058 0.0680815 10.6529C1.37278 8.39154 3.47824 6.25 6.25 6.25C6.91079 6.25 7.55358 6.34501 8.1596 6.52401C8.49146 5.24814 7.96114 3.84227 6.80239 2.88326C6.54455 2.645 6.498 2.26187 6.68947 1.98686Z"></path></svg>
+              </span>
+              Dark
+            </div>
+            <div class="rt-BaseMenuRadioItem rt-BaseMenuItem" x-data="{ selected: 'system' }" @click="selected = 'system'">
+              <span class="rt-BaseMenuItemIndicator" :data-state="selected === 'system' ? 'checked' : 'unchecked'">
+                <svg class="rt-BaseMenuItemIndicatorIcon" viewBox="0 0 15 15" fill="currentColor"><path d="M2.85714 0C1.82379 0 1 0.823788 1 1.85714V13.1429C1 14.1762 1.82379 15 2.85714 15H12.1429C13.1762 15 14 14.1762 14 13.1429V1.85714C14 0.823788 13.1762 0 12.1429 0H2.85714ZM3 12H12V13H3V12Z"></path></svg>
+              </span>
+              System
             </div>
           </div>
         </div>
       </div>
-          <h2 class="text-2xl font-semibold mb-4">With Disabled Items</h2>
-      <div class="p-6 bg-white rounded-lg border border-sand-6">
-        <div x-data="createDropdownMenu()" class="relative inline-block">
-          <button
-            x-bind="triggerProps()"
-            class="button button-variant-soft button-size-2"
-          >
-            Edit
-          </button>
-          <div
-            x-show="open"
-            x-ref="content"
-            x-bind="contentProps()"
-            x-transition
-            class="dropdown-menu-content dropdown-menu-size-2"
-            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
-          >
-            <div class="dropdown-menu-viewport">
-              <div x-bind="itemProps('undo')" class="dropdown-menu-item">Undo</div>
-              <div x-bind="itemProps('redo', true)" class="dropdown-menu-item">Redo</div>
-              <div class="dropdown-menu-separator"></div>
-              <div x-bind="itemProps('cut')" class="dropdown-menu-item">Cut</div>
-              <div x-bind="itemProps('copy')" class="dropdown-menu-item">Copy</div>
-              <div x-bind="itemProps('paste', true)" class="dropdown-menu-item">Paste</div>
-            </div>
-          </div>
-        </div>
-      </div>
-          <h2 class="text-2xl font-semibold mb-4">Keyboard Navigation</h2>
-      <div class="p-6 bg-white rounded-lg border border-sand-6">
-        <p class="text-sm text-sand-11 mb-4">
-          Try using keyboard to navigate:
-        </p>
-        <ul class="text-sm text-sand-11 mb-4 space-y-1">
-          <li><kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">↓</kbd> / <kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">↑</kbd> - Navigate items</li>
-          <li><kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">Home</kbd> / <kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">End</kbd> - First / Last item</li>
-          <li><kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">Enter</kbd> / <kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">Space</kbd> - Select item</li>
-          <li><kbd class="px-1 py-0.5 bg-sand-3 rounded text-sand-12">Esc</kbd> - Close menu</li>
-        </ul>
-        <div x-data="createDropdownMenu()" class="relative inline-block">
-          <button
-            x-bind="triggerProps()"
-            class="button button-variant-soft button-size-2"
-          >
-            Try Keyboard Navigation
-          </button>
-          <div
-            x-show="open"
-            x-ref="content"
-            x-bind="contentProps()"
-            x-transition
-            class="dropdown-menu-content dropdown-menu-size-2"
-            style="display: none; position: absolute; top: 100%; left: 0; margin-top: 0.5rem;"
-          >
-            <div class="dropdown-menu-viewport">
-              <div x-bind="itemProps('item1')" class="dropdown-menu-item">First Item</div>
-              <div x-bind="itemProps('item2')" class="dropdown-menu-item">Second Item</div>
-              <div x-bind="itemProps('item3')" class="dropdown-menu-item">Third Item</div>
-              <div x-bind="itemProps('item4')" class="dropdown-menu-item">Fourth Item</div>
-              <div x-bind="itemProps('item5')" class="dropdown-menu-item">Last Item</div>
-            </div>
-          </div>
-        </div>
-      </div>
-        </section>
-      </div>
-    </main>
+    </section>
   </div>
+<script src="sidebar.js"></script>
 </body>
-
 </html>

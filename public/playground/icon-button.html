@@ -1,604 +1,519 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium" data-scaling="100%">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Icon Button - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.start();
-  </script>
+  <title>Icon Button - Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     [x-cloak] { display: none !important; }
-    .sidebar-link {
-      display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
+    .playground-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
     }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
+    .playground-table th,
+    .playground-table td {
+      padding: var(--space-3);
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--gray-a5);
     }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
+    .playground-table th {
+      font-size: var(--font-size-2);
+      font-weight: var(--font-weight-medium);
+      color: var(--gray-11);
     }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .playground-table td {
+      white-space: nowrap;
     }
-    .sidebar-section:first-child {
-      margin-top: 0;
+    .section-title {
+      font-size: var(--font-size-5);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-12);
+      margin-bottom: var(--space-4);
+      margin-top: var(--space-6);
+    }
+    .row-header {
+      font-size: var(--font-size-2);
+      color: var(--gray-11);
+      font-weight: var(--font-weight-medium);
     }
   </style>
 </head>
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+      <h1 class="text-8 font-bold text-gray-12 mt-4">Icon Button</h1>
+      <p class="text-3 text-gray-11 mt-2">Square, icon-only buttons built on the same foundations as Button.</p>
+    </header>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
+    <!-- Main variants/sizes table -->
+    <section>
+      <h2 class="section-title">Variants & Sizes</h2>
+      <div class="overflow-x-auto">
+        <table class="playground-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>size 1</th>
+              <th>size 2</th>
+              <th>size 3</th>
+              <th>size 4</th>
+              <th>+ high-contrast</th>
+              <th></th>
+              <th>gray</th>
+              <th>+ high-contrast</th>
+              <th></th>
+              <th>disabled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- classic variant -->
+            <tr>
+              <td class="row-header">classic</td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-classic rt-r-size-1" aria-label="Next">
+                  <svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-classic rt-r-size-2" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-classic rt-r-size-3" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-classic rt-r-size-4" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-classic rt-r-size-2 rt-high-contrast" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-classic rt-r-size-2" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-classic rt-r-size-2 rt-high-contrast" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-classic rt-r-size-2" data-disabled aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+            </tr>
+            <!-- solid variant -->
+            <tr>
+              <td class="row-header">solid</td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-1" aria-label="Next">
+                  <svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-3" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-4" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2 rt-high-contrast" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2 rt-high-contrast" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-disabled aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+            </tr>
+            <!-- soft variant -->
+            <tr>
+              <td class="row-header">soft</td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-1" aria-label="Next">
+                  <svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-3" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-4" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2 rt-high-contrast" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2 rt-high-contrast" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-disabled aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+            </tr>
+            <!-- surface variant -->
+            <tr>
+              <td class="row-header">surface</td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-surface rt-r-size-1" aria-label="Next">
+                  <svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-surface rt-r-size-2" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-surface rt-r-size-3" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-surface rt-r-size-4" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-surface rt-r-size-2 rt-high-contrast" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-surface rt-r-size-2" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-surface rt-r-size-2 rt-high-contrast" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-surface rt-r-size-2" data-disabled aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+            </tr>
+            <!-- outline variant -->
+            <tr>
+              <td class="row-header">outline</td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-outline rt-r-size-1" aria-label="Next">
+                  <svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-outline rt-r-size-2" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-outline rt-r-size-3" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-outline rt-r-size-4" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-outline rt-r-size-2 rt-high-contrast" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-outline rt-r-size-2" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-outline rt-r-size-2 rt-high-contrast" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-outline rt-r-size-2" data-disabled aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+            </tr>
+            <!-- ghost variant -->
+            <tr>
+              <td class="row-header">ghost</td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-ghost rt-r-size-1" aria-label="Next">
+                  <svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-ghost rt-r-size-2" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-ghost rt-r-size-3" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-ghost rt-r-size-4" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-ghost rt-r-size-2 rt-high-contrast" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-ghost rt-r-size-2" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-ghost rt-r-size-2 rt-high-contrast" data-accent-color="gray" aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+              <td></td>
+              <td>
+                <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-ghost rt-r-size-2" data-disabled aria-label="Next">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
+    <!-- Colors section -->
+    <section>
+      <h2 class="section-title">All Colors</h2>
+      <p class="text-2 text-gray-11 mb-4">Icon buttons respect the same accent colors as Button.</p>
+
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Solid variants -->
+        <div>
+          <h3 class="text-3 font-medium text-gray-12 mb-3">Solid</h3>
+          <div class="flex flex-wrap gap-2">
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="gray" aria-label="Gray" title="Gray"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="gold" aria-label="Gold" title="Gold"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="bronze" aria-label="Bronze" title="Bronze"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="brown" aria-label="Brown" title="Brown"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="yellow" aria-label="Yellow" title="Yellow"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="amber" aria-label="Amber" title="Amber"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="orange" aria-label="Orange" title="Orange"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="tomato" aria-label="Tomato" title="Tomato"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="red" aria-label="Red" title="Red"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="ruby" aria-label="Ruby" title="Ruby"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="crimson" aria-label="Crimson" title="Crimson"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="pink" aria-label="Pink" title="Pink"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="plum" aria-label="Plum" title="Plum"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="purple" aria-label="Purple" title="Purple"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="violet" aria-label="Violet" title="Violet"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="iris" aria-label="Iris" title="Iris"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="indigo" aria-label="Indigo" title="Indigo"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="blue" aria-label="Blue" title="Blue"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="cyan" aria-label="Cyan" title="Cyan"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="teal" aria-label="Teal" title="Teal"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="jade" aria-label="Jade" title="Jade"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="green" aria-label="Green" title="Green"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="grass" aria-label="Grass" title="Grass"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="lime" aria-label="Lime" title="Lime"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="mint" aria-label="Mint" title="Mint"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-accent-color="sky" aria-label="Sky" title="Sky"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
           </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
         </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
-            </div>
+
+        <!-- Soft variants -->
+        <div>
+          <h3 class="text-3 font-medium text-gray-12 mb-3">Soft</h3>
+          <div class="flex flex-wrap gap-2">
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="gray" aria-label="Gray" title="Gray"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="gold" aria-label="Gold" title="Gold"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="bronze" aria-label="Bronze" title="Bronze"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="brown" aria-label="Brown" title="Brown"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="yellow" aria-label="Yellow" title="Yellow"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="amber" aria-label="Amber" title="Amber"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="orange" aria-label="Orange" title="Orange"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="tomato" aria-label="Tomato" title="Tomato"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="red" aria-label="Red" title="Red"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="ruby" aria-label="Ruby" title="Ruby"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="crimson" aria-label="Crimson" title="Crimson"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="pink" aria-label="Pink" title="Pink"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="plum" aria-label="Plum" title="Plum"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="purple" aria-label="Purple" title="Purple"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="violet" aria-label="Violet" title="Violet"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="iris" aria-label="Iris" title="Iris"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="indigo" aria-label="Indigo" title="Indigo"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="blue" aria-label="Blue" title="Blue"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="cyan" aria-label="Cyan" title="Cyan"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="teal" aria-label="Teal" title="Teal"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="jade" aria-label="Jade" title="Jade"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="green" aria-label="Green" title="Green"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="grass" aria-label="Grass" title="Grass"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="lime" aria-label="Lime" title="Lime"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="mint" aria-label="Mint" title="Mint"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
+            <button class="rt-reset rt-BaseButton rt-IconButton rt-variant-soft rt-r-size-2" data-accent-color="sky" aria-label="Sky" title="Sky"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 3C5.01472 3 3 5.01472 3 7.5C3 9.98528 5.01472 12 7.5 12C9.98528 12 12 9.98528 12 7.5C12 5.01472 9.98528 3 7.5 3Z"></path></svg></button>
           </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
         </div>
       </div>
-    </div>
-  </nav>
+    </section>
 
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link active">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
+    <!-- Radius section -->
+    <section>
+      <h2 class="section-title">Radius</h2>
+      <p class="text-2 text-gray-11 mb-4">Equal width and height make radius changes clear.</p>
+      <div class="overflow-x-auto">
+        <table class="playground-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>size 1</th>
+              <th>size 2</th>
+              <th>size 3</th>
+              <th>size 4</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-header">none</td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-1" data-radius="none" aria-label="Radius none"><svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-radius="none" aria-label="Radius none"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-3" data-radius="none" aria-label="Radius none"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-4" data-radius="none" aria-label="Radius none"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+            </tr>
+            <tr>
+              <td class="row-header">small</td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-1" data-radius="small" aria-label="Radius small"><svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-radius="small" aria-label="Radius small"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-3" data-radius="small" aria-label="Radius small"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-4" data-radius="small" aria-label="Radius small"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+            </tr>
+            <tr>
+              <td class="row-header">medium</td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-1" data-radius="medium" aria-label="Radius medium"><svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-radius="medium" aria-label="Radius medium"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-3" data-radius="medium" aria-label="Radius medium"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-4" data-radius="medium" aria-label="Radius medium"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+            </tr>
+            <tr>
+              <td class="row-header">large</td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-1" data-radius="large" aria-label="Radius large"><svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-radius="large" aria-label="Radius large"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-3" data-radius="large" aria-label="Radius large"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-4" data-radius="large" aria-label="Radius large"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+            </tr>
+            <tr>
+              <td class="row-header">full</td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-1" data-radius="full" aria-label="Radius full"><svg width="12" height="12" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-2" data-radius="full" aria-label="Radius full"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-3" data-radius="full" aria-label="Radius full"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+              <td><button class="rt-reset rt-BaseButton rt-IconButton rt-variant-solid rt-r-size-4" data-radius="full" aria-label="Radius full"><svg width="18" height="18" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg></button></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </aside>
+    </section>
 
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
-        <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Icon Button</h1>
-          <p class="text-sand-11">Interactive examples and variations.</p>
-        </div>
-
-        <!-- Demo Content -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-8" style="background: var(--sand-2);">
-          <h2 class="text-sm font-semibold text-sand-12">Examples</h2>
-<div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 1 (Compact)</h3>
-          <div class="flex flex-wrap gap-3 items-center">
-            <button class="icon-button icon-button-size-1 icon-button-variant-solid" aria-label="Close">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 6 6 18M6 6l12 12"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-1 icon-button-variant-soft" aria-label="Menu">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-1 icon-button-variant-ghost" aria-label="Settings">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-          <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 2 (Default)</h3>
-          <div class="flex flex-wrap gap-3 items-center">
-            <button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Close">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 6 6 18M6 6l12 12"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-2 icon-button-variant-soft" aria-label="Menu">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-2 icon-button-variant-ghost" aria-label="Settings">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-          <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Size 3 (Large)</h3>
-          <div class="flex flex-wrap gap-3 items-center">
-            <button class="icon-button icon-button-size-3 icon-button-variant-solid" aria-label="Close">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 6 6 18M6 6l12 12"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Menu">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-3 icon-button-variant-ghost" aria-label="Settings">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-          <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Classic</h3>
-          <div class="flex gap-3 items-center">
-            <button class="icon-button icon-button-size-2 icon-button-variant-classic" aria-label="Heart">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-2 icon-button-variant-classic" disabled aria-label="Heart">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-          <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Solid</h3>
-          <div class="flex gap-3 items-center">
-            <button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Star">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-2 icon-button-variant-solid" disabled aria-label="Star">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-          <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Soft</h3>
-          <div class="flex gap-3 items-center">
-            <button class="icon-button icon-button-size-2 icon-button-variant-soft" aria-label="Bookmark">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-2 icon-button-variant-soft" disabled aria-label="Bookmark">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-          <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Surface</h3>
-          <div class="flex gap-3 items-center">
-            <button class="icon-button icon-button-size-2 icon-button-variant-surface" aria-label="Search">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-2 icon-button-variant-surface" disabled aria-label="Search">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-          <div class="space-y-4">
-          <h3 class="text-sm font-medium text-sand-11 uppercase tracking-wider">Outline</h3>
-          <div class="flex gap-3 items-center">
-            <button class="icon-button icon-button-size-2 icon-button-variant-outline" aria-label="Bell">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
-              </svg>
-            </button>
-            <button class="icon-button icon-button-size-2 icon-button-variant-outline" disabled aria-label="Bell">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-          <h2 class="text-sm font-medium">加载状态</h2>
-
-      <div class="flex flex-wrap gap-4 items-center">
-        <button class="icon-button icon-button-size-2 icon-button-variant-solid" data-loading aria-label="Loading">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6 6 18M6 6l12 12"/>
-          </svg>
-          <span class="icon-button-spinner spinner spinner-size-2" style="color: var(--accent-contrast);">
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
+    <!-- States -->
+    <section>
+      <h2 class="section-title">States & Interactions</h2>
+      <p class="text-2 text-gray-11 mb-4">Loading and toggle behaviors remain available.</p>
+      <div class="flex flex-wrap items-center gap-4" x-data="{ loading: false, pinned: false }">
+        <button
+          class="rt-reset rt-BaseButton rt-IconButton rt-variant-surface rt-r-size-2"
+          :class="{ 'rt-loading': loading }"
+          @click="loading = true; setTimeout(() => loading = false, 1500)"
+          aria-label="Refresh"
+        >
+          <span x-show="!loading">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"></path></svg>
           </span>
+          <span x-show="loading" x-cloak class="rt-Spinner rt-r-size-2"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 animate-spin"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" stroke-opacity="0.25"></circle><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="4" stroke-linecap="round"></path></svg></span>
         </button>
-
-        <button class="icon-button icon-button-size-2 icon-button-variant-soft" data-loading aria-label="Loading">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
-          </svg>
-          <span class="icon-button-spinner spinner spinner-size-2" style="color: var(--accent-11);">
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-          </span>
-        </button>
-
-        <button class="icon-button icon-button-size-3 icon-button-variant-classic" data-loading aria-label="Loading">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-          </svg>
-          <span class="icon-button-spinner spinner spinner-size-2" style="color: var(--accent-contrast);">
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-            <span class="spinner-leaf"></span>
-          </span>
+        <button
+          class="rt-reset rt-BaseButton rt-IconButton rt-variant-outline rt-r-size-2"
+          :data-accent-color="pinned ? 'tomato' : 'gray'"
+          :aria-pressed="pinned.toString()"
+          :class="{ 'rt-high-contrast': pinned }"
+          @click="pinned = !pinned"
+          aria-label="Toggle pin"
+        >
+          <svg x-show="!pinned" aria-hidden="true" width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M7.5 2.5C7.77614 2.5 8 2.72386 8 3V7H12C12.2761 7 12.5 7.22386 12.5 7.5C12.5 7.77614 12.2761 8 12 8H8V12C8 12.2761 7.77614 12.5 7.5 12.5C7.22386 12.5 7 12.2761 7 12V8H3C2.72386 8 2.5 7.77614 2.5 7.5C2.5 7.22386 2.72386 7 3 7H7V3C7 2.72386 7.22386 2.5 7.5 2.5Z"></path></svg>
+          <svg x-show="pinned" x-cloak aria-hidden="true" width="15" height="15" viewBox="0 0 15 15" fill="currentColor"><path d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z"></path></svg>
         </button>
       </div>
-          <h2 class="text-sm font-medium">常用图标示例</h2>
+    </section>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Close">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 6 6 18M6 6l12 12"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Close</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Menu">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Menu</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Settings">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Settings</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Edit">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Edit</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Trash" data-accent-color="red">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Delete</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Plus">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"/><path d="M12 5v14"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Add</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Download">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Download</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Upload">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Upload</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Copy">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Copy</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Share">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Share</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Filter">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Filter</span>
-        </div>
-
-        <div class="flex flex-col items-center gap-2">
-          <button class="icon-button icon-button-size-3 icon-button-variant-soft" aria-label="Refresh">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>
-            </svg>
-          </button>
-          <span class="text-xs text-sand-11">Refresh</span>
-        </div>
-      </div>
-          <h2 class="text-sm font-medium">颜色变体</h2>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <template x-for="color in ['iris','blue','violet','teal','amber','red','jade','gray']" :key="color">
-          <div class="space-y-3" :data-accent-color="color">
-            <h3 class="text-sm font-medium capitalize" :style="`color: var(--${color}-11)`" x-text="color"></h3>
-            <div class="flex gap-2">
-              <button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Star">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-              </button>
-              <button class="icon-button icon-button-size-2 icon-button-variant-soft" aria-label="Heart">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-                </svg>
-              </button>
-              <button class="icon-button icon-button-size-2 icon-button-variant-outline" aria-label="Bookmark">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </template>
-      </div>
-          <h2 class="text-sm font-medium">高对比度</h2>
-
-      <div class="flex flex-wrap gap-4 items-center">
-        <button class="icon-button icon-button-size-2 icon-button-variant-solid icon-button-high-contrast" aria-label="Settings">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
-          </svg>
-        </button>
-
-        <button class="icon-button icon-button-size-2 icon-button-variant-soft icon-button-high-contrast" aria-label="Heart">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-          </svg>
-        </button>
-
-        <button class="icon-button icon-button-size-2 icon-button-variant-outline icon-button-high-contrast" aria-label="Star">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-          </svg>
-        </button>
-      </div>
-          <h2 class="text-sm font-medium mb-4">代码示例</h2>
-      <pre class="bg-sand-3 text-sand-12 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- 基本用法 --&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Close"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-
-&lt;!-- 不同尺寸 --&gt;
-&lt;button class="icon-button icon-button-size-1 icon-button-variant-solid" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-&lt;button class="icon-button icon-button-size-3 icon-button-variant-solid" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-&lt;button class="icon-button icon-button-size-4 icon-button-variant-solid" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-
-&lt;!-- 不同变体 --&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-classic" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-soft" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-surface" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-outline" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-ghost" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-
-&lt;!-- 禁用状态 --&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" disabled aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-
-&lt;!-- 加载状态 --&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" data-loading aria-label="Loading"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-  &lt;span class="icon-button-spinner spinner spinner-size-2"&gt;
-    &lt;!-- 8个 spinner-leaf --&gt;
-  &lt;/span&gt;
-&lt;/button&gt;
-
-&lt;!-- 高对比度 --&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid icon-button-high-contrast" aria-label="Icon"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;
-
-&lt;!-- 自定义颜色 --&gt;
-&lt;button class="icon-button icon-button-size-2 icon-button-variant-solid" data-accent-color="red" aria-label="Delete"&gt;
-  &lt;svg&gt;...&lt;/svg&gt;
-&lt;/button&gt;</code></pre>
-        </section>
-      </div>
-    </main>
   </div>
+<script src="sidebar.js"></script>
 </body>
-
 </html>

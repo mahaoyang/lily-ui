@@ -1,838 +1,115 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="en" class="radix-themes" data-accent-color="indigo" data-gray-color="slate" data-radius="medium" data-scaling="100%">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alert Dialog - Lily UI</title>
-  <link rel="stylesheet" href="/dist/output.css">
-  <script type="module">
-    import Alpine from "/node_modules/alpinejs/dist/module.esm.js";
-    import { navbar } from "/public/playground/components/navbar.js";
-    import { createAlertDialog } from "/public/machines/alert-dialog.js";
-    
-    window.Alpine = Alpine;
-    Alpine.data('navbar', navbar);
-    Alpine.data('createAlertDialog', createAlertDialog);
-    Alpine.start();
-  </script>
+  <title>Alert Dialog - Lily UI Playground</title>
+  <link rel="stylesheet" href="../../dist/output.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     [x-cloak] { display: none !important; }
-    .sidebar-link {
+    .playground-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .playground-table th,
+    .playground-table td {
+      padding: var(--space-3);
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--gray-a5);
+    }
+    .playground-table th {
+      font-size: var(--font-size-2);
+      font-weight: var(--font-weight-medium);
+      color: var(--gray-11);
+    }
+    .playground-table td {
+      white-space: nowrap;
+    }
+    .section-title {
+      font-size: var(--font-size-5);
+      font-weight: var(--font-weight-bold);
+      color: var(--gray-12);
+      margin-bottom: var(--space-4);
+      margin-top: var(--space-6);
+    }
+    .dialog-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+    }
+    .dialog-overlay[data-open="true"] {
       display: block;
-      padding: 0.375rem 0.75rem;
-      border-radius: var(--radius-2);
-      font-size: 0.875rem;
-      color: var(--sand-11);
-      transition: all 0.15s ease;
     }
-    .sidebar-link:hover {
-      color: var(--sand-12);
-      background: var(--sand-3);
+    .dialog-overlay::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-color: var(--color-overlay);
+      animation: rt-fade-in 200ms cubic-bezier(0.16,1,0.3,1);
     }
-    .sidebar-link.active {
-      color: var(--accent-11);
-      background: var(--accent-3);
-      font-weight: 500;
+    .dialog-scroll {
+      position: fixed;
+      inset: 0;
+      overflow: auto;
+      display: flex;
     }
-    .sidebar-section {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--sand-12);
-      padding: 0.5rem 0.75rem;
-      margin-top: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .dialog-padding {
+      flex-grow: 1;
+      margin: auto;
+      padding: var(--space-6) var(--space-4);
     }
-    .sidebar-section:first-child {
-      margin-top: 0;
+    .dialog-content {
+      background: var(--color-panel-solid);
+      box-shadow: var(--shadow-6);
+      padding: var(--space-5);
+      border-radius: var(--radius-5);
+      width: min(480px, calc(100% - var(--space-6)));
+      margin: auto;
+      animation: rt-dialog-content-show 200ms cubic-bezier(0.16,1,0.3,1);
     }
   </style>
 </head>
+<body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- Header -->
+    <header class="mb-8">
+      <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
+      <h1 class="text-8 font-bold text-gray-12 mt-4">Alert Dialog</h1>
+      <p class="text-3 text-gray-11 mt-2">Interruptive confirmation modal with actions.</p>
+    </header>
 
-<body data-scaling="100%" data-radius="medium"
-  class="rt-Theme radix-themes min-h-screen text-sand-12 antialiased" data-is-root-theme="true"
-  x-data="{ theme: localStorage.getItem('theme') || 'light', accent: localStorage.getItem('accent') || 'iris' }"
-  x-init="$watch('theme', val => localStorage.setItem('theme', val)); $watch('accent', val => localStorage.setItem('accent', val))"
-  :class="[theme === 'dark' ? 'dark' : '', 'accent-' + accent]" :data-accent-color="accent">
-
-  <!-- Navbar -->
-  <nav x-data="navbar()"
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1200px] rounded-4 backdrop-blur-xl shadow-lg shadow-black/5 transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5"
-    :class="theme === 'dark' ? 'bg-sand-1/60 hover:bg-sand-1/80' : 'bg-sand-2/60 hover:bg-sand-2/80'">
-    <div class="px-4 sm:px-6">
-      <div class="flex h-14 items-center justify-between">
-        <a href="/public/playground/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div class="flex h-6 w-6 items-center justify-center text-accent-9 overflow-hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-4 h-4">
-              <path d="M6 4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V14C12 16.2091 13.7909 18 16 18H18C19.1046 18 20 18.8954 20 20C20 21.1046 19.1046 22 18 22H16C11.5817 22 8 18.4183 8 14V4Z" fill="currentColor" />
-              <circle cx="16" cy="6" r="3" fill="currentColor" fill-opacity="0.3" />
-            </svg>
-          </div>
-          <span class="text-sm font-bold text-sand-12 leading-tight">Lily UI</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6 text-xs font-medium">
-          <a href="/public/playground/docs.html" class="text-sand-11 hover:text-accent-11 transition-colors">Docs</a>
-          <a href="/public/playground/components.html" class="text-accent-11 font-semibold">Components</a>
-          <a href="/public/playground/playground.html" class="text-sand-11 hover:text-accent-11 transition-colors">Playground</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="relative hidden sm:block h-8 cursor-pointer" style="width: 140px;"
-            @mouseenter="onMouseEnter()" @mouseleave="onMouseLeave()">
-            <div role="radiogroup" aria-label="Accent Color"
-              class="absolute left-0 top-1/2 -translate-y-1/2 flex items-center p-1 rounded-full transition-all duration-500"
-              :class="expanded ? 'bg-sand-3/50 backdrop-blur-md' : ''">
-              <template x-for="(color, idx) in colors" :key="color">
-                <button type="button" class="h-4 w-4 rounded-full ease-out"
-                  :class="[accent === color ? 'ring-2 ring-offset-1 ring-sand-12' : '', expanded ? 'opacity-100 mx-0.5 transition-[margin,width] duration-500' : (accent === color ? (animating ? 'opacity-0 mx-0.5 transition-opacity duration-200' : 'opacity-100 mx-0.5 transition-all duration-500') : 'opacity-0 w-0 mx-0 transition-[opacity,margin,width] duration-500')]"
-                  :style="'background: var(--' + color + '-9); transform: translateX(' + (expanded ? 0 : (accent === color ? getOffset(color, accent) : 0)) + 'px)'"
-                  @click="accent = color"></button>
-              </template>
-            </div>
-          </div>
-          <button type="button" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12" @click="toggleTheme()">
-            <svg x-show="theme === 'light'" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-            </svg>
-            <svg x-show="theme === 'dark'" x-cloak class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-            </svg>
-          </button>
-          <a href="https://github.com" target="_blank" class="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-sand-4/50 text-sand-11 hover:text-sand-12">
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
-        </div>
+    <!-- Examples -->
+    <section class="space-y-6" x-data="{ open: false, dangerous: false }">
+      <div class="flex gap-3">
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2" @click="open = true; dangerous = false">Open alert</button>
+        <button class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2" data-accent-color="tomato" @click="open = true; dangerous = true">Delete file</button>
       </div>
-    </div>
-  </nav>
 
-  <div class="flex pt-28">
-    <!-- Sidebar -->
-    <aside class="fixed left-0 top-28 bottom-0 w-64 overflow-y-auto sidebar-scroll"
-      :class="theme === 'dark' ? 'bg-sand-1' : 'bg-sand-1'">
-      <div class="p-4">
-<div class="sidebar-section">Overview</div>
-<a href="/public/playground/docs.html" class="sidebar-link">Getting started</a>
-
-<div class="sidebar-section">Layout</div>
-<a href="/public/playground/box.html" class="sidebar-link">Box</a>
-<a href="/public/playground/flex.html" class="sidebar-link">Flex</a>
-<a href="/public/playground/grid.html" class="sidebar-link">Grid</a>
-<a href="/public/playground/container.html" class="sidebar-link">Container</a>
-<a href="/public/playground/section.html" class="sidebar-link">Section</a>
-
-<div class="sidebar-section">Form Controls</div>
-<a href="/public/playground/switch.html" class="sidebar-link">Switch</a>
-<a href="/public/playground/checkbox.html" class="sidebar-link">Checkbox</a>
-<a href="/public/playground/checkbox-group.html" class="sidebar-link">Checkbox Group</a>
-<a href="/public/playground/checkbox-cards.html" class="sidebar-link">Checkbox Cards</a>
-<a href="/public/playground/radio.html" class="sidebar-link">Radio</a>
-<a href="/public/playground/radio-cards.html" class="sidebar-link">Radio Cards</a>
-<a href="/public/playground/input.html" class="sidebar-link">Input</a>
-<a href="/public/playground/slider.html" class="sidebar-link">Slider</a>
-<a href="/public/playground/tags.html" class="sidebar-link">Tags Input</a>
-<a href="/public/playground/select.html" class="sidebar-link">Select</a>
-
-<div class="sidebar-section">Navigation</div>
-<a href="/public/playground/tabs.html" class="sidebar-link">Tabs</a>
-<a href="/public/playground/accordion.html" class="sidebar-link">Accordion</a>
-<a href="/public/playground/scroll-area.html" class="sidebar-link">Scroll Area</a>
-<a href="/public/playground/segmented-control.html" class="sidebar-link">Segmented Control</a>
-<a href="/public/playground/tab-nav.html" class="sidebar-link">Tab Nav</a>
-
-<div class="sidebar-section">Display</div>
-<a href="/public/playground/button.html" class="sidebar-link">Button</a>
-<a href="/public/playground/icon-button.html" class="sidebar-link">Icon Button</a>
-<a href="/public/playground/badge.html" class="sidebar-link">Badge</a>
-<a href="/public/playground/avatar.html" class="sidebar-link">Avatar</a>
-<a href="/public/playground/card.html" class="sidebar-link">Card</a>
-<a href="/public/playground/spinner.html" class="sidebar-link">Spinner</a>
-<a href="/public/playground/skeleton.html" class="sidebar-link">Skeleton</a>
-<a href="/public/playground/separator.html" class="sidebar-link">Separator</a>
-<a href="/public/playground/aspect-ratio.html" class="sidebar-link">Aspect Ratio</a>
-<a href="/public/playground/inset.html" class="sidebar-link">Inset</a>
-
-<div class="sidebar-section">Data & Feedback</div>
-<a href="/public/playground/toast.html" class="sidebar-link">Toast</a>
-<a href="/public/playground/progress.html" class="sidebar-link">Progress</a>
-<a href="/public/playground/tri-switch.html" class="sidebar-link">Tri-state Switch</a>
-<a href="/public/playground/table.html" class="sidebar-link">Table</a>
-<a href="/public/playground/data-list.html" class="sidebar-link">Data List</a>
-
-<div class="sidebar-section">Typography</div>
-<a href="/public/playground/typography.html" class="sidebar-link">Typography</a>
-<a href="/public/playground/kbd.html" class="sidebar-link">Kbd</a>
-<a href="/public/playground/callout.html" class="sidebar-link">Callout</a>
-<a href="/public/playground/code.html" class="sidebar-link">Code</a>
-<a href="/public/playground/blockquote.html" class="sidebar-link">Blockquote</a>
-
-<div class="sidebar-section">Overlays</div>
-<a href="/public/playground/dialog.html" class="sidebar-link">Dialog</a>
-<a href="/public/playground/alert-dialog.html" class="sidebar-link active">Alert Dialog</a>
-<a href="/public/playground/tooltip.html" class="sidebar-link">Tooltip</a>
-<a href="/public/playground/dropdown-menu.html" class="sidebar-link">Dropdown Menu</a>
-<a href="/public/playground/popover.html" class="sidebar-link">Popover</a>
-<a href="/public/playground/hover-card.html" class="sidebar-link">Hover Card</a>
-<a href="/public/playground/context-menu.html" class="sidebar-link">Context Menu</a>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 min-h-screen">
-      <div class="max-w-4xl mx-auto px-8 py-12">
-        <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold text-sand-12 mb-2">Alert Dialog</h1>
-          <p class="text-sand-11">Interactive examples and variations.</p>
-        </div>
-
-        <!-- Demo Content -->
-        <section class="rounded-lg border border-sand-6 p-6 space-y-8" style="background: var(--sand-2);">
-          <h2 class="text-sm font-semibold text-sand-12">Examples</h2>
-<h2 class="text-2xl font-semibold text-sand-12 mb-4">Basic Confirmation</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6" x-data="createAlertDialog({
-        onConfirm: () => {
-          console.log('User confirmed!');
-          alert('Action confirmed!');
-        },
-        onCancel: () => {
-          console.log('User cancelled');
-        }
-      })">
-        <button
-          @click="show()"
-          class="button button-variant-solid button-size-2 bg-accent-9 text-white px-4 py-2 rounded-md hover:bg-accent-10 transition-colors">
-          Open Alert Dialog
-        </button>
-
-        <!-- Alert Dialog Overlay -->
-        <div
-          x-show="open"
-          x-bind="overlayProps()"
-          :data-state="open ? 'open' : 'closed'"
-          class="alert-dialog-overlay"
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in duration-150"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0">
-
-          <div class="alert-dialog-scroll">
-            <div class="alert-dialog-scroll-padding" :data-align="align">
-              <!-- Alert Dialog Content -->
-              <div
-                x-bind="contentProps()"
-                :data-state="open ? 'open' : 'closed'"
-                :class="'alert-dialog-content alert-dialog-size-' + size"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95">
-
-                <!-- Alert Dialog Title -->
-                <h2 class="alert-dialog-title">Are you absolutely sure?</h2>
-
-                <!-- Alert Dialog Description -->
-                <p class="alert-dialog-description">
-                  This action cannot be undone. This will permanently delete your account and remove your data from our servers.
-                </p>
-
-                <!-- Alert Dialog Actions -->
-                <div class="alert-dialog-actions">
-                  <button
-                    @click="cancel()"
-                    x-bind="cancelProps()"
-                    class="px-4 py-2 text-sand-11 hover:text-sand-12 hover:bg-sand-3 rounded-md transition-colors"
-                    :class="{ 'opacity-50 cursor-not-allowed': loading }">
-                    Cancel
-                  </button>
-                  <button
-                    @click="confirm()"
-                    x-bind="confirmProps()"
-                    class="bg-accent-9 text-white px-4 py-2 rounded-md hover:bg-accent-10 transition-colors"
-                    :class="{ 'opacity-50 cursor-not-allowed': loading }">
-                    <span x-show="!loading">Continue</span>
-                    <span x-show="loading">Processing...</span>
-                  </button>
-                </div>
+      <div class="dialog-overlay" :data-open="open" x-cloak>
+        <div class="dialog-scroll">
+          <div class="dialog-padding">
+            <div class="dialog-content" :data-accent-color="dangerous ? 'tomato' : null">
+              <h2 class="text-5 font-bold text-gray-12 mb-2" x-text="dangerous ? 'Delete file' : 'Heads up'"></h2>
+              <p class="text-2 text-gray-11 mb-4" x-text="dangerous ? 'This action cannot be undone. Do you want to permanently delete “Document.pdf”?' : 'You’re about to perform an important action. Please confirm to continue.'"></p>
+              <div class="flex justify-end gap-3 items-center">
+                <button class="rt-reset rt-BaseButton rt-Button rt-variant-ghost rt-r-size-2" @click="open = false">Cancel</button>
+                <button
+                  class="rt-reset rt-BaseButton rt-Button rt-variant-solid rt-r-size-2"
+                  :data-accent-color="dangerous ? 'tomato' : null"
+                  @click="open = false"
+                >
+                  <span x-text="dangerous ? 'Delete' : 'Confirm'"></span>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-          <h2 class="text-2xl font-semibold text-sand-12 mb-4">Destructive Action</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6" x-data="createAlertDialog({
-        onConfirm: () => {
-          console.log('Item deleted!');
-          alert('Item deleted successfully!');
-        }
-      })">
-        <button
-          @click="show()"
-          class="bg-red-9 text-white px-4 py-2 rounded-md hover:bg-red-10 transition-colors">
-          Delete Item
-        </button>
-
-        <!-- Alert Dialog Overlay -->
-        <div
-          x-show="open"
-          x-bind="overlayProps()"
-          :data-state="open ? 'open' : 'closed'"
-          class="alert-dialog-overlay"
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in duration-150"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0">
-
-          <div class="alert-dialog-scroll">
-            <div class="alert-dialog-scroll-padding" :data-align="align">
-              <div
-                x-bind="contentProps()"
-                :data-state="open ? 'open' : 'closed'"
-                :class="'alert-dialog-content alert-dialog-size-' + size"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95">
-
-                <h2 class="alert-dialog-title">Delete Item</h2>
-                <p class="alert-dialog-description">
-                  Are you sure you want to delete this item? This action cannot be undone.
-                </p>
-
-                <div class="alert-dialog-actions">
-                  <button
-                    @click="cancel()"
-                    x-bind="cancelProps()"
-                    class="px-4 py-2 text-sand-11 hover:text-sand-12 hover:bg-sand-3 rounded-md transition-colors"
-                    :class="{ 'opacity-50 cursor-not-allowed': loading }">
-                    Cancel
-                  </button>
-                  <button
-                    @click="confirm()"
-                    x-bind="confirmProps()"
-                    class="bg-red-9 text-white px-4 py-2 rounded-md hover:bg-red-10 transition-colors"
-                    :class="{ 'opacity-50 cursor-not-allowed': loading }">
-                    <span x-show="!loading">Delete</span>
-                    <span x-show="loading">Deleting...</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12 mb-4">Async Operation</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6" x-data="createAlertDialog({
-        onConfirm: async () => {
-          // Simulate async operation
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          console.log('Async operation completed!');
-          alert('Successfully saved!');
-        }
-      })">
-        <button
-          @click="show()"
-          class="bg-accent-9 text-white px-4 py-2 rounded-md hover:bg-accent-10 transition-colors">
-          Save Changes
-        </button>
-
-        <div
-          x-show="open"
-          x-bind="overlayProps()"
-          :data-state="open ? 'open' : 'closed'"
-          class="alert-dialog-overlay"
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in duration-150"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0">
-
-          <div class="alert-dialog-scroll">
-            <div class="alert-dialog-scroll-padding" :data-align="align">
-              <div
-                x-bind="contentProps()"
-                :data-state="open ? 'open' : 'closed'"
-                :class="'alert-dialog-content alert-dialog-size-' + size"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95">
-
-                <h2 class="alert-dialog-title">Save Changes</h2>
-                <p class="alert-dialog-description">
-                  Are you sure you want to save these changes? This will update your profile information.
-                </p>
-
-                <div class="alert-dialog-actions">
-                  <button
-                    @click="cancel()"
-                    x-bind="cancelProps()"
-                    class="px-4 py-2 text-sand-11 hover:text-sand-12 hover:bg-sand-3 rounded-md transition-colors"
-                    :class="{ 'opacity-50 cursor-not-allowed': loading }">
-                    Cancel
-                  </button>
-                  <button
-                    @click="confirm()"
-                    x-bind="confirmProps()"
-                    class="bg-accent-9 text-white px-4 py-2 rounded-md hover:bg-accent-10 transition-colors flex items-center gap-2"
-                    :class="{ 'opacity-50 cursor-not-allowed': loading }">
-                    <svg x-show="loading" class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span x-show="!loading">Save</span>
-                    <span x-show="loading">Saving...</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12 mb-4">With Form Input</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6" x-data="{
-        ...createAlertDialog({
-          onConfirm: function() {
-            const reason = this.deleteReason;
-            if (!reason) {
-              alert('Please provide a reason');
-              throw new Error('Reason required');
-            }
-            console.log('Deleted with reason:', reason);
-            alert('Account deleted with reason: ' + reason);
-            this.deleteReason = '';
-          }
-        }),
-        deleteReason: ''
-      }">
-        <button
-          @click="show()"
-          class="bg-red-9 text-white px-4 py-2 rounded-md hover:bg-red-10 transition-colors">
-          Delete Account
-        </button>
-
-        <div
-          x-show="open"
-          x-bind="overlayProps()"
-          :data-state="open ? 'open' : 'closed'"
-          class="alert-dialog-overlay"
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in duration-150"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0">
-
-          <div class="alert-dialog-scroll">
-            <div class="alert-dialog-scroll-padding" :data-align="align">
-              <div
-                x-bind="contentProps()"
-                :data-state="open ? 'open' : 'closed'"
-                :class="'alert-dialog-content alert-dialog-size-' + size"
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95">
-
-                <h2 class="alert-dialog-title">Delete Account</h2>
-                <p class="alert-dialog-description">
-                  This action is permanent and cannot be undone. All your data will be lost.
-                </p>
-
-                <div class="mt-4">
-                  <label class="block text-sm font-medium text-sand-11 mb-2">
-                    Please tell us why you're leaving
-                  </label>
-                  <textarea
-                    x-model="deleteReason"
-                    class="w-full px-3 py-2 bg-sand-2 border border-sand-7 rounded-md focus:outline-none focus:ring-2 focus:ring-accent-8 resize-none"
-                    rows="3"
-                    placeholder="Your feedback helps us improve..."></textarea>
-                </div>
-
-                <div class="alert-dialog-actions">
-                  <button
-                    @click="cancel(); deleteReason = ''"
-                    x-bind="cancelProps()"
-                    class="px-4 py-2 text-sand-11 hover:text-sand-12 hover:bg-sand-3 rounded-md transition-colors"
-                    :class="{ 'opacity-50 cursor-not-allowed': loading }">
-                    Cancel
-                  </button>
-                  <button
-                    @click="confirm()"
-                    x-bind="confirmProps()"
-                    class="bg-red-9 text-white px-4 py-2 rounded-md hover:bg-red-10 transition-colors"
-                    :class="{ 'opacity-50 cursor-not-allowed': loading }">
-                    <span x-show="!loading">Delete Account</span>
-                    <span x-show="loading">Deleting...</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12 mb-4">Different Sizes</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6">
-        <div class="flex flex-wrap gap-3">
-          <!-- Size 1 -->
-          <div x-data="createAlertDialog({ size: '1' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Size 1
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="alert-dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="alert-dialog-scroll">
-                <div class="alert-dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'alert-dialog-content alert-dialog-size-' + size">
-
-                    <h2 class="alert-dialog-title text-base">Confirm</h2>
-                    <p class="alert-dialog-description text-sm">
-                      Small alert dialog with size 1.
-                    </p>
-
-                    <div class="alert-dialog-actions">
-                      <button @click="cancel()" class="px-3 py-1.5 text-sm text-sand-11 hover:bg-sand-3 rounded-md">Cancel</button>
-                      <button @click="confirm()" class="px-3 py-1.5 text-sm bg-accent-9 text-white rounded-md">OK</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Size 2 -->
-          <div x-data="createAlertDialog({ size: '2' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Size 2
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="alert-dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="alert-dialog-scroll">
-                <div class="alert-dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'alert-dialog-content alert-dialog-size-' + size">
-
-                    <h2 class="alert-dialog-title">Confirm Action</h2>
-                    <p class="alert-dialog-description">
-                      Medium alert dialog with size 2.
-                    </p>
-
-                    <div class="alert-dialog-actions">
-                      <button @click="cancel()" class="px-4 py-2 text-sand-11 hover:bg-sand-3 rounded-md">Cancel</button>
-                      <button @click="confirm()" class="px-4 py-2 bg-accent-9 text-white rounded-md">OK</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Size 3 (Default) -->
-          <div x-data="createAlertDialog({ size: '3' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Size 3 (Default)
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="alert-dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="alert-dialog-scroll">
-                <div class="alert-dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'alert-dialog-content alert-dialog-size-' + size">
-
-                    <h2 class="alert-dialog-title">Confirm Action</h2>
-                    <p class="alert-dialog-description">
-                      Large alert dialog with size 3 (default).
-                    </p>
-
-                    <div class="alert-dialog-actions">
-                      <button @click="cancel()" class="px-4 py-2 text-sand-11 hover:bg-sand-3 rounded-md">Cancel</button>
-                      <button @click="confirm()" class="px-4 py-2 bg-accent-9 text-white rounded-md">OK</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Size 4 -->
-          <div x-data="createAlertDialog({ size: '4' })">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-sand-3 text-sand-12 rounded-md hover:bg-sand-4 transition-colors">
-              Size 4
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="alert-dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="alert-dialog-scroll">
-                <div class="alert-dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'alert-dialog-content alert-dialog-size-' + size">
-
-                    <h2 class="alert-dialog-title">Confirm Action</h2>
-                    <p class="alert-dialog-description">
-                      Extra large alert dialog with size 4.
-                    </p>
-
-                    <div class="alert-dialog-actions">
-                      <button @click="cancel()" class="px-4 py-2 text-sand-11 hover:bg-sand-3 rounded-md">Cancel</button>
-                      <button @click="confirm()" class="px-4 py-2 bg-accent-9 text-white rounded-md">OK</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12 mb-4">Different Action Styles</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6">
-        <div class="flex flex-wrap gap-3">
-          <!-- Primary Action -->
-          <div x-data="createAlertDialog()">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-accent-3 text-accent-11 rounded-md hover:bg-accent-4 transition-colors">
-              Primary
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="alert-dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="alert-dialog-scroll">
-                <div class="alert-dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'alert-dialog-content alert-dialog-size-' + size">
-
-                    <h2 class="alert-dialog-title">Primary Action</h2>
-                    <p class="alert-dialog-description">
-                      Alert dialog with primary action style.
-                    </p>
-
-                    <div class="alert-dialog-actions">
-                      <button @click="cancel()" class="px-4 py-2 border border-sand-7 text-sand-11 hover:bg-sand-3 rounded-md">Cancel</button>
-                      <button @click="confirm()" class="px-4 py-2 bg-accent-9 text-white rounded-md hover:bg-accent-10">Confirm</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Warning -->
-          <div x-data="createAlertDialog()">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-orange-3 text-orange-11 rounded-md hover:bg-orange-4 transition-colors">
-              Warning
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="alert-dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="alert-dialog-scroll">
-                <div class="alert-dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'alert-dialog-content alert-dialog-size-' + size">
-
-                    <h2 class="alert-dialog-title">Warning</h2>
-                    <p class="alert-dialog-description">
-                      This action may have unintended consequences. Please review before proceeding.
-                    </p>
-
-                    <div class="alert-dialog-actions">
-                      <button @click="cancel()" class="px-4 py-2 text-sand-11 hover:bg-sand-3 rounded-md">Cancel</button>
-                      <button @click="confirm()" class="px-4 py-2 bg-orange-9 text-white rounded-md hover:bg-orange-10">Proceed</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Success -->
-          <div x-data="createAlertDialog()">
-            <button
-              @click="show()"
-              class="px-3 py-1.5 text-sm bg-green-3 text-green-11 rounded-md hover:bg-green-4 transition-colors">
-              Success
-            </button>
-
-            <div
-              x-show="open"
-              x-bind="overlayProps()"
-              :data-state="open ? 'open' : 'closed'"
-              class="alert-dialog-overlay"
-              x-transition:enter="transition ease-out duration-200"
-              x-transition:enter-start="opacity-0"
-              x-transition:enter-end="opacity-100"
-              x-transition:leave="transition ease-in duration-150"
-              x-transition:leave-start="opacity-100"
-              x-transition:leave-end="opacity-0">
-
-              <div class="alert-dialog-scroll">
-                <div class="alert-dialog-scroll-padding" :data-align="align">
-                  <div
-                    x-bind="contentProps()"
-                    :data-state="open ? 'open' : 'closed'"
-                    :class="'alert-dialog-content alert-dialog-size-' + size">
-
-                    <h2 class="alert-dialog-title">Success!</h2>
-                    <p class="alert-dialog-description">
-                      Your changes have been saved successfully.
-                    </p>
-
-                    <div class="alert-dialog-actions">
-                      <button @click="confirm()" class="px-4 py-2 bg-green-9 text-white rounded-md hover:bg-green-10">OK</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-          <h2 class="text-2xl font-semibold text-sand-12 mb-4">Features</h2>
-      <div class="bg-white border border-sand-6 rounded-lg p-6">
-        <ul class="space-y-2 text-sand-11">
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Requires explicit action</strong> - Cannot be dismissed by clicking overlay (unlike Dialog)</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Async operation support</strong> - Handles async callbacks with loading states</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Confirm/Cancel callbacks</strong> - Separate handlers for both actions</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Body scroll lock</strong> - Automatically locks body scroll when open</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Accessible</strong> - Uses alertdialog role and proper ARIA attributes</span>
-          </li>
-          <li class="flex items-start gap-2">
-            <svg class="w-5 h-5 text-accent-9 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span><strong>Error handling</strong> - Gracefully handles errors in callbacks, keeps dialog open on failure</span>
-          </li>
-        </ul>
-      </div>
-        </section>
-      </div>
-    </main>
+    </section>
   </div>
+<script src="sidebar.js"></script>
 </body>
-
 </html>
