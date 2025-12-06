@@ -38,16 +38,16 @@
 </head>
 
 <body class="bg-gray-1 text-gray-12 min-h-screen" data-is-root-theme="true">
-    <div class="p-6">
+    <div class="max-w-6xl mx-auto p-6">
         <!-- Header -->
-        <header class="mb-8 max-w-4xl mx-auto">
+        <header class="mb-8">
             <a href="index.html" class="text-2 text-accent-11 hover:text-accent-12">&larr; Back to Components</a>
             <h1 class="text-8 font-bold text-gray-12 mt-4">Container</h1>
             <p class="text-3 text-gray-11 mt-2">Constrains content width with responsive max-widths.</p>
         </header>
 
         <!-- Sizes -->
-        <section class="max-w-6xl mx-auto mb-8">
+        <section class="mb-8">
             <h2 class="section-title">Sizes</h2>
             <p class="text-2 text-gray-11 mb-4">Container sizes from 1 (narrowest) to 4 (widest).</p>
         </section>
@@ -99,7 +99,7 @@
         </div>
 
         <!-- Usage Examples -->
-        <section class="max-w-6xl mx-auto mt-12">
+        <section class="mt-12">
             <h2 class="section-title">Usage Examples</h2>
             <div class="space-y-8">
                 <!-- Blog post -->
@@ -140,13 +140,13 @@
 
                 <!-- Full width dashboard -->
                 <div>
-                    <p class="text-2 text-gray-11 mb-3">Dashboard (size 4)</p>
-                    <div class="rt-Container rt-r-size-4 mx-auto p-6 bg-gray-2 rounded-4 border border-gray-6">
+                    <p class="text-2 text-gray-11 mb-3">Dashboard (full width)</p>
+                    <div class="p-6 bg-gray-2 rounded-4 border border-gray-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="rt-Heading rt-r-size-5">Dashboard Overview</h3>
                             <button class="rt-reset rt-BaseButton rt-Button rt-variant-soft rt-r-size-2">Export</button>
                         </div>
-                        <div class="grid grid-cols-4 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="p-4 bg-gray-3 rounded-3">
                                 <p class="text-2 text-gray-11">Total Users</p>
                                 <p class="text-5 font-bold text-gray-12">2,543</p>
@@ -169,7 +169,7 @@
             </div>
         </section>
     </div>
-<script src="sidebar.js"></script>
+    <script src="sidebar.js"></script>
 </body>
 
 </html>
