@@ -12,7 +12,7 @@
   --color-overlay: var(--black-a6);
   --color-panel-solid: white;
   --color-panel-translucent: rgba(255, 255, 255, 0.7);
-  --color-surface: rgba(255, 255, 255, 0.85);
+  --color-surface: white;
 }
 :is(.dark, .dark-theme),
 :is(.dark, .dark-theme) :where(.radix-themes:not(.light, .light-theme)) {
