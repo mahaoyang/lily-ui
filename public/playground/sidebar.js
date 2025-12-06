@@ -103,7 +103,6 @@
         width: 220px;
         height: 100vh;
         flex-shrink: 0;
-        border-right: 1px solid var(--gray-6);
         background: var(--gray-1);
         z-index: 40;
       }
