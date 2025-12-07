@@ -21,6 +21,8 @@
     height: var(--checkbox-size);
     width: var(--checkbox-size);
     border-radius: var(--checkbox-border-radius);
+    /* Default background for variants that don't override it */
+    background-color: var(--color-surface);
   }
 }
 
@@ -70,7 +72,7 @@
 /* surface */
 
 .rt-BaseCheckboxRoot:where(.rt-variant-surface) {
-  &:where([data-state='unchecked']) {
+  &[data-state='unchecked'] {
     &::before {
       background-color: var(--color-surface);
       box-shadow: inset 0 0 0 1px var(--gray-a7);
@@ -109,7 +111,7 @@
 /* classic */
 
 .rt-BaseCheckboxRoot:where(.rt-variant-classic) {
-  &:where([data-state='unchecked']) {
+  &[data-state='unchecked'] {
     &::before {
       background-color: var(--color-surface);
       box-shadow: inset 0 0 0 1px var(--gray-a3), var(--shadow-1);
