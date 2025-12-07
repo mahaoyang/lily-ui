@@ -1,7 +1,19 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
+
+@theme {
+  --radius-full: 9999px;
+}
+
 @import "./styles/tokens/index.css";
 @import "./styles/components/index.css";
+
+/* Override Tailwind's rounded-full to not be affected by Radix data-radius */
+@layer utilities {
+  .rounded-full {
+    border-radius: 9999px !important;
+  }
+}
 
 /* Base radix-themes setup */
 .radix-themes {
