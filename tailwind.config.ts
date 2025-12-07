@@ -82,6 +82,7 @@ const config: Config = {
         9: "var(--space-9)",
       },
       fontSize: {
+        // Radix scale (1-9)
         1: ["var(--font-size-1)", { lineHeight: "var(--line-height-1)", letterSpacing: "var(--letter-spacing-1)" }],
         2: ["var(--font-size-2)", { lineHeight: "var(--line-height-2)", letterSpacing: "var(--letter-spacing-2)" }],
         3: ["var(--font-size-3)", { lineHeight: "var(--line-height-3)", letterSpacing: "var(--letter-spacing-3)" }],
@@ -91,6 +92,46 @@ const config: Config = {
         7: ["var(--font-size-7)", { lineHeight: "var(--line-height-7)", letterSpacing: "var(--letter-spacing-7)" }],
         8: ["var(--font-size-8)", { lineHeight: "var(--line-height-8)", letterSpacing: "var(--letter-spacing-8)" }],
         9: ["var(--font-size-9)", { lineHeight: "var(--line-height-9)", letterSpacing: "var(--letter-spacing-9)" }],
+
+        // Extra small sizes (smaller than Radix scale)
+        "4xs": ["6px", { lineHeight: "8px", letterSpacing: "0.01em" }],
+        "3xs": ["8px", { lineHeight: "10px", letterSpacing: "0.005em" }],
+        "2xs": ["10px", { lineHeight: "12px", letterSpacing: "0.005em" }],
+
+        // Tailwind standard names mapped to Radix scale
+        "xs": ["var(--font-size-1)", { lineHeight: "var(--line-height-1)", letterSpacing: "var(--letter-spacing-1)" }],      // 12px
+        "sm": ["var(--font-size-2)", { lineHeight: "var(--line-height-2)", letterSpacing: "var(--letter-spacing-2)" }],      // 14px
+        "base": ["var(--font-size-3)", { lineHeight: "var(--line-height-3)", letterSpacing: "var(--letter-spacing-3)" }],    // 16px
+        "lg": ["var(--font-size-4)", { lineHeight: "var(--line-height-4)", letterSpacing: "var(--letter-spacing-4)" }],      // 18px
+        "xl": ["var(--font-size-5)", { lineHeight: "var(--line-height-5)", letterSpacing: "var(--letter-spacing-5)" }],      // 20px
+        "2xl": ["var(--font-size-6)", { lineHeight: "var(--line-height-6)", letterSpacing: "var(--letter-spacing-6)" }],     // 24px
+        "3xl": ["var(--font-size-7)", { lineHeight: "var(--line-height-7)", letterSpacing: "var(--letter-spacing-7)" }],     // 28px
+        "4xl": ["var(--font-size-8)", { lineHeight: "var(--line-height-8)", letterSpacing: "var(--letter-spacing-8)" }],     // 35px
+        "5xl": ["var(--font-size-9)", { lineHeight: "var(--line-height-9)", letterSpacing: "var(--letter-spacing-9)" }],     // 60px
+      },
+      lineHeight: {
+        // Radix scale
+        1: "var(--line-height-1)",
+        2: "var(--line-height-2)",
+        3: "var(--line-height-3)",
+        4: "var(--line-height-4)",
+        5: "var(--line-height-5)",
+        6: "var(--line-height-6)",
+        7: "var(--line-height-7)",
+        8: "var(--line-height-8)",
+        9: "var(--line-height-9)",
+      },
+      letterSpacing: {
+        // Radix scale
+        1: "var(--letter-spacing-1)",
+        2: "var(--letter-spacing-2)",
+        3: "var(--letter-spacing-3)",
+        4: "var(--letter-spacing-4)",
+        5: "var(--letter-spacing-5)",
+        6: "var(--letter-spacing-6)",
+        7: "var(--letter-spacing-7)",
+        8: "var(--letter-spacing-8)",
+        9: "var(--letter-spacing-9)",
       },
       borderRadius: {
         1: "var(--radius-1)",
