@@ -89,18 +89,9 @@ var config = {
         7: ["var(--font-size-7)", { lineHeight: "var(--line-height-7)", letterSpacing: "var(--letter-spacing-7)" }],
         8: ["var(--font-size-8)", { lineHeight: "var(--line-height-8)", letterSpacing: "var(--letter-spacing-8)" }],
         9: ["var(--font-size-9)", { lineHeight: "var(--line-height-9)", letterSpacing: "var(--letter-spacing-9)" }],
-        "4xs": ["6px", { lineHeight: "8px", letterSpacing: "0.01em" }],
-        "3xs": ["8px", { lineHeight: "10px", letterSpacing: "0.005em" }],
-        "2xs": ["10px", { lineHeight: "12px", letterSpacing: "0.005em" }],
-        xs: ["var(--font-size-1)", { lineHeight: "var(--line-height-1)", letterSpacing: "var(--letter-spacing-1)" }],
-        sm: ["var(--font-size-2)", { lineHeight: "var(--line-height-2)", letterSpacing: "var(--letter-spacing-2)" }],
-        base: ["var(--font-size-3)", { lineHeight: "var(--line-height-3)", letterSpacing: "var(--letter-spacing-3)" }],
-        lg: ["var(--font-size-4)", { lineHeight: "var(--line-height-4)", letterSpacing: "var(--letter-spacing-4)" }],
-        xl: ["var(--font-size-5)", { lineHeight: "var(--line-height-5)", letterSpacing: "var(--letter-spacing-5)" }],
-        "2xl": ["var(--font-size-6)", { lineHeight: "var(--line-height-6)", letterSpacing: "var(--letter-spacing-6)" }],
-        "3xl": ["var(--font-size-7)", { lineHeight: "var(--line-height-7)", letterSpacing: "var(--letter-spacing-7)" }],
-        "4xl": ["var(--font-size-8)", { lineHeight: "var(--line-height-8)", letterSpacing: "var(--letter-spacing-8)" }],
-        "5xl": ["var(--font-size-9)", { lineHeight: "var(--line-height-9)", letterSpacing: "var(--letter-spacing-9)" }]
+        0: ["10px", { lineHeight: "12px", letterSpacing: "0.005em" }],
+        "00": ["8px", { lineHeight: "10px", letterSpacing: "0.005em" }],
+        "000": ["6px", { lineHeight: "8px", letterSpacing: "0.01em" }]
       },
       lineHeight: {
         1: "var(--line-height-1)",
