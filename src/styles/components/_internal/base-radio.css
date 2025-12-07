@@ -25,8 +25,6 @@
     height: var(--radio-size);
     width: var(--radio-size);
     border-radius: 100%;
-    /* Default background for variants that don't override it */
-    background-color: var(--color-surface);
   }
 
   &::after {
@@ -80,11 +78,9 @@
 /* surface */
 
 .rt-BaseRadioRoot:where(.rt-variant-surface) {
-  &:where(:not(:checked), [data-state='unchecked']) {
-    &::before {
-      background-color: var(--color-surface);
-      box-shadow: inset 0 0 0 1px var(--gray-a7);
-    }
+  &:where(:not(:checked), [data-state='unchecked'])::before {
+    background-color: var(--color-surface);
+    box-shadow: inset 0 0 0 1px var(--gray-a7);
   }
   &:where(:checked, [data-state='checked'])::before {
     background-color: var(--accent-indicator);
@@ -114,11 +110,9 @@
 /* classic */
 
 .rt-BaseRadioRoot:where(.rt-variant-classic) {
-  &:not(:checked):where([data-state='unchecked']) {
-    &::before {
-      background-color: var(--color-surface);
-      box-shadow: inset 0 0 0 1px var(--gray-7), var(--shadow-1);
-    }
+  &:where(:not(:checked), [data-state='unchecked'])::before {
+    background-color: var(--color-surface);
+    box-shadow: inset 0 0 0 1px var(--gray-7), var(--shadow-1);
   }
   &:where(:checked, [data-state='checked'])::before {
     background-color: var(--accent-indicator);
