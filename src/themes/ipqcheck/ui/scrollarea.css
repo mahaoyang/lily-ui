@@ -1,0 +1,153 @@
+:root {
+  --scrollarea-scrollbar-horizontal-margin-top: 4px;
+  --scrollarea-scrollbar-horizontal-margin-bottom: 4px;
+  --scrollarea-scrollbar-horizontal-margin-left: 4px;
+  --scrollarea-scrollbar-horizontal-margin-right: 4px;
+  --scrollarea-scrollbar-vertical-margin-top: 4px;
+  --scrollarea-scrollbar-vertical-margin-bottom: 4px;
+  --scrollarea-scrollbar-vertical-margin-left: 4px;
+  --scrollarea-scrollbar-vertical-margin-right: 4px;
+
+  --scrollarea-scrollbar-size: 6px;
+  --scrollarea-scrollbar-border-radius: 999px;
+  --scrollarea-thumb-min-size: 16px;
+
+  --scrollarea-track: rgba(255, 255, 255, 0.08);
+  --scrollarea-thumb: rgba(255, 255, 255, 0.22);
+  --scrollarea-thumb-hover: rgba(255, 255, 255, 0.3);
+}
+
+.rt-ScrollAreaRoot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+
+.rt-ScrollAreaViewport {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.rt-ScrollAreaViewport::-webkit-scrollbar {
+  display: none;
+}
+
+.rt-ScrollAreaViewport > .rt-ScrollAreaContent {
+  display: block;
+  min-width: 100%;
+}
+
+.rt-ScrollAreaScrollbar {
+  display: flex;
+  position: absolute;
+  background-color: var(--scrollarea-track);
+  border-radius: var(--scrollarea-scrollbar-border-radius);
+  user-select: none;
+  touch-action: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease-out;
+}
+
+.rt-ScrollAreaScrollbar[data-state='visible'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rt-ScrollAreaScrollbar[data-state='hidden'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rt-ScrollAreaScrollbar[data-orientation='vertical'] {
+  flex-direction: column;
+  width: var(--scrollarea-scrollbar-size);
+  top: var(--scrollarea-scrollbar-vertical-margin-top);
+  bottom: var(--scrollarea-scrollbar-vertical-margin-bottom);
+  right: var(--scrollarea-scrollbar-vertical-margin-right);
+}
+
+.rt-ScrollAreaScrollbar[data-orientation='horizontal'] {
+  flex-direction: row;
+  height: var(--scrollarea-scrollbar-size);
+  left: var(--scrollarea-scrollbar-horizontal-margin-left);
+  right: var(--scrollarea-scrollbar-horizontal-margin-right);
+  bottom: var(--scrollarea-scrollbar-horizontal-margin-bottom);
+}
+
+.rt-ScrollAreaThumb {
+  position: relative;
+  background-color: var(--scrollarea-thumb);
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  transition: background-color 100ms;
+}
+
+.rt-ScrollAreaThumb::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  min-width: var(--scrollarea-thumb-min-size);
+  min-height: var(--scrollarea-thumb-min-size);
+}
+
+@media (hover: hover) {
+  .rt-ScrollAreaThumb:hover {
+    background-color: var(--scrollarea-thumb-hover);
+  }
+}
+
+.rt-ScrollAreaScrollbar[data-orientation='horizontal'] .rt-ScrollAreaThumb {
+  width: auto;
+  height: 100%;
+}
+
+.rt-ScrollAreaScrollbar[data-orientation='vertical'] .rt-ScrollAreaThumb {
+  width: 100%;
+  height: auto;
+}
+
+.rt-ScrollAreaCorner {
+  position: absolute;
+  right: var(--scrollarea-scrollbar-vertical-margin-right);
+  bottom: var(--scrollarea-scrollbar-horizontal-margin-bottom);
+  width: var(--scrollarea-scrollbar-size);
+  height: var(--scrollarea-scrollbar-size);
+  background-color: var(--scrollarea-track);
+  border-radius: var(--scrollarea-scrollbar-border-radius);
+}
+
+/* lily-op integration: keep existing visuals but move scroll/padding to viewport */
+.ops-main.rt-ScrollAreaRoot {
+  position: absolute;
+  overflow: hidden;
+  padding: 0;
+}
+
+.ops-main.rt-ScrollAreaRoot > .rt-ScrollAreaViewport {
+  padding: 14px;
+}
+
+.activity.rt-ScrollAreaRoot {
+  overflow: hidden;
+  padding: 0;
+}
+
+.activity.rt-ScrollAreaRoot > .rt-ScrollAreaViewport {
+  padding: 8px;
+}

@@ -1,0 +1,121 @@
+<div class="workflow-backdrop" id="mix-backdrop" hidden>
+      <section class="workflow-panel mix-panel" role="dialog" aria-modal="true" aria-labelledby="mix-title">
+        <button class="modal-close" id="mix-close" aria-label="关闭">×</button>
+        <div class="workflow-header">
+          <div>
+            <h2 id="mix-title">参考音色频谱增强</h2>
+            <p>保留主体音频内容，参考另一段音频的音色频谱进行调整，试听并下载结果。</p>
+          </div>
+        </div>
+
+        <div class="mix-canvas">
+          <div class="mix-input-stage">
+            <article class="workflow-node-card mix-input-card">
+              <div class="mix-source-row"><div class="workflow-node-icon">1</div><div><h3>主体音频</h3><p>保留原始内容并调整音色</p></div></div>
+              <div class="audio-drop-zone compact" id="mix-a-drop-zone"><span class="drop-mark">↓</span><span>拖拽主体音频，或</span><button class="secondary-button node-button" id="pick-mix-a-button">选择主体音频</button></div>
+              <div class="file-display" id="mix-a-file-display">尚未选择文件</div>
+              <div class="audio-preview" id="mix-a-player" hidden></div>
+            </article>
+            <div class="spectrum-mini-card">
+              <div class="spectrum-mini-title"><span>主体频谱</span><small>主体</small></div>
+              <svg class="spectrum-mini" viewBox="0 0 360 120" role="img" aria-label="主体音频频谱">
+                <path class="mini-grid" d="M30 12H350 M30 60H350 M30 108H350 M30 12V108 M122 12V108 M214 12V108 M306 12V108 M350 12V108"/>
+                <path id="source-spectrum-path" class="spectrum-source-line" d="M30 108H350"/>
+              </svg>
+            </div>
+          </div>
+          <div class="mix-input-stage">
+            <article class="workflow-node-card mix-input-card">
+              <div class="mix-source-row"><div class="workflow-node-icon">2</div><div><h3>参考音频</h3><p>提供目标音色频谱</p></div></div>
+              <div class="audio-drop-zone compact" id="mix-b-drop-zone"><span class="drop-mark">↓</span><span>拖拽参考音频，或</span><button class="secondary-button node-button" id="pick-mix-b-button">选择参考音频</button></div>
+              <div class="file-display" id="mix-b-file-display">尚未选择文件</div>
+              <div class="audio-preview" id="mix-b-player" hidden></div>
+            </article>
+            <div class="spectrum-mini-card">
+              <div class="spectrum-mini-title"><span>参考频谱</span><small>参考</small></div>
+              <svg class="spectrum-mini" viewBox="0 0 360 120" role="img" aria-label="参考音频频谱">
+                <path class="mini-grid" d="M30 12H350 M30 60H350 M30 108H350 M30 12V108 M122 12V108 M214 12V108 M306 12V108 M350 12V108"/>
+                <path id="target-spectrum-path" class="spectrum-target-line" d="M30 108H350"/>
+              </svg>
+            </div>
+          </div>
+          <article class="workflow-node-card process-node-card mix-process-card">
+            <div class="mix-preview-heading"><h3>处理预览</h3><div class="process-state" id="mix-process-state"><i></i><span>等待主体与参考音频</span></div></div>
+            <div class="eq-preview spectrum-overlay-preview">
+              <div class="spectrum-preview-title"><span>频谱对比</span><small>主体 / 参考 / 处理预览</small></div>
+              <svg id="eq-preview" viewBox="0 0 360 180" role="img" aria-label="主体、参考与处理结果频谱对比">
+                <g class="eq-grid-lines"><path d="M32 20H348 M32 75H348 M32 130H348 M32 20V130 M112 20V130 M226 20V130 M339 20V130"/></g>
+                <g class="eq-axis-labels"><text x="0" y="24">+12</text><text x="9" y="79">0</text><text x="0" y="134">−12</text><text x="32" y="150">20</text><text x="103" y="150">100</text><text x="219" y="150">1k</text><text x="323" y="150">10k</text><text x="3" y="12">dB</text><text x="335" y="166">Hz</text></g>
+                <path id="eq-source-path" class="eq-comparison-line eq-source-line" d="M32 130H348"/>
+                <path id="eq-target-path" class="eq-comparison-line eq-target-line" d="M32 130H348"/>
+                <path id="eq-response-path" class="eq-response-line" d="M32 130H348"/>
+              </svg>
+              <div class="eq-legend"><span class="source">主体</span><span class="target">参考</span><span class="result">处理预览</span></div>
+              <small id="spectrum-overlay-caption">上传主体与参考音频后自动分析</small>
+            </div>
+            <div class="eq-preview eq-response-preview">
+              <div class="spectrum-preview-title"><span>EQ 预览</span><small>EQ ±12 dB · 参考频谱 0 至 −80 dB</small></div>
+              <svg id="eq-response-preview" viewBox="0 0 360 150" role="img" aria-label="EQ 处理响应预览">
+                <g class="eq-grid-lines"><path d="M32 18H348 M32 74H348 M32 130H348 M32 18V130 M112 18V130 M226 18V130 M339 18V130"/></g>
+                <g class="eq-axis-labels"><text x="0" y="22">+12</text><text x="9" y="78">0</text><text x="0" y="134">−12</text><text x="32" y="148">20</text><text x="103" y="148">100</text><text x="219" y="148">1k</text><text x="323" y="148">10k</text><text x="3" y="11">dB</text></g>
+                <path id="eq-reference-source-path" class="eq-comparison-line eq-source-line" d="M32 130H348"/>
+                <path id="eq-reference-target-path" class="eq-comparison-line eq-target-line" d="M32 130H348"/>
+                <path id="eq-response-preview-path" class="eq-response-line" d="M32 74H348"/>
+              </svg>
+              <div class="eq-legend"><span class="source">主体频谱</span><span class="target">参考频谱</span><span class="result">EQ 响应</span></div>
+              <small id="eq-preview-caption">上传主体与参考音频后自动分析</small>
+            </div>
+          </article>
+        <section class="parameter-panel" aria-label="音色调节">
+          <div class="parameter-heading"><span>音色调节</span><small>修改后自动更新预览</small></div>
+          <div class="parameter-toolbar">
+            <label class="parameter-control knob-control">
+              <span>比例 <output id="mix-enhance-ratio-value">100%</output></span>
+              <span class="knob-shell">
+                <span class="knob-face" id="mix-enhance-ratio-knob"><i></i></span>
+              <input id="mix-enhance-ratio" aria-label="比例" type="text" inputmode="decimal" data-min="0" data-max="150" data-step="1" value="100">
+              </span>
+            </label>
+            <label class="parameter-control knob-control">
+              <span>响度 <output id="mix-shared-lufs-value">−16 LUFS</output></span>
+              <span class="knob-shell">
+                <span class="knob-face" id="mix-shared-lufs-knob"><i></i></span>
+              <input id="mix-shared-lufs" aria-label="共享平衡响度" type="text" inputmode="decimal" data-min="-36" data-max="-5" data-step="0.01" value="-16">
+              </span>
+            </label>
+            <label class="parameter-control knob-control">
+              <span>频谱点位数量 <output id="mix-point-count-value">12 个</output></span>
+              <span class="knob-shell">
+                <span class="knob-face" id="mix-point-count-knob"><i></i></span>
+                <input id="mix-point-count" aria-label="频谱点位数量" type="text" inputmode="numeric" data-min="1" data-max="12" data-step="1" value="12">
+              </span>
+            </label>
+            <label class="parameter-toggle">
+              <input id="mix-highpass-enabled" type="checkbox" checked>
+              <span>高通滤波</span>
+            </label>
+            <label class="parameter-toggle">
+              <input id="mix-lowpass-enabled" type="checkbox" checked>
+              <span>低通滤波</span>
+            </label>
+            <label class="parameter-control parameter-number">
+              <span>压缩比例</span>
+              <input id="mix-compression-ratio" type="number" min="1" max="8" step="0.1" value="2.2">
+            </label>
+          </div>
+        </section>
+        </div>
+
+        <div class="workflow-footer">
+          <div class="progress-area">
+            <div class="progress-copy"><span id="mix-progress-message">准备就绪</span><b id="mix-progress-percent">0%</b></div>
+            <div class="progress-track"><i id="mix-progress-bar"></i></div>
+          </div>
+          <div class="workflow-actions">
+            <button class="secondary-button" id="mix-cancel">取消</button>
+            <button class="primary-button" id="run-mix-button" disabled>开始参考音色增强</button>
+          </div>
+        </div>
+        <div class="workflow-result mix-result" id="mix-result" hidden><span>✓</span><span id="mix-result-text">参考音色增强完成</span><button class="text-button" id="open-mix-output-button">下载 WAV ↗</button><div class="audio-preview" id="mix-result-player" hidden></div></div>
+      </section>
+    </div>

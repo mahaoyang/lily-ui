@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { parseProxy, proxyNodes } from '../src/headless/fox/proxy-config.js';
+const ss='ss://'+Buffer.from('aes-256-gcm:p@ss:word').toString('base64url')+'@example.com:443';
+assert.equal(parseProxy(' "'+ss+'" ').password,'p@ss:word');
+assert.equal(parseProxy('hy2://secret@[::1]:443?sni=example.com&amp;insecure=0').server,'::1');
+assert.equal(parseProxy('ss://'+Buffer.from('aes-128-gcm:pass@example.com:8080').toString('base64')).server_port,8080);
+for(const bad of ['hy2://secret@example.com?insecure=treu','hy2://secret@example.com?obfs=salamander','hy2://secret@example.com?snl=wrong','hy2://secret@exa mple.com','hy2://secret@example.com:0','ss://xxx@example.com:443','ss://aes-256-gcm:pass@example.com:99999','hy2://x@example.com?x=%2']) assert.throws(()=>parseProxy(bad),bad);
+assert.throws(()=>proxyNodes('{"outbounds":{}}'));
+assert.throws(()=>proxyNodes('{"type":"hysteria2","server":"host","server_port":443,"password":"p"}'));
+assert.equal(proxyNodes(JSON.stringify({outbounds:[{type:'direct'},{type:'shadowsocks',server:'host',server_port:443,method:'aes-256-gcm',password:'p'}]})).length,1);
+console.log('PASS: proxy normalization, SS encodings, IPv6, TLS, malformed parameters and JSON guards');

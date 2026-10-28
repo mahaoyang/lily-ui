@@ -1,0 +1,131 @@
+/* Environments: shared console component styles. */
+.workspace-toolbar h3 { font-size:16px; font-weight:600; }
+.environment-badges { display:flex; flex-wrap:wrap; align-items:center; color:var(--ws-muted); font-weight:var(--muted-weight); }
+.environment-more { flex-shrink:0; }
+.environment-more summary { list-style:none; color:var(--ws-muted); font-weight:var(--muted-weight); }
+.environment-more[open] { z-index:5; }
+.environment-more[open] .console-btn { font-size:12px; }
+.environment-info p { color:var(--ws-muted); font-size:13px; line-height:1.65; margin:0; font-weight:var(--muted-weight); }
+.workspace-toolbar { display:flex; align-items:center; justify-content:space-between; }
+.workspace-toolbar input { max-width:320px; }
+.environment-row { display:flex; align-items:center; margin:0; }
+.environment-icon { flex-shrink:0; display:grid; place-items:center; }
+.environment-icon.running { outline-offset:3px; }
+.environment-info { flex:1; min-width:0; }
+.environment-info h3 { margin:0 0 5px; overflow-wrap:anywhere; }
+.environment-row .finpri-actions { flex-wrap:wrap; justify-content:flex-end; gap:8px; }
+.workspace-empty { color:var(--ws-muted); border-radius:16px; font-weight:var(--muted-weight); }
+.environment-more { font-size:13px; }
+.environment-more[open] { border-radius:10px; }
+.environment-more .console-btn { display:block; margin:6px 0; width:100%; }
+@media(max-width:900px) {
+  .environment-row { flex-wrap:wrap; }
+}
+@media(max-width:900px) {
+  .environment-row>.finpri-actions { width:100%; justify-content:flex-start; }
+}
+@media(max-width:900px) {
+  .workspace-toolbar { align-items:flex-start; flex-direction:column; }
+}
+@media(max-width:1100px) {
+  .environment-row { flex-wrap:wrap; }
+}
+@media(max-width:1100px) {
+  .environment-row>.finpri-actions { width:100%; justify-content:flex-start; flex-wrap:wrap; }
+}
+.workspace-toolbar { flex-wrap:wrap; }
+.environment-filters { display:flex; }
+.environment-filters button { font:inherit; border:0; background:transparent; transition:background .15s,color .15s; }
+.workspace-list { display:flex; flex-direction:column; gap:0; }
+.environment-row { border:0; border-bottom:1px solid var(--ws-line); box-shadow:none; background:var(--ws-panel); transition:background .15s; }
+.environment-row:first-child { border-radius:16px 16px 0 0; }
+.environment-row:last-child { border-bottom:0; border-radius:0 0 16px 16px; }
+.environment-row:only-child { border-radius:16px; }
+.environment-icon.running { outline:0; }
+.environment-badges { margin-top:5px; }
+.runtime-geo { overflow-wrap:anywhere; }
+.environment-more { position:relative; }
+.environment-more summary { cursor:pointer; place-items:center; font-size:13px; }
+.environment-more summary::-webkit-details-marker { display:none; }
+.environment-more summary:hover { background:var(--ws-field); }
+.environment-more[open] { padding:0; border:0; background:transparent; }
+.environment-menu { position:absolute; top:40px; right:0; width:194px; padding:5px; border:1px solid var(--ws-line); box-shadow:var(--menu-shadow); z-index:20; }
+.environment-menu>.console-btn { display:flex; width:100%; min-height:32px; justify-content:flex-start; margin:2px 0; background:transparent !important; }
+.environment-menu>.console-btn:hover { background:var(--ws-field) !important; }
+.environment-more[open] { width:34px; }
+.list-footnote { color:var(--ws-muted); font-weight:var(--muted-weight); }
+.workspace-empty { border:0; text-align:center; }
+.workspace-empty h3 { margin-bottom:8px; }
+.workspace-empty p { color:var(--ws-muted); margin-bottom:20px; font-weight:var(--muted-weight); }
+@media(max-width:760px) {
+  .workspace-toolbar input { max-width:none; }
+}
+@media(max-width:760px) {
+  .environment-row { flex-wrap:wrap; }
+}
+@media(max-width:760px) {
+  .environment-info { flex-basis:calc(100% - 60px); }
+}
+@media(max-width:760px) {
+  .environment-row>.finpri-actions { width:100%; }
+}
+.workspace-toolbar { gap:20px; }
+.workspace-toolbar input { width:250px !important; min-height:34px !important; font-size:11px !important; background:transparent !important; }
+.environment-filters { display:flex; flex-wrap:wrap; align-items:center; padding:0; gap:6px; background:transparent; }
+.environment-filters button { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:36px; padding:8px 12px; border:0; border-radius:3px; background:transparent; font:inherit; font-size:12px; line-height:20px; white-space:nowrap; cursor:pointer; transition:background .15s,color .15s; }
+.environment-filters button:not([aria-pressed=true]):hover { background:var(--surface-hover); color:var(--ws-text); }
+.environment-filters button[aria-pressed=true] { background:transparent; box-shadow:none; }
+.workspace-list { border:1px solid var(--ws-line); border-radius:3px; background:var(--ws-panel); box-shadow:var(--panel-shadow); }
+.environment-row { padding:22px; gap:16px; border-radius:0 !important; }
+.environment-row:hover { background:var(--surface-hover); }
+.environment-icon { width:38px; height:46px; border-radius:2px; background:var(--selection); border:1px solid var(--ws-line); font-family:var(--paper-serif); font-weight:400; font-size:22px; color:var(--ws-text); }
+.environment-info h3 { font-family:var(--paper-serif); font-size:19px; font-weight:400; letter-spacing:.2px; }
+.environment-badges { font-size:10px; gap:12px; }
+.status-pill { border-radius:2px; background:var(--ws-field); padding:2px 6px; }
+.status-pill.live { color:var(--live-text); background:var(--live-bg); border-color:var(--live-line); }
+.status-pill.attention { color:var(--attention-text); background:var(--attention-bg); border-color:var(--attention-line); }
+.runtime-geo { font-size:10px !important; margin-top:7px !important; }
+.environment-more summary { border-radius:3px; border:1px solid var(--ws-line); background:transparent; width:33px; height:33px; }
+.environment-menu { border-radius:4px; background:var(--ws-panel); }
+.environment-menu>.console-btn { border:0 !important; }
+.list-footnote { font-family:var(--paper-serif); font-size:11px; line-height:1.8; font-style:italic; }
+.workspace-empty { padding:70px 22px; }
+.workspace-empty h3 { font-family:var(--paper-serif); font-weight:400; font-size:25px; }
+.workspace-empty p { font-size:12px; }
+@media(max-width:760px) {
+  .workspace-toolbar { gap:14px; }
+}
+@media(max-width:760px) {
+  .workspace-toolbar input { width:100% !important; }
+}
+@media(max-width:760px) {
+  .environment-row { padding:18px; }
+}
+@media(max-width:760px) {
+  .workspace-empty { padding:44px 18px; }
+}
+.environment-more summary { display:flex; align-items:center; justify-content:center; padding:0; line-height:1; letter-spacing:0; }
+.environment-more summary .lucide { display:block; width:18px; height:18px; margin:0; }
+.status-pill { display:inline-flex; align-items:center; gap:5px; line-height:18px; color:var(--ws-text); border:1px solid var(--ws-line); }
+.status-pill.live::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; }
+.environment-filters button { color:var(--ws-muted); font-weight:var(--muted-weight); }
+.environment-filters button[aria-pressed=true] { color:var(--selected-text); background:var(--selected-bg); font-weight:600; }
+.environment-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 24px; margin:16px 0 0; }
+.environment-facts div { min-width:0; }
+.environment-facts dt { color:var(--ws-muted); font-size:10px; margin-bottom:4px; font-weight:var(--muted-weight); }
+.environment-facts dd { color:var(--ws-text); font-size:12px; margin:0; overflow-wrap:anywhere; line-height:1.6; }
+.section-privacy { align-items:flex-start; }
+.section-privacy>.finpri-actions { padding-top:2px; }
+@media(max-width:760px) {
+  .environment-facts { gap:12px; }
+}
+@media(max-width:760px) {
+  .section-privacy>.finpri-actions { width:100%; padding-top:10px; }
+}
+.environment-filters .filter-count { margin-left:0; color:var(--ws-muted); font-size:10px; font-weight:400; font-variant-numeric:tabular-nums; }
+
+:root:not([data-tone=dark]) .environment-filters button[aria-pressed=true] { background:var(--selected-bg); color:var(--selected-text); }
+:root:not([data-tone=dark]) .environment-filters button[aria-pressed=true] .filter-count { color:inherit; }
+:root:not([data-tone=dark]) .environment-info h3 { font-weight:600; }
+
+.environment-filters button[aria-pressed=true] .filter-count { color:inherit; }

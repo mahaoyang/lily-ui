@@ -1,0 +1,38 @@
+<div class="workflow-backdrop" id="workflow-backdrop" hidden>
+      <section class="workflow-panel" role="dialog" aria-modal="true" aria-labelledby="workflow-title">
+        <button class="modal-close" id="workflow-close" aria-label="关闭">×</button>
+        <div class="workflow-header">
+          <div>
+            <p class="eyebrow blue">LOCAL MODEL · UVR5</p>
+            <h2 id="workflow-title">UVR5 降噪与声部提取</h2>
+            <p>选择模型后处理输入音频，可输出降噪音频、人声或伴奏。</p>
+          </div>
+          <div class="workflow-head-status"><span class="engine-badge"><i></i> UVR5 模型已就绪</span><div class="process-state" id="process-state"><i></i><span>等待输入</span></div></div>
+        </div>
+
+        <div class="workflow-canvas denoise-canvas">
+          <article class="workflow-node-card input-node-card denoise-input-card">
+            <div class="denoise-input-heading"><div><span class="node-number">01 · INPUT</span><h3>输入音频</h3></div><span class="node-type">WAV · MP3 · M4A · FLAC · OGG · OPUS · WEBM</span></div>
+            <div class="audio-drop-zone" id="denoise-drop-zone"><span class="drop-mark">↓</span><span>拖拽音频到这里，或</span><button class="secondary-button node-button" id="pick-audio-button">选择音频</button></div>
+            <div class="file-display" id="input-file-display">尚未选择文件</div>
+            <div class="audio-preview" id="denoise-input-player" hidden></div>
+            <div class="denoise-file-actions"><button class="text-button" id="download-input-button" disabled>下载输入音频 ↗</button><span id="input-download-status"></span></div>
+          </article>
+          <article class="workflow-node-card denoise-settings-card">
+            <div class="denoise-settings-heading"><span class="node-number">参数设置</span><span class="node-type">MODEL</span></div>
+            <div class="denoise-model-picker"><span class="model-picker-label">处理模型</span><div class="model-select-wrap"><select id="denoise-model-select" aria-hidden="true" tabindex="-1"><option value="denoise-lite">UVR-DeNoise-Lite · 降噪</option><option value="kim-vocal-2">Kim Vocal 2 · 人声提取</option><option value="inst-hq-3">UVR-MDX-NET Inst HQ 3 · 伴奏提取</option></select><button class="model-select-trigger" id="denoise-model-trigger" type="button" aria-haspopup="listbox" aria-expanded="false"><span id="denoise-model-label">UVR-DeNoise-Lite <small>降噪</small></span><i aria-hidden="true"></i></button><div class="model-select-menu" id="denoise-model-menu" role="listbox" aria-label="选择处理模型" hidden><button type="button" role="option" aria-selected="true" data-model-id="denoise-lite"><strong>UVR-DeNoise-Lite</strong><small>降噪 · 抑制背景噪声</small></button><button type="button" role="option" aria-selected="false" data-model-id="kim-vocal-2"><strong>Kim Vocal 2</strong><small>人声提取 · 分离并输出人声声部</small></button><button type="button" role="option" aria-selected="false" data-model-id="inst-hq-3"><strong>UVR-MDX-NET Inst HQ 3</strong><small>伴奏提取 · 分离并输出伴奏声部</small></button></div></div><small id="denoise-model-description">分离并抑制噪声，输出降噪后的音频。</small></div>
+        </div>
+
+        <div class="workflow-footer">
+          <div class="progress-area">
+            <div class="progress-copy"><span id="progress-message">准备就绪</span><b id="progress-percent">0%</b></div>
+            <div class="progress-track"><i id="progress-bar"></i></div>
+          </div>
+          <div class="workflow-actions">
+            <button class="secondary-button" id="workflow-cancel">取消</button>
+            <button class="primary-button" id="run-denoise-button" disabled>开始处理</button>
+          </div>
+        </div>
+        <div class="workflow-result denoise-result" id="workflow-result"><span class="denoise-result-index">02 · OUTPUT</span><span class="denoise-result-copy" id="workflow-result-text">处理结果将在这里试听和下载</span><div class="audio-preview" id="denoise-result-player" hidden></div><button class="text-button" id="open-output-button" hidden>下载结果 WAV ↗</button></div>
+      </section>
+    </div>

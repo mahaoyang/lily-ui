@@ -1,0 +1,1 @@
+:root, :root[data-tone=dark] { --danger-text:var(--lily-danger); --danger-bg:var(--lily-danger-surface); --warning-text:var(--lily-warning); --success-text:var(--lily-success); }

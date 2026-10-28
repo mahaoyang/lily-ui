@@ -1,0 +1,18 @@
+/* Privacy: shared console component styles. */
+.privacy-caption { color:var(--ws-muted); margin:0; }
+.privacy-summary { line-height:1.7; }
+.privacy-summary h3 { margin:0; }
+.settings-boundary-note { margin:0 2px; color:var(--ws-muted); font-size:11px; line-height:1.7; }
+.privacy-error { color:var(--error-text); font-size:13px; line-height:1.6; margin:0; }
+.privacy-check.warning { border-color:var(--warning-line); }
+.privacy-check h3 { margin:0 0 6px; font-size:14px; }
+.privacy-check p { margin:0; font-size:13px; line-height:1.6; }
+.privacy-summary { padding:16px; }
+.privacy-caption { font-size:11px; line-height:1.8; }
+.privacy-summary { border:1px solid var(--ws-line); border-radius:3px; background:var(--ws-bg); box-shadow:none; }
+.privacy-check { padding:2px 0 2px 14px; border-left:2px solid var(--ws-line); background:transparent; border-radius:0; }
+.privacy-check h3 { color:var(--ws-text); font-weight:600; line-height:1.5; }
+.privacy-check p { color:var(--ws-muted); }
+.privacy-check.warning { border-left-color:var(--warning-line); }
+.privacy-check.warning h3 { color:var(--warning-text); }
+.privacy-check.warning h3::after { content:'需留意'; display:inline-block; margin-left:9px; padding:1px 5px; border:1px solid var(--warning-badge); border-radius:2px; color:inherit; font-size:10px; font-weight:500; line-height:1.4; vertical-align:1px; white-space:nowrap; }

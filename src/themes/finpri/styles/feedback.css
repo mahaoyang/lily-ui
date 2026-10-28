@@ -1,0 +1,7 @@
+/* Feedback: shared console component styles. */
+.console-toast-wrap { position:fixed; bottom:24px; right:24px; z-index:1500; max-width:calc(100vw - 48px); }
+.console-toast-card { padding:16px; margin-top:10px; border:1px solid var(--ws-line); box-shadow:0 8px 30px #0002; display:flex; gap:16px; }
+.console-toast-action { border:0; background:transparent; color:var(--ws-accent); }
+.console-toast-action[aria-label="关闭"]::after { content:'×'; }
+.console-toast-action[aria-label="复制"]::after { content:'复制'; }
+.console-toast-card { background:var(--ws-panel); border-radius:3px; border-color:var(--ws-line); }

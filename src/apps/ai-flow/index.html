@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Flow · AI 工作流</title>
+    <meta name="color-scheme" content="light dark" />
+    <script src="./theme.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="/src/themes/shared/colors.css" />
+  <link rel="stylesheet" href="/src/themes/ai-flow/color-roles.css" />
+</head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <button class="brand" id="sidebar-toggle" type="button" aria-label="折叠侧栏" title="折叠侧栏" aria-expanded="true">
+          <div class="brand-mark">✦</div>
+          <div>
+            <strong>AI Flow</strong>
+            <span>AI 工作流平台</span>
+          </div>
+        </button>
+
+        <nav class="nav-groups" aria-label="主导航">
+          <div class="nav-label">工作台</div>
+          <button class="nav-item active" data-view="saved"><span class="nav-icon" aria-hidden="true"><svg class="lucide lucide-workflow" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span><span class="nav-text">工作流</span></button>
+          <button class="nav-item" data-view="running"><span class="nav-icon" aria-hidden="true"><svg class="lucide lucide-circle-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4Z"/></svg></span><span class="nav-text">任务队列</span></button>
+          <button class="nav-item" data-view="overview"><span class="nav-icon" aria-hidden="true"><svg class="lucide lucide-box" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg></span><span class="nav-text">基础节点</span></button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="status-card">
+            <div class="status-title"><i></i> 本地工作台</div>
+            <p>数据只保存在这台设备上</p>
+          </div>
+          <div class="profile-row">
+            <div class="avatar">AI</div>
+            <div><strong>本地用户</strong><span>当前设备</span></div>
+            
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>我的工作区</span><b>/</b><strong id="view-title">工作流</strong></div>
+          <div class="top-actions">
+            
+
+            <button class="icon-button" id="settings-open" aria-label="设置" title="设置"><svg class="lucide lucide-settings" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 1.72l-.12.87a2 2 0 0 1-1.18 1.52l-.27.12a2 2 0 0 1-1.9-.18l-.7-.54a2 2 0 0 0-2.61.34l-.22.38a2 2 0 0 0 .61 2.58l.7.54a2 2 0 0 1 .72 1.85v.3a2 2 0 0 1-.72 1.85l-.7.54a2 2 0 0 0-.61 2.58l.22.38a2 2 0 0 0 2.61.34l.7-.54a2 2 0 0 1 1.9-.18l.27.12a2 2 0 0 1 1.18 1.52l.12.87a2 2 0 0 0 2 1.72h.44a2 2 0 0 0 2-1.72l.12-.87a2 2 0 0 1 1.18-1.52l.27-.12a2 2 0 0 1 1.9.18l.7.54a2 2 0 0 0 2.61-.34l.22-.39a2 2 0 0 0-.61-2.58l-.7-.53a2 2 0 0 1-.72-1.85v-.3a2 2 0 0 1 .72-1.85l.7-.54a2 2 0 0 0 .61-2.58l-.22-.38a2 2 0 0 0-2.61-.34l-.7.54a2 2 0 0 1-1.9.18l-.27-.12a2 2 0 0 1-1.18-1.52l-.12-.87A2 2 0 0 0 12.22 2Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          </div>
+        </header>
+
+        <div class="page-content" data-page="saved">
+          <section class="page-intro">
+            <div>
+              <p class="eyebrow">AI WORKFLOW WORKSPACE</p>
+              <h1>连接节点，运行 AI 工作流。</h1>
+            <p class="intro-copy">自由编排，保存复用。在任务队列中查看进度与结果。</p>
+            </div>
+          </section>
+
+
+
+          <section class="flows-section" hidden>
+            <div class="section-heading">
+              <div class="basic-node-heading"><p class="eyebrow blue">BASIC NODES</p><h1>基础节点</h1><p id="flow-subtitle">独立使用，或组合成工作流</p></div>
+              <label class="search-box"><span>⌕</span><input id="search-input" type="search" placeholder="搜索节点名称…" /></label>
+            </div>
+            <div class="flow-list" id="flow-list">
+<article class="flow-card" data-node-type="quality-review" data-name="质检重抽"><div class="flow-badge blue" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 22a14 14 0 1 1 4 13M10 10v12h12m-3 2 5 5 9-10"/></svg></div><div class="flow-info"><h3>质检重抽</h3><p>逐条试听多输出结果，不满意的单路重跑</p><small>保留其他结果 · 循环单项重抽</small></div><div class="flow-meta"><button class="secondary-button open-quality-review-button">打开节点</button></div></article>
+<article class="flow-card" data-node-type="audio-merge" data-name="音频列表合并"><div class="flow-badge blue" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 12h12v10h20M8 36h12V26h20m-6-6 6 4-6 4"/></svg></div><div class="flow-info"><h3>音频列表合并</h3><p>合并单段音频或 For 结果列表，片段间插入随机静音</p><small>列表按循环顺序展开 · 均匀 / 正态停顿</small></div><div class="flow-meta"><button class="secondary-button open-audio-merge-button">打开节点</button></div></article>
+<article class="flow-card" data-node-type="audio-input" data-name="音频输入"><div class="flow-badge blue" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M18 32V10l22-4v22M18 18l22-4"/><ellipse cx="12" cy="34" rx="6" ry="5"/><ellipse cx="34" cy="30" rx="6" ry="5"/></svg></div><div class="flow-info"><h3>音频输入</h3><p>拖入音频，一份输入供多个节点复用</p><small>自动转 WAV · 可关闭</small></div><div class="flow-meta"><button class="secondary-button open-audio-input-button">打开节点</button></div></article>
+<article class="flow-card" data-node-type="text-split" data-name="文本切割"><div class="flow-badge blue" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 12h30M9 20h20M9 29h30M9 37h20M35 18v18m-4-4 4 4 4-4"/></svg></div><div class="flow-info"><h3>文本切割</h3><p>按换行或完整句子分块，输出文本列表</p><small>默认双换行分割 · For 列表输入</small></div><div class="flow-meta"><button class="secondary-button open-text-split-button">打开节点</button></div></article>
+<article class="flow-card" data-node-type="number-text" data-name="数字文本转换"><div class="flow-badge blue" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M12 8 8 40M28 8l-4 32M5 19h30M3 30h30M35 30l7 5-7 5"/></svg></div><div class="flow-info"><h3>数字文本转换</h3><p>按日期、时间与数值转换中文读法</p><small>文本输入 · 中文</small></div><div class="flow-meta"><button class="secondary-button open-number-text-button">打开节点</button></div></article>
+<article class="flow-card" data-node-type="text-input" data-name="文本输入"><div class="flow-badge blue" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 10h28M24 10v28M17 38h14"/></svg></div><div class="flow-info"><h3>文本输入</h3><p>拖入文本文件或直接输入</p></div><div class="flow-meta"><button class="secondary-button open-text-input-button">打开节点</button></div></article>
+              <article class="flow-card" data-node-type="loudness" data-name="音量响度平衡"><div class="flow-badge blue" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 14v20M24 8v32M38 14v20M6 22h8M20 30h8M34 20h8"/></svg></div><div class="flow-info"><h3>音量响度平衡</h3><p><span class="status-pill ready">可运行</span> 自动测量响度 · 平衡音量</p><small>目标 LUFS 可调 · 真峰值保护 · WAV 输出</small></div><div class="flow-meta"><button class="secondary-button open-loudness-button">打开节点</button></div></article>
+              <article class="flow-card" data-node-type="enhance" data-name="参考音色频谱增强">
+                <div class="flow-badge orange spectrum-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 37h32M10 31l8-7 7 3 13-14"/><path d="M31 13h7v7" class="icon-detail"/><path d="M12 17v4M20 12v4M28 24v4M36 30v4" class="icon-detail"/></svg></div>
+                <div class="flow-info"><h3>参考音色频谱增强</h3><p><span class="status-pill ready">可运行</span> 保留主体内容 · 按参考音频调整音色频谱</p><small>浏览器本地处理 · 自动 EQ · 可调压缩和目标响度</small></div>
+                <div class="flow-meta"><button class="secondary-button open-mix-button">打开节点</button></div>
+              </article>
+              <article class="flow-card utility-card" data-node-type="uvr" data-name="UVR5 降噪与声部提取">
+                <div class="flow-badge blue denoise-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 24h4l4-9 6 18 6-24 6 27 4-12 3 5h4"/><path d="M10 39h28" class="icon-detail"/></svg></div>
+                <div class="flow-info"><h3>UVR5 降噪与声部提取</h3><p><span class="status-pill utility">本地模型</span> 按所选模型降噪，或提取人声 / 伴奏</p><small>本地模型推理 · 输出处理后的 WAV</small></div>
+                <div class="flow-meta"><span>模型推理</span><button class="secondary-button open-workflow-button">打开节点</button></div>
+              </article>
+              <article class="flow-card utility-card" data-node-type="sensevoice" data-name="SenseVoice 语音识别">
+                <div class="flow-badge purple sensevoice-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 25h4l3-9 5 18 5-24 5 30 5-20 3 9h4"/><path d="M9 40h30" class="icon-detail"/></svg></div>
+                <div class="flow-info"><h3>SenseVoice 语音识别</h3><p><span class="status-pill utility">本地模型</span> 识别音频语音并生成可复制、下载的文本</p><small>多语言识别 · audio.cpp · SenseVoice-Small Q8</small></div>
+                <div class="flow-meta"><span>语音识别</span><button class="secondary-button open-sensevoice-button">打开节点</button></div>
+              </article>
+              <article class="flow-card utility-card" data-node-type="indextts" data-name="IndexTTS 2.0 参考音色语音生成">
+                <div class="flow-badge purple indextts-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M13 7h15l8 8v26H13z"/><path d="M28 7v9h8M18 23h12M18 28h8"/><path d="M18 35h2l2-4 3 8 3-7 2 3h2" class="icon-detail"/></svg></div>
+                <div class="flow-info"><h3>IndexTTS 2.0 参考音色语音生成</h3><p><span class="status-pill utility">本地模型</span> 输入文本与参考声音，生成相似音色的语音</p><small>audio.cpp · Q8_0 模型 · 中文 / 英文</small></div>
+                <div class="flow-meta"><span>语音合成</span><button class="secondary-button open-indextts-button">打开节点</button></div>
+              </article>
+              <article class="flow-card utility-card" data-node-type="chatterbox-read" data-name="Chatterbox 参考音色朗读">
+                <div class="flow-badge purple chatter-read-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M9 11h30v22H23l-9 7v-7H9z"/><path d="M16 22h2l2-5 4 11 4-14 3 11 2-3h2" class="icon-detail"/></svg></div>
+                <div class="flow-info"><h3>Chatterbox 参考音色朗读</h3><p><span class="status-pill utility">本地模型</span> 输入文本并提供一段参考音频，生成相似音色的语音</p><small>标准英文 / 多语言 V3 · 参考音色合成</small></div>
+                <div class="flow-meta"><span>语音合成</span><button class="secondary-button open-chatterbox-button">打开节点</button></div>
+              </article>
+              <article class="flow-card utility-card" data-node-type="chatterbox-mix" data-name="Chatterbox T3 音色混合">
+                <div class="flow-badge purple chatter-mix-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="10" cy="15" r="4"/><circle cx="10" cy="33" r="4"/><circle cx="38" cy="24" r="4"/><path d="M14 15h7l10 9M14 33h7l10-9M31 24h3"/><path d="M21 19v10" class="icon-detail"/></svg></div>
+                <div class="flow-info"><h3>Chatterbox T3 音色混合</h3><p><span class="status-pill utility">本地模型</span> 按权重混合多路参考音色，再生成语音</p><small>标准英文 / 多语言 V3 · T3 说话人向量混合</small></div>
+                <div class="flow-meta"><span>语音合成</span><button class="secondary-button open-chatterbox-mix-button">打开节点</button></div>
+              </article>
+            </div>
+            <div class="empty-state" id="empty-state" hidden>没有找到匹配的节点</div>
+          </section>
+
+          <section class="test-flow-page node-workbench" id="test-flow-page" hidden aria-labelledby="test-flow-title">
+            <header class="test-flow-heading"><div><p class="eyebrow blue">NODE WORKBENCH</p><h1 id="test-flow-title">工作流编排</h1><p>拖入节点，连线时选择输入；直接运行，按需配置，满意后保存。</p></div><div class="node-workbench-actions"><button class="secondary-button" type="button" data-view-link="saved">返回工作流</button><button class="primary-button" id="node-workflow-save" type="button">保存并退出</button></div></header>
+            <div class="node-workbench-layout">
+
+              <section class="workflow-node-card node-canvas-wrap" aria-label="节点画布"><div class="node-canvas-log" aria-live="polite"><span id="node-connection-hint">拖动端口建立连线</span><strong id="node-workflow-name">未命名</strong></div><div class="node-canvas-toolbar"><div class="node-toolbar-start"><button class="secondary-button node-add-trigger" id="node-add-trigger" type="button" aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>添加节点</button><button class="secondary-button node-add-trigger" id="node-workflow-arrange" type="button" title="对齐到就近大格子中心">整理</button><div class="node-canvas-tools" role="group" aria-label="画布工具"><button class="secondary-button node-add-trigger" id="node-tool-select" type="button" title="圈选" aria-label="圈选工具" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m13-5v3a2 2 0 0 1-2 2h-3M3 12h0m9-9h0m9 9h0m-9 9h0"/></svg></button><button class="secondary-button node-add-trigger" id="node-tool-hand" type="button" title="抓手（按住空格临时切换）" aria-label="抓手工具" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 13V6a2 2 0 0 1 4 0v6-8a2 2 0 0 1 4 0v8-6a2 2 0 0 1 4 0v9c0 5-3 7-7 7h-1c-2 0-3-1-4-2l-5-6a2 2 0 0 1 3-3l2 2Z"/></svg></button></div><div class="node-canvas-tools" role="group" aria-label="编辑历史"><button class="secondary-button node-add-trigger" id="node-undo" type="button" title="撤销（Ctrl+Z）" aria-label="撤销" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7v6h6M3 13l4-4a7 7 0 1 1 1 10"/></svg></button><button class="secondary-button node-add-trigger" id="node-redo" type="button" title="重做（Ctrl+Shift+Z）" aria-label="重做" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 7v6h-6m6 0-4-4a7 7 0 1 0-1 10"/></svg></button></div></div><div class="node-transport" role="group" aria-label="流程播放控制"><span id="node-flow-state" aria-live="polite">就绪</span><button type="button" id="node-flow-run" title="运行" aria-label="运行"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg><span>运行</span></button><button type="button" id="node-flow-pause" title="暂停" aria-label="暂停" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg><span>暂停</span></button><button type="button" id="node-flow-stop" title="停止" aria-label="停止" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/></svg><span>停止</span></button></div></div><div id="node-canvas" class="node-canvas"><svg id="node-edges" aria-hidden="true"></svg><div id="node-cards"></div></div></section>
+            </div>
+          </section>
+          <section id="workflow-tasks-page" hidden><header class="test-flow-heading"><div><p class="eyebrow blue">TASK QUEUE</p><h1>任务队列</h1><p>点击进度条查看节点状态；有质检结果时，可直接逐条试听和重抽。</p></div></header><div id="workflow-task-list"></div><div class="empty-state" id="workflow-task-empty">暂无任务，请从工作流中点击“建立任务”。</div></section>
+          <section id="saved-workflows-page" class="saved-workflows-page" hidden aria-labelledby="saved-workflows-title"><header class="test-flow-heading"><div><p class="eyebrow blue">SAVED WORKFLOWS</p><h1 id="saved-workflows-title">工作流</h1><p>管理你拼装并保存的工作流。</p></div><div class="workflow-transfer-actions"><button class="secondary-button" id="workflow-import-all" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-4"/></svg>导入工作流</button><button class="secondary-button" id="workflow-export-all" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m-5 5 5-5 5 5M5 16v4a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-4"/></svg>导出全部</button><button class="primary-button" id="node-workflow-clear" type="button">新建工作流</button></div></header><input id="workflow-import-file" type="file" accept=".json,application/json" hidden><p id="workflow-transfer-feedback" role="status"></p><div class="saved-workflow-list" id="saved-workflow-list"></div><div class="empty-state" id="saved-workflow-empty" hidden>还没有保存的工作流</div></section>
+        </div>
+      </main>
+    </div>
+
+    
+
+    
+
+    
+    
+    
+    
+    <div id="workflow-root" aria-live="off"></div>
+    <script src="./navigation.js"></script>
+    <script src="./vendor/jquery.min.js"></script>
+    <script src="./vendor/jquery.knob.min.js"></script>
+    <script type="module" src="./bootstrap.js"></script>
+  </body>
+</html>

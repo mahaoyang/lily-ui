@@ -1,0 +1,5 @@
+export const taskNodeState = node => node.running || node.graph?.nodes.some(c => taskNodeState(c) === 'running') ? 'running'
+  : node.error || node.graph?.nodes.some(c => taskNodeState(c) === 'failed') ? 'failed'
+  : node.output ? 'complete'
+  : node.iterationOutputs?.some(Boolean) || node.graph?.nodes.some(c => taskNodeState(c) === 'partial') ? 'partial'
+  : 'waiting'

@@ -1,0 +1,47 @@
+# Ping100
+
+> Browser-based IP reputation, platform-specific IP screening, browser fingerprint, DNS and WebRTC diagnostics.
+
+## How to interpret results
+
+IP and platform scores run from 0 to 100; higher is better. Platform scores are Ping100 heuristics, not provider-issued scores or measured ban probabilities. Public pages describe the tools; visitor-specific results require JavaScript and are not published or available as a public score database. Missing signals affect estimates. Supported-country policy and scoring assumptions are documented separately in each platform methodology, with sources.
+
+## LLM IP checks
+- [/claude-check](https://www.ping100.cc/claude-check?lang=en)
+- [/gpt-check](https://www.ping100.cc/gpt-check?lang=en)
+- [/gemini-check](https://www.ping100.cc/gemini-check?lang=en)
+- [/grok-check](https://www.ping100.cc/grok-check?lang=en)
+- [/kiro-check](https://www.ping100.cc/kiro-check?lang=en)
+- [/copilot-check](https://www.ping100.cc/copilot-check?lang=en)
+
+## LLM scoring methods and sources
+- [/methodology/claude-score](https://www.ping100.cc/methodology/claude-score?lang=en)
+- [/methodology/gpt-score](https://www.ping100.cc/methodology/gpt-score?lang=en)
+- [/methodology/gemini-score](https://www.ping100.cc/methodology/gemini-score?lang=en)
+- [/methodology/grok-score](https://www.ping100.cc/methodology/grok-score?lang=en)
+- [/methodology/kiro-score](https://www.ping100.cc/methodology/kiro-score?lang=en)
+- [/methodology/copilot-score](https://www.ping100.cc/methodology/copilot-score?lang=en)
+
+## Social platform IP checks
+- [/youtube-ip-check](https://www.ping100.cc/youtube-ip-check?lang=en)
+- [/tiktok-ip-check](https://www.ping100.cc/tiktok-ip-check?lang=en)
+- [/x-ip-check](https://www.ping100.cc/x-ip-check?lang=en)
+- [/instagram-ip-check](https://www.ping100.cc/instagram-ip-check?lang=en)
+
+## Baseline tools and guides
+- [/](https://www.ping100.cc/?lang=en)
+- [/browser-fingerprint](https://www.ping100.cc/browser-fingerprint?lang=en)
+- [/tools](https://www.ping100.cc/tools?lang=en)
+- [/guides](https://www.ping100.cc/guides?lang=en)
+- [/methodology/ip-score](https://www.ping100.cc/methodology/ip-score?lang=en)
+- [/guides/ip-quality](https://www.ping100.cc/guides/ip-quality?lang=en)
+- [/guides/dns-leak](https://www.ping100.cc/guides/dns-leak?lang=en)
+- [/guides/webrtc-leak](https://www.ping100.cc/guides/webrtc-leak?lang=en)
+- [/guides/browser-fingerprint](https://www.ping100.cc/guides/browser-fingerprint?lang=en)
+
+## Languages and discovery
+
+Supported language query values: en, zh-Hans, zh-Hant, ja, ko, fr, es, pt, de, ar. Use ?lang= to request a stable language.
+
+- [Sitemap](https://www.ping100.cc/sitemap.xml)
+- [Crawler access rules](https://www.ping100.cc/robots.txt)

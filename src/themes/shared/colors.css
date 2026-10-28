@@ -1,0 +1,15 @@
+/* Shared perceptual status roles; theme geometry and brand accents remain separate. */
+:root {
+  --lily-danger: oklch(0.44 0.155 28);
+  --lily-danger-surface: oklch(0.93 0.025 40);
+  --lily-warning: oklch(0.45 0.1 70);
+  --lily-success: oklch(0.43 0.09 145);
+  --lily-focus: oklch(0.62 0.12 245);
+}
+:root[data-tone=dark] {
+  --lily-danger: oklch(0.8 0.115 30);
+  --lily-danger-surface: oklch(0.25 0.035 32);
+  --lily-warning: oklch(0.82 0.12 80);
+  --lily-success: oklch(0.79 0.105 145);
+  --lily-focus: oklch(0.78 0.1 245);
+}

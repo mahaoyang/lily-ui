@@ -1,0 +1,30 @@
+/* Utilities: shared console component styles. */
+.console-muted { color:var(--ws-muted); font-weight:var(--muted-weight); }
+.text-2 { font-size:12px; }
+.finpri-actions { display:flex; align-items:center; gap:10px; }
+.console-stack-sm { display:flex; flex-direction:column; gap:10px; }
+.eyebrow { display:block; color:var(--ws-muted); font-size:10px; font-weight:650; letter-spacing:1.8px; margin-bottom:14px; }
+[hidden] { display:none !important; }
+.launch-spinner { border:3px solid var(--ws-line); border-top-color:var(--ws-accent); border-radius:50%; width:32px; height:32px; animation:spin 1s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.playground { max-width:760px; margin:60px auto; padding:24px; display:flex; flex-direction:column; gap:24px; }
+.playground h1 { font-size:38px; letter-spacing:-1.5px; }
+.playground .eyebrow { margin:0; }
+#saved { overflow-wrap:anywhere; }
+.auth-panel { max-width:380px; margin:12vh auto !important; padding:36px !important; }
+.auth-panel h1 { font-size:25px; letter-spacing:-.7px; }
+.auth-panel form { margin-top:24px; }
+.auth-mark { width:52px; height:52px; border-radius:15px; background:var(--ws-accent); color:white; display:grid; place-items:center; font-weight:700; font-size:22px; }
+.console-stack { display:flex; flex-direction:column; gap:18px; }
+
+/* Only utilities used by current views and the supported fingerprint editor. */
+.flex { display:flex; }
+.items-center { align-items:center; }
+.justify-between { justify-content:space-between; }
+.gap-2 { gap:8px; }
+.font-bold { font-weight:700; }
+.font-mono { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }
+.text-1 { font-size:12px; }
+.text-4 { font-size:18px; line-height:26px; }
+.text-gray-11 { color:var(--ws-muted); font-weight:var(--muted-weight); }
+.text-gray-12 { color:var(--ws-text); }

@@ -1,0 +1,12 @@
+<div class="workflow-backdrop" id="loudness-backdrop" hidden>
+  <section class="workflow-panel loudness-panel" role="dialog" aria-modal="true" aria-labelledby="loudness-title">
+    <button class="modal-close" id="loudness-close" aria-label="关闭">×</button>
+    <div class="workflow-header"><div><p class="eyebrow blue">AUDIO · LOUDNESS</p><h2 id="loudness-title">音量响度平衡</h2><p>自动测量并平衡音频响度，保留原始采样率和声道。</p></div></div>
+    <div class="loudness-canvas">
+      <article class="workflow-node-card"><span class="node-number">01 · INPUT</span><h3>输入音频</h3><div class="audio-drop-zone" id="loudness-drop"><span class="drop-mark">↓</span><span>拖拽音频到这里，或</span><button class="secondary-button" id="loudness-pick">选择音频</button></div><input type="file" id="loudness-file" accept="audio/*" hidden><p class="file-display" id="loudness-filename">尚未选择文件</p><div class="audio-preview" id="loudness-input-preview" hidden></div></article>
+      <article class="workflow-node-card"><span class="node-number">02 · PARAMETERS</span><h3>目标响度</h3><div class="loudness-knob"><span class="knob-shell"><span class="knob-face" id="loudness-face"><i></i></span><input id="loudness-target" value="-16" aria-label="目标响度"></span><label class="loudness-number"><input id="loudness-value" type="number" min="-36" max="-5" step="0.01" value="-16.00" aria-label="目标响度数值"><span>LUFS</span></label></div><p class="file-display">自动峰值保护 · −1 dBTP</p></article>
+      <article class="workflow-node-card loudness-output"><span class="node-number">03 · OUTPUT</span><h3>平衡结果</h3><div class="audio-preview" id="loudness-output-preview" hidden></div><button class="text-button" id="loudness-download" disabled>下载 WAV ↗</button></article>
+    </div>
+    <div class="workflow-footer"><div class="progress-area"><div class="progress-copy"><span id="loudness-message">准备就绪</span><b id="loudness-percent">0%</b></div><div class="progress-track"><i id="loudness-bar"></i></div></div><div class="workflow-actions"><button class="secondary-button" id="loudness-stop" disabled>停止</button><button class="primary-button" id="loudness-run" disabled>开始平衡</button></div></div>
+  </section>
+</div>

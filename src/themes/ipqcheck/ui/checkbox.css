@@ -1,0 +1,170 @@
+:root {
+  --focus-8: rgba(255, 255, 255, 0.55);
+
+  --gray-a3: rgba(255, 255, 255, 0.10);
+  --gray-a5: rgba(255, 255, 255, 0.18);
+  --gray-a6: rgba(255, 255, 255, 0.22);
+  --gray-a7: rgba(255, 255, 255, 0.28);
+  --gray-a8: rgba(255, 255, 255, 0.38);
+
+  --accent-indicator: rgba(255, 255, 255, 0.88);
+  --accent-contrast: rgba(0, 0, 0, 0.95);
+
+  --accent-a5: rgba(255, 255, 255, 0.16);
+  --accent-a11: rgba(255, 255, 255, 0.88);
+
+  --color-surface: rgba(0, 0, 0, 0.25);
+  --radius-1: 4px;
+  --space-4: 16px;
+  --scaling: 1;
+  --shadow-1: 0 1px 4px rgba(0, 0, 0, 0.35);
+
+  --white-a3: rgba(255, 255, 255, 0.16);
+  --white-a4: rgba(255, 255, 255, 0.22);
+  --black-a1: rgba(0, 0, 0, 0.08);
+  --black-a4: rgba(0, 0, 0, 0.22);
+
+  --cursor-checkbox: pointer;
+  --cursor-disabled: not-allowed;
+}
+
+.rt-reset {
+  -webkit-tap-highlight-color: transparent;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.lily-checkbox-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.rt-BaseCheckboxRoot {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  flex-shrink: 0;
+  cursor: var(--cursor-checkbox);
+  user-select: none;
+  height: var(--checkbox-size, var(--space-4));
+  width: var(--checkbox-size, var(--space-4));
+}
+
+.rt-BaseCheckboxRoot::before {
+  content: '';
+  display: block;
+  height: var(--checkbox-size, var(--space-4));
+  width: var(--checkbox-size, var(--space-4));
+  border-radius: var(--checkbox-border-radius, var(--radius-1));
+  transition: background-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+.rt-BaseCheckboxIndicator {
+  position: absolute;
+  width: var(--checkbox-indicator-size, 10px);
+  height: var(--checkbox-indicator-size, 10px);
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* sizes */
+.rt-BaseCheckboxRoot.rt-r-size-1 {
+  --checkbox-size: calc(var(--space-4) * 0.875);
+  --checkbox-indicator-size: calc(9px * var(--scaling));
+  --checkbox-border-radius: calc(var(--radius-1) * 0.875);
+}
+
+.rt-BaseCheckboxRoot.rt-r-size-2 {
+  --checkbox-size: var(--space-4);
+  --checkbox-indicator-size: calc(10px * var(--scaling));
+  --checkbox-border-radius: var(--radius-1);
+}
+
+.rt-BaseCheckboxRoot.rt-r-size-3 {
+  --checkbox-size: calc(var(--space-4) * 1.25);
+  --checkbox-indicator-size: calc(12px * var(--scaling));
+  --checkbox-border-radius: calc(var(--radius-1) * 1.25);
+}
+
+/* variants */
+.rt-BaseCheckboxRoot.rt-variant-surface[data-state='unchecked']::before {
+  background-color: var(--color-surface);
+  box-shadow: inset 0 0 0 1px var(--gray-a7);
+}
+
+.rt-BaseCheckboxRoot.rt-variant-surface[data-state='checked']::before,
+.rt-BaseCheckboxRoot.rt-variant-surface[data-state='indeterminate']::before {
+  background-color: var(--accent-indicator);
+}
+
+.rt-BaseCheckboxRoot.rt-variant-surface[data-state='checked'] .rt-BaseCheckboxIndicator,
+.rt-BaseCheckboxRoot.rt-variant-surface[data-state='indeterminate'] .rt-BaseCheckboxIndicator {
+  color: var(--accent-contrast);
+}
+
+.rt-BaseCheckboxRoot.rt-variant-surface:disabled {
+  cursor: var(--cursor-disabled);
+}
+
+.rt-BaseCheckboxRoot.rt-variant-surface:disabled::before {
+  box-shadow: inset 0 0 0 1px var(--gray-a6);
+  background-color: transparent;
+}
+
+.rt-BaseCheckboxRoot.rt-variant-surface:disabled .rt-BaseCheckboxIndicator {
+  color: var(--gray-a8);
+}
+
+.rt-BaseCheckboxRoot.rt-variant-classic[data-state='unchecked']::before {
+  background-color: var(--color-surface);
+  box-shadow: inset 0 0 0 1px var(--gray-a3), var(--shadow-1);
+}
+
+.rt-BaseCheckboxRoot.rt-variant-classic[data-state='checked']::before,
+.rt-BaseCheckboxRoot.rt-variant-classic[data-state='indeterminate']::before {
+  background-color: var(--accent-indicator);
+  background-image: linear-gradient(to bottom, var(--white-a3), transparent, var(--black-a1));
+  box-shadow: inset 0 0.5px 0.5px var(--white-a4), inset 0 -0.5px 0.5px var(--black-a4);
+}
+
+.rt-BaseCheckboxRoot.rt-variant-classic[data-state='checked'] .rt-BaseCheckboxIndicator,
+.rt-BaseCheckboxRoot.rt-variant-classic[data-state='indeterminate'] .rt-BaseCheckboxIndicator {
+  color: var(--accent-contrast);
+}
+
+.rt-BaseCheckboxRoot.rt-variant-classic:disabled {
+  cursor: var(--cursor-disabled);
+}
+
+.rt-BaseCheckboxRoot.rt-variant-classic:disabled::before {
+  box-shadow: var(--shadow-1);
+  background-color: transparent;
+  background-image: none;
+}
+
+.rt-BaseCheckboxRoot.rt-variant-classic:disabled .rt-BaseCheckboxIndicator {
+  color: var(--gray-a8);
+}
+
+.rt-CheckboxRoot:focus-visible::before {
+  outline: 2px solid var(--focus-8);
+  outline-offset: 2px;
+}

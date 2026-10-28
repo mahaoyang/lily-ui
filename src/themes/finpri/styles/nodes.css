@@ -1,0 +1,18 @@
+/* Nodes: shared console component styles. */
+.node-package-toolbar { display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.node-package-toolbar h2 { margin:0; font-size:18px; }
+.node-catalog-item h2 { margin:0; font-size:18px; }
+.node-catalog-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
+.node-catalog-heading { display:flex; gap:14px; align-items:center; }
+.node-package-icon { display:grid; place-items:center; width:42px; height:42px; border:1px solid var(--ws-line,#cfc8ba); border-radius:10px; color:var(--ws-muted); }
+.node-package-icon svg { width:22px; height:22px; }
+.node-bound-environments { margin:22px 0; font-size:13px; }
+.node-check-controls { display:grid; grid-template-columns:minmax(100px,1fr) auto; gap:12px; align-items:center; }
+.node-check-controls select { min-height:40px; }
+.node-check-controls button { min-height:40px; }
+.node-check-result:empty { display:none; }
+.node-picker-caption { grid-column:1/-1; display:flex; justify-content:space-between; align-items:center; gap:16px; font-size:12px; }
+.node-picker-caption p { margin:0; }
+.node-picker-caption a { white-space:nowrap; color:inherit; text-underline-offset:3px; }
+.node-region-summary { border-top:1px solid var(--ws-line); padding-top:16px; margin-bottom:18px; font-size:13px; }
+.node-region-actions { margin-top:12px; }

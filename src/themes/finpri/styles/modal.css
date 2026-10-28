@@ -1,0 +1,45 @@
+/* Modal: shared console component styles. */
+.console-modal-overlay { position:fixed; inset:0; z-index:1000; display:flex; align-items:center; justify-content:center; }
+.console-modal-card { position:relative; width:min(600px,100%); }
+.console-modal-inner { display:flex; flex-direction:column; }
+.console-modal-close { position:absolute; right:14px; top:14px; border:0; width:32px; height:32px; }
+.console-modal-footer { display:flex; justify-content:flex-end; }
+.console-modal-body>p { white-space:pre-line; }
+.console-modal-overlay { padding:24px !important; }
+.console-modal-card { color:var(--ws-text); overflow:hidden; }
+.console-modal-body { line-height:1.6; }
+.console-modal-close:empty::after { content:'×'; font-size:24px; }
+.console-modal-close:has(i)::after { content:'×'; font-size:24px; }
+.console-modal-footer { flex-wrap:wrap; }
+.console-modal-header { padding-right:25px; }
+.environment-settings-card .console-modal-inner { padding:0; gap:0; max-height:88vh; }
+.environment-settings-card .console-modal-header { padding:24px 52px 16px 24px; flex-shrink:0; border:0; }
+.environment-settings-card .console-modal-body { padding:0 24px 24px; overflow-y:auto; min-height:0; }
+.environment-settings-card .console-modal-footer { padding:16px 24px; border-top:1px solid var(--ws-line); background:var(--ws-panel); flex-shrink:0; }
+@media(max-width:600px) {
+  .environment-settings-card .console-modal-header { padding-left:18px; }
+}
+@media(max-width:600px) {
+  .environment-settings-card .console-modal-body { padding:0 18px 18px; }
+}
+@media(max-width:600px) {
+  .environment-settings-card .console-modal-footer { padding:14px 18px; }
+}
+@media(max-width:600px) {
+  .console-modal-overlay { padding:12px !important; }
+}
+.console-modal-overlay { padding:20px; }
+.console-modal-card { max-height:calc(100dvh - 40px); overflow-y:auto; }
+.console-modal-inner { gap:22px; }
+.console-modal-footer { gap:10px; }
+.console-modal-close { color:var(--ws-muted); }
+.console-modal-overlay { background:#39362955 !important; backdrop-filter:blur(3px); }
+.console-modal-card { background:var(--ws-panel) !important; border:1px solid var(--ws-line) !important; border-radius:5px !important; box-shadow:0 18px 70px #302a2038 !important; }
+.console-modal-inner { padding:32px; }
+.console-modal-header { font-family:var(--paper-serif); font-size:25px; font-weight:400; }
+.console-modal-header>div { font:inherit; color:var(--ws-text); }
+.console-modal-close { background:transparent; border-radius:3px; }
+@media(max-width:760px) {
+  .console-modal-inner { padding:28px 20px; }
+}
+.console-modal-close { display:grid; place-items:center; }

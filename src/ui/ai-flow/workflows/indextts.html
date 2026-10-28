@@ -1,0 +1,48 @@
+<div class="workflow-backdrop" id="indextts-backdrop" hidden>
+      <section class="workflow-panel indextts-panel" role="dialog" aria-modal="true" aria-labelledby="indextts-title">
+        <button class="modal-close" id="indextts-close" aria-label="关闭">×</button>
+        <div class="workflow-header">
+          <div><p class="eyebrow blue">LOCAL MODEL · INDEXTTS 2.0</p><h2 id="indextts-title">参考音色语音生成</h2><p>输入文本并提供参考音频，使用参考声音的音色生成语音。</p></div>
+          <div class="workflow-head-status"><span class="engine-badge"><i></i> audio.cpp · Q8_0</span><div class="process-state" id="indextts-state"><i></i><span>等待输入</span></div></div>
+        </div>
+        <div class="indextts-canvas">
+          <article class="workflow-node-card indextts-input-card">
+            <div class="denoise-input-heading"><div><span class="node-number">01 · VOICE REFERENCE</span><h3>参考音频</h3></div><span class="node-type">WAV</span></div>
+            <div class="audio-drop-zone" id="indextts-drop-zone"><span class="drop-mark">↓</span><span>拖拽参考音频到这里，或</span><button class="secondary-button node-button" id="indextts-pick-button">选择音频</button></div>
+            <div class="file-display" id="indextts-file-display">建议使用清晰、少噪声的人声片段</div>
+            <div class="audio-preview" id="indextts-input-player" hidden></div>
+          </article>
+          <article class="workflow-node-card indextts-text-card">
+            <div class="indextts-field-heading"><span class="node-number">02 · TEXT</span><label for="indextts-text">生成文本</label><small><span id="indextts-char-count">0</span> / 6000</small></div>
+            <textarea id="indextts-text" maxlength="6000" placeholder="输入要合成的内容…"></textarea>
+            <small class="node-type">读音标注：长(chang2) · “意味深长”已内置读音修正</small>
+            <div class="indextts-options">
+              <label class="indextts-language-field"><span>语言</span><div class="model-select-wrap indextts-language-wrap"><select id="indextts-language" aria-hidden="true" tabindex="-1"><option value="zh">中文</option><option value="en">英文</option></select><button class="model-select-trigger" id="indextts-language-trigger" type="button" aria-haspopup="listbox" aria-expanded="false"><span id="indextts-language-label">中文</span><i aria-hidden="true"></i></button><div class="model-select-menu" id="indextts-language-menu" role="listbox" aria-label="选择生成语言" hidden><button type="button" role="option" aria-selected="true" data-language="zh"><strong>中文</strong></button><button type="button" role="option" aria-selected="false" data-language="en"><strong>英文</strong></button></div></div></label>
+            </div>
+          </article>
+        </div>
+        <section class="indextts-emotion-card workflow-node-card">
+          <div class="indextts-emotion-heading"><div><span class="node-number">03 · EMOTION</span><h3>情绪控制</h3></div><label class="indextts-strength">情绪强度 <input id="indextts-emotion-strength" type="range" min="0" max="1" value="0.65" step="0.01"><b id="indextts-emotion-strength-value">65%</b></label></div>
+          <div class="indextts-emotion-modes" role="group" aria-label="情绪控制方式">
+            <button type="button" data-emotion-mode="voice">跟随参考音色</button><button type="button" class="active" data-emotion-mode="audio">情绪参考音频</button><button type="button" data-emotion-mode="vector">情绪向量</button><button type="button" data-emotion-mode="text">情绪描述</button>
+          </div>
+          <div class="indextts-emotion-panel" data-emotion-panel="audio">
+            <div class="audio-drop-zone indextts-emotion-drop-zone" id="indextts-emotion-drop-zone"><span class="drop-mark">↓</span><span id="indextts-emotion-file-name">拖拽情绪音频到这里，或选择文件</span><button class="secondary-button node-button" id="indextts-emotion-pick-button" type="button">选择音频</button><input id="indextts-emotion-file" type="file" accept="audio/wav,.wav" hidden></div>
+            <div class="audio-preview indextts-emotion-audio-player" id="indextts-emotion-audio-player" hidden></div>
+            <div class="indextts-emotion-presets"><button type="button" data-emotion-preset="hate">愤怒 · 预置音频</button><button type="button" data-emotion-preset="sad">悲伤 · 预置音频</button></div>
+          </div>
+          <div class="indextts-emotion-panel" data-emotion-panel="vector" hidden>
+            <div class="indextts-vector-presets"><button type="button" data-emotion-vector="happy">喜悦</button><button type="button" data-emotion-vector="angry">愤怒</button><button type="button" data-emotion-vector="sad">悲伤</button><button type="button" data-emotion-vector="afraid">恐惧</button><button type="button" data-emotion-vector="disgusted">厌恶</button><button type="button" data-emotion-vector="melancholic">低落</button><button type="button" data-emotion-vector="surprised">惊喜</button><button type="button" data-emotion-vector="calm">平静</button></div>
+            <div class="indextts-vector-sliders">
+              <label>喜 <input type="range" min="0" max="1" value="0" step="0.05" data-vector-index="0"><b>0%</b></label><label>怒 <input type="range" min="0" max="1" value="0" step="0.05" data-vector-index="1"><b>0%</b></label><label>哀 <input type="range" min="0" max="1" value="0" step="0.05" data-vector-index="2"><b>0%</b></label><label>惧 <input type="range" min="0" max="1" value="0" step="0.05" data-vector-index="3"><b>0%</b></label><label>厌恶 <input type="range" min="0" max="1" value="0" step="0.05" data-vector-index="4"><b>0%</b></label><label>低落 <input type="range" min="0" max="1" value="0" step="0.05" data-vector-index="5"><b>0%</b></label><label>惊喜 <input type="range" min="0" max="1" value="0" step="0.05" data-vector-index="6"><b>0%</b></label><label>平静 <input type="range" min="0" max="1" value="0" step="0.05" data-vector-index="7"><b>0%</b></label>
+            </div>
+          </div>
+          <div class="indextts-emotion-panel" data-emotion-panel="text" hidden><textarea id="indextts-emotion-description" maxlength="300" placeholder="输入情绪描述，例如：委屈巴巴、危险在悄悄逼近"></textarea></div>
+        </section>
+        <div class="workflow-footer indextts-footer">
+          <div class="progress-area"><div class="progress-copy"><span id="indextts-progress-message">准备就绪</span><b id="indextts-progress-percent">0%</b></div><div class="progress-track"><i id="indextts-progress-bar"></i></div></div>
+          <div class="workflow-actions"><button class="secondary-button" id="indextts-cancel">取消</button><button class="primary-button" id="indextts-run" disabled>开始生成</button></div>
+        </div>
+        <div class="workflow-result indextts-result" id="indextts-result" hidden><span>✓</span><span id="indextts-result-name">生成结果</span><div class="audio-preview" id="indextts-output-player" hidden></div><button class="text-button" id="indextts-download">下载 WAV ↗</button></div>
+      </section>
+    </div>

@@ -1,0 +1,51 @@
+/* Shared interaction contract. Canvas geometry and knob hit areas stay in their modules. */
+:root {
+  --focus-ring: #78a9d3;
+  --control-radius: 12px;
+}
+body { font-family: 'DM Sans', 'Noto Sans SC', system-ui, 'Microsoft YaHei', sans-serif; }
+textarea, select { font: inherit; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+.search-box:focus-within { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+:is(.primary-button, .secondary-button, .icon-button):disabled {
+  opacity: .45;
+  transform: none;
+  cursor: default;
+}
+:is(.secondary-button, .icon-button):enabled {
+  transition: background-color .16s, color .16s, box-shadow .16s;
+}
+:is(.secondary-button, .icon-button):enabled:hover { background-color: #f6f9fb; color: var(--blue-deep); }
+:is(.primary-button, .secondary-button, .icon-button):enabled:active {
+  transform: translateY(1px);
+  box-shadow: inset 2px 2px 5px #a6b9c64d, inset -2px -2px 5px #fff;
+}
+.test-flow-heading { gap: 20px; flex-wrap: wrap; }
+.test-flow-heading > div:first-child { min-width: 0; }
+.test-flow-heading p { line-height: 1.7; }
+.workflow-transfer-actions, .node-workbench-actions { flex-wrap: wrap; gap: 10px; }
+.empty-state { border-radius: 18px; background: #f5f8f880; line-height: 1.8; }
+.flow-info h3 { line-height: 1.5; overflow-wrap: anywhere; }
+.flow-info p { line-height: 1.65; }
+.model-select-wrap { min-width: 0; }
+.model-select-menu { max-height: min(320px, 45dvh); overflow-y: auto; overscroll-behavior: contain; }
+.model-select-menu button { white-space: normal; overflow-wrap: anywhere; }
+.input-file-row { display: flex; width: fit-content; max-width: 100%; align-items: center; gap: 8px; }
+.input-file-row > :is(.file-display, span) {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  line-height: 28px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.input-file-row > .file-clear-button { flex: 0 0 28px; width: 28px; height: 28px; }
+@media (prefers-reduced-motion: reduce) {
+  :is(.primary-button, .secondary-button, .icon-button, .parameter-toggle input) { transition: none; }
+}

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ping100 · IP 分数评测</title>
+    <meta
+      name="description"
+      content="Ping100 IP 分数评测：风控综合分 + 社媒风控分（YouTube/TikTok/Instagram/X），并提供浏览器指纹检测、DNS 泄漏、WebRTC 泄漏等风险信号。"
+    />
+    <link rel="canonical" href="https://www.ping100.cc/" />
+    <link rel="alternate" hreflang="en" href="https://www.ping100.cc/?lang=en" />
+    <link rel="alternate" hreflang="zh-Hans" href="https://www.ping100.cc/?lang=zh-Hans" />
+    <link rel="alternate" hreflang="zh-Hant" href="https://www.ping100.cc/?lang=zh-Hant" />
+    <link rel="alternate" hreflang="ja" href="https://www.ping100.cc/?lang=ja" />
+    <link rel="alternate" hreflang="ko" href="https://www.ping100.cc/?lang=ko" />
+    <link rel="alternate" hreflang="fr" href="https://www.ping100.cc/?lang=fr" />
+    <link rel="alternate" hreflang="es" href="https://www.ping100.cc/?lang=es" />
+    <link rel="alternate" hreflang="pt" href="https://www.ping100.cc/?lang=pt" />
+    <link rel="alternate" hreflang="de" href="https://www.ping100.cc/?lang=de" />
+    <link rel="alternate" hreflang="ar" href="https://www.ping100.cc/?lang=ar" />
+    <meta property="og:site_name" content="Ping100" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.ping100.cc/" />
+    <meta property="og:title" content="Ping100 · IP 分数评测" />
+    <meta
+      property="og:description"
+      content="风控综合分 + 社媒风控分（YouTube/TikTok/Instagram/X），并提供浏览器指纹检测、DNS 泄漏、WebRTC 泄漏等风险信号。"
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Ping100 · IP 分数评测" />
+    <meta
+      name="twitter:description"
+      content="Ping100 IP 分数评测：风控综合分 + 社媒风控分，并提供浏览器指纹检测、DNS 泄漏、WebRTC 泄漏等风险信号。"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="ping100-route" content="ipq" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./ui/scrollarea.css" />
+    <link rel="stylesheet" href="./ui/checkbox.css" />
+    <link rel="stylesheet" href="./ui/select.css" />
+    <link rel="stylesheet" href="./overrides.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;700&display=swap" rel="stylesheet" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/src/themes/shared/colors.css" />
+  <link rel="stylesheet" href="/src/themes/ipqcheck/color-roles.css" />
+</head>
+
+  <body>
+    <a class="skip-link" href="#ops-main" data-i18n="a11y.skipToContent">Skip to content</a>
+    <noscript>
+      <div style="padding:12px 16px; font: 14px/1.6 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;">
+        <h1>Ping100 · IP 分数评测</h1>
+        <p>本页面需要启用 JavaScript 才能运行检测与展示结果。</p>
+        <ul>
+          <li>IP 分数评测：风控综合分 + 社媒风控分（YouTube/TikTok/Instagram/X）。</li>
+          <li>浏览器指纹检测：指纹合理度评分 + 关键异常提示。</li>
+          <li>其他工具：文本词数、英文字母数与中文字数统计。</li>
+          <li>DNS 泄漏 / WebRTC 泄漏：辅助判断代理与隐私风险。</li>
+        </ul>
+        <p>
+          入口：
+          <a href="/">IP 分数评测</a>
+          ·
+          <a href="/browser-fingerprint">浏览器指纹检测</a>
+          ·
+          <a href="/tools">其他工具</a>
+        </p>
+      </div>
+    </noscript>
+    <div id="app">
+      <div id="bg-canvas" aria-hidden="true"></div>
+      <div id="bg-globe" aria-hidden="true">
+        <canvas id="globe-canvas"></canvas>
+      </div>
+
+      <div class="hud-layer">
+        <div class="hud-container">
+          <header class="hud-header">
+            <div class="header-left">
+              <span class="id-tag">PING100</span>
+              <span class="status" id="app-status" role="status" aria-live="polite" aria-atomic="true" data-i18n="status.booting">Booting...</span>
+            </div>
+            <div class="header-center">
+              <span class="main-title" data-i18n="header.mainTitle">IP QUALITY CHECK</span>
+            </div>
+            <div class="header-right">
+              <select class="select header-lang-select" id="lang-select" data-i18n-aria-label="header.language">
+                <option value="en">EN</option>
+                <option value="zh-Hans">简</option>
+                <option value="zh-Hant">繁</option>
+                <option value="ja">JA</option>
+                <option value="ko">KO</option>
+                <option value="fr">FR</option>
+                <option value="es">ES</option>
+                <option value="pt">PT</option>
+                <option value="de">DE</option>
+                <option value="ar">AR</option>
+              </select>
+		              <button
+		                class="header-gear-btn"
+		                id="btn-tools"
+		                type="button"
+		                data-i18n-aria-label="header.tools"
+		                data-i18n-title="header.tools"
+		              >
+			                <i data-lucide="settings" aria-hidden="true"></i>
+			              </button>
+              <span class="coord" id="app-clock">--:--:--</span>
+            </div>
+          </header>
+
+          <div class="ops-shell" id="ops-shell" aria-label="IPQ Shell">
+          <nav id="platform-nav" class="ops-nav" aria-label="Navigation" data-i18n-aria-label="aria.nav">
+            <button class="mobile-nav-control" id="sidebar-toggle" type="button" aria-controls="mobile-sidebar" aria-expanded="false" data-i18n-aria-label="aria.sidebar.left"><i data-lucide="panel-left" aria-hidden="true"></i></button>
+            <div class="nav-indicator" id="nav-indicator"></div>
+            <button class="nav-btn" data-route="claude" data-i18n="nav.claude">Claude检测</button>
+            <button class="nav-btn" data-route="chatgpt" data-i18n="nav.chatgpt">GPT检测</button>
+            <button class="nav-btn" data-route="gemini" data-i18n="nav.gemini">Gemini检测</button>
+            <button class="nav-btn" data-route="grok" data-i18n="nav.grok">Grok检测</button>
+            <button class="nav-btn" data-route="kiro" data-i18n="nav.kiro">Kiro检测</button>
+            <button class="nav-btn" data-route="copilot" data-i18n="nav.copilot">Copilot检测</button>
+            <button class="nav-btn" data-route="youtube" data-i18n="nav.youtube">YouTube IP Score</button>
+            <button class="nav-btn" data-route="tiktok" data-i18n="nav.tiktok">TikTok IP Score</button>
+            <button class="nav-btn" data-route="twitter" data-i18n="nav.twitter">X.com IP Score</button>
+            <button class="nav-btn" data-route="instagram" data-i18n="nav.instagram">Ins IP Score</button>
+            <button class="nav-btn" data-route="ipq" data-i18n="nav.ipq">IP Score</button>
+            <button class="nav-btn" data-route="scan" data-i18n="nav.scan">Browser Scan</button>
+            <button class="nav-btn" data-route="net" data-i18n="nav.net">Other Tools</button>
+            <button class="mobile-nav-control" id="nav-toggle" type="button" aria-controls="platform-nav" aria-expanded="false" data-i18n-aria-label="aria.nav"><i data-lucide="chevron-down" aria-hidden="true"></i></button>
+          </nav>
+          <button class="sidebar-backdrop" id="sidebar-backdrop" type="button" tabindex="-1" aria-hidden="true"></button>
+
+		          <div id="mobile-sidebar" class="sidebar left-sidebar ops-left" aria-label="Controls" data-i18n-aria-label="aria.sidebar.left">
+	            <div class="data-block" role="region" aria-labelledby="left-tips-title">
+	              <div class="block-title" id="left-tips-title" data-i18n="sidebar.tips.title">TIPS</div>
+	              <div class="code-snippet" data-i18n-html="sidebar.tips.body">
+	                默认检测「当前访问者公网 IP（客户出口）」。<br />
+	                结果依赖外部数据源与网络环境，部分项目会显示 Unknown/Failed 属于正常情况。
+	              </div>
+	            </div>
+	            <div class="data-block data-block--events" role="region" aria-labelledby="left-events-title">
+	              <div class="block-title" id="left-events-title" data-i18n="panel.events">EVENTS</div>
+	              <div class="activity" id="activity"></div>
+	            </div>
+	          </div>
+
+		          <main class="ops-main" id="ops-main" tabindex="-1" aria-label="Main View" data-i18n-aria-label="aria.main">
+	            <div class="ops-main-scroll" id="ops-main-scroll">
+
+	              <div class="card ipq-runbar" id="ipq-runbar">
+	                <div class="card-title" data-i18n="panel.run">RUN</div>
+	                <div class="run-hero">
+	                  <button class="btn btn-primary btn-run-hero" id="btn-run" data-i18n="run.action.main">Recheck</button>
+	                  <button
+	                    class="run-gear-btn"
+	                    id="btn-run-settings"
+	                    type="button"
+	                    aria-expanded="false"
+	                    aria-controls="run-advanced"
+	                    data-i18n-aria-label="run.settings"
+	                  >
+	                    <i data-lucide="settings" aria-hidden="true"></i>
+	                  </button>
+	                </div>
+	
+	                <div class="run-advanced" id="run-advanced" hidden>
+	                  <div class="form-grid">
+	                    <div class="span-2">
+	                      <label class="label" for="stack" data-i18n="run.stack">STACK</label>
+	                      <select class="select" id="stack" aria-label="Stack" data-i18n-aria-label="run.stack">
+	                        <option value="auto" selected data-i18n="run.stack.auto">Auto (v4/v6)</option>
+	                        <option value="4" data-i18n="run.stack.v4">IPv4 only</option>
+	                        <option value="6" data-i18n="run.stack.v6">IPv6 only</option>
+	                        <option value="dual" data-i18n="run.stack.dual">Dual (v4 + v6)</option>
+	                      </select>
+	                    </div>
+	                    <div>
+	                      <label class="label" for="timeoutMs" data-i18n="run.timeout">TIMEOUT (MS)</label>
+	                      <input class="input" id="timeoutMs" type="number" min="2000" step="500" value="12000" />
+	                    </div>
+	                  </div>
+	
+	                  <div class="section-title" data-i18n="run.options">OPTIONS</div>
+	                  <div class="ipq-options">
+	                    <label class="row">
+	                      <input type="checkbox" id="includeMedia" data-lily-checkbox checked />
+	                      <span data-i18n="run.opt.media">Media/AI</span>
+	                    </label>
+	                    <label class="row">
+	                      <input type="checkbox" id="includeMail" data-lily-checkbox checked data-i18n-title="ipq.option.unsupported.browser" />
+	                      <span data-i18n="run.opt.mail">Mail</span>
+	                    </label>
+	                    <label class="row">
+	                      <input type="checkbox" id="includeDnsbl" data-lily-checkbox checked data-i18n-title="ipq.option.unsupported.browser" />
+	                      <span data-i18n="run.opt.dnsbl">DNSBL</span>
+	                    </label>
+	                  </div>
+	                </div>
+	              </div>
+	
+	              <div id="ipq-view"></div>
+	            </div>
+	            <footer class="ops-main-footer" aria-label="About" data-i18n-aria-label="footer.about">
+	              <div class="footer-about-links" role="navigation" aria-label="Legal" data-i18n-aria-label="footer.legal">
+	                <a class="footer-link" href="/guides" data-i18n="footer.guides">检测指南</a>
+                  <span class="footer-link-sep" aria-hidden="true">/</span>
+                  <a class="footer-link" href="/methodology/ip-score" data-i18n="footer.scoring">评分说明</a>
+                  <span class="footer-link-sep" aria-hidden="true">/</span>
+                  <button class="footer-link" id="btn-privacy" type="button" data-i18n="footer.privacy">Privacy Policy</button>
+	                <span class="footer-link-sep" aria-hidden="true">/</span>
+	                <button class="footer-link" id="btn-terms" type="button" data-i18n="footer.terms">Terms</button>
+	              </div>
+	            </footer>
+	          </main>
+	
+		          <div class="sidebar right-sidebar ops-right" aria-label="Details Panel" data-i18n-aria-label="aria.sidebar.right">
+	            <div class="data-block data-block--details" role="region" aria-labelledby="right-details-title">
+	              <div class="block-title" id="right-details-title" data-i18n="panel.details">DETAILS</div>
+	              <div class="details" id="details-panel"></div>
+	            </div>
+	            <div class="data-block data-block--status" role="region" aria-labelledby="right-status-title">
+	              <div class="block-title" id="right-status-title" data-i18n="panel.status">STATUS</div>
+	              <div class="footer-stats" id="footer-stats"></div>
+	              <div class="action-ticker" id="action-ticker" aria-live="polite"></div>
+	            </div>
+	          </div>
+	        </div>
+	        </div>
+	      </div>
+
+      <div class="scanlines"></div>
+      <div class="grid-overlay"></div>
+    </div>
+    <div id="modal-overlay" class="modal-overlay">
+      <div class="modal-content" id="modal-content" role="dialog" aria-modal="true" aria-label="Editor">
+	        <button class="modal-close" id="modal-close" type="button" data-i18n-aria-label="common.close" aria-label="Close">
+	          <i data-lucide="x" aria-hidden="true"></i>
+	        </button>
+        <div class="modal-scroll" id="modal-scroll"></div>
+      </div>
+    </div>
+    <a href="/__honeypot" class="hp-link" aria-hidden="true" tabindex="-1" rel="nofollow noopener noreferrer">.</a>
+	    <script src="/vendor/tsparticles.bundle.min.js"></script>
+	    <script src="/vendor/fingerprintjs.umd.min.js"></script>
+	    <script src="https://unpkg.com/lucide@0.475.0/dist/umd/lucide.min.js"></script>
+	    <script type="module" src="/main.js"></script>
+	  </body>
+	</html>

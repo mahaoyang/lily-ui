@@ -1,23 +1,47 @@
 {
   "name": "lily-ui",
-  "version": "1.0.0",
-  "type": "module",
+  "version": "2.0.0",
   "private": true,
+  "type": "module",
+  "exports": {
+    "./headless": "./src/headless/index.js",
+    "./themes/fox/*": "./src/themes/fox/*",
+    "./headless/fox": "./src/headless/fox/index.js",
+    "./headless/diagnostics/ip": "./src/headless/diagnostics/ip/index.js",
+    "./headless/diagnostics/scoring": "./src/headless/diagnostics/scoring/index.js",
+    "./headless/diagnostics/browser": "./src/headless/diagnostics/browser/index.js",
+    "./headless/diagnostics/leaks": "./src/headless/diagnostics/leaks/index.js",
+    "./headless/diagnostics/session": "./src/headless/diagnostics/session/index.js",
+    "./headless/text": "./src/headless/text/index.js",
+    "./headless/workflow": "./src/headless/workflow/index.js",
+    "./headless/workflow/graph": "./src/headless/workflow/graph/index.js",
+    "./headless/audio": "./src/headless/audio/index.js",
+    "./headless/browser-manager": "./src/headless/browser-manager/index.js",
+    "./themes/ipqcheck/*": "./src/themes/ipqcheck/*",
+    "./themes/ai-flow/*": "./src/themes/ai-flow/*",
+    "./themes/finpri/*": "./src/themes/finpri/*",
+    "./headless/diagnostics/network": "./src/headless/diagnostics/network/index.js",
+    "./headless/controls": "./src/headless/controls/index.js",
+    "./headless/workflow/runtime": "./src/headless/workflow/runtime/index.js",
+    "./headless/workflow/persistence": "./src/headless/workflow/persistence/index.js",
+    "./ui/*": "./src/ui/*",
+    "./headless/color": "./src/headless/color/index.js",
+    "./themes/shared/*": "./src/themes/shared/*",
+    "./adapters/browser/*": "./src/adapters/browser/*"
+  },
   "scripts": {
-    "dev": "bun run build:config && ./node_modules/.bin/tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --watch",
-    "dev:machines": "rm -rf public/machines && bun build ./src/machines/*.ts --target browser --format esm --outdir public/machines --entry-naming [name].js --watch",
-    "dev:all": "bash scripts/dev.sh",
-    "build": "bun run build:config && ./node_modules/.bin/tailwindcss -c tailwind.config.js -i src/input.css -o dist/output.css --minify",
-    "build:config": "bun build tailwind.config.ts --target node --outfile tailwind.config.js",
-    "build:machines": "rm -rf public/machines && bun build ./src/machines/*.ts --target browser --format esm --outdir public/machines --entry-naming [name].js"
+    "dev": "node scripts/dev.mjs",
+    "start": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "dev:fox": "node scripts/dev.mjs --app=fox",
+    "dev:ipqcheck": "node scripts/dev.mjs --app=ipqcheck",
+    "dev:ai-flow": "node scripts/dev.mjs --app=ai-flow",
+    "dev:finpri": "node scripts/dev.mjs --app=finpri",
+    "check": "node scripts/check.mjs",
+    "verify": "npm run check && npm test && npm run build"
   },
-  "devDependencies": {
-    "@tailwindcss/cli": "4.1.17",
-    "tailwindcss": "4.1.17",
-    "typescript": "^5.7.2"
-  },
-  "dependencies": {
-    "@radix-ui/colors": "^3.0.0",
-    "alpinejs": "^3.15.2"
+  "engines": {
+    "node": ">=22"
   }
 }

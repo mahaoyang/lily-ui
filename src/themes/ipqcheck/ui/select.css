@@ -1,0 +1,141 @@
+:root {
+    --select-bg: rgba(0, 0, 0, 0.45);
+    --select-border: rgba(255, 255, 255, 0.15);
+    --select-hover-bg: rgba(255, 255, 255, 0.08);
+    --select-active-bg: rgba(255, 255, 255, 0.12);
+    --select-dropdown-bg: rgba(10, 10, 10, 0.95);
+    --select-dropdown-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+}
+
+.lily-select-container {
+    position: relative;
+    width: 100%;
+    font-family: var(--font);
+}
+
+/* Hidden native select keeps form compatibility */
+.lily-select-native {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+}
+
+.lily-select-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 8px 8px 10px;
+    background: var(--select-bg);
+    border: 1px solid var(--select-border);
+    color: var(--primary);
+    font-family: inherit;
+    font-size: 10px;
+    cursor: pointer;
+    text-align: left;
+    user-select: none;
+    backdrop-filter: blur(4px);
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.lily-select-trigger:hover {
+    background: var(--select-hover-bg);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.lily-select-trigger:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+.lily-select-trigger .arrow {
+    width: 12px;
+    height: 12px;
+    opacity: 0.7;
+    transition: transform 0.2s;
+}
+
+.lily-select-trigger[aria-expanded="true"] .arrow {
+    transform: rotate(180deg);
+}
+
+.lily-select-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--select-dropdown-bg);
+    border: 1px solid var(--select-border);
+    box-shadow: var(--select-dropdown-shadow);
+    z-index: 1000;
+    display: none;
+    backdrop-filter: blur(12px);
+}
+
+.lily-select-dropdown.is-portal {
+    z-index: 5000;
+}
+
+.lily-select-dropdown.is-open {
+    display: block;
+    animation: lily-select-fade-in 0.15s ease-out;
+}
+
+@keyframes lily-select-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lily-select-option {
+    padding: 8px 12px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.lily-select-option:hover {
+    background: var(--select-hover-bg);
+    color: var(--primary);
+}
+
+.lily-select-option.is-selected {
+    background: var(--select-active-bg);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.lily-select-option.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Scrollbar styling for the dark theme */
+.lily-select-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lily-select-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lily-select-dropdown::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.lily-select-dropdown::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

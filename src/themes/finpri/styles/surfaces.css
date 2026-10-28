@@ -1,0 +1,24 @@
+/* Surfaces: shared console component styles. */
+.console-section-header { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.console-section-title { font-size:22px; }
+.finpri-card { padding:24px; }
+.finpri-card-head { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.finpri-card-foot { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.finpri-card-foot { margin-top:20px; }
+.finpri-card-title { font-size:16px; }
+.finpri-card-sub { font-size:11px; color:var(--ws-muted); overflow-wrap:anywhere; margin-top:8px; }
+.finpri-card-tags { display:flex; gap:8px; }
+.playground .workspace-card { margin:0; }
+.workspace-card { padding:24px; }
+.workspace-card h2 { margin:0 0 14px; }
+@media(max-width:600px) {
+  .workspace-card { padding:18px; }
+}
+.workspace-card { border:1px solid var(--ws-line); }
+.finpri-card { border:1px solid var(--ws-line); }
+.workspace-card { border-radius:3px; border-color:var(--ws-line); background:var(--ws-panel); box-shadow:var(--panel-shadow); }
+.finpri-card { border-radius:3px; border-color:var(--ws-line); background:var(--ws-panel); box-shadow:var(--panel-shadow); }
+.workspace-card h2 { font-family:var(--paper-serif); font-weight:400; }
+.console-section-title { font-family:var(--paper-serif); font-weight:400; }
+.finpri-card-title { font-family:var(--paper-serif); font-weight:400; }
+.workspace-card h2 { font-size:23px; }
