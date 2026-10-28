@@ -13,6 +13,8 @@
 
 UI 不导入主题或应用入口；主题不导入功能。应用 HTML 同时选择 UI 入口和 CSS，使用 DOM 结构、class、data 属性及语义色变量作为外观契约。切换外观时无需把业务逻辑复制进主题目录。各产品的 DOM 结构尚不统一，因此现有主题不能保证跨产品直接互换。
 
+主题选择由应用设置以明确选项承载，不使用图标循环切换模式；主题实现只响应应用设置写入的外观状态。
+
 外部项目参考本项目时，应将需要的模块复制到外部项目后再按其需求修改；不要为了适配外部项目而改动本项目代码。若发现本项目确有通用改进，应作为本项目自身的独立变更提出，并保持模块边界与现有应用契约。
 
 浏览器适配层不导入 UI、主题或应用。工作流的运行时服务集中在 `adapters/browser/workflow/runtime.js`，检测服务在 `adapters/browser/diagnostics/runtime.js`，Fox 和 FinPri 客户端分别位于 `adapters/browser/fox/client.js` 与 `adapters/browser/browser-manager/client.js`。请求、存储和环境能力经工厂注入无头实现。
