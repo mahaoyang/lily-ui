@@ -14,7 +14,7 @@
 .auth-panel { max-width:380px; margin:12vh auto !important; padding:36px !important; }
 .auth-panel h1 { font-size:25px; letter-spacing:-.7px; }
 .auth-panel form { margin-top:24px; }
-.brand-clover { display:block; width:52px; height:52px; object-fit:contain; }
+.auth-mark { width:52px; height:52px; border-radius:15px; background:var(--ws-accent); color:white; display:grid; place-items:center; font-weight:700; font-size:22px; }
 .console-stack { display:flex; flex-direction:column; gap:18px; }
 
 /* Only utilities used by current views and the supported fingerprint editor. */
