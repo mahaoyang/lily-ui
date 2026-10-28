@@ -20,7 +20,8 @@ body.guide-page {
   padding: 16px 0 10px;
   border-bottom: 1px solid var(--line);
 }
-.guide-brand { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-decoration: none; }
+.guide-brand { display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:700; letter-spacing:2px; text-decoration:none; }
+.guide-brand img { width:24px; height:24px; object-fit:contain; }
 .guide-page nav { display: flex; flex-wrap: wrap; gap: 24px; font-size: 10px; color: rgba(255,255,255,.55); }
 .guide-page nav a { text-decoration: none; }
 .guide-page main {
@@ -55,6 +56,8 @@ body.guide-page {
 .guide-page .cta:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
 .guide-page footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; margin: 0 20px; padding: 14px 0 20px; border-top: 1px solid var(--line); color: rgba(255,255,255,.35); font-size: 9px; letter-spacing: 1px; }
 .guide-page footer a { text-decoration: none; }
+.guide-page footer a:has(img) { display:inline-flex; align-items:center; gap:7px; font-weight:700; letter-spacing:1.5px; }
+.guide-page footer a img { width:20px; height:20px; object-fit:contain; }
 .guide-page :focus-visible { outline: 2px solid var(--accent-orange); outline-offset: 4px; }
 .guide-index main { grid-template-columns: minmax(0,1fr); max-width: 960px; }
 .guide-list { list-style: none; padding: 0 !important; margin-top: 24px; counter-reset: guides; }

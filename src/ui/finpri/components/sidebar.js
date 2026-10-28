@@ -7,7 +7,7 @@ const groups = [
 
 export function Sidebar() {
   return h('aside', { class: 'workspace-sidebar' },
-    h('a', { class: 'workspace-brand', href: '#/profiles' }, h('span', { class: 'auth-mark' }, 'FP'), h('span', {}, 'FinPri Browser', h('small', {}, '独立环境工作台'))),
+    h('a', { class: 'workspace-brand', href: '#/profiles' }, h('img', { class: 'brand-clover', src: '/src/themes/shared/clover.svg', alt: '' }), h('span', {}, 'FinPri Browser', h('small', {}, '独立环境工作台'))),
     h('nav', { class: 'finpri-topbar-tabs', 'aria-label': '导航' }, ...groups.flatMap(([caption, links]) => [
       h('span', { class: 'nav-caption' }, caption),
       ...links.map(([route, icon, label]) => h('a', { class: 'finpri-tab', href: `#/${route}`, 'data-route': route }, h('i', { 'data-lucide': icon, 'aria-hidden': 'true' }), h('span', {}, label)))
